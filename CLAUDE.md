@@ -57,4 +57,4 @@ GitHub Pages sert `index.html` depuis `main` (racine). Un changement fusionné e
 - Les recettes de `cat_ov_v4*.js` suivent ces règles ; en cas de doute, relire `docs/bamboo.md`.
 
 ## Migrations de données
-Les recettes fournies sont recopiées dans les données de chaque utilisateur. Toute modification des recettes fournies exige une migration dans `build/cat_v6.js` (fonction `migrateN`) et une montée de version dans `build/build_cat.py` (`return { v: N`) et `build/cat_proto.js` (`migrateAll`). Version actuelle : 5.
+Les recettes fournies sont recopiées dans les données de chaque utilisateur. Toute modification des recettes fournies exige une migration dans `build/cat_v6.js` (fonction `migrateN`) et une montée de version dans `build/build_cat.py` (`return { v: N`) et `build/cat_proto.js` (`migrateAll`). Version actuelle : 6.
