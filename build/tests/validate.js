@@ -113,15 +113,17 @@ if (A) {
   else out.push('✓ planning jour par jour dans une semaine : 40 semaines, aucune règle enfreinte');
   A.buildDefaultPlan(A.getS().recipes).forEach(w => { const is = A.planIssues(seqOf(w.days)); if (is.length) fail('planning de départ', w.name + ' : ' + is.join(' ; ')); });
   /* migration : d'anciennes données (version 7) avec des recettes supprimées */
-  const S0 = A.defaultState(); S0.v = 7;
-  const gone = ["p-parmentier-poulet", "p-oeufs-cocotte", "pdj-oeuf-mouillettes", "p-tofu-puree-courgette"];
+  const S0 = A.defaultState(); S0.v = 8;
+  const gone = ["p-poulet-poche-riz", "v6-bibimbap-doux", "pdj-okayu-express", "p-tofu-riz-sesame"];
   S0.weeks[0].days[0].meals.l.recipeId = gone[0]; S0.weeks[0].days[1].meals.d.recipeId = gone[1]; S0.weeks[0].days[2].meals.b.recipeId = gone[2]; S0.weeks[1].days[3].meals.l.recipeId = gone[3];
   gone.forEach(id => S0.recipes.push({ id, n: "ancienne recette " + id, ing: [], steps: [] }));
   A.setS(S0); A.migrateAll(); const S1 = A.getS();
   const left = S1.weeks.flatMap(w => w.days.flatMap(d => A.SLOTS.map(s => d.meals[s.k]))).filter(m => m && gone.indexOf(m.recipeId) >= 0);
-  if (S1.v !== 8) fail('migration', 'version ' + S1.v + ' au lieu de 8');
+  if (S1.v !== 9) fail('migration', 'version ' + S1.v + ' au lieu de 9');
   if (left.length || S1.recipes.some(r => gone.indexOf(r.id) >= 0)) fail('migration', 'des recettes supprimées restent dans les données');
-  if (!left.length && S1.v === 8) out.push('✓ migration 8 : recettes supprimées remplacées, version 8');
+  const wk = S1.weeks.slice(0, 4).flatMap(w => w.days.flatMap(d => A.SLOTS.map(s => d.meals[s.k]))), is = A.planIssues(wk);
+  if (is.length) fail('migration', 'planning refait non conforme : ' + is.slice(0, 2).join(' ; '));
+  if (!left.length && S1.v === 9 && !is.length) out.push('✓ migration 9 : anciennes recettes remplacées, planning refait et conforme, version 9');
 }
 console.log(out.join('\n'));
 console.log(NEW_RECIPES.length + ' recettes, ' + errors + ' en erreur');

@@ -11,7 +11,7 @@ Application web d'une seule page (`index.html`) : planning de repas, recettes, c
 et on commite `build/` **et** `index.html` ensemble. Le script échoue si une ancre n'existe plus dans `build/source-originale.html` (ne pas modifier ce fichier).
 
 ## Où modifier quoi (`build/`)
-- Recettes déjeuner/dîner, classées par protéine : `cat_rec_l1.js` (poulet, œufs), `cat_rec_l2.js` (tofu ferme, soyeux, fumé), `cat_rec_l3.js` (protéines texturées, okara, sardines). Outils communs (cycles vapeur `c1`/`c2`, `intro`…) : `cat_rec_lib.js`.
+- Recettes déjeuner/dîner, classées par protéine : `cat_rec_l1.js` (poulet, œufs), `cat_rec_l2.js` (tofu ferme, soyeux, fumé), `cat_rec_l3.js` (protéines texturées, sardines). Outils communs (cycles vapeur `c1`/`c2`, `intro`…) : `cat_rec_lib.js`.
 - Petits-déjeuners : `cat_rec_b.js` (8 sucrés, 8 salés, environ 250 kcal).
 - Durées : `cat_time.js` (barème par geste, voir « Durées » plus bas).
 - Aliments, calories, niveaux du protocole : `cat_db.js` (`n:1` base sûre, `"t"` toléré en petite quantité, `"r"` non listé, `"p2"`/`"p3"` paliers de réintroduction).
@@ -66,4 +66,4 @@ GitHub Pages sert `index.html` depuis `main` (racine). Un changement fusionné e
 - Les recettes de `cat_rec_l*.js` et `cat_rec_b.js` suivent ces règles ; en cas de doute, relire `docs/bamboo.md`.
 
 ## Migrations de données
-Les recettes fournies sont recopiées dans les données de chaque utilisateur. Toute modification des recettes fournies exige une migration dans `build/cat_v6.js` (fonction `migrateN`) et une montée de version dans `build/build_cat.py` (`return { v: N`) et `build/cat_proto.js` (`migrateAll`). Version actuelle : 8.
+Les recettes fournies sont recopiées dans les données de chaque utilisateur. Toute modification des recettes fournies exige une migration dans `build/cat_v6.js` (fonction `migrateN`) et une montée de version dans `build/build_cat.py` (`return { v: N`) et `build/cat_proto.js` (`migrateAll`). Version actuelle : 9 (catalogue entièrement renouvelé).
