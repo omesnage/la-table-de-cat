@@ -1,15 +1,15 @@
 OV["p-oeufs-mollets-epinards"] = [
  intro("un économe, une planche et un couteau, une casserole, une passoire, un presse-purée (ou une fourchette), une assiette creuse tiède"),
  "Mise en place — Éplucher les pommes de terre ({{pommes de terre}}) et les couper en cubes de 2 cm, éplucher la carotte ({{carotte}}) et la couper en rondelles de 5 mm. Laver les épinards ({{épinards}}) et retirer les grosses tiges. Sortir les œufs ({{œufs}}) du frigo 10 minutes avant. [8 min]",
- c1(20, "les pommes de terre et la carotte", "Les cubes sont cuits quand ils s'écrasent sans résistance à la fourchette."),
- c2(5, "les épinards sur le papier", "Ils s'affaissent et deviennent très tendres."),
+ c1(25, "les pommes de terre et la carotte", "Les cubes sont cuits quand ils s'écrasent sans résistance à la fourchette."),
+ c2(15, "les épinards sur le papier", "Ils s'affaissent et deviennent très tendres."),
  "Les œufs mollets — Pendant le premier cycle : " + OEUF_MOLLET + " Le blanc est pris, le jaune encore coulant. [8 min]",
  "La purée — Presser les épinards dans la passoire pour ôter l'eau. Écraser les pommes de terre au presse-purée avec le lait de riz tiède ({{lait de riz}}), l'isolat de pois ({{isolat de protéine de pois}}) délayé dans une cuillère d'eau et une pincée de sel, jusqu'à une purée lisse et brillante qui nappe la cuillère. [3 min]",
  "Dressage — Dans l'assiette creuse tiède, déposer la purée en nid avec le dos d'une cuillère. Disposer les épinards d'un côté et les rondelles de carotte en éventail de l'autre. Couper chaque œuf en deux et le poser au centre du nid, jaune vers le haut. Terminer d'un filet d'huile d'olive crue ({{huile d'olive}}) et de pointes vertes de ciboulette ciselées ({{ciboulette}}). [3 min]"];
 OV["p-poulet-effiloche-potimarron"] = [
  intro("une planche et un couteau, un économe, un presse-purée, deux fourchettes, un petit bol et un fouet, une assiette creuse tiède"),
  "Mise en place — Sortir le blanc de poulet ({{blanc de poulet}}) du frigo 15 minutes avant, ôter la peau et le couper en deux dans l'épaisseur (moins de 2,5 cm). Éplucher les pommes de terre ({{pommes de terre}}) et le potimarron ({{potimarron}}) en cubes de 2 cm, la carotte ({{carotte}}) en bâtonnets de 1 cm. [10 min]",
- c1(25, "le poulet (sans papier, directement sur le panier ou sur un papier percé), puis les pommes de terre, le potimarron, la carotte et une branche de thym ({{thym}})", "Le poulet est cuit quand sa chair est blanche à cœur et que son jus est clair ; les légumes s'écrasent à la fourchette."),
+ c1(40, "le poulet (sans papier, directement sur le panier ou sur un papier percé), puis les pommes de terre, le potimarron, la carotte et une branche de thym ({{thym}})", "Le poulet est cuit quand sa chair est blanche à cœur et que son jus est clair ; les légumes s'écrasent à la fourchette."),
  "L'effilochage — Laisser reposer le poulet 3 minutes sur la planche, puis le tirer à deux fourchettes en fines fibres humides, en écartant les parties dures. Garder le jus du fond de cuve. [3 min]",
  "La purée — Écraser pommes de terre et potimarron au presse-purée avec une cuillère de jus tiède et une pincée de sel : une purée orangée, lisse, qui se tient en nid. [3 min]",
  "La crème de pois — Délayer l'isolat ({{isolat de protéine de pois}}) dans le bouillon tiède ({{bouillon}}) en fouettant, sans chauffer. [2 min]",
@@ -19,7 +19,7 @@ OV["p-poulet-poche-riz"] = [
  "Mise en place — Éplucher la carotte ({{carotte}}) en rondelles de 5 mm. Ôter la peau du blanc de poulet ({{blanc de poulet}}). Laver les épinards ({{épinards}}) et retirer les grosses tiges. [6 min]",
  "Le bouillon — Porter à frémissement le bouillon ({{bouillon}}) avec les rondelles de carotte, une branche de thym ({{thym}}) et une pincée de sel. Laisser frémir : la carotte est prête quand elle s'écrase entre deux doigts. [cuisson 12 min]",
  "Pocher le poulet — Plonger le blanc dans le bouillon frémissant, couvrir, couper le feu et laisser pocher 20 minutes. La chair est blanche et juteuse à cœur. [cuisson 20 min]",
- c1(10, "le riz basmati cuit ({{riz cuit}}) mouillé d'une cuillère d'eau " + bol + " et les épinards sur le papier", "Pendant que le poulet pochait, tout est prêt ensemble."),
+ c1(15, "le riz basmati cuit ({{riz cuit}}) mouillé d'une cuillère d'eau " + bol + " et les épinards sur le papier", "Pendant que le poulet pochait, tout est prêt ensemble."),
  "La crème de pois — Prélever 4 cuillères de bouillon tiède et y délayer l'isolat ({{isolat de protéine de pois}}) en fouettant jusqu'à une crème lisse. [2 min]",
  "Dressage — Dans l'assiette creuse tiède, tasser le riz en dôme, trancher le poulet en biais en lamelles de 5 mm et les disposer en éventail contre le riz. Épinards d'un côté, carottes de l'autre, crème de pois, filet d'huile d'olive crue ({{huile d'olive}}) et persil ({{persil}}). [3 min]"];
 OV["p-poulet-quinoa-courgette"] = [
@@ -39,7 +39,7 @@ OV["p-poulet-riz-pakchoi"] = [
 OV["p-poulet-puree-panais"] = [
  intro("une planche et un couteau, un économe, un presse-purée, deux fourchettes, un petit bol et un fouet"),
  "Mise en place — Éplucher les pommes de terre ({{pommes de terre}}) et le panais ({{panais}}), ôter le cœur ligneux du panais, tailler en cubes de 2 cm. Éplucher la carotte ({{carotte}}) en tronçons de 2 cm. Ôter la peau du poulet ({{blanc de poulet}}) et le couper en deux dans l'épaisseur. [8 min]",
- c1(25, "le poulet, les pommes de terre, le panais, la carotte et une branche de thym ({{thym}})", "Le poulet est blanc à cœur, les cubes s'écrasent sans résistance."),
+ c1(40, "le poulet, les pommes de terre, le panais, la carotte et une branche de thym ({{thym}})", "Le poulet est blanc à cœur, les cubes s'écrasent sans résistance."),
  "Effilocher — Laisser reposer le poulet 3 minutes, puis le tirer à deux fourchettes en fines fibres humides. [3 min]",
  "La purée — Écraser pommes de terre et panais avec une cuillère de jus de la cuve et une pincée de sel : purée blonde, lisse, légèrement sucrée. [3 min]",
  "La crème de pois — Délayer l'isolat ({{isolat de protéine de pois}}) dans le bouillon tiède ({{bouillon}}). [2 min]",
@@ -63,22 +63,22 @@ OV["p-papillote-poulet"] = [
  intro("une feuille de papier sulfurisé de 35 cm, de la ficelle de cuisine, une planche et un couteau, un économe, un petit bol et un fouet"),
  "Mise en place — Éplucher les pommes de terre ({{pommes de terre}}) en cubes de 2 cm, la carotte ({{carotte}}) en bâtonnets de 1 cm, la courgette ({{courgette épluchée}}) à 100 % en dés de 1 cm. Ôter la peau du poulet ({{blanc de poulet}}) et le couper en deux dans l'épaisseur. [9 min]",
  "La papillote — Sur la feuille de papier sulfurisé, déposer carotte, courgette, poulet et le thym ({{thym}}). Saler très légèrement, refermer la papillote en plissant les bords et l'attacher de ficelle. Elle doit rester plate (moins de 3,5 cm d'épaisseur). [4 min]",
- c1(30, "la papillote et les pommes de terre", "Ouvrir la papillote au-dessus d'un bol pour récupérer le jus."),
+ c1(40, "la papillote et les pommes de terre", "Ouvrir la papillote au-dessus d'un bol pour récupérer le jus."),
  "La crème de pois — Délayer l'isolat ({{isolat de protéine de pois}}) dans 4 cuillères du jus de la papillote, tiède, avec le persil haché ({{persil}}). [2 min]",
  "Dressage — Verser le contenu de la papillote dans l'assiette creuse tiède, pommes de terre à côté, crème de pois en filet, huile d'olive crue ({{huile d'olive}}). [3 min]"];
 OV["p-parmentier-poulet"] = [
  intro("une planche et un couteau, un économe, un presse-purée, deux fourchettes, un cercle ou un ramequin pour mouler, un petit bol"),
  "Mise en place — Éplucher les pommes de terre ({{pommes de terre}}) et la carotte ({{carotte}}) en cubes de 2 cm ; détailler uniquement les têtes du brocoli ({{brocoli}}) en petits bouquets. Ôter la peau du poulet ({{blanc de poulet}}) et le couper en deux dans l'épaisseur. [8 min]",
  c1(25, "le poulet, les pommes de terre et la carotte", "Le poulet est blanc à cœur, les cubes s'écrasent."),
- c2(10, "les bouquets de brocoli", "Ils doivent être très tendres, jamais croquants."),
+ c2(15, "les bouquets de brocoli", "Ils doivent être très tendres, jamais croquants."),
  "Le hachis — Effilocher le poulet, l'écraser grossièrement à la fourchette avec les carottes et le bouillon tiède ({{bouillon}}) pour obtenir un hachis moelleux. [3 min]",
  "La purée — Écraser les pommes de terre avec l'isolat ({{isolat de protéine de pois}}) délayé dans une cuillère d'eau chaude et une pincée de sel : purée lisse et riche. [3 min]",
  "Dressage — Dans le cercle posé sur l'assiette tiède, tasser le hachis, recouvrir de purée lissée à la spatule, retirer le cercle, entourer des bouquets de brocoli. Pas de gratin : le plat se sert tiède. Thym ({{thym}}) et filet d'huile d'olive crue ({{huile d'olive}}). [4 min]"];
 OV["p-bol-avocat"] = [
  intro("une planche et un couteau, un économe, une fourchette, un petit bol et un fouet, un bol pour le riz, un bol large tiède"),
  "Mise en place — Éplucher la carotte ({{carotte}}) en rondelles de 5 mm, détailler les têtes de brocoli ({{brocoli}}) en petits bouquets, ôter la peau du poulet ({{blanc de poulet}}) et le couper en deux dans l'épaisseur. [8 min]",
- c1(25, "le poulet et la carotte", "Le poulet est blanc à cœur et la carotte fondante."),
- c2(10, "les bouquets de brocoli et le riz basmati cuit ({{riz cuit}}) mouillé d'une cuillère d'eau " + bol, "Le brocoli est très tendre, le riz bien chaud."),
+ c1(20, "le poulet et la carotte", "Le poulet est blanc à cœur et la carotte fondante."),
+ c2(15, "les bouquets de brocoli et le riz basmati cuit ({{riz cuit}}) mouillé d'une cuillère d'eau " + bol, "Le brocoli est très tendre, le riz bien chaud."),
  "L'avocat — Peser 25 g d'avocat ({{avocat}}) bien mûr, soit un huitième, et l'écraser à la fourchette : c'est la limite du protocole, jamais davantage. [1 min]",
  "La crème de pois — Délayer l'isolat ({{isolat de protéine de pois}}) dans 3 cuillères d'eau tiède avec la ciboulette ciselée ({{ciboulette}}). [2 min]",
  "Dressage — Riz au fond du bol, poulet tranché en biais, carottes et brocoli en quartiers, avocat écrasé en quenelle au centre. Crème de pois en zigzag puis filet d'huile de sésame grillé ({{huile de sésame grillé}}). [3 min]"];
@@ -101,14 +101,14 @@ OV["p-chawanmushi-riz"] = [
 OV["p-oeufs-poches-veloute"] = [
  intro("une casserole, une écumoire ou une cuillère trouée, un mixeur plongeant, un économe, une planche et un couteau, du papier absorbant"),
  "Mise en place — Éplucher le potimarron ({{potimarron}}), la carotte ({{carotte}}) et les pommes de terre ({{pommes de terre}}) et les couper en cubes de 2 cm. [8 min]",
- c1(20, "le potimarron, la carotte, les pommes de terre et une branche de thym ({{thym}})", "Les cubes s'écrasent sans résistance. Garder les pommes de terre pour l'assiette."),
+ c1(40, "le potimarron, la carotte, les pommes de terre et une branche de thym ({{thym}})", "Les cubes s'écrasent sans résistance. Garder les pommes de terre pour l'assiette."),
  "Le velouté — Mixer potimarron et carotte avec le bouillon tiède ({{bouillon}}) et l'isolat de pois ({{isolat de protéine de pois}}) : un velouté épais, orangé, qui nappe la cuillère. Ajuster d'une pincée de sel. [4 min]",
  "Les œufs pochés — Faire frémir de l'eau salée, créer un léger tourbillon à la cuillère, faire glisser un œuf ({{œufs}}) cassé dans une tasse, pocher 3 minutes sans bouillir ; répéter. Égoutter sur du papier absorbant. Le blanc est pris, le jaune coule. [cuisson 4 min]",
  "Dressage — Velouté dans l'assiette creuse tiède, pommes de terre à côté, œufs pochés au centre. Filet d'huile d'olive crue ({{huile d'olive}}) et feuilles de thym. [3 min]"];
 OV["p-omelette-vapeur"] = [
  intro("une râpe fine, un fouet, un ramequin ou un petit bol de 15 cm, du papier sulfurisé, une planche et un couteau, un économe"),
  "Mise en place — Éplucher entièrement la courgette ({{courgette épluchée}}) et la râper finement. Éplucher la carotte ({{carotte}}) et les pommes de terre ({{pommes de terre}}) en cubes de 2 cm. [9 min]",
- c1(20, "la carotte et les pommes de terre", "Les cubes s'écrasent à la fourchette."),
+ c1(25, "la carotte et les pommes de terre", "Les cubes s'écrasent à la fourchette."),
  "L'appareil — Délayer l'isolat ({{isolat de protéine de pois}}) dans l'eau tiède ({{eau tiède}}), battre avec les œufs ({{œufs}}) à la fourchette, ajouter la courgette râpée et une pincée de sel. Verser dans le ramequin recouvert de papier sulfurisé. [3 min]",
  c2(15, "le ramequin", "L'omelette est cuite quand elle est gonflée et ferme au toucher."),
  "Dressage — Démouler l'omelette tiède, la trancher en deux, disposer pommes de terre et carottes à côté, filet d'huile d'olive crue ({{huile d'olive}}) et ciboulette (pointes vertes). [2 min]"];
@@ -131,7 +131,7 @@ OV["p-okayu-soir"] = [
 OV["p-salade-tiede-oeufs"] = [
  intro("une planche et un couteau, un économe, une casserole pour les œufs, un petit bol, une assiette creuse"),
  "Mise en place — Peser 75 g de haricots verts ({{haricots verts}}), les équeuter. Éplucher les pommes de terre ({{pommes de terre}}) en cubes de 2 cm et la carotte ({{carotte}}) en rondelles de 5 mm. Sortir les œufs ({{œufs}}) du frigo 10 minutes avant. [9 min]",
- c1(25, "les pommes de terre, la carotte et les haricots verts", "Les haricots doivent être mous."),
+ c1(40, "les pommes de terre, la carotte et les haricots verts", "Les haricots doivent être mous."),
  "Les œufs durs — Pendant le cycle, plonger les œufs dans une casserole d'eau frémissante et les cuire 10 minutes, puis les passer sous l'eau froide, les écaler et les couper en quartiers. [10 min]",
  "Tiédir — Laisser tiédir les légumes 10 minutes : la salade se sert tiède, jamais froide. [10 min]",
  "La crème de pois — Délayer l'isolat ({{isolat de protéine de pois}}) dans l'eau tiède ({{eau tiède}}), ajouter le persil haché ({{persil}}) et une pincée de sel. [2 min]",
@@ -139,7 +139,7 @@ OV["p-salade-tiede-oeufs"] = [
 OV["p-gnocchis-sarrasin"] = [
  intro("une casserole, une écumoire, un presse-purée, un mixeur plongeant, une planche et un couteau, une fourchette"),
  "Mise en place — Éplucher les pommes de terre ({{pommes de terre}}) en cubes de 2 cm, le potimarron ({{potimarron}}) en cubes de 2 cm, et ôter la peau du poulet. [6 min]",
- c1(25, "les pommes de terre, le potimarron et le blanc de poulet ({{blanc de poulet}}) coupé en deux dans l'épaisseur", "Le poulet est blanc à cœur, les cubes s'écrasent."),
+ c1(40, "les pommes de terre, le potimarron et le blanc de poulet ({{blanc de poulet}}) coupé en deux dans l'épaisseur", "Le poulet est blanc à cœur, les cubes s'écrasent."),
  "La pâte — Écraser finement les pommes de terre cuites au cycle précédent, ajouter la farine de sarrasin ({{farine de sarrasin}}), l'œuf ({{œuf}}) et une pincée de sel. Pétrir rapidement : la pâte doit rester légèrement collante. [8 min]",
  "Façonner — Rouler la pâte en boudins de 1,5 cm, couper des tronçons de 2 cm, les marquer d'un coup de fourchette. [6 min]",
  "La crème de potimarron — Mixer le potimarron cuit avec le bouillon tiède ({{bouillon}}) et l'isolat ({{isolat de protéine de pois}}) en crème épaisse. Effilocher le poulet et le mêler aux épinards ({{épinards}}) fondus 3 minutes dans une poêle avec une cuillère d'eau. [6 min]",
