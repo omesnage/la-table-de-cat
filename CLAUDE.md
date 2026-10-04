@@ -27,6 +27,7 @@ et on commite `build/` **et** `index.html` ensemble. Le script échoue si une an
 - Pas plus d'une préparation d'œuf par plat (pas d'œuf dur plus œuf au plat, etc.).
 - Environ 80 % de repas végétariens (œufs, tofu, protéines végétales).
 - Matériel : rice cooker Yum Asia Bamboo (modes STEAM et SLOW COOK, papier sulfurisé percé sous les légumes, rien sous les viandes).
+- **Référence pour toute cuisson au rice cooker : `docs/bamboo.md`** (mode d'emploi réel de l'appareil). Lire ce fichier avant d'écrire ou de corriger une recette, et ne jamais inventer un réglage, un temps ou une quantité d'eau qui n'y figure pas. Si le fichier est incomplet, le signaler à Olivier avant de continuer.
 - `node build/tests/validate.js` contrôle les recettes (portions, aliments interdits, quantités, ingrédients inconnus) : il doit afficher « 0 en erreur ».
 
 ## Écrire une recette
