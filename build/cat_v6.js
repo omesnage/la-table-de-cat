@@ -203,3 +203,19 @@ function migrate5(){
   }));
   S.v = 5;
 }
+
+/* ---------- version 6 : relecture des recettes avec docs/bamboo.md (poulet 30 min, cuve à revêtement céramique, réchauffage 5 min) ---------- */
+function migrate6(){
+  const own = S.recipes.filter(r => r.own), oldIds = new Set(S.recipes.filter(r => !r.own).map(r => r.id));
+  S.recipes = DEFAULT_RECIPES.map(recipeToState).concat(own);
+  const fresh = buildDefaultPlan(S.recipes), byId = id => S.recipes.find(r => r.id === id);
+  S.weeks.forEach((w, wi) => w.days.forEach((d, di) => {
+    const src = fresh[wi % fresh.length].days[di % 7].meals;
+    ["b", "l", "d"].forEach(k => {
+      const m = d.meals[k]; if (!m || !m.recipeId || !oldIds.has(m.recipeId)) return;
+      const r = byId(m.recipeId), nm = r ? mealFromRecipe(r) : copyMeal(src[k] || src.l);
+      nm.id = m.id; protoAdaptMeal(nm, k, kT(k)); d.meals[k] = nm;
+    });
+  }));
+  S.v = 6;
+}

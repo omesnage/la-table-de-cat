@@ -25,14 +25,14 @@ OV["p-poulet-poche-riz"] = [
 OV["p-poulet-quinoa-courgette"] = [
  intro("un économe, une planche et un couteau, un petit bol et un fouet, un bol pour le quinoa, une assiette creuse tiède"),
  "Mise en place — Éplucher la courgette ({{courgette épluchée}}) à 100 % (aucune peau verte), retirer le cœur graineux et la couper en dés de 1 cm. Éplucher la carotte ({{carotte}}) en rondelles de 5 mm. Ôter la peau du poulet ({{blanc de poulet}}) et le couper en deux dans l'épaisseur. [8 min]",
- c1(25, "le poulet et les rondelles de carotte", "Le poulet est blanc à cœur et la carotte s'écrase entre deux doigts."),
+ c1(30, "le poulet et les rondelles de carotte", "Le poulet est blanc à cœur et la carotte s'écrase entre deux doigts."),
  c2(10, "les dés de courgette et le quinoa cuit ({{quinoa cuit}}) mouillé d'une cuillère d'eau " + bol, "La courgette devient translucide ; le quinoa est tiède et aéré."),
  "La crème de pois — Délayer l'isolat ({{isolat de protéine de pois}}) dans 3 cuillères d'eau tiède, saler, ajouter la ciboulette ciselée ({{ciboulette}}, pointes vertes seulement), puis l'huile de sésame grillé ({{huile de sésame grillé}}) en filet. [2 min]",
  "Dressage — Quinoa en couronne dans l'assiette creuse tiède. Au centre, le poulet tranché en biais, autour les légumes en éventail, et un zigzag de crème de pois sur l'ensemble. [3 min]"];
 OV["p-poulet-riz-pakchoi"] = [
  intro("une planche et un couteau, un économe, un petit bol et un fouet, un bol pour le riz, une assiette creuse tiède"),
  "Mise en place — Peser exactement 75 g de haricots verts ({{haricots verts}}), les équeuter et les couper en tronçons de 3 cm. Séparer les feuilles du pak choï ({{pak choï}}) et tailler les tiges en tronçons de 2 cm. Éplucher la carotte ({{carotte}}) en bâtonnets de 5 mm. Ôter la peau du poulet ({{blanc de poulet}}) et le couper en deux dans l'épaisseur. [8 min]",
- c1(25, "le poulet, les haricots verts, la carotte et les tiges de pak choï", "Les haricots doivent être mous, jamais croquants, et le poulet blanc à cœur."),
+ c1(30, "le poulet, les haricots verts, la carotte et les tiges de pak choï", "Les haricots doivent être mous, jamais croquants, et le poulet blanc à cœur."),
  c2(10, "les feuilles de pak choï et le riz basmati cuit ({{riz cuit}}) mouillé d'une cuillère d'eau " + bol, "Le riz se réchauffe en même temps que les feuilles s'affaissent."),
  "La crème de pois — Délayer l'isolat ({{isolat de protéine de pois}}) dans 3 cuillères d'eau tiède, y ajouter le persil haché ({{persil}}) et une pincée de sel. [2 min]",
  "Dressage — Riz en dôme dans l'assiette creuse tiède, poulet tranché en biais contre le riz, haricots et carottes en éventail, pak choï en bouquet. Crème de pois puis filet d'huile d'olive crue ({{huile d'olive}}). [3 min]"];
@@ -47,7 +47,7 @@ OV["p-poulet-puree-panais"] = [
 OV["p-poulet-riz-aubergine"] = [
  intro("un économe, du papier absorbant, une planche et un couteau, deux fourchettes, un petit bol et un fouet"),
  "L'aubergine — Éplucher entièrement l'aubergine ({{aubergine épluchée}}), la couper en dés de 2 cm, saupoudrer d'une pincée de sel et laisser dégorger 10 minutes sur du papier absorbant (en dehors de la cuve), puis l'éponger. Éplucher la carotte ({{carotte}}) en rondelles de 5 mm. Ôter la peau du poulet ({{blanc de poulet}}) et le couper en deux dans l'épaisseur. [12 min]",
- c1(25, "le poulet, les dés d'aubergine et la carotte", "L'aubergine doit s'écraser comme une crème, sans aucune résistance."),
+ c1(30, "le poulet, les dés d'aubergine et la carotte", "L'aubergine doit s'écraser comme une crème, sans aucune résistance."),
  c2(5, "le riz basmati cuit ({{riz cuit}}) mouillé d'une cuillère d'eau " + bol, "Il se réchauffe sans sécher."),
  "Effilocher et écraser — Tirer le poulet à deux fourchettes en fines fibres, écraser l'aubergine à la fourchette avec une pincée de sel. [3 min]",
  "La crème de pois — Délayer l'isolat ({{isolat de protéine de pois}}) dans 3 cuillères d'eau tiède, ajouter la ciboulette ({{ciboulette}}, pointes vertes). [2 min]",
@@ -55,7 +55,7 @@ OV["p-poulet-riz-aubergine"] = [
 OV["p-veloute-butternut-poulet"] = [
  intro("un économe, une planche et un couteau, un mixeur plongeant, un bol pour le quinoa, une assiette creuse tiède"),
  "Mise en place — Éplucher la butternut ({{butternut}}), retirer les graines et la tailler en cubes de 2 cm. Éplucher la carotte ({{carotte}}) en rondelles de 5 mm. Ôter la peau du poulet ({{blanc de poulet}}) et le couper en deux dans l'épaisseur. [8 min]",
- c1(25, "le poulet, la butternut, la carotte et une branche de thym ({{thym}})", "La butternut doit s'écraser à la fourchette."),
+ c1(30, "le poulet, la butternut, la carotte et une branche de thym ({{thym}})", "La butternut doit s'écraser à la fourchette."),
  c2(5, "le quinoa cuit ({{quinoa cuit}}) mouillé d'une cuillère d'eau " + bol, "Il redevient moelleux."),
  "Le velouté — Mixer butternut et carotte avec le bouillon tiède ({{bouillon}}) et l'isolat de pois ({{isolat de protéine de pois}}) jusqu'à un velouté épais, lisse et brillant. Saler d'une pincée. [4 min]",
  "Dressage — Velouté dans l'assiette creuse tiède, quinoa en quenelle au centre, poulet tranché en éventail sur le quinoa. Filet d'huile d'olive crue ({{huile d'olive}}) et feuilles de thym. [3 min]"];
@@ -69,7 +69,7 @@ OV["p-papillote-poulet"] = [
 OV["p-parmentier-poulet"] = [
  intro("une planche et un couteau, un économe, un presse-purée, deux fourchettes, un cercle ou un ramequin pour mouler, un petit bol"),
  "Mise en place — Éplucher les pommes de terre ({{pommes de terre}}) et la carotte ({{carotte}}) en cubes de 2 cm ; détailler uniquement les têtes du brocoli ({{brocoli}}) en petits bouquets. Ôter la peau du poulet ({{blanc de poulet}}) et le couper en deux dans l'épaisseur. [8 min]",
- c1(25, "le poulet, les pommes de terre et la carotte", "Le poulet est blanc à cœur, les cubes s'écrasent."),
+ c1(30, "le poulet, les pommes de terre et la carotte", "Le poulet est blanc à cœur, les cubes s'écrasent."),
  c2(15, "les bouquets de brocoli", "Ils doivent être très tendres, jamais croquants."),
  "Le hachis — Effilocher le poulet, l'écraser grossièrement à la fourchette avec les carottes et le bouillon tiède ({{bouillon}}) pour obtenir un hachis moelleux. [3 min]",
  "La purée — Écraser les pommes de terre avec l'isolat ({{isolat de protéine de pois}}) délayé dans une cuillère d'eau chaude et une pincée de sel : purée lisse et riche. [3 min]",
@@ -77,7 +77,7 @@ OV["p-parmentier-poulet"] = [
 OV["p-bol-avocat"] = [
  intro("une planche et un couteau, un économe, une fourchette, un petit bol et un fouet, un bol pour le riz, un bol large tiède"),
  "Mise en place — Éplucher la carotte ({{carotte}}) en rondelles de 5 mm, détailler les têtes de brocoli ({{brocoli}}) en petits bouquets, ôter la peau du poulet ({{blanc de poulet}}) et le couper en deux dans l'épaisseur. [8 min]",
- c1(20, "le poulet et la carotte", "Le poulet est blanc à cœur et la carotte fondante."),
+ c1(30, "le poulet et la carotte", "Le poulet est blanc à cœur et la carotte fondante."),
  c2(15, "les bouquets de brocoli et le riz basmati cuit ({{riz cuit}}) mouillé d'une cuillère d'eau " + bol, "Le brocoli est très tendre, le riz bien chaud."),
  "L'avocat — Peser 25 g d'avocat ({{avocat}}) bien mûr, soit un huitième, et l'écraser à la fourchette : c'est la limite du protocole, jamais davantage. [1 min]",
  "La crème de pois — Délayer l'isolat ({{isolat de protéine de pois}}) dans 3 cuillères d'eau tiède avec la ciboulette ciselée ({{ciboulette}}). [2 min]",

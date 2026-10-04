@@ -76,7 +76,7 @@ NR("p-sardines-vapeur","Sardines fraîches vapeur, pommes de terre tendres & cou
  [["sardines fraîches",90,"g"],["pommes de terre",140,"g"],["courgette épluchée",55,"g"],["carotte",100,"g"],["isolat de protéine de pois",20,"g"],["huile d'olive",1,"c. à café"],["persil","",HERBS],["sel","","1 pincée"]],
  ["Les sardines — Faire écailler, vider et lever les filets de sardines fraîches ({{sardines fraîches}}) chez le poissonnier, les éponger et retirer les arêtes restantes. Plat réservé au midi, hors phase sensible. [8 min]",
   "Mise en place — Éplucher et tailler pommes de terre ({{pommes de terre}}), carotte ({{carotte}}) et courgette entièrement ({{courgette épluchée}}) en dés. [9 min]",
-  "La vapeur — Mode STEAM : légumes sur papier sulfurisé percé, filets de sardines posés directement sur l'inox les 6 dernières minutes. [cuisson 22 min]",
+  "La vapeur — Mode STEAM : légumes sur papier sulfurisé percé, filets de sardines posés directement sur le panier les 6 dernières minutes. [cuisson 22 min]",
   "La crème de pois — Délayer l'isolat ({{isolat de protéine de pois}}) dans 3 cuillères d'eau tiède avec le persil haché et une pincée de sel. [2 min]",
   "Dresser — Pommes de terre et légumes dans une assiette creuse tiède, filets de sardines dessus, crème de pois puis huile d'olive crue ({{huile d'olive}}). [3 min]"],
  "Plus la sardine est fraîche, moins elle charge en histamine : la cuire le jour de l'achat.",28),
