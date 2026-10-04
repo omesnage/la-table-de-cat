@@ -5,10 +5,13 @@
 const FOD = "FODMAP : petite portion, bien cuit";
 const ING_DB = [
   /* protéines */
-  ["blanc de poulet","Volaille",{g:110,n:1}],["poulet","Volaille",{g:115,n:1}],["cuisse de poulet","Volaille",{g:125,n:"r"}],
+  ["blanc de poulet","Volaille",{g:110,n:1}],["poulet","Volaille",{g:115,n:1}],["cuisse de poulet","Volaille",{g:150,n:"t",w:"haut de cuisse désossé, sans peau ni gras"}],
   ["oeuf","Œufs",{p:75,g:145,n:1}],
   ["tofu fermente","Tofu & protéines végétales",{g:130,n:"r"}],["tofu ferme","Tofu & protéines végétales",{g:125,n:1}],["tofu","Tofu & protéines végétales",{g:120,n:1}],
-  ["isolat de proteine de pois","Tofu & protéines végétales",{g:370,n:1}],["isolat","Tofu & protéines végétales",{g:370,n:1}],["proteines de pois","Tofu & protéines végétales",{g:370,n:1}],
+  ["tofu fume","Tofu & protéines végétales",{g:150,n:"t",w:"fumé : en petite quantité, pas plus d'une fois par semaine"}],
+  /* protéines texturées : poids SEC, réhydratées environ 3 fois leur poids ; quelques plats seulement */
+  ["proteine de pois texturee","Tofu & protéines végétales",{g:348,n:1,w:"30 g secs par repas, réhydratés 10 minutes"}],
+  ["proteine de soja texturee","Tofu & protéines végétales",{g:340,n:"t",w:"30 g secs par repas, en petite quantité"}],
   ["pst","Tofu & protéines végétales",{g:330,n:"r"}],["proteines vegetales","Tofu & protéines végétales",{g:330,n:"r"}],
   ["okara d'amande","Tofu & protéines végétales",{g:110,n:1}],["okara","Tofu & protéines végétales",{g:90,n:1}],
   ["sardine","Poisson",{g:190,n:2,w:"occasionnelle, de préférence le midi, hors phase sensible (histamine)"}],

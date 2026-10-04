@@ -96,7 +96,7 @@ function autoSide(m, minG){ if (vegGrams(m) >= (minG || 150)) return false; cons
 const NO_NOTE = ["huile","eau","sel","poivre"];
 function addNote(raw, note){
   if (raw.indexOf("⟦sans " + note + "⟧") >= 0) return raw;
-  const m = raw.match(/\s*\[(?:cuisson\s+)?\d+(?:[.,]\d+)?\s*min\]\s*$/i), tag = " ⟦sans " + note + "⟧";
+  const m = raw.match(/\s*\[(?:en parall[eè]le\s+)?(?:\d+(?:[.,]\d+)?\s*min\s*\+\s*)?(?:cuisson\s+)?\d+(?:[.,]\d+)?\s*min\]\s*$/i), tag = " ⟦sans " + note + "⟧";
   return m ? raw.slice(0, m.index) + tag + raw.slice(m.index) : raw + tag;
 }
 /* retire un ingrédient : les étapes qui lui sont consacrées disparaissent, les autres reçoivent la mention « sans … » */
@@ -239,7 +239,9 @@ function guessMins(text){
 }
 function parseStep(raw){
   let s = String(raw || "").trim(), mins = null, expl = false, force = null;
-  s = s.replace(/\s*\[(cuisson\s+)?(\d+(?:[.,]\d+)?)\s*min\]\s*$/i, (m, c, a) => { mins = parseFloat(a.replace(",", ".")); expl = true; if (c) force = "cook"; return ""; });
+  let par = false;
+  s = s.replace(/\s*\[(en parall[eè]le\s+)?(?:(\d+(?:[.,]\d+)?)\s*min\s*\+\s*)?(cuisson\s+)?(\d+(?:[.,]\d+)?)\s*min\]\s*$/i, (m, p, a0, c, a) => {
+    mins = parseFloat(a.replace(",", ".")) + (a0 ? parseFloat(a0.replace(",", ".")) : 0); expl = true; if (c || a0) force = "cook"; if (p) par = true; return ""; });
   const sans = []; s = s.replace(/\s*⟦sans ([^⟧]+)⟧/g, (m, x) => { sans.push(x); return ""; });
   const m = s.match(/^([^—]{2,60}?)\s+—\s+([\s\S]+)$/);
   const h = m ? m[1].trim() : "", body = m ? m[2].trim() : s;
@@ -252,11 +254,11 @@ function parseStep(raw){
   else if (/^(Découpe|Préparer|Tailler|Éplucher|Émincer|Détailler|Mise en place)/i.test(h)) kind = "prep";
   else kind = COOK_RE.test(body) ? "cook" : "prep";
   if (mins == null && (kind === "cook" || kind === "prep")) { mins = guessMins(body); if (mins == null) mins = /^Découpe/i.test(h) ? 2 : (kind === "cook" ? 5 : 2); }
-  return { raw: String(raw), h, body, kind, mins, expl, sans };
+  return { raw: String(raw), h, body, kind, mins, expl, sans, par };
 }
 function fmtMin(m){ if (m == null) return ""; if (m < 1) return "< 1 min"; m = Math.round(m); return m >= 60 ? Math.floor(m / 60) + " h" + (m % 60 ? " " + String(m % 60).padStart(2, "0") : "") : m + " min"; }
 function timeSummary(o, steps){
-  let cook = 0, prep = 0; steps.forEach(st => { if (st.kind === "cook") cook += st.mins || 0; else if (st.kind === "prep" || st.kind === "finish") prep += st.mins || 0; });
+  let cook = 0, prep = 0; steps.forEach(st => { if (st.par) return; if (st.kind === "cook") cook += st.mins || 0; else if (st.kind === "prep" || st.kind === "finish") prep += st.mins || 0; });
   const t = +o.t || 0; let total = t || Math.round(prep + cook);
   if (+o.tc > 0) cook = +o.tc; else cook = Math.min(cook, total * .7);   // des cuissons se chevauchent : jamais plus de 70 % du total
   cook = Math.min(Math.round(cook), total); prep = t ? Math.max(0, total - cook) : Math.round(prep);
@@ -343,7 +345,7 @@ function cookHTML(o, kind, ref){
       ${CK.swap === r.idx ? `<div class="vg-panel"><p class="muted small">Remplacer ${esc(r.i.n)} par :</p>${vegChips(o, "vegSwapTo", r.idx, k)}</div>` : ""}</li>`; };
   const lis = body.map(({ s, i }, n) => {
     const sp = splitBody(s.body), rc = recallFor(s.raw, named), isD = done.indexOf(i) >= 0;
-    const dur = s.mins ? `<button class="dur" data-act="timer" data-i="${i}" data-m="${s.mins}" data-n="${n + 1}" aria-label="Lancer un minuteur">${ic("timer")}<span class="dl">${s.expl ? "" : "≈ "}${fmtMin(s.mins)}</span></button>` : "";
+    const dur = s.mins ? `<button class="dur" data-act="timer" data-i="${i}" data-m="${s.mins}" data-n="${n + 1}" aria-label="Lancer un minuteur">${ic("timer")}<span class="dl">${s.expl ? "" : "≈ "}${fmtMin(s.mins)}${s.par ? " en parallèle" : ""}</span></button>` : "";
     return `<li class="cstep ${s.kind}${isD ? " done" : ""}">
       <button class="chk" data-act="cookStep" data-i="${i}" aria-pressed="${isD}" aria-label="Étape ${n + 1} faite"><span class="cn">${n + 1}</span>${ic("check")}</button>
       <div class="cs-body"><div class="cs-head"><h4>${esc(s.h || "Étape " + (n + 1))}</h4>${dur}</div>
@@ -463,7 +465,7 @@ function defineWeekActions(){
   A.seasonWeek = () => { const w = curWeek(); snapshot(); const b = weekSnap(w); let n = 0;
     w.days.forEach(d => SLOTS.forEach(sl => { const m = d.meals[sl.k]; if (m && autoSide(m, 200)) n++; })); save(); render();
     if (n) reportWeek("Légumes de saison intégrés (" + monthName() + ")", w, b); else toast("Tous les repas ont déjà assez de légumes"); };
-  A.proposeDay = ds => { const w = curWeek(), d = w.days[+ds.d]; snapshot(); const b = weekSnap(w), p = proposeDay({}, weekUsed(w, +ds.d)); d.meals.l = p.l; d.meals.d = p.d; save(); render(); reportWeek("Nouveaux repas pour " + d.name, w, b); };
+  A.proposeDay = ds => { const w = curWeek(), d = w.days[+ds.d]; snapshot(); const b = weekSnap(w), p = proposeDay({}, weekUsed(w, +ds.d), dayCtx(w, +ds.d)); d.meals.l = p.l; d.meals.d = p.d; save(); render(); reportWeek("Nouveaux repas pour " + d.name, w, b); };
   A.proposeWeek = () => { const w = curWeek(); snapshot(); const b = weekSnap(w), ps = proposeWeek({}); w.days.forEach((d, i) => { const p = ps[i % 7]; d.meals.l = p.l; d.meals.d = p.d; }); save(); render(); reportWeek("Nouveaux menus pour " + w.name, w, b); };
 }
 /* ---------- boutons du planning : un verbe, une icône, une phrase qui dit ce qui va changer ---------- */
