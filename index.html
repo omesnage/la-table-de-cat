@@ -693,24 +693,25 @@ const VAP = (n, items, tail) => "Au Bamboo — Remplir la cuve d'eau chaude jusq
 const MAT = extra => "Avant de commencer — Ustensiles : " + extra + ".";
 const BAMBOO_MAT = "le rice cooker Yum Asia Bamboo (cuve et panier vapeur fournis)";
 const BREAKFAST = [
+/* Règle : somme des durées [..] des étapes = t, et t <= 15 minutes (mise en place + cuisson + dressage). Aucune nouvelle préparation de la veille : seuls le riz et le quinoa cuits la veille restent prévus. */
 /* ---------------- SUCRÉS (environ 250 kcal) ---------------- */
-PDJ("pdj-porridge-sarrasin","Porridge de flocons de sarrasin à la vanille, banane écrasée & nuage de yaourt de soja","Protéines végétales","Sarrasin",15,1,
+PDJ("pdj-porridge-sarrasin","Porridge de flocons de sarrasin à la vanille, banane écrasée & nuage de yaourt de soja","Protéines végétales","Sarrasin",11,1,
  [["flocons de sarrasin",30,"g"],["lait de soja",120,"ml"],["banane",40,"g"],["yaourt de soja nature",60,"g"],["vanille naturelle",1,"pincée"]],
- [MAT(BAMBOO_MAT + ", un bol en verre ou en inox allant à la vapeur, une casserole de 1 litre, une fourchette, une cuillère"),
-  "Le porridge — Dans le bol, mêler les flocons de sarrasin ({{flocons de sarrasin}}) et 100 ml d'eau (les flocons cuisent à l'eau, le lait s'ajoutera ensuite). Poser le bol dans le panier et lancer 10 minutes de vapeur. " + "Remplir d'abord la cuve d'eau chaude jusqu'au repère « 2-3 » (au moins 360 ml), choisir STEAM, régler 10 minutes, maintenir START 2 secondes. [cuisson 10 min]",
-  "Le lait chaud — Pendant ce temps, chauffer le lait de soja ({{lait de soja}}) avec la vanille dans la casserole, à feu doux, sans bouillir. [3 min]",
-  "La banane — Écraser la banane ({{banane}}) à la fourchette en purée lisse, dans une petite assiette. [2 min]",
-  "Dressage — Sortir le bol avec un torchon. Verser le lait chaud sur le porridge de sarrasin et mélanger. Dans un joli bol, creuser un puits au centre, y déposer la banane, puis poser le yaourt de soja ({{yaourt de soja nature}}) en quenelle avec une cuillère passée sous l'eau chaude. [2 min]"],
- "Le sarrasin se cuit à l'eau : le lait chaud n'arrive qu'à la fin, pour un porridge soyeux qui ne déborde pas.",10,"Sucré"),
-PDJ("pdj-verrine-myrtilles","Verrine de yaourt de soja, avoine ramollie au lait de soja & myrtilles compotées","Protéines végétales","Avoine",12,1,
+ [MAT("une casserole de 1 litre, une cuillère en bois, une fourchette, une petite assiette, un joli bol"),
+  "Le porridge — Dans la casserole, verser les flocons de sarrasin ({{flocons de sarrasin}}) et 100 ml d'eau (les flocons cuisent à l'eau, jamais au lait). Chauffer à feu doux 5 minutes en remuant jusqu'à ce que l'eau soit absorbée. [cuisson 5 min]",
+  "Le lait chaud — Ajouter le lait de soja ({{lait de soja}}) et la vanille, chauffer 2 minutes à feu doux sans bouillir en remuant : le porridge devient soyeux. [cuisson 2 min]",
+  "La banane — Pendant ce temps, écraser la banane ({{banane}}) à la fourchette en purée lisse, dans une petite assiette. [2 min]",
+  "Dressage — Verser le porridge dans un joli bol, creuser un puits au centre, y déposer la banane, puis poser le yaourt de soja ({{yaourt de soja nature}}) en quenelle avec une cuillère passée sous l'eau chaude. [2 min]"],
+ "Le sarrasin se cuit à l'eau, le lait chaud n'arrive qu'à la fin : un porridge soyeux, prêt en une seule casserole.",7,"Sucré"),
+PDJ("pdj-verrine-myrtilles","Verrine de yaourt de soja, avoine ramollie au lait de soja chaud & myrtilles compotées","Protéines végétales","Avoine",9,1,
  [["flocons d'avoine",25,"g"],["lait de soja",60,"ml"],["yaourt de soja nature",100,"g"],["myrtilles",50,"g"],["vanille naturelle",1,"pincée"]],
  [MAT("une petite casserole, un verre transparent ou un petit bol, une cuillère à long manche"),
-  "L'avoine — Dans le verre, mouiller les flocons d'avoine ({{flocons d'avoine}}) avec le lait de soja ({{lait de soja}}) froid et laisser gonfler 10 minutes : ils deviennent tendres sans aucune cuisson. [10 min]",
-  "La compote — Pendant ce temps, chauffer les myrtilles ({{myrtilles}}) avec une cuillère d'eau dans la casserole à feu doux, 4 minutes, jusqu'à ce qu'elles éclatent. Les écraser légèrement. [cuisson 4 min]",
+  "L'avoine — Chauffer le lait de soja ({{lait de soja}}) 1 minute dans la petite casserole, sans bouillir, et le verser sur les flocons d'avoine ({{flocons d'avoine}}) placés au fond du verre. Les flocons gonflent et deviennent tendres pendant la compote. Rincer la casserole. [cuisson 2 min]",
+  "La compote — Chauffer les myrtilles ({{myrtilles}}) avec une cuillère d'eau dans la casserole à feu doux, 4 minutes, jusqu'à ce qu'elles éclatent. Les écraser légèrement. [cuisson 4 min]",
   "Le yaourt — Parfumer le yaourt de soja ({{yaourt de soja nature}}) avec la vanille et le fouetter à la cuillère. [1 min]",
   "Dressage — Monter la verrine en trois couches nettes : l'avoine au fond, le yaourt au milieu, la compote de myrtilles tiède en nappage, en la faisant couler le long du verre. [2 min]"],
- "Servir la compote encore tiède sur le yaourt frais : le contraste est la partie gourmande de la verrine.",4,"Sucré"),
-PDJ("pdj-skyr-banane","Bol de skyr de soja, banane vanillée & flocons de sarrasin gonflés","Protéines végétales","Sarrasin",10,1,
+ "Servir la compote encore tiède sur le yaourt frais : le contraste est la partie gourmande de la verrine.",6,"Sucré"),
+PDJ("pdj-skyr-banane","Bol de skyr de soja, banane vanillée & flocons de sarrasin gonflés","Protéines végétales","Sarrasin",8,1,
  [["skyr de soja",100,"g"],["banane",50,"g"],["flocons de sarrasin",25,"g"],["lait de riz",40,"ml"],["vanille naturelle",1,"pincée"]],
  [MAT("un petit bol, une casserole, une fourchette, un bol de service"),
   "Les flocons — Dans une casserole, chauffer le lait de riz ({{lait de riz}}) à feu doux et y verser les flocons de sarrasin ({{flocons de sarrasin}}) : en 3 minutes, ils gonflent et deviennent moelleux. [cuisson 3 min]",
@@ -726,31 +727,33 @@ PDJ("pdj-riz-au-lait-vanille","Riz au lait de soja vanillé, banane tiède & cr�
   "La crème — Fouetter la crème de soja ({{crème de soja}}) à la fourchette pour l'alléger. [1 min]",
   "Dressage — Verser le riz au lait dans le bol tiède, disposer les rondelles de banane en rosace, napper d'un ruban de crème de soja. [2 min]"],
  "Un riz de la veille donne un riz au lait plus crémeux qu'un riz tout juste cuit.",8,"Sucré"),
-PDJ("pdj-flan-vanille","Petits flans vapeur vanille-banane au lait de soja, coulis de myrtilles","Protéines végétales","Avoine",25,2,
+PDJ("pdj-creme-avoine","Crème tiède d'avoine vanille-banane au lait de soja, coulis de myrtilles","Protéines végétales","Avoine",10,1,
  [["flocons d'avoine",25,"g"],["lait de soja",120,"ml"],["banane",40,"g"],["myrtilles",30,"g"],["vanille naturelle",1,"pincée"]],
- [MAT(BAMBOO_MAT + ", un mixeur plongeant, deux ramequins, du papier sulfurisé, une assiette de service"),
-  "L'appareil — Mixer finement les flocons d'avoine ({{flocons d'avoine}}), le lait de soja ({{lait de soja}}), la banane ({{banane}}) et la vanille jusqu'à une crème lisse. Répartir dans les ramequins et couvrir chacun d'un rond de papier sulfurisé. [3 min]",
-  VAP(15, "les deux ramequins (hauteur de l'appareil inférieure à 3,5 cm)", "Les flans sont pris quand ils tremblent au centre sans être liquides."),
-  "Le coulis — Écraser les myrtilles ({{myrtilles}}) avec une cuillère d'eau chaude. [2 min]",
-  "Dressage — Laisser tiédir 2 minutes, passer une lame fine autour du flan, le démouler au centre de l'assiette et verser un cordon de coulis tout autour. [2 min]"],
- "Un peu de repos hors de la cuve et le flan se démoule proprement.",15,"Sucré"),
-PDJ("pdj-potimarron-vanille","Crème de potimarron vanillée au lait de soja, flocons de sarrasin & yaourt de soja","Protéines végétales","Sarrasin",30,1,
+ [MAT("une casserole, un mixeur plongeant avec un grand verre doseur, une cuillère, un joli bol"),
+  "L'avoine — Dans la casserole, chauffer les flocons d'avoine ({{flocons d'avoine}}) avec 100 ml d'eau à feu doux, 4 minutes en remuant (les flocons cuisent à l'eau, jamais au lait), jusqu'à ce qu'ils soient très tendres. [cuisson 4 min]",
+  "La crème — Verser l'avoine dans le verre doseur avec le lait de soja froid ({{lait de soja}}), la banane ({{banane}}) en morceaux et la vanille, puis mixer jusqu'à une crème lisse et tiède. [2 min]",
+  "Le coulis — Écraser les myrtilles ({{myrtilles}}) à la fourchette avec une cuillère d'eau chaude. [2 min]",
+  "Dressage — Verser la crème dans le bol, puis tracer un cordon de coulis de myrtilles en spirale à la surface. [2 min]"],
+ "L'avoine mixée donne une crème onctueuse en quelques minutes, sans aucun four ni vapeur.",4,"Sucré"),
+PDJ("pdj-potimarron-vanille","Crème de potimarron vanillée au lait de soja, flocons de sarrasin & yaourt de soja","Protéines végétales","Sarrasin",14,1,
  [["potimarron",80,"g"],["lait de soja",100,"ml"],["flocons de sarrasin",25,"g"],["yaourt de soja nature",40,"g"],["vanille naturelle",1,"pincée"]],
- [MAT(BAMBOO_MAT + ", un mixeur plongeant, une casserole, un économe, un bol de service"),
-  "Mise en place — Éplucher le potimarron ({{potimarron}}) et le couper en cubes de 2 cm. [4 min]",
-  VAP(20, "les cubes de potimarron sur du papier sulfurisé percé", "Ils s'écrasent à la fourchette (le guide du fabricant donne 20 minutes pour le potimarron)."),
-  "La crème — Mixer le potimarron avec le lait de soja ({{lait de soja}}) et la vanille jusqu'à une crème lisse, la verser dans la casserole avec les flocons de sarrasin ({{flocons de sarrasin}}) et chauffer 3 minutes à feu doux en remuant : les flocons gonflent dans la crème. [cuisson 3 min]",
+ [MAT("une casserole avec son couvercle, un mixeur plongeant, un économe, un petit couteau, un bol de service"),
+  "Mise en place — Éplucher le potimarron ({{potimarron}}) et le couper en tout petits dés de 1 cm. [3 min]",
+  "Le potimarron — Mettre les dés dans la casserole avec 80 ml d'eau, couvrir et cuire à feu moyen 6 minutes, jusqu'à ce qu'ils s'écrasent sans résistance à la fourchette. [cuisson 6 min]",
+  "La crème — Mixer le potimarron avec le lait de soja ({{lait de soja}}) et la vanille jusqu'à une crème lisse. [1 min]",
+  "Les flocons — Remettre la crème dans la casserole avec les flocons de sarrasin ({{flocons de sarrasin}}) et chauffer 3 minutes à feu doux en remuant : les flocons gonflent dans la crème. [cuisson 3 min]",
   "Dressage — Verser dans le bol tiède et poser au centre une quenelle de yaourt de soja ({{yaourt de soja nature}}). [1 min]"],
- "Le potimarron remplace le sucre : sa douceur de châtaigne suffit.",23,"Sucré"),
-PDJ("pdj-moelleux-sarrasin","Moelleux vapeur de sarrasin, banane et crème de soja","Œufs","Sarrasin",25,1,
+ "Le potimarron remplace le sucre : sa douceur de châtaigne suffit. Coupé en petits dés, il cuit en quelques minutes à la casserole.",9,"Sucré"),
+PDJ("pdj-crepe-sarrasin-banane","Crêpe fine de sarrasin à la banane, crème de soja vanillée","Œufs","Sarrasin",11,1,
  [["farine de sarrasin",25,"g"],["œuf",1,"pièce"],["banane",30,"g"],["lait de soja",40,"ml"],["crème de soja",1,"c. à soupe"],["vanille naturelle",1,"pincée"]],
- [MAT(BAMBOO_MAT + ", un bol, un fouet ou une fourchette, un ramequin, du papier sulfurisé, une assiette de service"),
-  "La pâte — Écraser la banane ({{banane}}) dans le bol, ajouter l'œuf ({{œuf}}), le lait de soja ({{lait de soja}}) et la vanille, puis la farine de sarrasin ({{farine de sarrasin}}). Fouetter jusqu'à une pâte lisse et la verser dans le ramequin, recouvert d'un rond de papier sulfurisé. [4 min]",
-  VAP(15, "le ramequin (pâte de moins de 3,5 cm de haut)", "Le moelleux est cuit quand la pointe d'un couteau ressort propre : il gonfle sans jamais colorer."),
+ [MAT("un bol, un fouet ou une fourchette, une poêle antiadhésive de 18 à 20 cm, une spatule fine, une fourchette, une assiette de service"),
+  "La pâte — Dans le bol, battre l'œuf ({{œuf}}) avec le lait de soja ({{lait de soja}}) et 30 ml d'eau, ajouter la farine de sarrasin ({{farine de sarrasin}}) et la vanille, puis fouetter jusqu'à une pâte très fluide. [3 min]",
+  "La crêpe — Verser la pâte d'un coup dans la poêle antiadhésive sèche, à feu doux, en la répartissant en couche fine. Cuire sans colorer : environ 2 minutes, jusqu'à ce que la surface soit mate, puis retourner et cuire 2 minutes de plus. [cuisson 4 min]",
+  "La banane — Écraser la banane ({{banane}}) à la fourchette en purée. [1 min]",
   "La crème — Fouetter la crème de soja ({{crème de soja}}). [1 min]",
-  "Dressage — Démouler le moelleux tiède sur une assiette, le trancher en deux dans l'épaisseur, napper de crème de soja entre les deux moitiés et sur le dessus. [2 min]"],
- "À la vapeur, le sarrasin reste moelleux et ne brunit pas : parfait pour un estomac sensible.",15,"Sucré"),
-PDJ("pdj-quinoa-lait","Quinoa tiède au lait de riz, banane & yaourt de soja","Protéines végétales","Quinoa",10,1,
+  "Dressage — Poser la crêpe tiède à plat sur l'assiette, étaler la banane sur la moitié, replier en demi-lune puis en éventail et napper de crème de soja. [2 min]"],
+ "La pâte très fluide donne une crêpe fine et souple, cuite à feu doux sans jamais dorer.",4,"Sucré"),
+PDJ("pdj-quinoa-lait","Quinoa tiède au lait de riz, banane & yaourt de soja","Protéines végétales","Quinoa",7,1,
  [["quinoa cuit",80,"g"],["lait de riz",60,"ml"],["banane",30,"g"],["yaourt de soja nature",60,"g"],["vanille naturelle",1,"pincée"]],
  [MAT("une casserole, une fourchette, un bol de service. Utiliser un quinoa cuit la veille au Bamboo (programme QUICK COOK, 1 volume de quinoa rincé pour 1 volume d'eau, repos 5 à 10 minutes couvercle fermé)"),
   "Le quinoa — Chauffer le quinoa cuit ({{quinoa cuit}}) avec le lait de riz ({{lait de riz}}) et la vanille à feu doux, 4 minutes, jusqu'à ce qu'il boive le lait. [cuisson 4 min]",
@@ -758,70 +761,69 @@ PDJ("pdj-quinoa-lait","Quinoa tiède au lait de riz, banane & yaourt de soja","P
   "Dressage — Quinoa dans le bol de service, banane écrasée sur un côté, yaourt de soja ({{yaourt de soja nature}}) en quenelle de l'autre : deux demi-lunes bien nettes. [2 min]"],
  "Le quinoa du matin se prépare en 5 minutes si on le cuit la veille en même temps que le riz.",4,"Sucré"),
 /* ---------------- SALÉS (environ 250 kcal) ---------------- */
-PDJ("pdj-oeuf-mouillettes","Œuf mollet, mouillettes de sarrasin tièdes & yaourt de soja à l'aneth","Œufs","Sarrasin",15,1,
+PDJ("pdj-oeuf-mouillettes","Œuf mollet, mouillettes de sarrasin & yaourt de soja à l'aneth","Œufs","Sarrasin",14,1,
  [["œuf",1,"pièce"],["pain de sarrasin",70,"g"],["yaourt de soja nature",40,"g"],["aneth","",HERBS],["sel","","1 pincée"]],
- [MAT("une petite casserole, une écumoire, un coquetier ou un petit verre, un petit bol, des ciseaux, un couteau, " + BAMBOO_MAT),
-  "L'œuf mollet — Faire frémir de l'eau, y glisser délicatement l'œuf ({{œuf}}) sorti du frigo 10 minutes avant, le cuire 6 minutes 30, puis le passer 1 minute sous l'eau froide. Blanc pris, jaune coulant. [cuisson 7 min]",
-  "Les mouillettes — Tailler le pain de sarrasin ({{pain de sarrasin}}) en bâtonnets de 1,5 cm. Les réchauffer dans le panier du Bamboo : eau chaude jusqu'au repère « 2-3 », STEAM 5 minutes, maintenir START 2 secondes. [cuisson 5 min]",
+ [MAT("une petite casserole, une écumoire, un coquetier ou un petit verre, un petit bol, des ciseaux, un couteau"),
+  "L'eau — Remplir la petite casserole d'eau chaude du robinet et la porter à frémissement à feu vif. [3 min]",
+  "L'œuf mollet — Glisser délicatement l'œuf ({{œuf}}) dans l'eau frémissante avec l'écumoire, le cuire 6 minutes 30, puis le passer 30 secondes sous l'eau froide. Blanc pris, jaune coulant. [cuisson 7 min]",
+  "Les mouillettes — Pendant la cuisson de l'œuf, tailler le pain de sarrasin ({{pain de sarrasin}}) en bâtonnets de 1,5 cm. [1 min]",
   "La sauce — Mêler le yaourt de soja ({{yaourt de soja nature}}), l'aneth ciselé aux ciseaux et une pincée de sel. [1 min]",
   "Dressage — Œuf écalé ou décalotté dans le coquetier, mouillettes dressées en fagot à côté, sauce à l'aneth dans un petit bol : tremper, c'est la gourmandise. [2 min]"],
- "Le jaune coulant et le yaourt à l'aneth font une sauce sans aucune matière grasse cuite.",12,"Salé"),
-PDJ("pdj-okayu-express","Okayu express au tofu, riz mijoté au bouillon & nori","Tofu","Riz",15,1,
+ "Le jaune coulant et le yaourt à l'aneth font une sauce sans aucune matière grasse cuite.",7,"Salé"),
+PDJ("pdj-okayu-express","Okayu express au tofu, riz mijoté au bouillon & nori","Tofu","Riz",12,1,
  [["riz cuit",80,"g"],["bouillon",150,"ml"],["tofu ferme",50,"g"],["nori",1,"pièce"],["graines de sésame",1,"c. à café"],["huile de sésame grillé",0.5,"c. à café"]],
  [MAT("une casserole, une cuillère en bois, des ciseaux, un bol de service tiède. Le riz est cuit la veille au Bamboo (programme WHITE, 35 minutes)"),
-  "Le riz — Dans la casserole, chauffer le riz cuit ({{riz cuit}}) avec le bouillon ({{bouillon}}) à feu doux, 9 minutes en remuant de temps en temps : le riz se défait en une bouillie claire et crémeuse. [cuisson 9 min]",
-  "Le tofu — Couper le tofu ({{tofu ferme}}) en dés de 1 cm et les ajouter pour les 3 dernières minutes afin qu'ils se réchauffent à cœur. [cuisson 3 min]",
+  "Le riz — Dans la casserole, chauffer le riz cuit ({{riz cuit}}) avec le bouillon ({{bouillon}}) à feu doux, 6 minutes en remuant de temps en temps : le riz se défait en une bouillie claire et crémeuse. [cuisson 6 min]",
+  "Le tofu — Pendant ce temps, couper le tofu ({{tofu ferme}}) en dés de 1 cm. Les ajouter dans la casserole pour les 3 dernières minutes afin qu'ils se réchauffent à cœur. [cuisson 3 min]",
   "Le nori — Ciseler la feuille de nori ({{nori}}) en fins rubans. [1 min]",
   "Dressage — Verser l'okayu dans le bol, déposer les rubans de nori en tas au centre, parsemer de sésame ({{graines de sésame}}) et finir d'un filet d'huile de sésame grillé ({{huile de sésame grillé}}). [2 min]"],
- "L'okayu se mange tiède : il apaise l'estomac dès le réveil.",12,"Salé"),
-PDJ("pdj-tartine-skyr","Tartine de sarrasin tiède, skyr de soja à la ciboulette & rubans de carotte fondants","Protéines végétales","Sarrasin",30,1,
+ "L'okayu se mange tiède : il apaise l'estomac dès le réveil.",9,"Salé"),
+PDJ("pdj-tartine-skyr","Tartine de sarrasin, skyr de soja à la ciboulette & rubans de carotte fondants","Protéines végétales","Sarrasin",10,1,
  [["pain de sarrasin",60,"g"],["skyr de soja",90,"g"],["carotte",50,"g"],["ciboulette","",HERBS],["huile d'olive",0.5,"c. à café"],["sel","","1 pincée"]],
- [MAT(BAMBOO_MAT + ", du papier sulfurisé, un économe, un couteau, des ciseaux, une petite assiette"),
-  "Les rubans — Éplucher la carotte ({{carotte}}) en rubans à l'économe. Les poser sur du papier sulfurisé percé dans le panier. [3 min]",
-  VAP(20, "les rubans de carotte et, à côté, le pain de sarrasin ({{pain de sarrasin}}) pour le tiédir", "Les rubans sont souples et fondants ; le pain est tendre."),
-  "La crème — Mélanger le skyr de soja ({{skyr de soja}}) avec la ciboulette ciselée (pointes vertes) et une pincée de sel. [1 min]",
-  "Dressage — Tartiner généreusement le pain tiède de skyr, enrouler les rubans de carotte en rosace dessus, un filet d'huile d'olive crue ({{huile d'olive}}) pour la brillance. [3 min]"],
- "Les rubans de carotte à la vapeur sont souples : ils s'enroulent en rose et se mangent à la fourchette.",10,"Salé"),
-PDJ("pdj-puree-oeuf-poche","Purée tiède pomme de terre–carotte & œuf poché à la crème de soja","Œufs","Pommes de terre",50,2,
- [["pommes de terre",100,"g"],["carotte",40,"g"],["œuf",1,"pièce"],["crème de soja",1,"c. à soupe"],["ciboulette","",HERBS],["sel","","1 pincée"]],
- [MAT(BAMBOO_MAT + ", du papier sulfurisé, un presse-purée ou une fourchette, une petite casserole, une écumoire, des ciseaux"),
-  "Mise en place — Éplucher la pomme de terre ({{pommes de terre}}) et la carotte ({{carotte}}) et les couper en cubes de 2 cm. [4 min]",
-  VAP(40, "les cubes sur du papier sulfurisé percé", "Ils s'écrasent sans résistance (le guide du fabricant donne 40 minutes pour les pommes de terre)."),
-  "L'œuf poché — Pendant le cycle, faire frémir de l'eau salée, créer un léger tourbillon, y glisser l'œuf ({{œuf}}) cassé dans une tasse et le pocher 3 minutes sans bouillir. L'égoutter sur du papier absorbant. [cuisson 4 min]",
-  "La purée — Écraser pomme de terre et carotte avec la crème de soja ({{crème de soja}}) et une pincée de sel. [2 min]",
-  "Dressage — Purée en nid dans l'assiette, œuf poché au centre, pointes vertes de ciboulette ciselées : on perce le jaune à la cuillère. [2 min]"],
- "Une purée lisse et tiède est idéale au réveil pour un larynx irrité.",24,"Salé"),
-PDJ("pdj-chawanmushi","Chawanmushi léger au tofu soyeux, carotte & riz tiède","Œufs","Riz",28,2,
- [["œuf",1,"pièce"],["bouillon",100,"ml"],["tofu soyeux",40,"g"],["carotte",30,"g"],["riz cuit",50,"g"],["huile de sésame grillé",0.5,"c. à café"]],
- [MAT(BAMBOO_MAT + ", un bol, une fourchette, une passoire fine, du papier sulfurisé, un petit bol de service allant à la vapeur"),
-  "L'appareil — Battre l'œuf ({{œuf}}) à la fourchette sans faire de mousse, ajouter le bouillon tiède ({{bouillon}}) et filtrer à la passoire fine. [3 min]",
-  "La garniture — Au fond du bol de service, répartir la carotte ({{carotte}}) râpée finement et le tofu soyeux ({{tofu soyeux}}) coupé en petits cubes, puis verser doucement l'appareil par-dessus à la louche. Couvrir de papier sulfurisé. [3 min]",
-  VAP(15, "le bol de service et, à côté, le riz cuit ({{riz cuit}}) mouillé d'une cuillère d'eau dans un petit bol", "Le flan est prêt quand il tremble comme une panna cotta au centre."),
-  "Dressage — Servir le flan dans son bol, le riz en petite boule à côté, un trait d'huile de sésame grillé ({{huile de sésame grillé}}) sur le flan. [1 min]"],
- "Un flan cuit doucement reste lisse, sans bulles.",15,"Salé"),
-PDJ("pdj-miso-doux","Soupe miso douce, tofu, wakamé & riz","Tofu","Riz",12,1,
+ [MAT("une casserole, une écumoire, un économe, un couteau, des ciseaux, une petite assiette"),
+  "Les rubans — Éplucher la carotte ({{carotte}}) en rubans très fins à l'économe, de 1 à 2 mm d'épaisseur. [2 min]",
+  "La cuisson — Dans la casserole, porter à frémissement 300 ml d'eau (3 minutes), y plonger les rubans et les cuire 2 minutes, jusqu'à ce qu'ils soient souples et fondants. Les sortir à l'écumoire et les égoutter. [cuisson 5 min]",
+  "La crème — Pendant ce temps, mélanger le skyr de soja ({{skyr de soja}}) avec la ciboulette ciselée (pointes vertes) et une pincée de sel. [1 min]",
+  "Dressage — Tartiner généreusement le pain de sarrasin ({{pain de sarrasin}}) de skyr, enrouler les rubans de carotte tièdes en rosace dessus, un filet d'huile d'olive crue ({{huile d'olive}}) pour la brillance. [2 min]"],
+ "Des rubans de carotte très fins cuisent en 2 minutes : ils s'enroulent en rose et se mangent à la fourchette.",5,"Salé"),
+PDJ("pdj-oeufs-brouilles","Œuf brouillé crémeux à la ciboulette & crème de soja, pain de sarrasin","Œufs","Sarrasin",9,1,
+ [["œuf",1,"pièce"],["pain de sarrasin",70,"g"],["crème de soja",1,"c. à soupe"],["ciboulette","",HERBS],["sel","","1 pincée"]],
+ [MAT("un bol, une fourchette, une petite casserole antiadhésive, une cuillère en bois, des ciseaux, un couteau, une assiette"),
+  "Mise en place — Battre l'œuf ({{œuf}}) à la fourchette avec la crème de soja ({{crème de soja}}) et une pincée de sel. Ciseler la ciboulette (pointes vertes) et trancher le pain de sarrasin ({{pain de sarrasin}}) en deux tartines fines. [3 min]",
+  "Le brouillé — Verser l'œuf dans la casserole antiadhésive sèche, à feu très doux, et remuer sans cesse à la cuillère en bois pendant 4 minutes : les œufs forment de petits grumeaux crémeux, encore brillants. Les retirer du feu un peu avant qu'ils soient fermes, ils finissent de cuire dans la casserole. Ne jamais les laisser colorer. [cuisson 4 min]",
+  "Dressage — Poser les tartines sur l'assiette, répartir l'œuf brouillé tiède dessus et parsemer de ciboulette. [2 min]"],
+ "À feu très doux, l'œuf reste crémeux et ne colore jamais : une cuisson à la casserole, sans huile ni friture.",4,"Salé"),
+PDJ("pdj-soupe-oeuf-tofu","Soupe d'œuf filée au tofu soyeux, carotte & riz tiède","Œufs","Riz",11,1,
+ [["œuf",1,"pièce"],["bouillon",150,"ml"],["tofu soyeux",40,"g"],["carotte",30,"g"],["riz cuit",50,"g"],["huile de sésame grillé",0.5,"c. à café"]],
+ [MAT("une casserole, une râpe fine, une fourchette, un bol de service tiède, une cuillère. Le riz est cuit la veille au Bamboo (programme WHITE, 35 minutes)"),
+  "Mise en place — Râper finement la carotte ({{carotte}}), couper le tofu soyeux ({{tofu soyeux}}) en petits cubes et battre l'œuf ({{œuf}}) à la fourchette dans un bol. [3 min]",
+  "Le bouillon — Dans la casserole, chauffer le bouillon ({{bouillon}}) avec la carotte râpée à feu doux, 4 minutes, jusqu'à ce que la carotte soit tendre. [cuisson 4 min]",
+  "L'œuf filé — Ajouter le tofu, attendre 1 minute, puis verser l'œuf battu en filet en remuant doucement une seule fois : il forme de longs rubans soyeux. Éteindre aussitôt. [cuisson 2 min]",
+  "Dressage — Tasser le riz cuit ({{riz cuit}}) au fond du bol, verser la soupe tiède par-dessus, ajouter un trait d'huile de sésame grillé ({{huile de sésame grillé}}). [2 min]"],
+ "L'œuf versé en filet dans le bouillon chaud cuit en quelques secondes : c'est le chawanmushi en version express.",6,"Salé"),
+PDJ("pdj-miso-doux","Soupe miso douce, tofu, wakamé & riz","Tofu","Riz",8,1,
  [["eau",250,"ml"],["miso blanc",1,"c. à café"],["wakamé",2,"g"],["tofu ferme",50,"g"],["riz cuit",80,"g"],["huile de sésame grillé",0.5,"c. à café"]],
- [MAT("une casserole, une louche, un bol de service, une cuillère. Hydrater le wakamé 5 minutes dans l'eau froide"),
-  "Le bouillon — Chauffer l'eau ({{eau}}) avec le wakamé ({{wakamé}}) égoutté et le tofu ({{tofu ferme}}) en dés, 4 minutes à feu très doux, jusqu'à ce que la soupe fume doucement sans bouillir. [cuisson 4 min]",
+ [MAT("une casserole, une louche, un bol de service, une cuillère, des ciseaux. Le riz est cuit la veille au Bamboo (programme WHITE, 35 minutes)"),
+  "Le bouillon — Dans la casserole, mettre l'eau ({{eau}}) froide, le wakamé ({{wakamé}}) coupé en petits morceaux aux ciseaux et le tofu ({{tofu ferme}}) en dés. Chauffer 5 minutes à feu doux, jusqu'à ce que la soupe fume doucement sans bouillir : le wakamé se réhydrate dans l'eau qui chauffe. [cuisson 5 min]",
   "Le miso — Éteindre. Délayer le miso ({{miso blanc}}) dans une louche de bouillon, puis le verser dans la casserole : il ne doit jamais bouillir pour garder son parfum. [1 min]",
   "Dressage — Riz cuit ({{riz cuit}}) tassé au fond du bol, bouillon versé à la louche autour, goutte d'huile de sésame grillé ({{huile de sésame grillé}}) à la surface. [2 min]"],
- "Le miso est fermenté : une cuillère à café suffit, et à éviter en phase de sensibilité aiguë.",4,"Salé"),
-PDJ("pdj-galette-sarrasin-epinards","Galette fine de sarrasin, épinards fondus, tofu & skyr de soja","Tofu","Sarrasin",25,2,
+ "Le miso est fermenté : une cuillère à café suffit, et à éviter en phase de sensibilité aiguë.",5,"Salé"),
+PDJ("pdj-galette-sarrasin-epinards","Galette fine de sarrasin, épinards fondus, tofu & skyr de soja","Tofu","Sarrasin",12,1,
  [["farine de sarrasin",30,"g"],["épinards",30,"g"],["tofu ferme",50,"g"],["skyr de soja",40,"g"],["huile d'olive",0.5,"c. à café"],["sel","","1 pincée"]],
- [MAT(BAMBOO_MAT + ", un fouet, une poêle antiadhésive de 22 cm à feu doux, une spatule fine, du papier sulfurisé"),
-  "La pâte — Fouetter la farine de sarrasin ({{farine de sarrasin}}) avec 80 ml d'eau et une pincée de sel jusqu'à une pâte fluide, et la laisser reposer pendant la préparation de la garniture. [5 min]",
-  VAP(15, "le tofu ({{tofu ferme}}) émietté et les épinards ({{épinards}}) sur du papier sulfurisé percé", "Presser ensuite les épinards pour ôter l'eau."),
+ [MAT("un fouet, une petite casserole avec son couvercle, une poêle antiadhésive de 22 cm à feu doux, une spatule fine, une fourchette"),
+  "La pâte — Fouetter la farine de sarrasin ({{farine de sarrasin}}) avec 80 ml d'eau et une pincée de sel jusqu'à une pâte fluide, et la laisser reposer pendant la garniture. [3 min]",
+  "La garniture — Dans la petite casserole, mettre le tofu ({{tofu ferme}}) émietté à la fourchette, les épinards ({{épinards}}) et 2 cuillères à soupe d'eau. Couvrir et cuire à feu moyen 3 minutes, jusqu'à ce que les épinards soient fondus, puis les presser pour ôter l'eau. [cuisson 3 min]",
   "La galette — Verser la pâte en couche fine dans la poêle huilée ({{huile d'olive}}) à feu doux, cuire sans colorer jusqu'à ce que la surface soit mate, retourner 20 secondes. [cuisson 4 min]",
   "Dressage — Poser la galette à plat, garnir le centre d'épinards et de tofu, plier les quatre côtés en carré, couronner d'une quenelle de skyr de soja ({{skyr de soja}}). [2 min]"],
- "Une pâte bien fluide donne une galette fine et souple qui se plie sans casser.",14,"Salé"),
-PDJ("pdj-onigiri-sesame","Onigiri tiède au sésame & tofu soyeux, crème de soja au sésame grillé","Tofu","Riz",18,1,
+ "Une pâte bien fluide donne une galette fine et souple qui se plie sans casser.",7,"Salé"),
+PDJ("pdj-onigiri-sesame","Onigiri tiède au sésame & tofu soyeux, crème de soja au sésame grillé","Tofu","Riz",10,1,
  [["riz cuit",90,"g"],["nori",1,"pièce"],["graines de sésame",1,"c. à café"],["tofu soyeux",70,"g"],["crème de soja",1,"c. à soupe"],["huile de sésame grillé",0.5,"c. à café"]],
- [MAT(BAMBOO_MAT + ", un petit bol d'eau pour les mains, une cuillère, des ciseaux, une assiette plate. Le riz est cuit la veille au programme WHITE du Bamboo (35 minutes)"),
-  VAP(10, "le riz cuit ({{riz cuit}}) mouillé d'une cuillère d'eau dans un bol et le tofu soyeux ({{tofu soyeux}}) en cubes dans un second bol", "Le riz redevient tiède et souple, le tofu est chaud sans se défaire."),
+ [MAT("une petite casserole avec son couvercle, un petit bol d'eau pour les mains, une cuillère, des ciseaux, une assiette plate. Le riz est cuit la veille au programme WHITE du Bamboo (35 minutes)"),
+  "Le réchauffage — Dans la petite casserole, mettre le riz cuit ({{riz cuit}}) avec une cuillère à soupe d'eau, couvrir et chauffer 3 minutes à feu doux : le riz redevient tiède et souple. Poser sur le riz, pour la dernière minute, le tofu soyeux ({{tofu soyeux}}) coupé en cubes. [cuisson 3 min]",
   "Les boulettes — Mouiller les mains, façonner le riz tiède en deux triangles en pressant doucement, puis les ceinturer d'une bande de nori ({{nori}}) et les rouler dans le sésame ({{graines de sésame}}). [4 min]",
   "La crème — Mélanger la crème de soja ({{crème de soja}}) avec l'huile de sésame grillé ({{huile de sésame grillé}}). [1 min]",
   "Dressage — Dresser les deux onigiri en V sur l'assiette, le tofu tiède entre les deux et la crème de sésame en petits points tout autour. [2 min]"],
- "Un onigiri se mange à la main : le riz doit être tiède, jamais brûlant.",10,"Salé")
+ "Un onigiri se mange à la main : le riz doit être tiède, jamais brûlant.",3,"Salé")
 ];
 
 /* ============ DÉJEUNERS ET DÎNERS : POULET & ŒUFS (protocole de Cat) ============
@@ -2126,7 +2128,7 @@ function buildDefaultPlan(recipes){
 }
 function defaultState(){
   const recipes = DEFAULT_RECIPES.map(recipeToState);
-  return { v: 6, font: "editorial", recipes, weeks: buildDefaultPlan(recipes), weights: [], goal: 60, checked: {}, ui: { view: "plan", week: 0 },
+  return { v: 7, font: "editorial", recipes, weeks: buildDefaultPlan(recipes), weights: [], goal: 60, checked: {}, ui: { view: "plan", week: 0 },
     kcalT: { b: null, l: null, d: null }, vegRatio: 80, autoAdapt: true, autoVeg: true, sensible: false, pantry: [], shopExtra: [], cooked: {}, reint: { start: null, foods: {}, current: null } };
 }
 
@@ -3724,7 +3726,7 @@ function ensureDefaults(){
   S.weeks.forEach(w => w.days.forEach(d => { d.meals = d.meals || {}; if (!("b" in d.meals)) d.meals.b = null; }));
   const ks = Object.keys(S.cooked); if (ks.length > 80) ks.slice(0, ks.length - 80).forEach(k => delete S.cooked[k]);
 }
-function migrateAll(){ if (!S.v || S.v < 2) migrateProto(); if (S.v < 3) migrate3(); if (S.v < 4) migrate4(); if (S.v < 5) migrate5(); if (S.v < 6) migrate6(); }
+function migrateAll(){ if (!S.v || S.v < 2) migrateProto(); if (S.v < 3) migrate3(); if (S.v < 4) migrate4(); if (S.v < 5) migrate5(); if (S.v < 6) migrate6(); if (S.v < 7) migrate7(); }
 /* v2 : nouveau protocole. Le carnet fourni est remplacé par la version mise à jour ; les recettes créées par Cat sont conservées.
    Les repas du planning qui venaient de l'ancien carnet sont renouvelés, et un petit-déjeuner est ajouté là où il manque. */
 function migrateProto(){
@@ -4005,6 +4007,23 @@ function migrate6(){
     });
   }));
   S.v = 6;
+}
+
+/* ---------- version 7 : petits-déjeuners ramenés à 15 minutes au plus (mise en place + cuisson + dressage) ---------- */
+const V7_REPLACED = { "pdj-flan-vanille": "pdj-creme-avoine", "pdj-moelleux-sarrasin": "pdj-crepe-sarrasin-banane", "pdj-puree-oeuf-poche": "pdj-oeufs-brouilles", "pdj-chawanmushi": "pdj-soupe-oeuf-tofu" };
+function migrate7(){
+  const own = S.recipes.filter(r => r.own), oldIds = new Set(S.recipes.filter(r => !r.own).map(r => r.id));
+  S.recipes = DEFAULT_RECIPES.map(recipeToState).concat(own);
+  const fresh = buildDefaultPlan(S.recipes), byId = id => S.recipes.find(r => r.id === id);
+  S.weeks.forEach((w, wi) => w.days.forEach((d, di) => {
+    const src = fresh[wi % fresh.length].days[di % 7].meals;
+    ["b", "l", "d"].forEach(k => {
+      const m = d.meals[k]; if (!m || !m.recipeId || !oldIds.has(m.recipeId)) return;
+      const r = byId(m.recipeId) || byId(V7_REPLACED[m.recipeId]), nm = r ? mealFromRecipe(r) : copyMeal(src[k] || src.l);
+      nm.id = m.id; protoAdaptMeal(nm, k, kT(k)); d.meals[k] = nm;
+    });
+  }));
+  S.v = 7;
 }
 
 function viewInsp(){

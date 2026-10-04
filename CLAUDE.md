@@ -23,7 +23,7 @@ et on commite `build/` **et** `index.html` ensemble. Le script échoue si une an
 - **Exclus (niveau 3)** : légumineuses (pois chiches, lentilles, haricots secs, falafels), ail, oignon, échalote, poivre, piment, vinaigre, citron, moutarde, tomate crue, fibres crues, fritures, cuissons à haute température (ni rissolage ni dorure forte).
 - Légumes **toujours cuits, pelés, épépinés**. Plats tièdes. Huile d'olive ou de sésame grillé à cru, ajoutée au service.
 - Seuils FODMAP : haricots verts 75 g, courgette épluchée 60 g maximum par repas ; petites portions pour patate douce, fenouil, céleri-rave.
-- Portions (poids cuits) : déjeuner et dîner = féculent 120-150 g, protéine solide 80-100 g (tofu ou poulet, ou œuf compté 50 g), isolat de pois 20-25 g, légumes 150-200 g, 1 c. à café d'huile. Petit-déjeuner léger d'environ 250 kcal.
+- Portions (poids cuits) : déjeuner et dîner = féculent 120-150 g, protéine solide 80-100 g (tofu ou poulet, ou œuf compté 50 g), isolat de pois 20-25 g, légumes 150-200 g, 1 c. à café d'huile. Petit-déjeuner léger d'environ 250 kcal. **Durée d'un petit-déjeuner : 15 minutes au maximum** (somme des durées `[…]` de toutes les étapes, égale au champ `t`, `tc` = somme des `[cuisson …]`), sans nouvelle préparation de la veille (seuls riz et quinoa cuits la veille) ; contrôlé par `validate.js`.
 - Pas plus d'une préparation d'œuf par plat (pas d'œuf dur plus œuf au plat, etc.).
 - Environ 80 % de repas végétariens (œufs, tofu, protéines végétales).
 - Matériel : rice cooker Yum Asia Bamboo (modes STEAM et SLOW COOK, papier sulfurisé percé sous les légumes, rien sous les viandes).
@@ -57,4 +57,4 @@ GitHub Pages sert `index.html` depuis `main` (racine). Un changement fusionné e
 - Les recettes de `cat_ov_v4*.js` suivent ces règles ; en cas de doute, relire `docs/bamboo.md`.
 
 ## Migrations de données
-Les recettes fournies sont recopiées dans les données de chaque utilisateur. Toute modification des recettes fournies exige une migration dans `build/cat_v6.js` (fonction `migrateN`) et une montée de version dans `build/build_cat.py` (`return { v: N`) et `build/cat_proto.js` (`migrateAll`). Version actuelle : 6.
+Les recettes fournies sont recopiées dans les données de chaque utilisateur. Toute modification des recettes fournies exige une migration dans `build/cat_v6.js` (fonction `migrateN`) et une montée de version dans `build/build_cat.py` (`return { v: N`) et `build/cat_proto.js` (`migrateAll`). Version actuelle : 7.
