@@ -44,8 +44,9 @@ function protocolPanel(){
     </details>
     <details><summary>Le Bamboo, mode d'emploi</summary>
       <ul>${li([
-        "<strong>Mode STEAM :</strong> légumes vapeur, poissons et viandes avec le panier inox.",
-        "<strong>Mode SLOW COOK :</strong> plats mijotés, viandes fondantes (poulet effiloché : 45 à 50 min).",
+        "<strong>Mode STEAM :</strong> légumes vapeur, poissons et viandes avec le panier inox. Eau chaude jusqu'au repère « 2-3 » (au moins 360 ml), jusqu'à 1 h, sans ouvrir pendant le cycle ; 3,5 cm d'épaisseur au maximum.",
+        "<strong>Repères du fabricant :</strong> carotte 20 min, brocoli 15, épinards 15, potimarron 20, patate douce 35, pomme de terre 40, poulet 30, poisson 25.",
+        "<strong>Mode SLOW COOK :</strong> plats mijotés, de 2 à 8 heures (poulet effiloché : 2 heures).",
         "Sous les légumes : un papier sulfurisé (barrière anti-gras, anti-adhésif).",
         "Sous les viandes : rien, directement sur l'inox, pour que le gras s'égoutte au fond de la cuve.",
         "Ollait : laits végétaux maison (riz, avoine, amande-macadamia) et récupération de l'okara.",

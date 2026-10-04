@@ -2,7 +2,7 @@ OV["v6-bibimbap-doux"] = [
  intro("une planche et un couteau, un économe, une petite casserole pour l'œuf, un petit bol et un fouet, un bol large tiède, de petits bols pour chaque légume, un bol pour le riz"),
  "Mise en place — Éplucher la carotte ({{carotte}}) et la tailler en bâtonnets de 5 mm. Séparer les feuilles du pak choï ({{pak choï}}) et couper les tiges en tronçons de 2 cm. Laver les épinards ({{épinards}}). Presser le tofu ({{tofu ferme}}) 10 minutes dans du papier absorbant et le couper en dés. Sortir l'œuf ({{œuf}}) du frigo 10 minutes avant. [12 min]",
  c1(20, "la carotte et les tiges de pak choï", "Chaque légume reste séparé pour garder sa couleur."),
- c2(10, "les feuilles de pak choï, les épinards, les dés de tofu et le riz ({{riz cuit}}) mouillé d'une cuillère d'eau " + bol, "Presser doucement les légumes et les ranger chacun dans un petit bol."),
+ c2(15, "les feuilles de pak choï, les épinards, les dés de tofu et le riz ({{riz cuit}}) mouillé d'une cuillère d'eau " + bol, "Presser doucement les légumes et les ranger chacun dans un petit bol."),
  "L'œuf mollet — Pendant le premier cycle : " + OEUF_MOLLET.replace("les œufs sortis","l'œuf sorti").replace("les cuire","le cuire").replace("les passer","le passer").replace("les écaler","l'écaler") + " [8 min]",
  "La crème de sésame — Délayer l'isolat ({{isolat de protéine de pois}}) dans 3 cuillères d'eau tiède avec la sauce soja ({{sauce soja}}), puis ajouter l'huile de sésame grillé ({{huile de sésame grillé}}) hors du feu. [2 min]",
  "Dressage — Dans le bol large tiède, tasser le riz au fond, disposer les légumes en quartiers de couleurs autour, le tofu au centre et l'œuf coupé en deux dessus. Émietter le nori ({{nori}}), parsemer de sésame ({{graines de sésame}}). Servir la crème à part et mélanger à table, de bas en haut. [3 min]"];
@@ -25,15 +25,15 @@ OV["v6-japchae-doux"] = [
  intro("une casserole, une passoire, des ciseaux, un grand saladier, une planche et un couteau, un petit bol et un fouet"),
  "Mise en place — Couper la carotte ({{carotte}}) en fines lanières, éplucher les côtes de blettes ({{blettes}}) et les tailler en tronçons de 2 cm, laver les épinards ({{épinards}}), presser le tofu ({{tofu ferme}}) 10 minutes et le couper en bâtonnets de 1 cm. [14 min]",
  c1(20, "la carotte et les côtes de blettes", "Elles sont fondantes."),
- c2(10, "les feuilles de blettes, les épinards et le tofu", "Tout est très tendre."),
+ c2(15, "les feuilles de blettes, les épinards et le tofu", "Tout est très tendre."),
  "Les vermicelles — Pendant le premier cycle, cuire les vermicelles 8 minutes dans l'eau frémissante, égoutter, couper aux ciseaux en tronçons de 10 cm. [cuisson 8 min]",
  "La crème — Délayer l'isolat ({{isolat de protéine de pois}}) dans 3 cuillères d'eau tiède avec la sauce soja ({{sauce soja}}), puis l'huile de sésame grillé ({{huile de sésame grillé}}). [2 min]",
  "Le mélange et le dressage — Dans le saladier, mêler délicatement les vermicelles ({{vermicelles de patate douce cuits}}) tièdes, les légumes, le tofu et la crème, en soulevant à deux mains. Dresser en nid dans une assiette creuse tiède, les légumes colorés sur le dessus, et parsemer de sésame ({{graines de sésame}}). [4 min]"];
 OV["v6-donburi-oeufs"] = [
  intro("une planche et un couteau, un économe, une petite casserole pour les œufs, un petit bol et un fouet, un bol profond tiède, un bol pour le riz"),
  "Mise en place — Éplucher la carotte ({{carotte}}) en rondelles de 5 mm, couper le pak choï ({{pak choï}}) en tronçons, laver les épinards ({{épinards}}). Sortir les œufs ({{œuf}}) du frigo 10 minutes avant. [8 min]",
- c1(20, "la carotte et les tiges de pak choï", "Elles s'écrasent."),
- c2(5, "les feuilles de pak choï, les épinards et le riz ({{riz cuit}}) mouillé d'une cuillère d'eau " + bol, "Tout est tendre et bien chaud."),
+ c1(10, "la carotte et les tiges de pak choï", "Elles s'écrasent."),
+ c2(15, "les feuilles de pak choï, les épinards et le riz ({{riz cuit}}) mouillé d'une cuillère d'eau " + bol, "Tout est tendre et bien chaud."),
  "Les œufs mollets — Pendant le premier cycle : " + OEUF_MOLLET + " [8 min]",
  "La sauce — Délayer l'isolat ({{isolat de protéine de pois}}) dans 3 cuillères d'eau tiède avec la sauce soja ({{sauce soja}}). [2 min]",
  "Dressage — Riz dans le bol profond tiède, légumes tout autour, œufs coupés en deux au centre, crème en filet et huile de sésame grillé ({{huile de sésame grillé}}). [3 min]"];
@@ -41,7 +41,7 @@ OV["v6-gimbap"] = [
  intro("un couteau très affûté et humide, une planche, un économe, du papier absorbant, un petit bol, une natte à sushi ou un torchon propre"),
  "Mise en place — Couper la carotte ({{carotte}}) en bâtonnets fins, le tofu ({{tofu ferme}}) pressé 10 minutes en bâtonnets de 1 cm, laver les épinards ({{épinards}}) et couper la courge spaghetti ({{courge spaghetti}}) en deux dans la longueur, graines ôtées. [12 min]",
  c1(25, "la courge spaghetti (face coupée vers le haut) et la carotte", "La chair de la courge se détache en filaments à la fourchette."),
- c2(10, "le tofu, les épinards et le riz ({{riz cuit}}) mouillé d'une cuillère d'eau " + bol, "Presser ensuite les épinards ; effilocher la courge à la fourchette."),
+ c2(15, "le tofu, les épinards et le riz ({{riz cuit}}) mouillé d'une cuillère d'eau " + bol, "Presser ensuite les épinards ; effilocher la courge à la fourchette."),
  "Le riz — Mêler le riz tiède à l'huile de sésame grillé ({{huile de sésame grillé}}). Il doit rester tiède, jamais chaud. [1 min]",
  "Le roulage — Étaler le riz sur une feuille de nori ({{nori}}) en laissant 2 cm libres en haut, aligner les garnitures au centre, rouler serré en humidifiant le bord pour souder. [6 min]",
  "La crème et le dressage — Délayer l'isolat ({{isolat de protéine de pois}}) avec une cuillère d'eau tiède, servir à côté. Trancher le rouleau en tronçons de 2 cm avec le couteau humide, les dresser debout, parsemer de sésame ({{graines de sésame}}). [3 min]"];
@@ -57,7 +57,7 @@ OV["v6-courge-spaghetti"] = [
  intro("un grand couteau, une cuillère, une fourchette, une planche, un économe, du papier absorbant, un petit bol et un fouet"),
  "Mise en place — Couper la courge spaghetti ({{courge spaghetti}}) en deux dans la longueur, retirer les graines. Éplucher les pommes de terre ({{pommes de terre}}) en cubes de 2 cm et la carotte ({{carotte}}) en rondelles de 5 mm. Presser le tofu ({{tofu ferme}}) 10 minutes et le couper en dés. [12 min]",
  c1(25, "la courge spaghetti (face coupée vers le haut), les pommes de terre et la carotte", "Tout s'écrase à la fourchette."),
- c2(10, "le tofu et les épinards ({{épinards}})", "Les épinards s'affaissent."),
+ c2(15, "le tofu et les épinards ({{épinards}})", "Les épinards s'affaissent."),
  "Les filaments — Effilocher la chair de courge à la fourchette en longs spaghettis. [3 min]",
  "La crème de pois — Délayer l'isolat ({{isolat de protéine de pois}}) avec 3 cuillères d'eau tiède, le basilic haché ({{basilic}}) et une pincée de sel. [2 min]",
  "Dressage — Nid de courge au centre, pommes de terre à côté, tofu et épinards au centre du nid, crème de pois puis huile d'olive crue ({{huile d'olive}}). [3 min]"];
@@ -73,7 +73,7 @@ OV["v6-patate-douce-puree"] = [
  intro("une planche et un couteau, un économe, un presse-purée, du papier absorbant, un petit bol et un fouet"),
  "Mise en place — Éplucher les pommes de terre ({{pommes de terre}}) et la patate douce ({{patate douce}}) en cubes de 2 cm, éplucher la carotte ({{carotte}}) en rondelles, détailler les têtes de brocoli ({{brocoli}}). Presser le tofu ({{tofu ferme}}) 10 minutes et le couper en dés. [12 min]",
  c1(25, "les pommes de terre, la patate douce et la carotte", "Tout s'écrase."),
- c2(10, "le brocoli et le tofu", "Le brocoli est très tendre."),
+ c2(15, "le brocoli et le tofu", "Le brocoli est très tendre."),
  "La purée — Écraser pommes de terre et patate douce à la fourchette avec deux cuillères d'eau chaude, le thym ({{thym}}) et une pincée de sel. [3 min]",
  "La crème de pois — Délayer l'isolat ({{isolat de protéine de pois}}) avec 3 cuillères d'eau tiède. [2 min]",
  "Dressage — Purée en nid, tofu et légumes autour, crème de pois et huile d'olive crue ({{huile d'olive}}). [3 min]"];
