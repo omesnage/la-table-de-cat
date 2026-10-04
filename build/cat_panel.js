@@ -14,7 +14,7 @@ function protocolPanel(){
       <ul>${li([
         "<span class='ok'>Féculents cuits :</span> riz basmati ou jasmin, pomme de terre, potimarron, farine ou pain de sarrasin pur, quinoa, avoine certifiée sans gluten, soba 100 % sarrasin.",
         "<span class='ok'>Légumes cuits, pelés, épépinés :</span> tous, de préférence de saison (courgette, carotte, potimarron, jeunes pousses d'épinards, haricots verts, aubergine pelée, brocoli en têtes, butternut, pâtisson, panais…). Les fermentescibles (chou-fleur, poireau, petits pois, betterave, céleri, fenouil, patate douce) en petite portion. Cru à éviter au maximum.",
-        "<span class='ok'>Protéines :</span> tofu ferme, blanc de poulet, œuf (mollet, poché, dur), isolat de protéine de pois, okara d'amande.",
+        "<span class='ok'>Protéines :</span> tofu ferme, soyeux ou fumé (fumé en petite quantité), blanc ou cuisse de poulet sans peau, œuf (mollet, poché, dur), protéine de pois texturée, protéine de soja texturée (en petite quantité), okara d'amande.",
         "<span class='ok'>Lipides :</span> huile d'olive à cru uniquement, ajoutée au moment de servir ; huile de sésame grillé."])}</ul>
       <h4>Niveau 2 · autorisés sous conditions</h4>
       <ul>${li([
@@ -29,8 +29,8 @@ function protocolPanel(){
     <details><summary>Portions par repas (poids cuits)</summary>
       <table class="tbl"><thead><tr><th></th><th>Petit-déj.</th><th>Déjeuner</th><th>Dîner</th></tr></thead><tbody>
         <tr><th>Féculents</th><td>60 à 100 g (ou 25 à 35 g de flocons crus), petit-déjeuner léger d'environ 250 kcal</td><td>120 à 150 g</td><td>120 à 150 g</td></tr>
-        <tr><th>Tofu ou poulet</th><td>40 à 60 g (ou yaourt, skyr ou crème de soja)</td><td>80 à 100 g</td><td>80 à 100 g</td></tr>
-        <tr><th>Équivalents</th><td>1 œuf ou 15 g d'isolat</td><td>20 à 25 g d'isolat</td><td>1 œuf ou 20 à 25 g d'isolat</td></tr>
+        <tr><th>Tofu, poulet ou œufs</th><td>40 à 60 g ou 1 œuf (ou yaourt, skyr ou crème de soja)</td><td>80 à 100 g (2 œufs)</td><td>80 à 100 g (2 œufs)</td></tr>
+        <tr><th>Protéine texturée</th><td>—</td><td>30 g secs (pois ou soja), dans quelques plats</td><td>30 g secs (pois ou soja), dans quelques plats</td></tr>
         <tr><th>Légumes doux</th><td>facultatif</td><td>150 à 200 g</td><td>150 à 200 g</td></tr>
         <tr><th>Huile à cru</th><td>1 c. à café</td><td>1 c. à café</td><td>1 c. à café</td></tr></tbody></table>
       <p class="muted">Objectif : stabilité du poids et maintien musculaire (environ 1,1 à 1,2 g de protéines par kg et par jour), sans régime. Les protéines se répartissent sur les trois repas et ne descendent jamais sous 200 g de tofu ou de poulet par jour.</p>

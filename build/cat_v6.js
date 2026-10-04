@@ -11,6 +11,25 @@ function eggsOK(m){
   const t = norm((m.name || m.n || "") + " " + (m.steps || []).join(" ").replace(/\{\{[^}]*\}\}/g, " ")); let n = 0;
   EGG_PREPS.forEach(re => { if (re.test(t)) n++; }); return n <= 1;
 }
+/* ---------- variété du planning ----------
+   Ingrédients principaux d'un repas : sa protéine (œufs, poulet, tofu, protéine de pois, protéine de soja, sardines, okara) et son féculent.
+   Deux repas qui se suivent (petit-déjeuner, déjeuner, dîner, puis petit-déjeuner du lendemain) n'en partagent aucun,
+   ce qui interdit aussi le même ingrédient principal midi et soir. Œufs : EGG_MAX repas par semaine au plus, jamais à la suite. */
+const EGG_MAX = 3;
+const MAIN_RE = [["œufs", /\boeufs?\b/], ["poulet", /poulet/], ["tofu", /\btofu\b/], ["protéine de pois", /pois texturee/], ["protéine de soja", /soja texturee/], ["sardines", /sardine/], ["okara", /okara/]];
+function mainKeys(m){
+  if (!m) return []; const t = (m.ing || []).map(i => norm(i.n)).join(" | ");
+  const k = MAIN_RE.filter(x => x[1].test(t)).map(x => x[0]); if (m.base) k.push("féculent : " + String(m.base).toLowerCase()); return k;
+}
+function isEgg(m){ return mainKeys(m).indexOf("œufs") >= 0; }
+function clash(a, b){ if (!a || !b) return null; const kb = mainKeys(b); return mainKeys(a).find(k => kb.indexOf(k) >= 0) || null; }
+/* repas dans l'ordre de la semaine (b, l, d, b, l, d…) : liste des règles non respectées */
+function planIssues(seq){
+  const out = []; let eggs = 0;
+  seq.forEach((m, i) => { if (!m) return; if (isEgg(m)) eggs++; const c = clash(seq[i - 1], m); if (c) out.push("repas " + (i + 1) + " : " + c + " deux repas de suite"); });
+  if (eggs > EGG_MAX * Math.max(1, Math.ceil(seq.length / 21))) out.push(eggs + " repas aux œufs (maximum " + EGG_MAX + " par semaine)");
+  return out;
+}
 const FERMENTED_RE = /\b(miso|sauce soja)\b/;
 const hasFermented = m => (m.ing || []).some(i => FERMENTED_RE.test(norm(i.n)));
 
@@ -66,26 +85,51 @@ function proposeMeals(n, f){
   }
   return out;
 }
-function proposeWeek(f){
-  const days = [], avoid = new Set(), count = {}, off = Math.random() < .5 ? 0 : 1;
-  const limit = f.cats && f.cats.length ? 99 : 5;
-  for (let i = 0; i < 7; i++){
-    let best = null;
-    for (let t = 0; t < 30; t++){
-      const p = proposeDay({ ...f, pd: f.pd || ((i + off) % 2 === 0 ? "Sucré" : "Salé") }, avoid);
-      const ok = [p.l, p.d].every(m => !m || (count[m.cat] || 0) < (limit > 50 ? limit : isVegCat(m.cat) ? 7 : 3));
-      best = p; if (ok) break;
+/* une journée : chaque repas évite l'ingrédient principal du repas précédent (ctx.prev : dîner de la veille)
+   et le dîner évite celui du petit-déjeuner suivant (ctx.next) ; ctx.eggs : repas aux œufs déjà prévus dans la semaine */
+function proposeDay(f, avoid, ctx){
+  avoid = new Set(avoid || []); ctx = ctx || {}; f = f || {};
+  const out = {}, eggMax = ctx.eggMax != null ? ctx.eggMax : EGG_MAX; let prev = ctx.prev || null, eggs = ctx.eggs || 0;
+  SLOTS.forEach((sl, si) => {
+    const bk = sl.k === "b", last = si === SLOTS.length - 1; let best = null, bestBad = 1e9;
+    for (let t = 0; t < 60; t++){
+      const m = oneProposal({ ...f, slot: sl.k }, avoid) || oneProposal({ src: bk ? "book" : "gen", slot: sl.k }, avoid); if (!m) continue;
+      const bad = (clash(prev, m) ? 2 : 0) + (last && clash(m, ctx.next) ? 2 : 0) + (isEgg(m) && eggs >= eggMax ? 3 : 0) + (ctx.ok && !ctx.ok(m, sl.k) ? 1 : 0);
+      if (bad < bestBad) { best = m; bestBad = bad; } if (!bad) break;
     }
-    SLOTS.forEach(sl => { const m = best[sl.k]; if (!m) return; avoid.add(m.name); if (sl.k !== "b") count[m.cat] = (count[m.cat] || 0) + 1; });
-    days.push(best);
+    if (!best) best = oneProposal({ src: "mix", slot: sl.k }, new Set());
+    out[sl.k] = best; if (best) { avoid.add(best.name); if (isEgg(best)) eggs++; prev = best; }
+  });
+  return out;
+}
+/* une semaine : mêmes règles d'un jour à l'autre, œufs limités, poulet limité (80 % végétarien) */
+function proposeWeek(f){
+  f = f || {}; const off = Math.random() < .5 ? 0 : 1, limit = f.cats && f.cats.length ? 99 : 5;
+  let best = null, bestN = 1e9;
+  for (let a = 0; a < 8; a++){
+    const days = [], avoid = new Set(), count = {}; let prev = null, eggs = 0;
+    for (let i = 0; i < 7; i++){
+      const ok = (m, k) => k === "b" || (count[m.cat] || 0) < (limit > 50 ? limit : isVegCat(m.cat) ? 7 : 3);
+      const p = proposeDay({ ...f, pd: f.pd || ((i + off) % 2 === 0 ? "Sucré" : "Salé") }, avoid, { prev, eggs, ok });
+      SLOTS.forEach(sl => { const m = p[sl.k]; if (!m) return; avoid.add(m.name); if (isEgg(m)) eggs++; if (sl.k !== "b") count[m.cat] = (count[m.cat] || 0) + 1; prev = m; });
+      days.push(p);
+    }
+    const n = planIssues(days.flatMap(p => SLOTS.map(sl => p[sl.k]))).length;
+    if (n < bestN) { best = days; bestN = n; } if (!n) break;
   }
-  return days;
+  return best;
+}
+/* contexte d'un jour du planning : dîner de la veille, petit-déjeuner du lendemain, œufs des autres jours */
+function dayCtx(w, di){
+  const d = w.days, prev = di > 0 ? d[di - 1].meals.d : null, next = di < d.length - 1 ? d[di + 1].meals.b : null;
+  let eggs = 0; d.forEach((x, i) => { if (i !== di) SLOTS.forEach(sl => { if (isEgg(x.meals[sl.k])) eggs++; }); });
+  return { prev, next, eggs };
 }
 function bfFilter(ns){
   const st = ns === "prop" ? PROP : INSP;
   return `<div class="filters"><div class="frow"><span class="flabel">Petit-déjeuner</span><div class="chips">
     ${[["", "Sucré et salé"], ["Sucré", "Sucré"], ["Salé", "Salé"]].map(([v, l]) => `<button class="chip" data-act="pdKind" data-ns="${ns}" data-v="${v}" aria-pressed="${(st.pd || "") === v}">${l}</button>`).join("")}</div></div>
-    <p class="muted small">Légers : 10 à 20 minutes, une moitié sucrée, une moitié salée.</p></div>`;
+    <p class="muted small">Légers : 10 minutes au plus, une moitié sucrée, une moitié salée.</p></div>`;
 }
 A.pdKind = ds => { const st = ds.ns === "prop" ? PROP : INSP; st.pd = ds.v;
   if (ds.ns === "prop") { PROP.items = proposeMeals(6, PROP); renderPropModal(); } else { INSP.result = null; render(); } };
@@ -139,7 +183,7 @@ function pvAvoid(){ const s = new Set(); (PV.scope === "week" ? PV.items : [PV.i
 function pvNew(){
   const w = curWeek();
   if (PV.scope === "week") { const ps = proposeWeek({}); PV.items = w.days.map((d, i) => ps[i % 7]); }
-  else PV.items = proposeDay({}, weekUsed(w, PV.di));
+  else PV.items = proposeDay({}, weekUsed(w, PV.di), dayCtx(w, PV.di));
 }
 A.proposeWeek = () => { PV = { scope: "week" }; pvNew(); openPreview(); };
 A.proposeDay = ds => { PV = { scope: "day", di: +ds.d }; pvNew(); openPreview(); };
@@ -235,4 +279,25 @@ function migrate7(){
     });
   }));
   S.v = 7;
+}
+
+/* ---------- version 8 : sans isolat de pois, durées au barème par geste, doublons remplacés, protéines texturées ---------- */
+const V8_REPLACED = { "p-poulet-quinoa-courgette": "l-bol-pois-butternut", "p-poulet-riz-pakchoi": "l-tofu-soyeux-pakchoi", "p-poulet-puree-panais": "l-hachis-pois-panais",
+  "p-poulet-riz-aubergine": "l-soja-donburi-aubergine", "p-parmentier-poulet": "l-tofu-fume-brocoli", "p-bol-avocat": "l-galettes-okara-pois",
+  "p-risotto-riz-poulet": "l-vermicelles-bouillon-tofu", "p-okayu-soir": "l-pot-au-feu-tofu", "p-gnocchis-sarrasin": "l-gateau-pdt-tofu",
+  "p-chawanmushi-riz": "l-soja-miso-soba", "p-oeufs-poches-veloute": "l-veloute-celeri-tofu-soyeux", "p-oeufs-cocotte": "l-quinoa-tofu-soyeux-blettes",
+  "p-tofu-puree-courgette": "l-papillote-tofu-basilic", "p-tofu-quinoa-potimarron": "l-minestrone-pois", "pdj-oeuf-mouillettes": "pdj-omelette-roulee" };
+function migrate8(){
+  const own = S.recipes.filter(r => r.own), oldIds = new Set(S.recipes.filter(r => !r.own).map(r => r.id));
+  S.recipes = DEFAULT_RECIPES.map(recipeToState).concat(own);
+  const fresh = buildDefaultPlan(S.recipes), byId = id => S.recipes.find(r => r.id === id);
+  S.weeks.forEach((w, wi) => w.days.forEach((d, di) => {
+    const src = fresh[wi % fresh.length].days[di % 7].meals;
+    ["b", "l", "d"].forEach(k => {
+      const m = d.meals[k]; if (!m || !m.recipeId || (!oldIds.has(m.recipeId) && !V8_REPLACED[m.recipeId])) return;
+      const r = byId(m.recipeId) || byId(V8_REPLACED[m.recipeId]), nm = r ? mealFromRecipe(r) : copyMeal(src[k] || src.l);
+      nm.id = m.id; protoAdaptMeal(nm, k, kT(k)); d.meals[k] = nm;
+    });
+  }));
+  S.v = 8;
 }

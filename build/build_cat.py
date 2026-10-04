@@ -33,10 +33,10 @@ rep('\n</style>\n</head>', rd('part_css.css')+rd('cat_css.css')+rd('cat_css6.css
 
 # 2. catalogue de recettes : remplacé par la version du protocole à jour
 catalog=('/* ============ CATALOGUE DE RECETTES : PROTOCOLE DE CAT (v2) ============\n'
- '   Niveau 1 : riz, pomme de terre, potimarron, sarrasin, quinoa, avoine sans gluten, soba pur sarrasin ; légumes cuits ; tofu ferme, blanc de poulet, œuf, isolat de pois, okara d\'amande ;\n'
+ '   Niveau 1 : riz, pomme de terre, potimarron, sarrasin, quinoa, avoine sans gluten, soba pur sarrasin ; légumes cuits ; tofu (ferme, soyeux, fumé), blanc ou cuisse de poulet, œuf, protéine de pois ou de soja texturée, okara d\'amande ;\n'
  '   huile d\'olive ou de sésame grillé à cru. Exclus : légumineuses, ail, oignon, fibres crues, fritures, hautes températures.\n'
  '   Étapes linéaires : « Titre — consigne [durée] ». {{ingrédient}} est remplacé par la quantité réelle de la liste. */\n'
- 'const HERBS = "quelques brins";\n'+rd('cat_rec_b.js')+'\n'+rd('cat_rec_1.js')+'\n'+rd('cat_rec_2.js')+'\n'+rd('cat_rec_v6.js')+'\n'+rd('cat_ov_lib.js')+rd('cat_ov_v4a.js')+rd('cat_ov_v4b.js')+rd('cat_ov_v4c.js')+'\nconst DEFAULT_RECIPES = NEW_RECIPES.slice();\nconst SIGNATURE = [];\n\n')
+ 'const HERBS = "quelques brins";\n'+rd('cat_rec_lib.js')+'\n'+rd('cat_rec_b.js')+'\n'+rd('cat_rec_l1.js')+'\n'+rd('cat_rec_l2.js')+'\n'+rd('cat_rec_l3.js')+'\n'+rd('cat_time.js')+'\nconst DEFAULT_RECIPES = NEW_RECIPES.slice();\nconst SIGNATURE = [];\n\n')
 rep_block('/* ============ CATALOGUE DE RECETTES','/* ============ BASE INGRÉDIENTS',catalog)
 # 3. base d'ingrédients
 rep_block('/* ============ BASE INGRÉDIENTS','function norm(s){',rd('cat_db.js')+'\n')
@@ -78,20 +78,24 @@ rep('const STYLES = ["Vapeur Bamboo","Slow cook Bamboo","Cocon & purées","Fraî
 rep('const BASES = ["Riz","Pommes de terre","Pâtes sans gluten","Okara"];','const BASES = ["Riz","Pommes de terre","Quinoa","Avoine","Sarrasin","Vermicelles"];')
 rep('"Okara & douceurs":"crevettes", "Purées & vapeur":"poisson" };','"Okara & douceurs":"crevettes", "Purées & vapeur":"poisson", "Sardines":"poisson" };')
 rep('function emptyDay(name){ return { id: uid(), name, meals: { l: null, d: null } }; }','function emptyDay(name){ return { id: uid(), name, meals: { b: null, l: null, d: null } }; }')
-rep_block('function buildDefaultPlan(recipes){','function defaultState(){','''function buildDefaultPlan(recipes){
+rep_block('function buildDefaultPlan(recipes){','function defaultState(){','''/* planning de départ : rotation des recettes, sans le même ingrédient principal sur deux repas qui se suivent, œufs limités (voir cat_v6.js) */
+function buildDefaultPlan(recipes){
   const rr = pool => { const cats = [...new Set(pool.map(r => r.cat))], bk = cats.map(c => pool.filter(r => r.cat === c)), out = [];
     while (bk.some(b => b.length)) bk.forEach(b => { if (b.length) out.push(b.shift()); }); return out; };
-  const bf = recipes.filter(r => r.st === "Petit-déjeuner"), sw = rr(bf.filter(r => r.go === "Sucré")), sa = rr(bf.filter(r => r.go !== "Sucré")), bks = [];
-  for (let i = 0; i < Math.max(sw.length, sa.length); i++) { if (sw[i]) bks.push(sw[i]); if (sa[i]) bks.push(sa[i]); }
+  const take = (qs, ok) => { for (const q of qs) { const i = q.findIndex(ok); if (i >= 0) { const r = q.splice(i, 1)[0]; q.push(r); return r; } }
+    const q = qs.find(x => x.length); const r = q.shift(); q.push(r); return r; };
+  const bf = recipes.filter(r => r.st === "Petit-déjeuner"), sw = rr(bf.filter(r => r.go === "Sucré")), sa = rr(bf.filter(r => r.go !== "Sucré"));
   const ld = recipes.filter(r => r.st !== "Petit-déjeuner" && r.cat !== "Sardines" && CATS.includes(r.cat));
   const veg = rr(ld.filter(r => isVegCat(r.cat))), meat = rr(ld.filter(r => !isVegCat(r.cat)));
-  const weeks = []; let kb = 0, kv = 0, km = 0, k = 0;
+  const weeks = []; let k = 0, prev = null;
   for (let w = 0; w < 4; w++){
-    const days = [];
+    const days = [], names = new Set(); let eggs = 0;
+    const ok = r => !names.has(r.n) && !clash(prev, r) && !(isEgg(r) && eggs >= EGG_MAX);
+    const put = r => { names.add(r.n); if (isEgg(r)) eggs++; prev = r; return mealFromRecipe(r); };
     for (let d = 0; d < 7; d++){
       const day = emptyDay(DAY_NAMES[d]);
-      day.meals.b = mealFromRecipe(bks[kb++ % bks.length]);
-      ["l", "d"].forEach(sl => { const isMeat = k++ % 5 === 4 && meat.length; day.meals[sl] = mealFromRecipe(isMeat ? meat[km++ % meat.length] : veg[kv++ % veg.length]); });
+      day.meals.b = put(take((w * 7 + d) % 2 ? [sa, sw] : [sw, sa], ok));
+      ["l", "d"].forEach(sl => { const isMeat = k++ % 5 === 4 && meat.length; day.meals[sl] = put(take(isMeat ? [meat, veg] : [veg, meat], ok)); });
       days.push(day);
     }
     weeks.push({ id: uid(), name: "Semaine " + (w + 1), days });
@@ -100,7 +104,7 @@ rep_block('function buildDefaultPlan(recipes){','function defaultState(){','''fu
 }
 ''')
 rep('return { v: 1, font: "editorial", recipes, weeks: buildDefaultPlan(recipes), weights: [], goal: 60, checked: {}, ui: { view: "plan", week: 0 } };',
-    'return { v: 7, font: "editorial", recipes, weeks: buildDefaultPlan(recipes), weights: [], goal: 60, checked: {}, ui: { view: "plan", week: 0 },\n    kcalT: { b: null, l: null, d: null }, vegRatio: 80, autoAdapt: true, autoVeg: true, sensible: false, pantry: [], shopExtra: [], cooked: {}, reint: { start: null, foods: {}, current: null } };')
+    'return { v: 8, font: "editorial", recipes, weeks: buildDefaultPlan(recipes), weights: [], goal: 60, checked: {}, ui: { view: "plan", week: 0 },\n    kcalT: { b: null, l: null, d: null }, vegRatio: 80, autoAdapt: true, autoVeg: true, sensible: false, pantry: [], shopExtra: [], cooked: {}, reint: { start: null, foods: {}, current: null } };')
 rep('''  S.ui = S.ui || { view: "plan", week: 0 }; S.checked = S.checked || {}; S.weights = S.weights || [];
   if (S.goal == null) S.goal = 73;
   S.v = S.v || 1;''','''  S.v = S.v || 1;
@@ -299,12 +303,12 @@ arep('function crRefreshKc(){ const e = $("#crKc"); if (e) e.textContent = "≈ 
 fr_old=app[app.index('const FR_COMMON = {'):app.index('let FR = { min: 0 };')]
 app=app.replace(fr_old,'''const FR_COMMON = {
   f: ["œufs","blanc de poulet","tofu ferme","carotte","courgette","potimarron","butternut","épinards","haricots verts","aubergine","brocoli","panais","persil","ciboulette","thym","bouillon","lait de riz"],
-  g: ["riz basmati","pommes de terre","quinoa","soba","flocons d'avoine","farine de sarrasin","isolat de protéine de pois","okara d'amande","huile d'olive","huile de sésame grillé"]
+  g: ["riz basmati","pommes de terre","quinoa","soba","flocons d'avoine","farine de sarrasin","protéine de pois texturée","okara d'amande","huile d'olive","huile de sésame grillé"]
 };
 ''')
 kg_old=app[app.index('const KEY_GROUPS = ['):app.index('const canonKey')]
 app=app.replace(kg_old,'''const KEY_GROUPS = [["riz cuit","riz cru","riz basmati","riz"],["oeuf","oeufs"],["quinoa cuit","quinoa"],["soba cuites","soba"],["tofu ferme","tofu"],
-  ["isolat de proteine de pois","isolat","proteines de pois","isolat de pois"],["blanc de poulet","poulet"],["huile d'olive","huile"],["flocons d'avoine","avoine"]];
+  ["proteine de pois texturee","proteine de pois texturee (seche)"],["proteine de soja texturee","proteine de soja texturee (seche)"],["blanc de poulet","poulet"],["huile d'olive","huile"],["flocons d'avoine","avoine"]];
 ''')
 extra=app+rd('cat_v6.js')+'''
 function viewInsp(){

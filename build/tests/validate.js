@@ -1,42 +1,128 @@
-const fs=require('fs');
-const norm=s=>String(s||"").toLowerCase().replace(/œ/g,"oe").replace(/æ/g,"ae").replace(/[’`]/g,"'").normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/\s+/g," ").trim();
-global.norm=norm; global.HERBS="quelques brins";
-const load=f=>fs.readFileSync(require('path').join(__dirname,'..',f),'utf8');
-let code=load('cat_db.js')+load('cat_rec_b.js')+load('cat_rec_1.js')+load('cat_rec_2.js')+load('cat_rec_v6.js')+load('cat_ov_lib.js')+load('cat_ov_v4a.js')+load('cat_ov_v4b.js')+load('cat_ov_v4c.js')+load('cat_gen.js')+`
-function lookup(name){const n=norm(name);return ING_DB.find(e=>n.includes(e.k))||null;}
-function unitKind(u){const x=norm(u);if(!x)return "p";if(x==="g"||x==="ml")return "g";if(/(cafe|c\\.? ?a ?c)/.test(x))return "c";if(/(soupe|c\\.? ?a ?s)/.test(x))return "s";if(/(pincee|brins|quelques)/.test(x))return "z";return "p";}
-function ingKcal(i){const q=parseFloat(String(i.q).replace(',','.'));if(!q)return 0;const e=lookup(i.n);if(!e)return 0;switch(unitKind(i.u)){case 'g':return e.g!=null?e.g*q/100:0;case 'c':return e.c!=null?e.c*q:0;case 's':return e.c!=null?e.c*3*q:(e.g!=null?e.g*q*15/100:0);case 'p':return e.p!=null?e.p*q:0;}return 0;}
-const out=[];
-const L3=/\\b(ail|oignons?|echalotes?|poivre|piment|vinaigre|citron|moutarde|pois chiches?|lentilles?|haricots? (blancs?|rouges?|secs?)|falafels?|fritur\\w*|concombre|salade|radis|crudit\\w*|tomate)\\b/;
-NEW_RECIPES.forEach(r=>{
-  const b=r.st==='Petit-déjeuner', P=[];
-  let fec=0,sol=0,iso=0,veg=0,oil=0,egg=0,kc=0,sard=0;
-  r.ing.forEach(i=>{const e=lookup(i.n),q=parseFloat(String(i.q).replace(',','.'))||0;kc+=ingKcal(i);
-    if(!e){if(!/^(sel|eau)/.test(norm(i.n)))P.push('inconnu:'+i.n);return;}
-    if(L3.test(norm(i.n)))P.push('niv3:'+i.n);
-    if(e.n==='r'||e.n==='p2'||e.n==='p3')P.push('nonlisté:'+i.n);
-    if(e.a==='Féculents')fec+=q;
-    else if(e.k==='tofu ferme'||e.k==='tofu'||e.k==='blanc de poulet'||e.k==='poulet'){sol+=q;}
-    else if(e.a==='Œufs'){egg+=q;}
-    else if(e.k==='sardine'){sol+=q;sard+=q;}
-    else if(e.k.indexOf('isolat')===0)iso+=q;
-    else if(e.a==='Légumes')veg+=q;
-    if(e.k.indexOf('huile')===0)oil+=q;
-    if(e.k==='avocat'&&q>30)P.push('avocat>30');
-    if(e.k==='haricots verts'&&q>75)P.push('haricots>75');
-    if(e.k==='courgette'&&q>60)P.push('courgette>60');
+/* Contrôle des recettes fournies et du planning. À lancer après python3 build/build_cat.py :
+     node build/tests/validate.js      → doit afficher « 0 en erreur ».
+   1. Recettes : portions, aliments interdits, ingrédients inconnus, quantités, {{ingrédient}}.
+   2. Durées : chaque étape a ses gestes (cat_time.js), t = somme exacte des étapes, tc = somme des cuissons,
+      petit-déjeuner de BK_MAX minutes au plus.
+   3. Planning : de nombreuses semaines et journées générées par l'application (index.html), le planning de départ
+      et la migration des anciennes données ne doivent jamais servir le même ingrédient principal sur deux repas
+      qui se suivent, ni plus de EGG_MAX repas aux œufs par semaine. */
+const fs = require('fs'), path = require('path');
+const norm = s => String(s || "").toLowerCase().replace(/œ/g, "oe").replace(/æ/g, "ae").replace(/[’`]/g, "'").normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/\s+/g, " ").trim();
+global.norm = norm; global.HERBS = "quelques brins";
+const load = f => fs.readFileSync(path.join(__dirname, '..', f), 'utf8');
+const FILES = ['cat_db.js', 'cat_rec_lib.js', 'cat_rec_b.js', 'cat_rec_l1.js', 'cat_rec_l2.js', 'cat_rec_l3.js', 'cat_time.js', 'cat_gen.js'];
+(0, eval)(FILES.map(load).join('\n') + '\n;global.__R = { NEW_RECIPES, ING_DB, BK_MAX };');
+const { NEW_RECIPES, ING_DB, BK_MAX } = global.__R;
+let errors = 0;
+const out = [], fail = (where, msg) => { errors++; out.push('✗ ' + where + '  ' + msg); };
+
+/* ---------- 1 et 2 : recettes et durées ---------- */
+function lookup(name){ const n = norm(name); return ING_DB.find(e => n.includes(e.k)) || null; }
+function unitKind(u){ const x = norm(u); if (!x) return "p"; if (x === "g" || x === "ml") return "g"; if (/(cafe|c\.? ?a ?c)/.test(x)) return "c"; if (/(soupe|c\.? ?a ?s)/.test(x)) return "s"; if (/(pincee|brins|quelques)/.test(x)) return "z"; return "p"; }
+function ingKcal(i){ const q = parseFloat(String(i.q).replace(',', '.')); if (!q) return 0; const e = lookup(i.n); if (!e) return 0;
+  switch (unitKind(i.u)){ case 'g': return e.g != null ? e.g * q / 100 : 0; case 'c': return e.c != null ? e.c * q : 0; case 's': return e.c != null ? e.c * 3 * q : (e.g != null ? e.g * q * 15 / 100 : 0); case 'p': return e.p != null ? e.p * q : 0; } return 0; }
+const L3 = /\b(ail|oignons?|echalotes?|poivre|piment|vinaigre|citron|moutarde|pois chiches?|lentilles?|haricots? (blancs?|rouges?|secs?)|falafels?|fritur\w*|concombre|salade|radis|crudit\w*|tomate|isolat)\b/;
+const SOLID = ['tofu ferme', 'tofu', 'tofu soyeux', 'tofu fume', 'blanc de poulet', 'cuisse de poulet', 'poulet'];
+const TEXT = ['proteine de pois texturee', 'proteine de soja texturee'];
+const BRACKET = /\s*\[(en parall[eè]le\s+)?(?:(\d+)\s*min\s*\+\s*)?(cuisson\s+)?(\d+)\s*min\]\s*$/i;
+let nPST = 0, nChicken = 0;
+NEW_RECIPES.forEach(r => {
+  const b = r.st === 'Petit-déjeuner', P = [];
+  let fec = 0, sol = 0, pst = 0, veg = 0, oil = 0, egg = 0, kc = 0;
+  r.ing.forEach(i => {
+    const e = lookup(i.n), q = parseFloat(String(i.q).replace(',', '.')) || 0; kc += ingKcal(i);
+    if (L3.test(norm(i.n))) P.push('niv3:' + i.n);
+    if (!e) { if (!/^(sel|eau)/.test(norm(i.n))) P.push('inconnu:' + i.n); return; }
+    if (e.n === 'r' || e.n === 'p2' || e.n === 'p3') P.push('nonlisté:' + i.n);
+    if (e.a === 'Féculents') fec += q;
+    else if (SOLID.indexOf(e.k) >= 0) sol += q;
+    else if (TEXT.indexOf(e.k) >= 0) { pst += q; if (q < 25 || q > 35) P.push('protéine texturée ' + q + ' g (30 g secs)'); }
+    else if (e.a === 'Œufs') egg += q;
+    else if (e.k === 'sardine') sol += q;
+    else if (e.a === 'Légumes') veg += q;
+    if (e.k.indexOf('huile') === 0) oil += q;
+    if (e.k === 'avocat' && q > 30) P.push('avocat>30');
+    if (e.k === 'haricots verts' && q > 75) P.push('haricots>75');
+    if (e.k === 'courgette' && q > 60) P.push('courgette>60');
   });
-  const solT=sol+egg*50;
-  if(b){ if(fec<25||fec>100)P.push('fec b '+fec); if(kc>270)P.push('kcal b '+Math.round(kc)); }
-  else { if(fec<120||fec>150)P.push('fec '+fec); if(solT<80||solT>100)P.push('sol '+solT); if(iso<20||iso>25)P.push('iso '+iso); if(veg<150||veg>200)P.push('veg '+veg); }
-  if(!b&&oil!==1)P.push('huile '+oil);
-  if(!r.steps.length)P.push('nosteps');
-  if(b){ let tot=0,cook=0; r.steps.forEach(s=>{ if(/^Avant de commencer/i.test(s))return; const m=s.match(/\\[(cuisson\\s+)?(\\d+(?:[.,]\\d+)?)\\s*min\\]\\s*$/i); if(!m){P.push('durée manquante:'+s.slice(0,25));return;} const v=parseFloat(m[2].replace(',','.')); tot+=v; if(m[1])cook+=v; });
-    if(tot>15)P.push('durée '+tot+' min > 15'); if(tot!==+r.t)P.push('t='+r.t+' ≠ somme des étapes '+tot); if(cook!==+r.tc)P.push('tc='+r.tc+' ≠ cuissons '+cook); }
-  r.steps.forEach(s=>{(s.match(/\\{\\{([^}]+)\\}\\}/g)||[]).forEach(t=>{const k=norm(t.slice(2,-2));if(!r.ing.some(i=>norm(i.n).includes(k)||k.includes(norm(i.n))))P.push('token?'+k);});
-    if(/\\b(dor[eé]|rissol|friture|frire|croustill|four\\b|rôti|saisir|griller|vinaigre|citron|ail\\b|oignon|cru\\b)/i.test(s.replace(/huile[^.]*crue?/gi,'').replace(/ crue? /g,' ')))P.push('mot?:'+(s.match(/\\b(dor[eé]|rissol|friture|frire|croustill|four\\b|rôti|saisir|griller|vinaigre|citron|ail\\b|oignon)/i)||[])[0]);});
-  out.push((P.length?'✗':'✓')+' '+r.id+' kcal='+Math.round(kc)+' fec='+fec+' sol='+solT+' iso='+iso+' veg='+veg+(P.length?'  '+P.join(' | '):''));
+  if (pst) nPST++; if (r.cat === 'Poulet') nChicken++;
+  const solT = sol + egg * 50 + pst * 3;
+  if (b) { if (fec < 25 || fec > 100) P.push('fec b ' + fec); if (kc > 270) P.push('kcal b ' + Math.round(kc)); }
+  else { if (fec < 120 || fec > 150) P.push('fec ' + fec); if (solT < 80 || solT > 100) P.push('protéine ' + solT); if (veg < 150 || veg > 200) P.push('veg ' + veg); if (oil !== 1) P.push('huile ' + oil); }
+  if (!r.steps.length) P.push('nosteps');
+  /* durées */
+  (r.timeErr || []).forEach(e => P.push(e));
+  let tot = 0, cook = 0;
+  r.steps.forEach(s => {
+    if (/^Avant de commencer/i.test(s)) return;
+    if (/\[\[/.test(s)) { P.push('gestes non calculés:' + s.slice(0, 30)); return; }
+    const m = s.match(BRACKET); if (!m) { P.push('durée manquante:' + s.slice(0, 30)); return; }
+    if (m[1]) return;                                   /* en parallèle : pas dans le total */
+    const a = m[2] ? +m[2] : 0, v = +m[4];
+    if (m[3]) { tot += a + v; cook += v; } else tot += v;
+  });
+  if (tot !== +r.t) P.push('t=' + r.t + ' ≠ somme des étapes ' + tot);
+  if (cook !== +r.tc) P.push('tc=' + r.tc + ' ≠ cuissons ' + cook);
+  if (b && tot > BK_MAX) P.push('durée ' + tot + ' min > ' + BK_MAX);
+  if (b && /la veille/i.test(r.steps.join(' ')) && !/(riz|quinoa)[^.]*la veille/i.test(r.steps.join(' '))) P.push('préparation de la veille');
+  /* {{ingrédient}} et mots interdits */
+  r.steps.forEach(s => {
+    (s.match(/\{\{([^}]+)\}\}/g) || []).forEach(t => { const k = norm(t.slice(2, -2)); if (!r.ing.some(i => norm(i.n).includes(k) || k.includes(norm(i.n)))) P.push('token?' + k); });
+    const w = s.replace(/huile[^.]*crue?/gi, '').replace(/ crue? /g, ' ').match(/\b(dor[eé]|rissol|friture|frire|croustill|four\b|rôti|saisir|griller|vinaigre|citron|ail\b|oignon|cru\b|isolat)/i);
+    if (w) P.push('mot?:' + w[0]);
+  });
+  if (P.length) fail(r.id, P.join(' | '));
+  else out.push('✓ ' + r.id + '  ' + r.t + ' min (cuisson ' + r.tc + '), ' + Math.round(kc) + ' kcal' + (b ? '' : ', protéine ' + solT + ' g, légumes ' + veg + ' g'));
 });
-console.log(out.join('\\n'));console.log(NEW_RECIPES.length+' recettes, '+out.filter(x=>x[0]==='✗').length+' en erreur');
-`;
-eval(code);
+if (NEW_RECIPES.length !== 60) fail('catalogue', NEW_RECIPES.length + ' recettes au lieu de 60');
+if (nChicken !== 4) fail('catalogue', nChicken + ' recettes de poulet au lieu de 4');
+if (nPST > 8) fail('catalogue', nPST + ' recettes à la protéine texturée : quelques plats seulement (8 au plus)');
+const ids = NEW_RECIPES.map(r => r.id); ids.forEach((id, i) => { if (ids.indexOf(id) !== i) fail(id, 'identifiant en double'); });
+
+/* ---------- 3 : planning, avec le code de l'application ---------- */
+function loadApp(){
+  const html = fs.readFileSync(path.join(__dirname, '..', '..', 'index.html'), 'utf8');
+  const code = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(m => m[1]).join('\n');
+  const noop = new Proxy(function(){}, { get: (t, k) => k === Symbol.toPrimitive ? () => "" : noop, apply: () => noop, construct: () => noop });
+  let store = null;
+  Object.assign(global, { window: global, document: noop, location: { hash: "" }, addEventListener(){}, requestAnimationFrame(){}, setTimeout(){},
+    matchMedia: () => ({ matches: false, addEventListener(){} }), localStorage: { getItem: () => store, setItem(k, v){ store = v; }, removeItem(){} } });
+  (0, eval)(code + '\n;global.__A = { proposeWeek, proposeDay, planIssues, buildDefaultPlan, dayCtx, SLOTS, EGG_MAX, migrateAll, defaultState, getS: () => S, setS: x => { S = x; } };');
+  return global.__A;
+}
+let A = null;
+try { A = loadApp(); } catch (e) { fail('planning', "impossible de charger index.html (lancer d'abord python3 build/build_cat.py) : " + e.message); }
+if (A) {
+  const seqOf = days => days.flatMap(p => A.SLOTS.map(s => (p.meals || p)[s.k]));
+  const N = 200; let bad = 0, first = '';
+  for (let i = 0; i < N; i++){ const is = A.planIssues(seqOf(A.proposeWeek({}))); if (is.length) { bad++; first = first || is.join(' ; '); } }
+  if (bad) fail('planning', bad + ' semaines sur ' + N + ' (« une semaine ») ne respectent pas les règles, ex. : ' + first);
+  else out.push('✓ planning « une semaine » : ' + N + ' semaines générées, aucune règle enfreinte');
+  bad = 0; first = '';
+  for (let i = 0; i < N; i++){ const is = A.planIssues(seqOf([A.proposeDay({})])); if (is.length) { bad++; first = first || is.join(' ; '); } }
+  if (bad) fail('planning', bad + ' journées sur ' + N + ' (« une journée ») ne respectent pas les règles, ex. : ' + first);
+  else out.push('✓ planning « une journée » : ' + N + ' journées générées, aucune règle enfreinte');
+  /* « une journée » dans une semaine existante : jour par jour, avec la veille et le lendemain */
+  bad = 0; first = '';
+  for (let i = 0; i < 40; i++){
+    const w = { days: A.buildDefaultPlan(A.getS().recipes)[0].days };
+    w.days.forEach((d, di) => { const p = A.proposeDay({}, new Set(), A.dayCtx(w, di)); A.SLOTS.forEach(s => { if (p[s.k]) d.meals[s.k] = p[s.k]; }); });
+    const is = A.planIssues(seqOf(w.days)); if (is.length) { bad++; first = first || is.join(' ; '); }
+  }
+  if (bad) fail('planning', bad + ' semaines sur 40 refaites jour par jour ne respectent pas les règles, ex. : ' + first);
+  else out.push('✓ planning jour par jour dans une semaine : 40 semaines, aucune règle enfreinte');
+  A.buildDefaultPlan(A.getS().recipes).forEach(w => { const is = A.planIssues(seqOf(w.days)); if (is.length) fail('planning de départ', w.name + ' : ' + is.join(' ; ')); });
+  /* migration : d'anciennes données (version 7) avec des recettes supprimées */
+  const S0 = A.defaultState(); S0.v = 7;
+  const gone = ["p-parmentier-poulet", "p-oeufs-cocotte", "pdj-oeuf-mouillettes", "p-tofu-puree-courgette"];
+  S0.weeks[0].days[0].meals.l.recipeId = gone[0]; S0.weeks[0].days[1].meals.d.recipeId = gone[1]; S0.weeks[0].days[2].meals.b.recipeId = gone[2]; S0.weeks[1].days[3].meals.l.recipeId = gone[3];
+  gone.forEach(id => S0.recipes.push({ id, n: "ancienne recette " + id, ing: [], steps: [] }));
+  A.setS(S0); A.migrateAll(); const S1 = A.getS();
+  const left = S1.weeks.flatMap(w => w.days.flatMap(d => A.SLOTS.map(s => d.meals[s.k]))).filter(m => m && gone.indexOf(m.recipeId) >= 0);
+  if (S1.v !== 8) fail('migration', 'version ' + S1.v + ' au lieu de 8');
+  if (left.length || S1.recipes.some(r => gone.indexOf(r.id) >= 0)) fail('migration', 'des recettes supprimées restent dans les données');
+  if (!left.length && S1.v === 8) out.push('✓ migration 8 : recettes supprimées remplacées, version 8');
+}
+console.log(out.join('\n'));
+console.log(NEW_RECIPES.length + ' recettes, ' + errors + ' en erreur');
+process.exitCode = errors ? 1 : 0;
