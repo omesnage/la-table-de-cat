@@ -31,6 +31,8 @@ NEW_RECIPES.forEach(r=>{
   else { if(fec<120||fec>150)P.push('fec '+fec); if(solT<80||solT>100)P.push('sol '+solT); if(iso<20||iso>25)P.push('iso '+iso); if(veg<150||veg>200)P.push('veg '+veg); }
   if(!b&&oil!==1)P.push('huile '+oil);
   if(!r.steps.length)P.push('nosteps');
+  if(b){ let tot=0,cook=0; r.steps.forEach(s=>{ if(/^Avant de commencer/i.test(s))return; const m=s.match(/\\[(cuisson\\s+)?(\\d+(?:[.,]\\d+)?)\\s*min\\]\\s*$/i); if(!m){P.push('durée manquante:'+s.slice(0,25));return;} const v=parseFloat(m[2].replace(',','.')); tot+=v; if(m[1])cook+=v; });
+    if(tot>15)P.push('durée '+tot+' min > 15'); if(tot!==+r.t)P.push('t='+r.t+' ≠ somme des étapes '+tot); if(cook!==+r.tc)P.push('tc='+r.tc+' ≠ cuissons '+cook); }
   r.steps.forEach(s=>{(s.match(/\\{\\{([^}]+)\\}\\}/g)||[]).forEach(t=>{const k=norm(t.slice(2,-2));if(!r.ing.some(i=>norm(i.n).includes(k)||k.includes(norm(i.n))))P.push('token?'+k);});
     if(/\\b(dor[eé]|rissol|friture|frire|croustill|four\\b|rôti|saisir|griller|vinaigre|citron|ail\\b|oignon|cru\\b)/i.test(s.replace(/huile[^.]*crue?/gi,'').replace(/ crue? /g,' ')))P.push('mot?:'+(s.match(/\\b(dor[eé]|rissol|friture|frire|croustill|four\\b|rôti|saisir|griller|vinaigre|citron|ail\\b|oignon)/i)||[])[0]);});
   out.push((P.length?'✗':'✓')+' '+r.id+' kcal='+Math.round(kc)+' fec='+fec+' sol='+solT+' iso='+iso+' veg='+veg+(P.length?'  '+P.join(' | '):''));

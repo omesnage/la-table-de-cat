@@ -219,3 +219,20 @@ function migrate6(){
   }));
   S.v = 6;
 }
+
+/* ---------- version 7 : petits-déjeuners ramenés à 15 minutes au plus (mise en place + cuisson + dressage) ---------- */
+const V7_REPLACED = { "pdj-flan-vanille": "pdj-creme-avoine", "pdj-moelleux-sarrasin": "pdj-crepe-sarrasin-banane", "pdj-puree-oeuf-poche": "pdj-oeufs-brouilles", "pdj-chawanmushi": "pdj-soupe-oeuf-tofu" };
+function migrate7(){
+  const own = S.recipes.filter(r => r.own), oldIds = new Set(S.recipes.filter(r => !r.own).map(r => r.id));
+  S.recipes = DEFAULT_RECIPES.map(recipeToState).concat(own);
+  const fresh = buildDefaultPlan(S.recipes), byId = id => S.recipes.find(r => r.id === id);
+  S.weeks.forEach((w, wi) => w.days.forEach((d, di) => {
+    const src = fresh[wi % fresh.length].days[di % 7].meals;
+    ["b", "l", "d"].forEach(k => {
+      const m = d.meals[k]; if (!m || !m.recipeId || !oldIds.has(m.recipeId)) return;
+      const r = byId(m.recipeId) || byId(V7_REPLACED[m.recipeId]), nm = r ? mealFromRecipe(r) : copyMeal(src[k] || src.l);
+      nm.id = m.id; protoAdaptMeal(nm, k, kT(k)); d.meals[k] = nm;
+    });
+  }));
+  S.v = 7;
+}
