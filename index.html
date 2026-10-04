@@ -629,6 +629,29 @@ button,.btn,.chip,.mt,.dt,.wa,.mini,.mini-add,.qb,.qx,.chk,.dur{touch-action:man
 .proto2 .tbl th,.proto2 .tbl td{border:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
 .proto2 .tbl th{background:var(--wash);font-weight:500}
 @media(max-width:560px){.proto2 .tbl{font-size:12.5px}.proto2 .tbl th,.proto2 .tbl td{padding:6px 5px}}
+/* ============ v6 : petit-déjeuner, recette visible, aperçu des menus, FODMAP ============ */
+.mb.new{background:var(--celadon);color:#fff}
+.peek-d{margin:10px 0 4px;border-top:1px solid var(--line);padding-top:8px}
+.peek-d>summary{cursor:pointer;display:flex;align-items:center;gap:8px;min-height:44px;color:var(--celadon);font-size:14.5px;list-style:none}
+.peek-d>summary::-webkit-details-marker{display:none}
+.peek-d>summary .ico-s{width:1.1em;height:1.1em}
+.peek h5{margin:14px 0 6px;font:500 12px/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.peek-ing{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:4px 14px;font-size:14px}
+.peek-ing li{padding:3px 0;border-bottom:1px dotted var(--line)}
+.peek .steps{margin:0;padding-left:20px;font-size:14.5px;line-height:1.55}
+.peek .steps li{margin-bottom:10px}
+.peek .step-h{font-weight:500;display:block}
+.peek .steps p{margin:2px 0 0}
+.peek-tip{margin:12px 0 0;padding:10px 12px;background:var(--wash);border-radius:10px;font-size:14px}
+.pv-day{margin-top:14px}
+.pv-meal{display:flex;gap:8px;align-items:flex-start;padding:8px 0;border-top:1px solid var(--line)}
+.pv-meal details{flex:1;min-width:0}
+.pv-meal summary{cursor:pointer;display:grid;grid-template-columns:1fr auto;gap:2px 10px;list-style:none;min-height:44px;align-content:center}
+.pv-meal summary::-webkit-details-marker{display:none}
+.pv-meal .slot{grid-column:1/-1;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.pv-n{font:400 17px/1.3 var(--serif);color:var(--ink);min-width:0;overflow-wrap:anywhere}
+.pv-k{font-size:13px;color:var(--mute);white-space:nowrap;align-self:end}
+@media (max-width:720px){.peek-ing{grid-template-columns:1fr}.pv-meal{flex-direction:column}.pv-meal .mini{align-self:flex-start}}
 
 </style>
 </head>
@@ -654,80 +677,146 @@ button,.btn,.chip,.mt,.dt,.wa,.mini,.mini-add,.qb,.qx,.chk,.dur{touch-action:man
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script>
 /* ============ CATALOGUE DE RECETTES : PROTOCOLE DE CAT (v2) ============
-   Niveau 1 : riz, pomme de terre, potimarron, sarrasin, quinoa, avoine sans gluten, millet ; légumes cuits ; tofu ferme, blanc de poulet, œuf, isolat de pois, okara d'amande ;
+   Niveau 1 : riz, pomme de terre, potimarron, sarrasin, quinoa, avoine sans gluten, soba pur sarrasin ; légumes cuits ; tofu ferme, blanc de poulet, œuf, isolat de pois, okara d'amande ;
    huile d'olive ou de sésame grillé à cru. Exclus : légumineuses, ail, oignon, fibres crues, fritures, hautes températures.
    Étapes linéaires : « Titre — consigne [durée] ». {{ingrédient}} est remplacé par la quantité réelle de la liste. */
 const HERBS = "quelques brins";
-/* ============ PETITS-DÉJEUNERS (protocole de Cat) ============
+/* ============ PETITS-DÉJEUNERS LÉGERS (environ 250 kcal) : 8 sucrés, 8 salés ============
    Féculent 80-100 g cuits (ou 30 g de flocons d'avoine / farine de sarrasin crus), protéine solide 50-60 g,
    1 œuf OU 15 g d'isolat de pois, légumes facultatifs, 1 c. à café d'huile à cru. Tout est cuit, tiède, sans friture ni coloration. */
 const NR = (id, n, cat, st, base, t, d, ing, steps, tip, tc) =>
   ({ id, n, cat, st, base, t, d, tc: tc || 0, ing: ing.map(([n, q, u]) => ({ n, q, u })), steps, tip });
 const BK = "Petit-déjeuner";
+const PDJ = (id, n, cat, base, t, d, ing, steps, tip, tc, go) => Object.assign(NR(id, n, cat, BK, base, t, d, ing, steps, tip, tc), { go });
 const BREAKFAST = [
-NR("pdj-porridge-sale","Porridge salé d'avoine sans gluten, poulet effiloché, œuf poché & épinards fondus","Poulet",BK,"Avoine",25,1,
- [["flocons d'avoine",30,"g"],["bouillon",160,"ml"],["blanc de poulet",55,"g"],["œuf",1,"pièce"],["épinards",40,"g"],["huile d'olive",1,"c. à café"],["thym","",HERBS],["sel","","1 pincée"]],
- ["Le poulet — Sortir le blanc de poulet ({{blanc de poulet}}) 10 minutes avant, l'ôter de sa peau et le couper en deux dans l'épaisseur. Le plonger dans le bouillon frémissant (jamais bouillant) avec le thym et pocher à couvert, puis le retirer et l'effilocher à deux fourchettes. [cuisson 12 min]",
-  "Le porridge — Dans le même bouillon, verser les flocons d'avoine ({{flocons d'avoine}}) et remuer à feu doux jusqu'à une texture crémeuse, comme un risotto de céréale. [cuisson 6 min]",
-  "Les épinards — Laisser tomber les jeunes pousses ({{épinards}}) 3 minutes à la vapeur ou dans la chaleur du porridge, puis les presser légèrement. [cuisson 3 min]",
-  "L'œuf poché — Dans une petite casserole d'eau frémissante salée, faire un léger tourbillon et y glisser l'œuf ({{œuf}}). Pocher jusqu'à un blanc tremblant et un jaune coulant, égoutter sur du papier absorbant. [cuisson 3 min]",
-  "Dresser — Porridge dans un bol tiède, épinards au centre, poulet effiloché autour, œuf poché posé dessus. Terminer par un filet d'huile d'olive crue ({{huile d'olive}}) et quelques feuilles de thym. [2 min]"],
- "Un porridge réussi se mesure à la cuillère : il doit tomber lentement, jamais en bloc.",30),
-NR("pdj-galette-sarrasin","Galette moelleuse de sarrasin, tofu brouillé aux épinards & œuf mollet","Tofu",BK,"Sarrasin",25,2,
- [["farine de sarrasin",30,"g"],["eau tiède",70,"ml"],["tofu ferme",55,"g"],["épinards",50,"g"],["œuf",1,"pièce"],["huile d'olive",1,"c. à café"],["sel","","1 pincée"],["persil","",HERBS]],
- ["La pâte — Fouetter la farine de sarrasin ({{farine de sarrasin}}) avec l'eau tiède ({{eau tiède}}) et une pincée de sel jusqu'à une pâte lisse et fluide. Laisser reposer 10 minutes : elle gonfle et devient souple. [10 min]",
-  "Les épinards — Laisser tomber les jeunes pousses ({{épinards}}) 3 minutes à la vapeur, les presser et les hacher grossièrement. [cuisson 3 min]",
-  "Le tofu brouillé — Émietter le tofu ferme ({{tofu ferme}}) à la fourchette et le réchauffer 4 minutes à feu très doux avec les épinards et une cuillère d'eau, jusqu'à une texture de petits grains tendres. Aucune coloration. [cuisson 4 min]",
-  "L'œuf mollet — Cuire l'œuf ({{œuf}}) 7 minutes à la vapeur, le passer 1 minute sous l'eau froide et l'écaler délicatement. [cuisson 7 min]",
-  "La galette — Dans une poêle antiadhésive à feu doux, étaler une louche de pâte en galette fine et cuire sans la faire dorer, jusqu'à ce que les bords se détachent. La retourner 30 secondes. [cuisson 4 min]",
-  "Dresser — Galette dans une assiette tiède, tofu aux épinards au centre, œuf mollet coupé en deux dessus, filet d'huile d'olive crue ({{huile d'olive}}) et persil ciselé. [2 min]"],
- "Sans gluten, la galette de sarrasin pur se plie mal à chaud : pose-la à plat et garnis-la plutôt que de la rouler.",20),
-NR("pdj-riz-tiede-sesame","Riz tiède du matin, tofu vapeur, œuf mollet & huile de sésame grillé","Tofu",BK,"Riz",25,1,
- [["riz cuit",90,"g"],["tofu ferme",55,"g"],["œuf",1,"pièce"],["carotte",70,"g"],["huile de sésame grillé",1,"c. à café"],["ciboulette","",HERBS],["sel","","1 pincée"]],
- ["Mise en place — Presser le tofu ferme ({{tofu ferme}}) 10 minutes dans du papier absorbant, le couper en dés de 2 cm. Éplucher la carotte ({{carotte}}) et la tailler en fines rondelles. [8 min]",
-  "La vapeur — Poser dés de tofu et rondelles de carotte sur un papier sulfurisé percé dans le panier du Bamboo, et laisser cuire en mode STEAM jusqu'à ce que la carotte s'écrase entre deux doigts. [cuisson 14 min]",
-  "Le riz — Réchauffer le riz basmati cuit ({{riz cuit}}) 3 minutes dans la vapeur, avec une cuillère d'eau, pour retrouver sa tendreté. [cuisson 3 min]",
-  "L'œuf mollet — Ajouter l'œuf ({{œuf}}) dans le panier pour 7 minutes de vapeur, puis le passer sous l'eau froide et l'écaler. [cuisson 7 min]",
-  "Dresser — Riz en dôme dans un bol tiède, tofu et carotte en éventail, œuf mollet coupé en deux au centre. Ajouter une pincée de sel et verser l'huile de sésame grillé ({{huile de sésame grillé}}) en filet, puis la ciboulette (pointes vertes). [2 min]"],
- "L'huile de sésame grillé se verse toujours à la fin et à froid : chauffée, elle perd son parfum.",15),
-NR("pdj-puree-oeuf-poulet","Purée tiède de pomme de terre et potimarron, œuf poché & poulet effiloché","Poulet",BK,"Pommes de terre",30,1,
- [["pommes de terre",90,"g"],["potimarron",70,"g"],["blanc de poulet",55,"g"],["œuf",1,"pièce"],["lait de riz",40,"ml"],["huile d'olive",1,"c. à café"],["persil","",HERBS],["sel","","1 pincée"]],
- ["Tailler — Éplucher pomme de terre ({{pommes de terre}}) et potimarron ({{potimarron}}), les tailler en cubes de 3 cm. [6 min]",
-  "La vapeur — Cuire les cubes avec le blanc de poulet ({{blanc de poulet}}), posé directement sur l'inox, en mode STEAM : tout est prêt en même temps. [cuisson 22 min]",
-  "La purée — Écraser pomme de terre et potimarron au presse-purée avec le lait de riz tiède ({{lait de riz}}) et une pincée de sel, jusqu'à une texture de crème épaisse. [3 min]",
-  "L'œuf poché — Dans une casserole d'eau frémissante salée, pocher l'œuf ({{œuf}}) jusqu'à un blanc pris et un jaune coulant. [cuisson 3 min]",
-  "Dresser — Purée en nid dans une assiette creuse tiède, poulet effiloché autour, œuf poché au centre, filet d'huile d'olive crue ({{huile d'olive}}) et persil ciselé. [2 min]"],
- "Le lait de riz tiède donne une purée plus soyeuse que l'eau, sans lactose.",25),
-NR("pdj-chawanmushi","Chawanmushi : flan d'œuf vapeur au poulet & à la carotte, riz tiède","Œufs",BK,"Riz",25,2,
- [["œuf",1,"pièce"],["bouillon",120,"ml"],["blanc de poulet",55,"g"],["carotte",50,"g"],["riz cuit",90,"g"],["ciboulette","",HERBS],["huile de sésame grillé",1,"c. à café"],["sel","","1 pincée"]],
- ["Le bouillon — Faire tiédir le bouillon ({{bouillon}}) sans le faire bouillir. Battre l'œuf ({{œuf}}) à la fourchette sans faire de mousse, ajouter le bouillon tiède et une pincée de sel, puis filtrer à travers une passoire fine pour une texture lisse. [5 min]",
-  "Les garnitures — Émincer le blanc de poulet ({{blanc de poulet}}) en lamelles de 3 mm et la carotte ({{carotte}}) en petits dés de 5 mm. Les répartir au fond d'un ramequin. [5 min]",
-  "Le flan — Verser le mélange d'œuf dans le ramequin, couvrir d'une feuille de papier sulfurisé et cuire à la vapeur douce, couvercle légèrement entrouvert, jusqu'à ce que le flan tremble comme une panna cotta. [cuisson 14 min]",
-  "Le riz — Réchauffer le riz basmati ({{riz cuit}}) 3 minutes à la vapeur. [cuisson 3 min]",
-  "Dresser — Flan au centre d'une assiette tiède, riz à côté, ciboulette (pointes vertes) et huile de sésame grillé ({{huile de sésame grillé}}) en filet. [2 min]"],
- "Une vapeur trop vive crée des bulles et un flan troué : laisse le couvercle entrouvert pour la baisser.",20),
-NR("pdj-pouding-avoine","Pouding d'avoine à la vanille, crème de tofu & isolat de pois","Tofu",BK,"Avoine",20,1,
- [["flocons d'avoine",30,"g"],["lait de riz",150,"ml"],["tofu ferme",55,"g"],["isolat de protéine de pois",15,"g"],["sirop d'érable",1,"c. à café"],["vanille naturelle",1,"pincée"],["huile d'olive",1,"c. à café"]],
- ["L'avoine — Chauffer le lait de riz ({{lait de riz}}) doucement, y verser les flocons d'avoine ({{flocons d'avoine}}) et remuer jusqu'à une texture épaisse et crémeuse. [cuisson 6 min]",
-  "La crème de tofu — Mixer le tofu ferme ({{tofu ferme}}) avec l'isolat ({{isolat de protéine de pois}}), la vanille, le sirop d'érable ({{sirop d'érable}}) et une cuillère d'eau tiède jusqu'à une crème parfaitement lisse. [3 min]",
-  "Le mélange — Hors du feu, incorporer la crème de tofu au porridge en fouettant : l'ensemble devient velouté et brillant. [2 min]",
-  "Dresser — Servir tiède dans un bol, un filet d'huile d'olive crue ({{huile d'olive}}) au centre. [1 min]"],
- "Verse l'isolat toujours hors du feu : il garde ainsi son velouté sans grumeaux.",8),
-NR("pdj-crepe-sarrasin-tofu","Crêpes épaisses de sarrasin, crème de tofu à la vanille & sirop d'érable","Tofu",BK,"Sarrasin",25,2,
- [["farine de sarrasin",30,"g"],["lait de riz",80,"ml"],["œuf",1,"pièce"],["tofu ferme",55,"g"],["vanille naturelle",1,"pincée"],["sirop d'érable",1,"c. à café"],["huile d'olive",1,"c. à café"]],
- ["La pâte — Fouetter la farine de sarrasin ({{farine de sarrasin}}) avec l'œuf ({{œuf}}) et le lait de riz tiède ({{lait de riz}}) jusqu'à une pâte lisse, épaisse comme une crème. Laisser reposer 10 minutes. [10 min]",
-  "La crème de tofu — Mixer le tofu ferme ({{tofu ferme}}) avec la vanille et le sirop d'érable ({{sirop d'érable}}) jusqu'à une crème lisse et légère. [3 min]",
-  "Les crêpes — Dans une poêle antiadhésive à feu doux, déposer deux petites louches de pâte pour former des crêpes épaisses de 8 cm. Cuire sans coloration, jusqu'à ce que la surface soit mate, puis retourner 20 secondes. [cuisson 6 min]",
-  "Dresser — Empiler les crêpes tièdes, napper de crème de tofu et terminer par un filet d'huile d'olive crue ({{huile d'olive}}). [2 min]"],
- "Des crêpes de sarrasin épaisses (type blinis) tiennent mieux sans gluten que des crêpes fines.",12),
-NR("pdj-millet-potimarron","Crème de millet au potimarron, œuf mollet & tofu vapeur","Tofu",BK,"Millet",30,1,
- [["millet cuit",90,"g"],["potimarron",80,"g"],["tofu ferme",55,"g"],["œuf",1,"pièce"],["lait de riz",50,"ml"],["huile d'olive",1,"c. à café"],["persil","",HERBS],["sel","","1 pincée"]],
- ["Tailler — Éplucher le potimarron ({{potimarron}}) et le couper en cubes de 3 cm. Presser le tofu ferme ({{tofu ferme}}) et le couper en dés de 2 cm. [8 min]",
-  "La vapeur — Cuire potimarron et tofu sur papier sulfurisé percé en mode STEAM, jusqu'à ce que le potimarron s'écrase à la fourchette. [cuisson 18 min]",
-  "La crème — Écraser le potimarron avec le millet cuit ({{millet cuit}}) et le lait de riz tiède ({{lait de riz}}) jusqu'à une crème épaisse et orangée, salée d'une pincée. [3 min]",
-  "L'œuf mollet — Cuire l'œuf ({{œuf}}) 7 minutes à la vapeur, le passer sous l'eau froide et l'écaler. [cuisson 7 min]",
-  "Dresser — Crème de millet dans un bol tiède, dés de tofu autour, œuf mollet coupé en deux, filet d'huile d'olive crue ({{huile d'olive}}) et persil ciselé. [2 min]"],
- "Le millet rincé puis cuit à l'excès donne la texture crémeuse : n'hésite pas à le travailler à la cuillère.",25)
+/* ---------------- SUCRÉS (environ 250 kcal) ---------------- */
+PDJ("pdj-porridge-sarrasin","Porridge de flocons de sarrasin à la vanille, banane écrasée & nuage de yaourt de soja","Protéines végétales","Sarrasin",12,1,
+ [["flocons de sarrasin",30,"g"],["lait de soja",130,"ml"],["banane",40,"g"],["yaourt de soja nature",60,"g"],["vanille naturelle",1,"pincée"]],
+ ["Avant de commencer — Ustensiles : la cuve du rice cooker Bamboo avec son panier vapeur, un bol en verre ou en inox de 400 ml, une fourchette, une cuillère. Verser 250 ml d'eau dans la cuve.",
+  "Le porridge — Dans le bol, mélanger les flocons de sarrasin ({{flocons de sarrasin}}), le lait de soja ({{lait de soja}}) et la vanille. Poser le bol dans le panier et lancer le mode STEAM : les flocons gonflent doucement et épaississent, sans jamais accrocher. [cuisson 10 min]",
+  "La banane — Pendant ce temps, écraser la banane ({{banane}}) à la fourchette en purée lisse, dans une petite assiette. [2 min]",
+  "Le yaourt — Fouetter le yaourt de soja ({{yaourt de soja nature}}) 20 secondes à la fourchette pour le rendre lisse et mousseux. [1 min]",
+  "Dressage — Sortir le bol du panier avec un torchon. Verser le porridge dans un joli bol tiède, creuser un puits au centre et y déposer la banane, puis poser le yaourt en quenelle sur le dessus avec une cuillère passée sous l'eau chaude. Parsemer d'une pincée de vanille. [2 min]"],
+ "Le sarrasin cuit à la vapeur dans un bol ne colle pas et garde son parfum de noisette : c'est le secret de ce porridge soyeux.",10,"Sucré"),
+PDJ("pdj-verrine-myrtilles","Verrine de yaourt de soja, myrtilles compotées à la vapeur & avoine ramollie","Protéines végétales","Avoine",10,1,
+ [["flocons d'avoine",25,"g"],["lait d'avoine",60,"ml"],["yaourt de soja nature",100,"g"],["myrtilles",50,"g"],["vanille naturelle",1,"pincée"]],
+ ["Avant de commencer — Ustensiles : le rice cooker Bamboo (cuve et panier vapeur), un ramequin résistant à la chaleur, un verre ou un petit bol transparent, une cuillère à long manche.",
+  "La compote — Mettre les myrtilles ({{myrtilles}}) dans le ramequin, couvrir d'une cuillère d'eau et les cuire à la vapeur (mode STEAM) jusqu'à ce qu'elles éclatent et rendent leur jus violet. Les écraser légèrement à la cuillère. [cuisson 6 min]",
+  "L'avoine — Dans le verre, mouiller les flocons d'avoine ({{flocons d'avoine}}) avec le lait d'avoine tiède ({{lait d'avoine}}) et laisser gonfler pendant la cuisson de la compote : ils deviennent tendres comme un crumble ramolli. [5 min]",
+  "Le yaourt — Parfumer le yaourt de soja ({{yaourt de soja nature}}) avec la vanille et le fouetter à la cuillère. [1 min]",
+  "Dressage — Monter la verrine en trois couches bien nettes : l'avoine au fond, le yaourt au milieu, la compote de myrtilles tiède en nappage, en la faisant couler le long du verre. [2 min]"],
+ "Servir la compote encore tiède sur le yaourt frais : le contraste est la partie gourmande de cette verrine.",6,"Sucré"),
+PDJ("pdj-skyr-banane","Bol de skyr de soja tiède, banane vanillée & flocons de sarrasin gonflés","Protéines végétales","Sarrasin",8,1,
+ [["skyr de soja",100,"g"],["banane",50,"g"],["flocons de sarrasin",25,"g"],["lait de riz",40,"ml"],["vanille naturelle",1,"pincée"]],
+ ["Avant de commencer — Ustensiles : le rice cooker Bamboo (cuve et panier vapeur), un petit bol allant à la vapeur, un grand bol de service, une fourchette.",
+  "Les flocons — Dans le petit bol, mouiller les flocons de sarrasin ({{flocons de sarrasin}}) avec le lait de riz ({{lait de riz}}). Les poser dans le panier vapeur 5 minutes en mode STEAM : ils gonflent et deviennent moelleux. [cuisson 5 min]",
+  "La banane — Écraser la banane ({{banane}}) avec la vanille jusqu'à une crème épaisse. [2 min]",
+  "Le skyr — Détendre le skyr de soja ({{skyr de soja}}) à la fourchette pour qu'il soit lisse. [1 min]",
+  "Dressage — Dans le grand bol, étaler le skyr, déposer au centre les flocons tièdes en dôme et couronner de la crème de banane. Un dernier trait de vanille. [2 min]"],
+ "Les flocons gonflés à la vapeur remplacent le granola : tendres, tièdes et sans friture.",5,"Sucré"),
+PDJ("pdj-riz-au-lait-vanille","Riz au lait de riz vanillé, banane tiède & crème de soja","Protéines végétales","Riz",12,1,
+ [["riz cuit",80,"g"],["lait de riz",100,"ml"],["banane",30,"g"],["crème de soja",1,"c. à soupe"],["vanille naturelle",1,"pincée"]],
+ ["Avant de commencer — Ustensiles : la cuve du rice cooker Bamboo, une cuillère en bois, un bol de service. Utiliser un riz basmati cuit la veille.",
+  "Le riz — Mettre le riz cuit ({{riz cuit}}) et le lait de riz ({{lait de riz}}) dans la cuve avec la vanille, lancer le mode SLOW COOK et remuer à mi-cuisson : le riz boit le lait et devient crémeux comme un riz au lait. [cuisson 10 min]",
+  "La banane — Couper la banane ({{banane}}) en rondelles de 5 mm. [1 min]",
+  "La crème — Fouetter la crème de soja ({{crème de soja}}) à la fourchette pour l'alléger. [1 min]",
+  "Dressage — Verser le riz au lait dans le bol tiède, disposer les rondelles de banane en rosace, napper d'un ruban de crème de soja. [2 min]"],
+ "Un riz de la veille donne un riz au lait plus crémeux qu'un riz tout juste cuit.",10,"Sucré"),
+PDJ("pdj-flan-vanille","Petits flans vapeur vanille-banane au lait de soja, coulis de myrtilles","Protéines végétales","Avoine",20,2,
+ [["flocons d'avoine",25,"g"],["lait de soja",120,"ml"],["banane",40,"g"],["myrtilles",30,"g"],["vanille naturelle",1,"pincée"]],
+ ["Avant de commencer — Ustensiles : le rice cooker Bamboo (cuve et panier vapeur), un mixeur plongeant, deux ramequins, du papier sulfurisé, une assiette de service.",
+  "L'appareil — Mixer finement les flocons d'avoine ({{flocons d'avoine}}), le lait de soja ({{lait de soja}}), la banane ({{banane}}) et la vanille jusqu'à une crème lisse. [3 min]",
+  "La vapeur — Répartir l'appareil dans les ramequins, couvrir de papier sulfurisé, poser dans le panier et cuire en mode STEAM à couvercle entrouvert : les flans sont pris quand ils tremblent au centre. [cuisson 14 min]",
+  "Le coulis — Écraser les myrtilles ({{myrtilles}}) avec une cuillère d'eau chaude de la cuve. [2 min]",
+  "Dressage — Laisser tiédir 2 minutes, passer une lame fine autour du flan, le démouler au centre de l'assiette et verser un cordon de coulis tout autour. [2 min]"],
+ "Une vapeur douce couvercle entrouvert évite les bulles : le flan reste lisse comme une crème.",14,"Sucré"),
+PDJ("pdj-potimarron-vanille","Porridge de potimarron à la vanille & yaourt de soja","Protéines végétales","Avoine",18,1,
+ [["flocons d'avoine",25,"g"],["potimarron",60,"g"],["lait d'avoine",100,"ml"],["yaourt de soja nature",40,"g"],["vanille naturelle",1,"pincée"]],
+ ["Avant de commencer — Ustensiles : le rice cooker Bamboo (cuve et panier vapeur), du papier sulfurisé, une fourchette, un bol de service.",
+  "Le potimarron — Éplucher le potimarron ({{potimarron}}), le couper en dés de 2 cm, les poser sur un papier sulfurisé percé dans le panier et cuire en mode STEAM jusqu'à ce qu'ils s'écrasent. [cuisson 12 min]",
+  "Le porridge — Dans la cuve, chauffer le lait d'avoine ({{lait d'avoine}}) avec les flocons d'avoine ({{flocons d'avoine}}) en mode SLOW COOK, jusqu'à une texture crémeuse. [cuisson 6 min]",
+  "Le mélange — Écraser le potimarron à la fourchette et l'incorporer au porridge avec la vanille : la couleur devient orangée et le goût de châtaigne. [2 min]",
+  "Dressage — Verser dans le bol tiède, poser une quenelle de yaourt de soja ({{yaourt de soja nature}}) au centre. [1 min]"],
+ "Le potimarron remplace le sucre : il rend le porridge naturellement doux et soyeux.",12,"Sucré"),
+PDJ("pdj-moelleux-sarrasin","Moelleux vapeur de sarrasin, banane et crème de soja","Œufs","Sarrasin",18,1,
+ [["farine de sarrasin",25,"g"],["œuf",1,"pièce"],["banane",30,"g"],["lait de soja",40,"ml"],["crème de soja",1,"c. à soupe"],["vanille naturelle",1,"pincée"]],
+ ["Avant de commencer — Ustensiles : le rice cooker Bamboo (cuve et panier vapeur), un bol, un fouet ou une fourchette, un ramequin, du papier sulfurisé.",
+  "La pâte — Écraser la banane ({{banane}}) dans le bol, ajouter l'œuf ({{œuf}}), le lait de soja ({{lait de soja}}) et la vanille, puis la farine de sarrasin ({{farine de sarrasin}}). Fouetter jusqu'à une pâte lisse. [3 min]",
+  "La vapeur — Verser la pâte dans le ramequin, couvrir de papier sulfurisé et cuire en mode STEAM jusqu'à ce que la pointe d'un couteau ressorte propre : le moelleux gonfle sans jamais colorer. [cuisson 12 min]",
+  "La crème — Fouetter la crème de soja ({{crème de soja}}). [1 min]",
+  "Dressage — Démouler le moelleux tiède sur une assiette, le trancher en deux dans l'épaisseur, napper de crème de soja entre les deux moitiés et sur le dessus. [2 min]"],
+ "À la vapeur, le sarrasin reste moelleux et ne brunit pas : parfait pour un estomac sensible.",12,"Sucré"),
+PDJ("pdj-quinoa-lait","Quinoa tiède au lait d'avoine, banane & yaourt de soja","Protéines végétales","Quinoa",10,1,
+ [["quinoa cuit",80,"g"],["lait d'avoine",60,"ml"],["banane",30,"g"],["yaourt de soja nature",60,"g"],["vanille naturelle",1,"pincée"]],
+ ["Avant de commencer — Ustensiles : le rice cooker Bamboo (cuve et panier vapeur), un petit bol allant à la vapeur, une fourchette, un bol de service. Utiliser un quinoa cuit la veille.",
+  "Le quinoa — Dans le petit bol, mêler le quinoa cuit ({{quinoa cuit}}), le lait d'avoine ({{lait d'avoine}}) et la vanille, et réchauffer 5 minutes à la vapeur (mode STEAM) jusqu'à ce que le quinoa boive le lait. [cuisson 5 min]",
+  "La banane — Écraser la banane ({{banane}}) à la fourchette. [1 min]",
+  "Dressage — Quinoa dans le bol de service, banane écrasée sur un côté, yaourt de soja ({{yaourt de soja nature}}) en quenelle de l'autre : deux demi-lunes bien nettes. [2 min]"],
+ "Le quinoa du matin se prépare en 5 minutes si on le cuit la veille en même temps que le riz.",5,"Sucré"),
+/* ---------------- SALÉS (environ 250 kcal) ---------------- */
+PDJ("pdj-oeuf-mouillettes","Œuf mollet vapeur, mouillettes de sarrasin & yaourt de soja à l'aneth","Œufs","Sarrasin",12,1,
+ [["œuf",1,"pièce"],["pain de sarrasin",70,"g"],["yaourt de soja nature",40,"g"],["aneth","",HERBS],["sel","","1 pincée"]],
+ ["Avant de commencer — Ustensiles : le rice cooker Bamboo (cuve et panier vapeur), un coquetier ou un petit verre, un petit bol, des ciseaux, un couteau.",
+  "L'œuf mollet — Poser l'œuf ({{œuf}}) directement dans le panier vapeur et cuire en mode STEAM pour un blanc pris et un jaune coulant, puis le passer 1 minute sous l'eau froide. [cuisson 7 min]",
+  "Les mouillettes — Pendant ce temps, tailler le pain de sarrasin ({{pain de sarrasin}}) en bâtonnets de 1,5 cm et les attendrir 2 minutes dans la vapeur. [cuisson 2 min]",
+  "La sauce — Mêler le yaourt de soja ({{yaourt de soja nature}}), l'aneth ciselé aux ciseaux et une pincée de sel. [1 min]",
+  "Dressage — Œuf écalé au sommet dans le coquetier, mouillettes dressées en fagot à côté, sauce à l'aneth dans un petit bol : tremper, c'est la gourmandise. [2 min]"],
+ "Le jaune coulant et le yaourt à l'aneth font une sauce sans aucune matière grasse cuite.",9,"Salé"),
+PDJ("pdj-okayu-express","Okayu express au tofu, riz mijoté au bouillon & nori","Tofu","Riz",12,1,
+ [["riz cuit",80,"g"],["bouillon",150,"ml"],["tofu ferme",50,"g"],["nori",1,"pièce"],["graines de sésame",1,"c. à café"],["huile de sésame grillé",0.5,"c. à café"]],
+ ["Avant de commencer — Ustensiles : la cuve du rice cooker Bamboo, une cuillère en bois, des ciseaux, un bol de service tiède.",
+  "Le riz — Mettre le riz cuit ({{riz cuit}}) et le bouillon ({{bouillon}}) dans la cuve, lancer le mode SLOW COOK et remuer de temps en temps : le riz se défait en une bouillie claire et crémeuse. [cuisson 9 min]",
+  "Le tofu — Couper le tofu ({{tofu ferme}}) en dés de 1 cm et les ajouter pour les 3 dernières minutes afin qu'ils se réchauffent à cœur. [cuisson 3 min]",
+  "Le nori — Ciseler la feuille de nori ({{nori}}) en fins rubans. [1 min]",
+  "Dressage — Verser l'okayu dans le bol, déposer les rubans de nori en tas au centre, parsemer de sésame ({{graines de sésame}}) et finir d'un filet d'huile de sésame grillé ({{huile de sésame grillé}}). [2 min]"],
+ "L'okayu se mange tiède : il apaise l'estomac dès le réveil.",12,"Salé"),
+PDJ("pdj-tartine-skyr","Tartine de sarrasin tiède, skyr de soja à la ciboulette & carotte fondante","Protéines végétales","Sarrasin",10,1,
+ [["pain de sarrasin",60,"g"],["skyr de soja",90,"g"],["carotte",50,"g"],["ciboulette","",HERBS],["huile d'olive",0.5,"c. à café"],["sel","","1 pincée"]],
+ ["Avant de commencer — Ustensiles : le rice cooker Bamboo (cuve et panier vapeur), du papier sulfurisé, un économe, un couteau, des ciseaux, une petite assiette.",
+  "La carotte — Éplucher et tailler la carotte ({{carotte}}) en rubans à l'économe et les poser sur un papier sulfurisé percé dans le panier : cuire en mode STEAM jusqu'à ce qu'ils soient fondants. [cuisson 6 min]",
+  "Le pain — Poser le pain de sarrasin ({{pain de sarrasin}}) à côté pour l'attendrir et le réchauffer. [cuisson 2 min]",
+  "La crème — Mélanger le skyr de soja ({{skyr de soja}}) avec la ciboulette (pointes vertes) ciselée et une pincée de sel. [1 min]",
+  "Dressage — Tartiner généreusement le pain tiède de skyr, enrouler les rubans de carotte en rosace dessus, un filet d'huile d'olive crue ({{huile d'olive}}) pour la brillance. [2 min]"],
+ "Les rubans de carotte à la vapeur sont souples : ils s'enroulent en rose et se mangent à la fourchette.",8,"Salé"),
+PDJ("pdj-puree-oeuf-vapeur","Purée tiède pomme de terre–carotte & œuf cocotte à la vapeur","Œufs","Pommes de terre",22,2,
+ [["pommes de terre",100,"g"],["carotte",40,"g"],["œuf",1,"pièce"],["crème de soja",1,"c. à soupe"],["ciboulette","",HERBS],["sel","","1 pincée"]],
+ ["Avant de commencer — Ustensiles : le rice cooker Bamboo (cuve et panier vapeur), du papier sulfurisé, un presse-purée ou une fourchette, un ramequin, des ciseaux.",
+  "La purée — Éplucher et tailler la pomme de terre ({{pommes de terre}}) et la carotte ({{carotte}}) en cubes de 2 cm, les poser sur du papier sulfurisé percé et cuire en mode STEAM jusqu'à ce qu'ils s'écrasent. Les écraser avec la crème de soja ({{crème de soja}}) et une pincée de sel. [cuisson 15 min]",
+  "L'œuf cocotte — Répartir la purée dans le ramequin en creusant un nid, y casser l'œuf ({{œuf}}), couvrir de papier sulfurisé et cuire à la vapeur douce jusqu'à un blanc pris et un jaune coulant. [cuisson 6 min]",
+  "Dressage — Poser le ramequin sur une assiette, parsemer de pointes vertes de ciboulette ciselées : on plonge la cuillère en perçant le jaune. [1 min]"],
+ "L'œuf cuit dans le nid de purée reste baveux : le jaune devient la sauce.",21,"Salé"),
+PDJ("pdj-chawanmushi","Chawanmushi léger au tofu soyeux, carotte & riz tiède","Œufs","Riz",20,2,
+ [["œuf",1,"pièce"],["bouillon",100,"ml"],["tofu soyeux",40,"g"],["carotte",30,"g"],["riz cuit",50,"g"],["huile de sésame grillé",0.5,"c. à café"]],
+ ["Avant de commencer — Ustensiles : le rice cooker Bamboo (cuve et panier vapeur), un bol, une fourchette, une passoire fine, du papier sulfurisé, un bol de service.",
+  "L'appareil — Battre l'œuf ({{œuf}}) à la fourchette sans faire de mousse, ajouter le bouillon tiède ({{bouillon}}) et filtrer à la passoire fine. [3 min]",
+  "La garniture — Au fond du bol de service, répartir la carotte ({{carotte}}) taillée en dés de 5 mm et le tofu soyeux ({{tofu soyeux}}) coupé en petits cubes, puis verser doucement l'appareil par-dessus à la louche. [2 min]",
+  "La vapeur douce — Couvrir de papier sulfurisé, poser dans le panier et cuire en mode STEAM, couvercle entrouvert, jusqu'à ce que le flan tremble comme une panna cotta. [cuisson 12 min]",
+  "Le riz — Réchauffer le riz cuit ({{riz cuit}}) 3 minutes à la vapeur à côté du flan. [cuisson 3 min]",
+  "Dressage — Servir le flan dans son bol, le riz en petite boule à côté, un trait d'huile de sésame grillé ({{huile de sésame grillé}}) sur le flan. [1 min]"],
+ "Couvercle entrouvert, la vapeur reste douce : le flan est lisse, sans bulles.",15,"Salé"),
+PDJ("pdj-miso-doux","Soupe miso douce, tofu, wakamé & riz","Tofu","Riz",10,1,
+ [["eau",250,"ml"],["miso blanc",1,"c. à café"],["wakamé",2,"g"],["tofu ferme",50,"g"],["riz cuit",80,"g"],["huile de sésame grillé",0.5,"c. à café"]],
+ ["Avant de commencer — Ustensiles : la cuve du rice cooker Bamboo, une louche, un bol de service, une cuillère. Hydrater le wakamé 5 minutes dans l'eau froide.",
+  "Le bouillon — Chauffer l'eau ({{eau}}) dans la cuve en mode SLOW COOK avec le wakamé ({{wakamé}}) égoutté et le tofu ({{tofu ferme}}) en dés, jusqu'à ce que la soupe fume doucement sans bouillir. [cuisson 6 min]",
+  "Le miso — Éteindre. Délayer le miso ({{miso blanc}}) dans une louche de bouillon, puis le verser dans la cuve : il ne doit jamais bouillir pour garder son parfum. [1 min]",
+  "Dressage — Riz cuit ({{riz cuit}}) tassé au fond du bol, bouillon versé à la louche autour, goutte d'huile de sésame grillé ({{huile de sésame grillé}}) à la surface. [2 min]"],
+ "Le miso est fermenté : une cuillère à café suffit, à éviter en phase de sensibilité aiguë.",6,"Salé"),
+PDJ("pdj-galette-sarrasin-epinards","Galette fine de sarrasin, épinards fondus, tofu & skyr de soja","Tofu","Sarrasin",15,2,
+ [["farine de sarrasin",30,"g"],["épinards",30,"g"],["tofu ferme",50,"g"],["skyr de soja",40,"g"],["huile d'olive",0.5,"c. à café"],["sel","","1 pincée"]],
+ ["Avant de commencer — Ustensiles : le rice cooker Bamboo (cuve et panier vapeur), un fouet, une poêle antiadhésive de 22 cm à feu doux, une spatule fine, du papier sulfurisé.",
+  "La pâte — Fouetter la farine de sarrasin ({{farine de sarrasin}}) avec 80 ml d'eau et une pincée de sel jusqu'à une pâte fluide, et la laisser reposer pendant la préparation de la garniture. [5 min]",
+  "La garniture — Poser les épinards ({{épinards}}) et le tofu ({{tofu ferme}}) émietté sur du papier sulfurisé percé dans le panier : cuire en mode STEAM, puis presser les épinards. [cuisson 5 min]",
+  "La galette — Verser la pâte en couche fine dans la poêle huilée ({{huile d'olive}}) à feu doux, cuire sans colorer jusqu'à ce que la surface soit mate, retourner 20 secondes. [cuisson 4 min]",
+  "Dressage — Poser la galette à plat, garnir le centre d'épinards et de tofu, plier les quatre côtés en carré, couronner d'une quenelle de skyr de soja ({{skyr de soja}}). [2 min]"],
+ "Une pâte bien fluide donne une galette fine et souple qui se plie sans casser.",9,"Salé"),
+PDJ("pdj-onigiri-sesame","Onigiri tiède au sésame & tofu soyeux, crème de soja au sésame grillé","Tofu","Riz",12,1,
+ [["riz cuit",90,"g"],["nori",1,"pièce"],["graines de sésame",1,"c. à café"],["tofu soyeux",70,"g"],["crème de soja",1,"c. à soupe"],["huile de sésame grillé",0.5,"c. à café"]],
+ ["Avant de commencer — Ustensiles : le rice cooker Bamboo (cuve et panier vapeur), un petit bol d'eau, une cuillère, des ciseaux, une assiette plate.",
+  "Les boulettes — Mouiller les mains, façonner le riz cuit ({{riz cuit}}) tiède en deux triangles en pressant doucement, puis les ceinturer d'une bande de nori ({{nori}}) et les rouler dans le sésame ({{graines de sésame}}). [4 min]",
+  "Le tofu — Poser le tofu soyeux ({{tofu soyeux}}) en cubes dans le panier vapeur et le réchauffer très doucement en mode STEAM. [cuisson 3 min]",
+  "La crème — Mélanger la crème de soja ({{crème de soja}}) avec l'huile de sésame grillé ({{huile de sésame grillé}}). [1 min]",
+  "Dressage — Dresser les deux onigiri en V sur l'assiette, le tofu tiède entre les deux et la crème de sésame en petits points tout autour. [2 min]"],
+ "Un onigiri se mange à la main : le riz doit être tiède, jamais brûlant.",3,"Salé")
 ];
 
 /* ============ DÉJEUNERS ET DÎNERS : POULET & ŒUFS (protocole de Cat) ============
@@ -736,7 +825,7 @@ NR("pdj-millet-potimarron","Crème de millet au potimarron, œuf mollet & tofu v
 const LUNCH_1 = [
 NR("p-poulet-effiloche-potimarron","Poulet effiloché Bamboo, purée soyeuse de potimarron & carottes fondantes","Poulet","Slow cook Bamboo","Pommes de terre",70,1,
  [["blanc de poulet",90,"g"],["pommes de terre",140,"g"],["potimarron",80,"g"],["carotte",100,"g"],["isolat de protéine de pois",20,"g"],["bouillon",4,"c. à soupe"],["huile d'olive",1,"c. à café"],["thym","",HERBS],["persil","",HERBS],["sel","","1 pincée"]],
- ["Mise en place — Sortir le blanc de poulet ({{blanc de poulet}}) 15 minutes avant et l'ôter de sa peau. Éplucher pommes de terre ({{pommes de terre}}) et potimarron ({{potimarron}}) en cubes de 3 cm, la carotte ({{carotte}}) en bâtonnets de 1 cm. [10 min]",
+ ["Mise en place — Sortir le blanc de poulet ({{blanc de poulet}}) 15 minutes avant et l'ôter de sa peau. Éplucher et tailler pommes de terre ({{pommes de terre}}) et potimarron ({{potimarron}}) en cubes de 3 cm, la carotte ({{carotte}}) en bâtonnets de 1 cm. [10 min]",
   "Le montage de la cuve — Verser 250 ml d'eau tiède dans la cuve. Poser un papier sulfurisé percé dans le panier avec pommes de terre, potimarron et carotte ; poser le poulet à côté, directement sur l'inox, avec une branche de thym. [3 min]",
   "La cuisson — Lancer le mode SLOW COOK. Le poulet est prêt quand la chair se détache en fibres humides, les légumes quand la pointe d'un couteau les traverse sans résistance. Ne pas ouvrir le couvercle avant la fin. [cuisson 45 min]",
   "La purée — Écraser pommes de terre et potimarron au presse-purée avec une cuillère de jus tiède de la cuve et une pincée de sel jusqu'à une purée orangée, lisse, qui se tient en nid. [3 min]",
@@ -754,23 +843,23 @@ NR("p-poulet-poche-riz","Blanc de poulet poché au bouillon de carotte et thym, 
  "Le pochage hors du feu garde le blanc moelleux : un bouillon qui bout le rendrait filandreux.",35),
 NR("p-poulet-quinoa-courgette","Poulet vapeur, quinoa tiède & courgette fondante, crème de pois au sésame","Poulet","Vapeur Bamboo","Quinoa",40,1,
  [["blanc de poulet",90,"g"],["quinoa cuit",140,"g"],["courgette épluchée",55,"g"],["carotte",115,"g"],["isolat de protéine de pois",20,"g"],["huile de sésame grillé",1,"c. à café"],["ciboulette","",HERBS],["sel","","1 pincée"]],
- ["Mise en place — Éplucher entièrement la courgette ({{courgette épluchée}}), retirer le cœur graineux et la couper en dés de 1 cm. Éplucher la carotte ({{carotte}}) en rondelles de 8 mm. Ôter la peau du poulet. [8 min]",
+ ["Mise en place — Éplucher entièrement la courgette ({{courgette épluchée}}), retirer le cœur graineux et la couper en dés de 1 cm. Éplucher et tailler la carotte ({{carotte}}) en rondelles de 8 mm. Ôter la peau du poulet. [8 min]",
   "La vapeur — Lancer le mode STEAM : le blanc de poulet ({{blanc de poulet}}) sur l'inox, courgette et carotte sur papier sulfurisé percé. Le poulet est prêt quand sa chair est blanche à cœur, les légumes quand ils s'écrasent à la fourchette. [cuisson 24 min]",
   "Le quinoa — Réchauffer le quinoa cuit ({{quinoa cuit}}) 3 minutes à la vapeur et l'aérer à la fourchette. [cuisson 3 min]",
   "La crème de pois — Délayer l'isolat ({{isolat de protéine de pois}}) dans 3 cuillères d'eau tiède, saler d'une pincée, ajouter la ciboulette (pointes vertes) ciselée, puis l'huile de sésame grillé ({{huile de sésame grillé}}) en filet. [2 min]",
   "Dresser — Quinoa en couronne dans une assiette creuse tiède, légumes en éventail, poulet tranché au centre, crème de pois en filet. [3 min]"],
  "Rincer le quinoa longuement avant la cuisson supprime son amertume.",28),
-NR("p-poulet-millet-haricots","Poulet vapeur, polenta de millet crémeuse & haricots verts fondants","Poulet","Vapeur Bamboo","Millet",45,2,
- [["blanc de poulet",90,"g"],["millet cuit",140,"g"],["haricots verts",75,"g"],["carotte",100,"g"],["isolat de protéine de pois",20,"g"],["huile d'olive",1,"c. à café"],["persil","",HERBS],["sel","","1 pincée"]],
- ["Mise en place — Peser exactement 75 g de haricots verts ({{haricots verts}}), les équeuter et les couper en tronçons de 3 cm. Éplucher la carotte ({{carotte}}) en bâtonnets. [8 min]",
-  "La vapeur — Mode STEAM : poulet ({{blanc de poulet}}) sur l'inox, haricots verts et carotte sur papier sulfurisé percé. Les haricots doivent être mous, jamais croquants. [cuisson 26 min]",
-  "La polenta — Chauffer le millet cuit ({{millet cuit}}) à feu doux avec 3 cuillères d'eau et une pincée de sel, en l'écrasant à la cuillère jusqu'à une texture de polenta crémeuse. [cuisson 5 min]",
+NR("p-poulet-riz-pakchoi","Poulet vapeur, riz basmati tiède, pak choï fondant & haricots verts","Poulet","Vapeur Bamboo","Riz",40,1,
+ [["blanc de poulet",90,"g"],["riz cuit",140,"g"],["haricots verts",75,"g"],["pak choï",60,"g"],["carotte",40,"g"],["isolat de protéine de pois",20,"g"],["huile d'olive",1,"c. à café"],["persil","",HERBS],["sel","","1 pincée"]],
+ ["Mise en place — Peser exactement 75 g de haricots verts ({{haricots verts}}), les équeuter et les couper en tronçons de 3 cm. Séparer les feuilles du pak choï ({{pak choï}}), tailler les tiges en tronçons de 2 cm et éplucher et tailler la carotte ({{carotte}}) en bâtonnets. [8 min]",
+  "La vapeur — Mode STEAM : poulet ({{blanc de poulet}}) sur l'inox, haricots verts, carotte et tiges de pak choï sur papier sulfurisé percé, feuilles pour les deux dernières minutes. Tout doit être mou, jamais croquant. [cuisson 26 min]",
+  "Le riz — Réchauffer le riz basmati ({{riz cuit}}) 3 minutes à la vapeur avec une cuillère d'eau. [cuisson 3 min]",
   "La crème de pois — Délayer l'isolat ({{isolat de protéine de pois}}) dans 3 cuillères d'eau tiède, y ajouter le persil haché. [2 min]",
-  "Dresser — Polenta de millet en nid, poulet tranché au centre, haricots et carottes en éventail, crème de pois puis huile d'olive crue ({{huile d'olive}}). [3 min]"],
- "Le millet cuit et écrasé à la cuillère se comporte exactement comme une polenta, sans le gluten.",30),
+  "Dresser — Riz en dôme dans une assiette creuse tiède, poulet tranché au centre, légumes en éventail, crème de pois puis huile d'olive crue ({{huile d'olive}}). [3 min]"],
+ "Les tiges du pak choï cuisent plus lentement que les feuilles : on les met dans le panier en premier.",30),
 NR("p-poulet-puree-panais","Poulet effiloché, purée panais–pomme de terre & carottes confites à la vapeur","Poulet","Cocon & purées","Pommes de terre",55,2,
  [["blanc de poulet",90,"g"],["pommes de terre",140,"g"],["panais",80,"g"],["carotte",100,"g"],["isolat de protéine de pois",20,"g"],["bouillon",4,"c. à soupe"],["huile d'olive",1,"c. à café"],["thym","",HERBS],["sel","","1 pincée"]],
- ["Tailler — Éplucher pommes de terre ({{pommes de terre}}) et panais ({{panais}}), ôter le cœur ligneux du panais, tailler en cubes de 2 cm. Éplucher la carotte ({{carotte}}) en tronçons. [8 min]",
+ ["Tailler — Éplucher pommes de terre ({{pommes de terre}}) et panais ({{panais}}), ôter le cœur ligneux du panais, tailler en cubes de 2 cm. Éplucher et tailler la carotte ({{carotte}}) en tronçons. [8 min]",
   "La vapeur — Mode SLOW COOK : poulet ({{blanc de poulet}}) sur l'inox, légumes sur papier sulfurisé percé avec une branche de thym. [cuisson 45 min]",
   "Effilocher — Laisser reposer le poulet 5 minutes puis l'effilocher à deux fourchettes en fines fibres, en écartant toute fibre dure. [3 min]",
   "La purée — Écraser pommes de terre et panais avec une cuillère de jus de cuve et une pincée de sel : purée blonde, lisse, légèrement sucrée. [3 min]",
@@ -788,7 +877,7 @@ NR("p-poulet-riz-aubergine","Bol de riz basmati, poulet effiloché & aubergine p
  "Une aubergine mal épluchée ou mal cuite devient irritante : elle doit s'écraser sans la moindre résistance.",30),
 NR("p-veloute-butternut-poulet","Velouté épais de butternut, poulet vapeur & quinoa tiède","Poulet","Cocon & purées","Quinoa",50,1,
  [["blanc de poulet",90,"g"],["butternut",150,"g"],["carotte",40,"g"],["quinoa cuit",130,"g"],["bouillon",150,"ml"],["isolat de protéine de pois",20,"g"],["huile d'olive",1,"c. à café"],["thym","",HERBS],["sel","","1 pincée"]],
- ["Tailler — Éplucher la butternut ({{butternut}}), retirer les graines, la tailler en cubes de 3 cm ; éplucher la carotte ({{carotte}}) en rondelles. [8 min]",
+ ["Tailler — Éplucher la butternut ({{butternut}}), retirer les graines, la tailler en cubes de 3 cm ; éplucher et tailler la carotte ({{carotte}}) en rondelles. [8 min]",
   "La vapeur — Mode STEAM : butternut et carotte sur papier sulfurisé percé, poulet ({{blanc de poulet}}) sur l'inox, avec une branche de thym. [cuisson 24 min]",
   "Le velouté — Mixer butternut et carotte avec le bouillon tiède ({{bouillon}}) et l'isolat de pois ({{isolat de protéine de pois}}) jusqu'à un velouté épais, lisse et brillant. Ajouter une pincée de sel. [4 min]",
   "Le quinoa — Réchauffer le quinoa cuit ({{quinoa cuit}}) 3 minutes à la vapeur. [cuisson 3 min]",
@@ -796,7 +885,7 @@ NR("p-veloute-butternut-poulet","Velouté épais de butternut, poulet vapeur & q
  "Mixer le velouté tiède avec l'isolat donne un nappage soyeux, sans aucune crème.",30),
 NR("p-papillote-poulet","Papillote vapeur de poulet, carottes, courgette & thym, pommes de terre tendres","Poulet","Vapeur Bamboo","Pommes de terre",45,1,
  [["blanc de poulet",90,"g"],["pommes de terre",140,"g"],["carotte",110,"g"],["courgette épluchée",55,"g"],["isolat de protéine de pois",20,"g"],["huile d'olive",1,"c. à café"],["thym","",HERBS],["persil","",HERBS],["sel","","1 pincée"]],
- ["Tailler — Éplucher pommes de terre ({{pommes de terre}}) en cubes de 3 cm, la carotte ({{carotte}}) en bâtonnets, la courgette ({{courgette épluchée}}) entièrement en dés de 1 cm. [9 min]",
+ ["Tailler — Éplucher et tailler pommes de terre ({{pommes de terre}}) en cubes de 3 cm, la carotte ({{carotte}}) en bâtonnets, la courgette ({{courgette épluchée}}) entièrement en dés de 1 cm. [9 min]",
   "La papillote — Sur une feuille de papier sulfurisé, déposer carottes, courgette, le blanc de poulet ({{blanc de poulet}}) et le thym. Saler très légèrement, refermer hermétiquement en papillote. [4 min]",
   "La vapeur — Poser la papillote et les pommes de terre dans le panier du Bamboo en mode STEAM. Ouvrir la papillote au-dessus d'un bol pour récupérer le jus. [cuisson 26 min]",
   "La crème de pois — Délayer l'isolat ({{isolat de protéine de pois}}) dans 4 cuillères du jus de la papillote, tiède, jusqu'à une crème lisse, avec le persil haché. [2 min]",
@@ -813,7 +902,7 @@ NR("p-parmentier-poulet","Parmentier tiède de poulet effiloché, purée soyeuse
  "L'isolat dans la purée remplace le beurre et le lait : même onctuosité, plus de protéines.",48),
 NR("p-bol-avocat","Bol tiède de riz basmati, poulet, carottes, brocoli & un huitième d'avocat","Poulet","Vapeur Bamboo","Riz",40,1,
  [["blanc de poulet",90,"g"],["riz cuit",140,"g"],["carotte",100,"g"],["brocoli",70,"g"],["avocat",25,"g"],["isolat de protéine de pois",20,"g"],["huile de sésame grillé",1,"c. à café"],["ciboulette","",HERBS],["sel","","1 pincée"]],
- ["Mise en place — Éplucher la carotte ({{carotte}}) en rondelles, détailler les têtes de brocoli ({{brocoli}}) en petits bouquets, ôter la peau du poulet. [8 min]",
+ ["Mise en place — Éplucher et tailler la carotte ({{carotte}}) en rondelles, détailler les têtes de brocoli ({{brocoli}}) en petits bouquets, ôter la peau du poulet. [8 min]",
   "La vapeur — Mode STEAM : poulet ({{blanc de poulet}}) sur l'inox, carotte et brocoli sur papier sulfurisé percé. Brocoli très tendre, jamais croquant. [cuisson 24 min]",
   "Le riz — Réchauffer le riz basmati ({{riz cuit}}) 3 minutes à la vapeur. [cuisson 3 min]",
   "L'avocat — Écraser à la fourchette un huitième d'avocat ({{avocat}}) bien mûr : c'est la limite du protocole, jamais davantage. [1 min]",
@@ -823,14 +912,14 @@ NR("p-bol-avocat","Bol tiède de riz basmati, poulet, carottes, brocoli & un hui
 NR("p-risotto-riz-poulet","Risotto crémeux de riz au bouillon, poulet effiloché & épinards","Poulet","Cocon & purées","Riz",40,2,
  [["blanc de poulet",90,"g"],["riz cuit",140,"g"],["épinards",80,"g"],["carotte",100,"g"],["bouillon",200,"ml"],["isolat de protéine de pois",20,"g"],["huile d'olive",1,"c. à café"],["thym","",HERBS],["sel","","1 pincée"]],
  ["Le poulet — Pocher le blanc de poulet ({{blanc de poulet}}) dans le bouillon ({{bouillon}}) frémissant avec le thym, puis le retirer et l'effilocher. [cuisson 15 min]",
-  "Les légumes — Éplucher la carotte ({{carotte}}) en petits dés de 5 mm et la cuire dans le bouillon jusqu'à ce qu'elle soit fondante. Ajouter les épinards ({{épinards}}) 2 minutes. [cuisson 10 min]",
+  "Les légumes — Éplucher et tailler la carotte ({{carotte}}) en petits dés de 5 mm et la cuire dans le bouillon jusqu'à ce qu'elle soit fondante. Ajouter les épinards ({{épinards}}) 2 minutes. [cuisson 10 min]",
   "Le risotto — Ajouter le riz cuit ({{riz cuit}}) dans le bouillon et le laisser s'imprégner à feu doux, en remuant, jusqu'à une texture crémeuse. [cuisson 5 min]",
   "La liaison — Hors du feu, incorporer l'isolat de pois ({{isolat de protéine de pois}}) délayé dans une cuillère de bouillon : le riz devient nappant et soyeux. [2 min]",
   "Dresser — Risotto dans une assiette creuse tiède, poulet effiloché dessus, filet d'huile d'olive crue ({{huile d'olive}}) et feuilles de thym. [2 min]"],
  "Le riz déjà cuit se prête au risotto express : il suffit de l'imbiber de bouillon à feu doux.",30),
 NR("p-oeufs-mollets-epinards","Œufs mollets sur purée de pommes de terre, épinards fondus & carottes","Œufs","Cocon & purées","Pommes de terre",40,1,
  [["œufs",2,"pièce"],["pommes de terre",140,"g"],["épinards",80,"g"],["carotte",100,"g"],["lait de riz",30,"ml"],["isolat de protéine de pois",20,"g"],["huile d'olive",1,"c. à café"],["ciboulette","",HERBS],["sel","","1 pincée"]],
- ["Tailler — Éplucher pommes de terre ({{pommes de terre}}) et carotte ({{carotte}}) en cubes de 3 cm. [7 min]",
+ ["Tailler — Éplucher et tailler pommes de terre ({{pommes de terre}}) et carotte ({{carotte}}) en cubes de 3 cm. [7 min]",
   "La vapeur — Mode STEAM : pommes de terre et carotte sur papier sulfurisé percé, épinards ({{épinards}}) à la fin pour 3 minutes. [cuisson 22 min]",
   "La purée — Écraser les pommes de terre avec le lait de riz tiède ({{lait de riz}}), l'isolat ({{isolat de protéine de pois}}) et une pincée de sel : une purée lisse, riche, qui nappe. [3 min]",
   "Les œufs mollets — Poser les œufs ({{œufs}}) dans le panier : 8 minutes de vapeur, puis 2 minutes dans l'eau froide, et écaler délicatement. [cuisson 8 min]",
@@ -838,7 +927,7 @@ NR("p-oeufs-mollets-epinards","Œufs mollets sur purée de pommes de terre, épi
  "Un œuf mollet à 8 minutes précises : le jaune coule, le blanc est à peine pris.",28),
 NR("p-chawanmushi-riz","Chawanmushi soyeux au poulet, carotte & courgette, riz basmati tiède","Œufs","Vapeur Bamboo","Riz",40,2,
  [["œufs",2,"pièce"],["bouillon",200,"ml"],["isolat de protéine de pois",20,"g"],["riz cuit",140,"g"],["carotte",100,"g"],["courgette épluchée",55,"g"],["ciboulette","",HERBS],["huile de sésame grillé",1,"c. à café"],["sel","","1 pincée"]],
- ["Mise en place — Éplucher la carotte ({{carotte}}) en dés de 5 mm et la courgette ({{courgette épluchée}}) entièrement en dés de 5 mm. Les cuire 8 minutes à la vapeur. [cuisson 8 min]",
+ ["Mise en place — Éplucher et tailler la carotte ({{carotte}}) en dés de 5 mm et la courgette ({{courgette épluchée}}) entièrement en dés de 5 mm. Les cuire 8 minutes à la vapeur. [cuisson 8 min]",
   "L'appareil — Délayer l'isolat ({{isolat de protéine de pois}}) dans le bouillon tiède ({{bouillon}}), battre les œufs ({{œufs}}) sans mousse, mélanger, saler d'une pincée et filtrer à la passoire fine. [4 min]",
   "Le flan — Répartir les légumes dans deux ramequins, verser l'appareil, couvrir de papier sulfurisé et cuire à la vapeur douce, couvercle entrouvert, jusqu'à ce que le flan tremble comme une panna cotta. [cuisson 15 min]",
   "Le riz — Réchauffer le riz ({{riz cuit}}) 3 minutes à la vapeur. [cuisson 3 min]",
@@ -854,7 +943,7 @@ NR("p-oeufs-poches-veloute","Œufs pochés sur velouté de potimarron & carottes
  "Un œuf pochant dans une eau vive éclate : réduis le feu pour un frémissement à peine visible.",30),
 NR("p-omelette-vapeur","Omelette vapeur soufflée à la courgette, pommes de terre tendres & carottes","Œufs","Vapeur Bamboo","Pommes de terre",40,2,
  [["œufs",2,"pièce"],["isolat de protéine de pois",20,"g"],["eau tiède",3,"c. à soupe"],["courgette épluchée",55,"g"],["carotte",100,"g"],["pommes de terre",140,"g"],["huile d'olive",1,"c. à café"],["ciboulette","",HERBS],["sel","","1 pincée"]],
- ["Mise en place — Éplucher entièrement la courgette ({{courgette épluchée}}), la râper finement. Éplucher carotte ({{carotte}}) et pommes de terre ({{pommes de terre}}) en cubes. [9 min]",
+ ["Mise en place — Éplucher entièrement la courgette ({{courgette épluchée}}), la râper finement. Éplucher et tailler carotte ({{carotte}}) et pommes de terre ({{pommes de terre}}) en cubes. [9 min]",
   "La vapeur des légumes — Cuire carotte et pommes de terre sur papier sulfurisé percé jusqu'à ce qu'ils s'écrasent. [cuisson 20 min]",
   "L'appareil — Délayer l'isolat ({{isolat de protéine de pois}}) dans l'eau tiède ({{eau tiède}}), battre avec les œufs ({{œufs}}) à la fourchette, ajouter la courgette et une pincée de sel. [3 min]",
   "L'omelette — Verser dans un ramequin recouvert de papier sulfurisé et cuire à la vapeur douce, couvercle entrouvert, jusqu'à une omelette gonflée et ferme au toucher. [cuisson 14 min]",
@@ -880,7 +969,7 @@ NR("p-okayu-soir","Okayu du soir : riz mijoté au bouillon, poulet, œuf & carot
  "Le riz mijoté devient digeste comme une soupe : parfait pour un soir de reflux sensible.",32),
 NR("p-salade-tiede-oeufs","Salade tiède d'œufs durs, haricots verts, carottes & pommes de terre, crème de pois","Œufs","Fraîcheur tiède","Pommes de terre",40,1,
  [["œufs",2,"pièce"],["pommes de terre",140,"g"],["haricots verts",75,"g"],["carotte",100,"g"],["isolat de protéine de pois",20,"g"],["huile d'olive",1,"c. à café"],["eau tiède",3,"c. à soupe"],["persil","",HERBS],["sel","","1 pincée"]],
- ["Mise en place — Peser 75 g de haricots verts ({{haricots verts}}), les équeuter. Éplucher pommes de terre ({{pommes de terre}}) en cubes de 3 cm et carotte ({{carotte}}) en rondelles. [9 min]",
+ ["Mise en place — Peser 75 g de haricots verts ({{haricots verts}}), les équeuter. Éplucher et tailler pommes de terre ({{pommes de terre}}) en cubes de 3 cm et carotte ({{carotte}}) en rondelles. [9 min]",
   "La vapeur — Cuire pommes de terre, carotte et haricots sur papier sulfurisé percé jusqu'à ce que les haricots soient mous. Ajouter les œufs ({{œufs}}) dans le panier pour 12 minutes. [cuisson 25 min]",
   "Tiédir — Laisser tiédir 10 minutes : la salade se sert tiède, jamais froide. Écaler les œufs et les couper en quartiers. [10 min]",
   "La crème de pois — Délayer l'isolat ({{isolat de protéine de pois}}) dans l'eau tiède ({{eau tiède}}), ajouter le persil haché et une pincée de sel. [2 min]",
@@ -901,7 +990,7 @@ NR("p-gnocchis-sarrasin","Gnocchis de pomme de terre au sarrasin pochés, poulet
 const LUNCH_2 = [
 NR("p-tofu-riz-sesame","Tofu ferme vapeur, riz basmati tiède, carottes & brocoli, huile de sésame grillé","Tofu","Vapeur Bamboo","Riz",40,1,
  [["tofu ferme",90,"g"],["riz cuit",140,"g"],["carotte",100,"g"],["brocoli",70,"g"],["isolat de protéine de pois",20,"g"],["huile de sésame grillé",1,"c. à café"],["ciboulette","",HERBS],["sel","","1 pincée"]],
- ["Mise en place — Presser le tofu ferme ({{tofu ferme}}) 10 minutes dans du papier absorbant, le couper en dés de 2 cm. Éplucher la carotte ({{carotte}}) en rondelles, détailler les têtes de brocoli ({{brocoli}}). [12 min]",
+ ["Mise en place — Presser le tofu ferme ({{tofu ferme}}) 10 minutes dans du papier absorbant, le couper en dés de 2 cm. Éplucher et tailler la carotte ({{carotte}}) en rondelles, détailler les têtes de brocoli ({{brocoli}}). [12 min]",
   "La vapeur — Mode STEAM : tofu, carotte et brocoli sur papier sulfurisé percé. Le brocoli doit être très tendre, la carotte fondante. [cuisson 14 min]",
   "Le riz — Réchauffer le riz basmati ({{riz cuit}}) 3 minutes à la vapeur. [cuisson 3 min]",
   "La crème de pois — Délayer l'isolat ({{isolat de protéine de pois}}) dans 3 cuillères d'eau tiède, saler d'une pincée, ajouter la ciboulette (pointes vertes) puis l'huile de sésame grillé ({{huile de sésame grillé}}). [2 min]",
@@ -909,7 +998,7 @@ NR("p-tofu-riz-sesame","Tofu ferme vapeur, riz basmati tiède, carottes & brocol
  "Le tofu pressé absorbe mieux la crème : ne saute pas l'étape du pressage.",18),
 NR("p-tofu-mijote-quinoa","Tofu mijoté dans un bouillon de carotte et de thym, quinoa tiède & courgette fondante","Tofu","Cocon & purées","Quinoa",40,1,
  [["tofu ferme",90,"g"],["quinoa cuit",140,"g"],["carotte",110,"g"],["courgette épluchée",55,"g"],["bouillon",250,"ml"],["isolat de protéine de pois",20,"g"],["huile d'olive",1,"c. à café"],["thym","",HERBS],["persil","",HERBS],["sel","","1 pincée"]],
- ["Mise en place — Presser le tofu ({{tofu ferme}}), le couper en cubes de 2 cm. Éplucher la carotte ({{carotte}}) en rondelles et la courgette ({{courgette épluchée}}) entièrement, couper en dés de 1 cm. [10 min]",
+ ["Mise en place — Presser le tofu ({{tofu ferme}}), le couper en cubes de 2 cm. Éplucher et tailler la carotte ({{carotte}}) en rondelles et la courgette ({{courgette épluchée}}) entièrement, couper en dés de 1 cm. [10 min]",
   "Le bouillon — Dans une casserole, frémir le bouillon ({{bouillon}}) avec la carotte et le thym jusqu'à ce que les rondelles s'écrasent. [cuisson 12 min]",
   "Mijoter le tofu — Ajouter tofu et courgette dans le bouillon et laisser mijoter à frémissement, sans bouillir, jusqu'à ce que le tofu soit imprégné et la courgette fondante. [cuisson 10 min]",
   "Le quinoa — Réchauffer le quinoa cuit ({{quinoa cuit}}) 3 minutes à la vapeur. [cuisson 3 min]",
@@ -926,20 +1015,20 @@ NR("p-tofu-puree-courgette","Tofu vapeur sur purée soyeuse de pommes de terre &
 NR("p-tofu-aubergine-riz","Tofu & aubergine pelée fondante à la vapeur, riz tiède","Tofu","Vapeur Bamboo","Riz",45,2,
  [["tofu ferme",90,"g"],["riz cuit",140,"g"],["aubergine épluchée",100,"g"],["carotte",70,"g"],["isolat de protéine de pois",20,"g"],["huile de sésame grillé",1,"c. à café"],["ciboulette","",HERBS],["sel","","1 pincée"]],
  ["L'aubergine — Éplucher entièrement ({{aubergine épluchée}}), couper en dés de 2 cm, saler, laisser dégorger 10 minutes et éponger. [12 min]",
-  "Mise en place — Presser le tofu ({{tofu ferme}}) et le couper en dés de 2 cm. Éplucher la carotte ({{carotte}}) en rondelles. [8 min]",
+  "Mise en place — Presser le tofu ({{tofu ferme}}) et le couper en dés de 2 cm. Éplucher et tailler la carotte ({{carotte}}) en rondelles. [8 min]",
   "La vapeur — Mode STEAM : aubergine, tofu et carotte sur papier sulfurisé percé. L'aubergine doit s'écraser comme une crème. [cuisson 16 min]",
   "Le riz — Réchauffer le riz ({{riz cuit}}) 3 minutes à la vapeur. [cuisson 3 min]",
   "La crème de pois — Délayer l'isolat ({{isolat de protéine de pois}}) dans 3 cuillères d'eau tiède avec une pincée de sel. [2 min]",
   "Dresser — Riz en dôme, aubergine écrasée à la fourchette et tofu en quartiers, carottes à côté, crème de pois puis huile de sésame grillé ({{huile de sésame grillé}}) et ciboulette (pointes vertes). [3 min]"],
  "Une aubergine épluchée et bien cuite perd son amertume et devient presque sucrée.",20),
-NR("p-tofu-millet-potimarron","Tofu mijoté, millet crémeux, potimarron & épinards fondus","Tofu","Cocon & purées","Millet",45,1,
- [["tofu ferme",90,"g"],["millet cuit",140,"g"],["potimarron",120,"g"],["épinards",50,"g"],["bouillon",150,"ml"],["isolat de protéine de pois",20,"g"],["huile d'olive",1,"c. à café"],["thym","",HERBS],["sel","","1 pincée"]],
- ["Mise en place — Presser et couper le tofu ({{tofu ferme}}), éplucher le potimarron ({{potimarron}}) en cubes de 3 cm. [10 min]",
-  "La vapeur — Cuire potimarron et tofu sur papier sulfurisé percé en mode STEAM, ajouter les épinards ({{épinards}}) pour les trois dernières minutes. [cuisson 20 min]",
-  "Le millet — Chauffer le millet ({{millet cuit}}) avec le bouillon ({{bouillon}}) et le thym, en l'écrasant à la cuillère, jusqu'à une texture crémeuse. [cuisson 5 min]",
+NR("p-tofu-quinoa-potimarron","Tofu mijoté, quinoa crémeux au bouillon, potimarron & blettes fondues","Tofu","Cocon & purées","Quinoa",45,1,
+ [["tofu ferme",90,"g"],["quinoa cuit",140,"g"],["potimarron",100,"g"],["blettes",70,"g"],["bouillon",150,"ml"],["isolat de protéine de pois",20,"g"],["huile d'olive",1,"c. à café"],["thym","",HERBS],["sel","","1 pincée"]],
+ ["Mise en place — Presser et couper le tofu ({{tofu ferme}}), éplucher le potimarron ({{potimarron}}) en cubes de 3 cm, séparer les côtes des feuilles de blettes ({{blettes}}) et éplucher les fils des côtes. [10 min]",
+  "La vapeur — Cuire potimarron et côtes de blettes sur papier sulfurisé percé en mode STEAM, ajouter le tofu et les feuilles pour les trois dernières minutes. [cuisson 20 min]",
+  "Le quinoa — Chauffer le quinoa ({{quinoa cuit}}) avec le bouillon ({{bouillon}}) et le thym, en l'écrasant légèrement à la cuillère, jusqu'à une texture crémeuse. [cuisson 6 min]",
   "La liaison — Hors du feu, incorporer l'isolat ({{isolat de protéine de pois}}) délayé dans une cuillère d'eau tiède. [2 min]",
-  "Dresser — Millet crémeux dans une assiette creuse tiède, potimarron écrasé grossièrement, tofu et épinards au centre, huile d'olive crue ({{huile d'olive}}). [3 min]"],
- "Le potimarron écrasé dans le millet remplace avantageusement une crème.",28),
+  "Dresser — Quinoa crémeux dans une assiette creuse tiède, potimarron écrasé grossièrement, tofu et blettes au centre, huile d'olive crue ({{huile d'olive}}). [3 min]"],
+ "Le potimarron écrasé dans le quinoa remplace avantageusement une crème.",28),
 NR("p-tofu-haricots-pdt","Salade tiède de tofu, haricots verts, carottes & pommes de terre","Tofu","Fraîcheur tiède","Pommes de terre",40,1,
  [["tofu ferme",90,"g"],["pommes de terre",140,"g"],["haricots verts",75,"g"],["carotte",100,"g"],["isolat de protéine de pois",20,"g"],["huile d'olive",1,"c. à café"],["eau tiède",3,"c. à soupe"],["persil","",HERBS],["sel","","1 pincée"]],
  ["Mise en place — Presser et couper le tofu ({{tofu ferme}}). Peser 75 g de haricots verts ({{haricots verts}}). Éplucher pommes de terre ({{pommes de terre}}) et carotte ({{carotte}}). [10 min]",
@@ -959,7 +1048,7 @@ NR("p-boulettes-tofu-okara","Boulettes tendres de tofu & d'okara d'amande à la 
  "L'okara lie la farce sans oeuf : il doit simplement être bien égoutté.",20),
 NR("p-tofu-brouille-epinards","Tofu brouillé fondant aux épinards, pommes de terre vapeur & carottes","Tofu","Cocon & purées","Pommes de terre",35,1,
  [["tofu ferme",90,"g"],["épinards",80,"g"],["pommes de terre",140,"g"],["carotte",100,"g"],["isolat de protéine de pois",20,"g"],["huile d'olive",1,"c. à café"],["ciboulette","",HERBS],["sel","","1 pincée"]],
- ["Mise en place — Éplucher pommes de terre ({{pommes de terre}}) en cubes et carotte ({{carotte}}) en rondelles. Presser le tofu ({{tofu ferme}}). [10 min]",
+ ["Mise en place — Éplucher et tailler pommes de terre ({{pommes de terre}}) en cubes et carotte ({{carotte}}) en rondelles. Presser le tofu ({{tofu ferme}}). [10 min]",
   "La vapeur — Cuire pommes de terre et carotte sur papier sulfurisé percé jusqu'à ce qu'elles s'écrasent. [cuisson 20 min]",
   "Le tofu brouillé — Émietter le tofu à la fourchette, le réchauffer 4 minutes à feu très doux avec les épinards ({{épinards}}) et une cuillère d'eau ; incorporer l'isolat ({{isolat de protéine de pois}}) délayé dans une cuillère d'eau tiède : une texture de petits grains crémeux, sans la moindre coloration. [cuisson 5 min]",
   "Dresser — Pommes de terre et carottes dans une assiette creuse tiède, tofu brouillé au centre, huile d'olive crue ({{huile d'olive}}) et ciboulette (pointes vertes). [2 min]"],
@@ -974,14 +1063,14 @@ NR("p-veloute-carotte-tofu","Velouté de carotte et de pomme de terre aux dés d
 NR("p-sardines-vapeur","Sardines fraîches vapeur, pommes de terre tendres & courgette, crème de pois persillée","Sardines","Vapeur Bamboo","Pommes de terre",40,2,
  [["sardines fraîches",90,"g"],["pommes de terre",140,"g"],["courgette épluchée",55,"g"],["carotte",100,"g"],["isolat de protéine de pois",20,"g"],["huile d'olive",1,"c. à café"],["persil","",HERBS],["sel","","1 pincée"]],
  ["Les sardines — Faire écailler, vider et lever les filets de sardines fraîches ({{sardines fraîches}}) chez le poissonnier, les éponger et retirer les arêtes restantes. Plat réservé au midi, hors phase sensible. [8 min]",
-  "Mise en place — Éplucher pommes de terre ({{pommes de terre}}), carotte ({{carotte}}) et courgette entièrement ({{courgette épluchée}}) en dés. [9 min]",
+  "Mise en place — Éplucher et tailler pommes de terre ({{pommes de terre}}), carotte ({{carotte}}) et courgette entièrement ({{courgette épluchée}}) en dés. [9 min]",
   "La vapeur — Mode STEAM : légumes sur papier sulfurisé percé, filets de sardines posés directement sur l'inox les 6 dernières minutes. [cuisson 22 min]",
   "La crème de pois — Délayer l'isolat ({{isolat de protéine de pois}}) dans 3 cuillères d'eau tiède avec le persil haché et une pincée de sel. [2 min]",
   "Dresser — Pommes de terre et légumes dans une assiette creuse tiède, filets de sardines dessus, crème de pois puis huile d'olive crue ({{huile d'olive}}). [3 min]"],
  "Plus la sardine est fraîche, moins elle charge en histamine : la cuire le jour de l'achat.",28),
 NR("p-sardines-riz","Riz tiède, sardines au naturel bien égouttées & carottes fondantes","Sardines","Fraîcheur tiède","Riz",30,1,
  [["sardines au naturel",90,"g"],["riz cuit",140,"g"],["carotte",110,"g"],["haricots verts",60,"g"],["isolat de protéine de pois",20,"g"],["huile d'olive",1,"c. à café"],["persil","",HERBS],["sel","","1 pincée"]],
- ["Mise en place — Éplucher la carotte ({{carotte}}) en rondelles, équeuter les haricots verts ({{haricots verts}}). Égoutter très longuement les sardines au naturel ({{sardines au naturel}}) sur du papier absorbant. [8 min]",
+ ["Mise en place — Éplucher et tailler la carotte ({{carotte}}) en rondelles, équeuter les haricots verts ({{haricots verts}}). Égoutter très longuement les sardines au naturel ({{sardines au naturel}}) sur du papier absorbant. [8 min]",
   "La vapeur — Cuire carotte et haricots sur papier sulfurisé percé jusqu'à ce qu'ils soient fondants. [cuisson 22 min]",
   "Le riz — Réchauffer le riz basmati ({{riz cuit}}) 3 minutes à la vapeur. [cuisson 3 min]",
   "La crème de pois — Délayer l'isolat ({{isolat de protéine de pois}}) dans 3 cuillères d'eau tiède, ajouter le persil et une pincée de sel. [2 min]",
@@ -1007,6 +1096,438 @@ NR("p-hachis-tofu-okara","Hachis parmentier de tofu & d'okara, purée soyeuse & 
 ];
 const NEW_RECIPES = [].concat(BREAKFAST, LUNCH_1, LUNCH_2);
 
+/* ============ DÉJEUNERS ET DÎNERS VÉGÉTARIENS : japonais et coréen doux, légumes variés (protocole de Cat) ============
+   Mêmes portions : féculent 120-150 g, protéine 80-100 g (tofu, ou tofu + 1 œuf), 20-25 g d'isolat, 150-200 g de légumes cuits, 1 c. à café d'huile à cru. */
+const LUNCH_3 = [
+NR("v6-bibimbap-doux","Bibimbap doux : riz tiède, légumes de couleurs, tofu & œuf mollet, crème de sésame","Œufs","Fraîcheur tiède","Riz",40,1,
+ [["riz cuit",140,"g"],["tofu ferme",50,"g"],["œuf",1,"pièce"],["épinards",50,"g"],["carotte",60,"g"],["pak choï",60,"g"],["isolat de protéine de pois",20,"g"],["sauce soja",1,"c. à café"],["graines de sésame",1,"c. à café"],["huile de sésame grillé",1,"c. à café"],["nori",1,"pièce"]],
+ ["Mise en place — Éplucher et tailler la carotte ({{carotte}}) en bâtonnets, séparer feuilles et tiges du pak choï ({{pak choï}}), laver les épinards ({{épinards}}). [8 min]",
+  "Les légumes — Vapeur du Bamboo : carotte et tiges de pak choï d'abord, puis feuilles et épinards pour les trois dernières minutes. Chaque légume reste séparé pour garder sa couleur. [cuisson 14 min]",
+  "Le tofu et l'œuf — Réchauffer le tofu ({{tofu ferme}}) en dés 3 minutes à la vapeur. Cuire l'œuf ({{œuf}}) 7 minutes à la vapeur, l'écaler. [cuisson 7 min]",
+  "Le riz — Réchauffer le riz ({{riz cuit}}) 3 minutes à la vapeur. [cuisson 3 min]",
+  "La crème de sésame — Délayer l'isolat ({{isolat de protéine de pois}}) dans 3 cuillères d'eau tiède avec la sauce soja ({{sauce soja}}), puis ajouter l'huile de sésame grillé ({{huile de sésame grillé}}) hors du feu. [2 min]",
+  "Dresser — Riz au fond d'un bol large tiède, légumes en quartiers, tofu au centre, œuf coupé en deux, nori ({{nori}}) émietté et sésame ({{graines de sésame}}). Mélanger à table. [3 min]"],
+ "Mélanger à table, de bas en haut : le jaune coulant devient la sauce du bol.",30),
+NR("v6-soba-tofu","Soba tièdes au sésame, tofu vapeur, pak choï & daikon fondants","Tofu","Fraîcheur tiède","Sarrasin",40,1,
+ [["soba cuites",140,"g"],["tofu ferme",90,"g"],["pak choï",70,"g"],["carotte",60,"g"],["daikon",40,"g"],["isolat de protéine de pois",20,"g"],["miso blanc",1,"c. à café"],["huile de sésame grillé",1,"c. à café"],["nori",1,"pièce"]],
+ ["Mise en place — Éplucher et tailler le daikon ({{daikon}}) en demi-rondelles, la carotte ({{carotte}}) en bâtonnets, séparer le pak choï ({{pak choï}}). Vérifier que les soba sont 100 % sarrasin. [8 min]",
+  "La vapeur — Daikon et carotte 16 minutes sur papier sulfurisé percé, pak choï et tofu ({{tofu ferme}}) pour les 8 dernières minutes. [cuisson 16 min]",
+  "Les soba — Plonger les soba ({{soba cuites}}) 6 minutes dans l'eau frémissante, les rincer à l'eau tiède, les égoutter. [cuisson 6 min]",
+  "La crème miso — Délayer le miso ({{miso blanc}}) dans 3 cuillères d'eau tiède, y fouetter l'isolat ({{isolat de protéine de pois}}), ajouter l'huile de sésame grillé ({{huile de sésame grillé}}). Ne jamais chauffer le miso. [2 min]",
+  "Dresser — Soba en nid dans un bol large tiède, tofu au centre, légumes autour, crème en filet, nori ({{nori}}) ciselé. [3 min]"],
+ "Rincées à l'eau tiède, les soba gardent leur goût de noisette et restent souples.",24),
+NR("v6-miso-repas","Soupe-repas miso douce : riz, tofu soyeux, daikon & épinards","Tofu","Cocon & purées","Riz",30,1,
+ [["riz cuit",140,"g"],["tofu ferme",90,"g"],["daikon",80,"g"],["épinards",50,"g"],["carotte",40,"g"],["isolat de protéine de pois",20,"g"],["miso blanc",1,"c. à café"],["wakamé",3,"g"],["eau",350,"ml"],["huile de sésame grillé",1,"c. à café"]],
+ ["Mise en place — Éplucher et tailler le daikon ({{daikon}}) et la carotte ({{carotte}}) en fines demi-rondelles, réhydrater le wakamé ({{wakamé}}) 5 minutes dans l'eau froide. [8 min]",
+  "Le bouillon — Porter l'eau ({{eau}}) à frémissement avec daikon et carotte, 12 minutes à feu très doux, jusqu'à ce qu'ils s'écrasent. [cuisson 12 min]",
+  "Le tofu et les épinards — Ajouter le tofu ({{tofu ferme}}) en dés, le wakamé et les épinards ({{épinards}}), 3 minutes à feu très doux. [cuisson 3 min]",
+  "Le miso — Hors du feu, délayer le miso ({{miso blanc}}) et l'isolat ({{isolat de protéine de pois}}) dans une louche de bouillon, puis remettre. Ne jamais faire bouillir. [2 min]",
+  "Dresser — Riz ({{riz cuit}}) au fond d'un bol profond tiède, bouillon par-dessus, filet d'huile de sésame grillé ({{huile de sésame grillé}}). [2 min]"],
+ "Le miso ne bout jamais : on le délaye hors du feu pour garder tout son parfum.",15),
+NR("v6-japchae-doux","Japchae doux : vermicelles de patate douce, tofu & légumes fondants au sésame","Tofu","Fraîcheur tiède","Vermicelles",40,2,
+ [["vermicelles de patate douce cuits",140,"g"],["tofu ferme",90,"g"],["carotte",70,"g"],["épinards",50,"g"],["blettes",50,"g"],["isolat de protéine de pois",20,"g"],["sauce soja",1,"c. à café"],["graines de sésame",1,"c. à café"],["huile de sésame grillé",1,"c. à café"]],
+ ["Mise en place — Découper : carotte ({{carotte}}) en fines lanières, côtes de blettes ({{blettes}}) épluchées en tronçons de 2 cm, épinards ({{épinards}}) lavés. [8 min]",
+  "La vapeur — Carotte et côtes de blettes 14 minutes sur papier sulfurisé percé, feuilles, épinards et tofu ({{tofu ferme}}) pour les 4 dernières minutes. [cuisson 14 min]",
+  "Les vermicelles — Cuire 8 minutes dans l'eau frémissante, égoutter, couper aux ciseaux. [cuisson 8 min]",
+  "La crème — Délayer l'isolat ({{isolat de protéine de pois}}) dans 3 cuillères d'eau tiède avec la sauce soja ({{sauce soja}}), puis l'huile de sésame grillé ({{huile de sésame grillé}}). [2 min]",
+  "Mélanger — Dans un saladier, mêler délicatement vermicelles ({{vermicelles de patate douce cuits}}) tièdes, légumes, tofu et crème, à deux mains. [3 min]",
+  "Dresser — En nid dans une assiette creuse tiède, sésame ({{graines de sésame}}) sur le dessus. [1 min]"],
+ "Les vermicelles de patate douce restent souples même tièdes, sans coller.",26),
+NR("v6-donburi-oeufs","Donburi tiède d'œufs mollets, épinards & carottes fondantes sur riz","Œufs","Cocon & purées","Riz",35,1,
+ [["riz cuit",140,"g"],["œuf",2,"pièce"],["épinards",60,"g"],["carotte",60,"g"],["pak choï",50,"g"],["isolat de protéine de pois",20,"g"],["sauce soja",1,"c. à café"],["huile de sésame grillé",1,"c. à café"]],
+ ["Mise en place — Découper : carotte ({{carotte}}) en rondelles de 8 mm, pak choï ({{pak choï}}) en tronçons, épinards ({{épinards}}) lavés. [8 min]",
+  "La vapeur — Carotte et tiges de pak choï 14 minutes, feuilles et épinards pour les 3 dernières minutes. [cuisson 14 min]",
+  "Les œufs mollets — Cuire les œufs ({{œuf}}) 7 minutes à la vapeur, passer sous l'eau froide, écaler. [cuisson 7 min]",
+  "Le riz et la sauce — Réchauffer le riz ({{riz cuit}}) à la vapeur. Délayer l'isolat ({{isolat de protéine de pois}}) dans 3 cuillères d'eau tiède avec la sauce soja ({{sauce soja}}). [cuisson 3 min]",
+  "Dresser — Riz dans un bol profond tiède, légumes autour, œufs coupés en deux au centre, crème en filet et huile de sésame grillé ({{huile de sésame grillé}}). [3 min]"],
+ "Un donburi se mange à la cuillère : le jaune imbibe le riz.",22),
+NR("v6-gimbap","Gimbap tiède : rouleaux de riz & nori, tofu, carotte et épinards fondants","Tofu","Vapeur Bamboo","Riz",45,2,
+ [["riz cuit",140,"g"],["nori",2,"pièce"],["tofu ferme",90,"g"],["carotte",80,"g"],["épinards",50,"g"],["courge spaghetti",40,"g"],["isolat de protéine de pois",20,"g"],["graines de sésame",1,"c. à café"],["huile de sésame grillé",1,"c. à café"]],
+ ["Mise en place — Découper : carotte ({{carotte}}) en bâtonnets fins, tofu ({{tofu ferme}}) en bâtonnets de 1 cm, épinards ({{épinards}}) lavés. [8 min]",
+  "La vapeur — Carotte 14 minutes, tofu et épinards pour les 4 dernières minutes, courge spaghetti ({{courge spaghetti}}) effilochée. Presser les épinards. [cuisson 14 min]",
+  "Le riz — Réchauffer le riz ({{riz cuit}}) et le mêler à l'huile de sésame grillé ({{huile de sésame grillé}}). Il doit rester tiède. [cuisson 3 min]",
+  "Le roulage — Étaler le riz sur une feuille de nori ({{nori}}) en laissant 2 cm libres en haut, aligner les garnitures au centre, rouler serré. [6 min]",
+  "La crème et le dressage — Délayer l'isolat ({{isolat de protéine de pois}}) avec une cuillère d'eau, servir à côté. Trancher le rouleau en tronçons de 2 cm avec un couteau très affûté, parsemer de sésame ({{graines de sésame}}). [3 min]"],
+ "Un couteau humide et très affûté tranche le rouleau sans l'écraser.",24),
+NR("v6-risotto-potimarron","Risotto de riz au bouillon, potimarron & blettes, dés de tofu tendres","Tofu","Cocon & purées","Riz",40,2,
+ [["riz cuit",140,"g"],["tofu ferme",90,"g"],["potimarron",100,"g"],["blettes",70,"g"],["bouillon",200,"ml"],["isolat de protéine de pois",20,"g"],["huile d'olive",1,"c. à café"],["persil","",HERBS],["sel","","1 pincée"]],
+ ["Mise en place — Découper : potimarron ({{potimarron}}) en cubes de 2 cm, côtes de blettes ({{blettes}}) épluchées en tronçons, tofu ({{tofu ferme}}) en dés. [10 min]",
+  "La vapeur — Potimarron et côtes 16 minutes sur papier sulfurisé percé, feuilles et tofu pour les 3 dernières minutes. [cuisson 16 min]",
+  "Le risotto — Chauffer le riz cuit ({{riz cuit}}) avec le bouillon ({{bouillon}}), en ajoutant le potimarron écrasé à la fourchette, jusqu'à une texture crémeuse. [cuisson 8 min]",
+  "La liaison — Hors du feu, incorporer l'isolat ({{isolat de protéine de pois}}) délayé dans une cuillère d'eau tiède. [2 min]",
+  "Dresser — Assiette creuse tiède, risotto étalé, blettes et tofu au centre, persil haché, huile d'olive crue ({{huile d'olive}}). [3 min]"],
+ "Le potimarron écrasé remplace la crème et le parmesan.",24),
+NR("v6-courge-spaghetti","Courge spaghetti tiède, tofu émietté à la crème de pois, pommes de terre tendres","Tofu","Cocon & purées","Pommes de terre",50,2,
+ [["courge spaghetti",75,"g"],["pommes de terre",140,"g"],["tofu ferme",90,"g"],["carotte",50,"g"],["épinards",45,"g"],["isolat de protéine de pois",20,"g"],["huile d'olive",1,"c. à café"],["basilic","",HERBS],["sel","","1 pincée"]],
+ ["Mise en place — Couper la courge spaghetti ({{courge spaghetti}}) en deux, retirer les graines. Cubes de pomme de terre ({{pommes de terre}}), carotte ({{carotte}}) en rondelles, tofu ({{tofu ferme}}) en dés. [10 min]",
+  "La vapeur — Courge 25 minutes, pommes de terre et carotte 18 minutes, tofu et épinards ({{épinards}}) pour les 4 dernières minutes. [cuisson 25 min]",
+  "Les filaments — Effilocher la chair de courge à la fourchette en longs spaghettis. [3 min]",
+  "La crème de pois — Délayer l'isolat ({{isolat de protéine de pois}}) avec 3 cuillères d'eau tiède, le basilic haché et une pincée de sel. [2 min]",
+  "Dresser — Nid de courge, pommes de terre à côté, tofu et épinards au centre, crème de pois, huile d'olive crue ({{huile d'olive}}). [3 min]"],
+ "La courge spaghetti remplace les pâtes sans gluten, avec un parfum doux de noisette.",30),
+NR("v6-quinoa-blettes","Quinoa tiède, blettes et carottes fondantes, tofu & œuf dur mimosa","Œufs","Fraîcheur tiède","Quinoa",40,1,
+ [["quinoa cuit",140,"g"],["tofu ferme",50,"g"],["œuf",1,"pièce"],["blettes",75,"g"],["carotte",50,"g"],["courgette",45,"g"],["isolat de protéine de pois",20,"g"],["huile d'olive",1,"c. à café"],["persil","",HERBS],["sel","","1 pincée"]],
+ ["Mise en place — Découper : côtes de blettes ({{blettes}}) épluchées en tronçons, carotte ({{carotte}}) en rondelles, courgette ({{courgette}}) épluchée à 100 % en dés de 1 cm. [8 min]",
+  "La vapeur — Carotte et côtes 14 minutes, feuilles, courgette et tofu ({{tofu ferme}}) pour les 5 dernières minutes. [cuisson 14 min]",
+  "L'œuf dur — Cuire l'œuf ({{œuf}}) 12 minutes à la vapeur, passer sous l'eau froide, écaler et écraser le jaune à la fourchette pour le mimosa. [cuisson 12 min]",
+  "Le quinoa — Réchauffer le quinoa ({{quinoa cuit}}) 3 minutes à la vapeur. Délayer l'isolat ({{isolat de protéine de pois}}) dans 3 cuillères d'eau tiède avec le persil. [cuisson 3 min]",
+  "Dresser — Quinoa en couronne, légumes au centre, tofu autour, mimosa d'œuf, crème de pois et huile d'olive crue ({{huile d'olive}}). [3 min]"],
+ "Un jaune écrasé en mimosa remplace une sauce : il apporte la rondeur sans graisse cuite.",26),
+NR("v6-patate-douce-puree","Purée soyeuse pomme de terre–patate douce, tofu vapeur & brocoli fondant","Tofu","Cocon & purées","Pommes de terre",45,1,
+ [["pommes de terre",140,"g"],["patate douce",75,"g"],["brocoli",60,"g"],["carotte",35,"g"],["tofu ferme",90,"g"],["isolat de protéine de pois",20,"g"],["huile d'olive",1,"c. à café"],["thym","",HERBS],["sel","","1 pincée"]],
+ ["Mise en place — Découper : pommes de terre ({{pommes de terre}}) et patate douce ({{patate douce}}) en cubes de 3 cm, têtes de brocoli ({{brocoli}}) seules, carotte ({{carotte}}) en rondelles, tofu ({{tofu ferme}}) en dés. [10 min]",
+  "La vapeur — Pommes de terre, patate douce et carotte 18 minutes, brocoli et tofu pour les 12 dernières minutes. [cuisson 18 min]",
+  "La purée — Écraser pommes de terre et patate douce à la fourchette avec deux cuillères d'eau chaude, le thym et une pincée de sel. [3 min]",
+  "La crème de pois — Délayer l'isolat ({{isolat de protéine de pois}}) avec 3 cuillères d'eau tiède. [2 min]",
+  "Dresser — Purée en nid, tofu et légumes autour, crème de pois et huile d'olive crue ({{huile d'olive}}). [3 min]"],
+ "La patate douce reste limitée à 75 g : assez pour sucrer la purée, pas pour fermenter.",30),
+NR("v6-chawanmushi-tofu","Chawanmushi soyeux au tofu & au daikon, riz tiède","Œufs","Vapeur Bamboo","Riz",40,2,
+ [["riz cuit",140,"g"],["œuf",1,"pièce"],["tofu ferme",50,"g"],["bouillon",150,"ml"],["daikon",60,"g"],["carotte",60,"g"],["pak choï",50,"g"],["isolat de protéine de pois",20,"g"],["huile de sésame grillé",1,"c. à café"]],
+ ["Mise en place — Découper : daikon ({{daikon}}) et carotte ({{carotte}}) en petits dés, pak choï ({{pak choï}}) en tronçons. [8 min]",
+  "Les légumes — Vapeur 14 minutes, jusqu'à ce qu'ils s'écrasent. [cuisson 14 min]",
+  "Le flan — Battre l'œuf ({{œuf}}) avec le bouillon tiède ({{bouillon}}) et l'isolat ({{isolat de protéine de pois}}) sans faire mousser, passer au tamis. Répartir dans deux bols avec les dés de tofu ({{tofu ferme}}). [4 min]",
+  "La vapeur douce — Couvrir d'une assiette et cuire à la vapeur douce jusqu'à ce que le flan tremble au centre. [cuisson 12 min]",
+  "Dresser — Servir tiède avec les légumes, le riz ({{riz cuit}}) et un filet d'huile de sésame grillé ({{huile de sésame grillé}}). [2 min]"],
+ "Une vapeur douce, couvercle entrouvert : le flan reste lisse, sans bulles.",26),
+NR("v6-bol-fenouil","Bol de quinoa tiède, fenouil & haricots verts fondants, tofu à l'aneth","Tofu","Vapeur Bamboo","Quinoa",40,1,
+ [["quinoa cuit",140,"g"],["tofu ferme",90,"g"],["fenouil",60,"g"],["haricots verts",75,"g"],["carotte",35,"g"],["isolat de protéine de pois",20,"g"],["huile d'olive",1,"c. à café"],["aneth","",HERBS],["sel","","1 pincée"]],
+ ["Mise en place — Découper : fenouil ({{fenouil}}) en fines lamelles, haricots verts ({{haricots verts}}) pesés à 75 g et coupés en tronçons, carotte ({{carotte}}) en rondelles. [8 min]",
+  "La vapeur — Carotte et fenouil 16 minutes, haricots verts 25 minutes pour être mous, tofu ({{tofu ferme}}) pour les 4 dernières minutes. [cuisson 25 min]",
+  "Le quinoa — Réchauffer le quinoa ({{quinoa cuit}}) 3 minutes à la vapeur. [cuisson 3 min]",
+  "La crème à l'aneth — Délayer l'isolat ({{isolat de protéine de pois}}) avec 3 cuillères d'eau tiède, l'aneth ciselé finement et une pincée de sel. [2 min]",
+  "Dresser — Quinoa au fond d'un bol large tiède, légumes en quartiers, tofu au centre, crème à l'aneth et huile d'olive crue ({{huile d'olive}}). [3 min]"],
+ "Le fenouil cuit longtemps devient doux et sucré : son goût d'anis s'efface.",30)
+];
+NEW_RECIPES.push(...LUNCH_3);
+
+/* ====== Étapes détaillées (v3.2) : temps de cuisson minute par minute, ustensiles, repères, dressage ====== */
+const BAM = "le rice cooker Yum Asia Bamboo (cuve et panier vapeur inox)";
+const OV = {};
+const intro = extra => "Avant de commencer — Ustensiles : " + BAM + ", une feuille de papier sulfurisé percée de quelques trous, " + extra + ". Verser 300 ml d'eau dans la cuve avant de lancer chaque cuisson vapeur.";
+OV["p-oeufs-mollets-epinards"] = [
+ intro("un économe, une planche et un couteau, une passoire, un presse-purée (ou une fourchette), un bol d'eau froide, une assiette creuse tiède"),
+ "Mise en place — Sortir les œufs ({{œufs}}) du frigo 10 minutes avant la cuisson pour que la coquille ne se fende pas. Éplucher les pommes de terre ({{pommes de terre}}) et les couper en cubes de 3 cm, éplucher la carotte ({{carotte}}) et la couper en rondelles de 8 mm, puis laver les épinards ({{épinards}}) et retirer les grosses tiges. [8 min]",
+ "La vapeur, minute par minute — Poser le papier sulfurisé percé dans le panier, y disposer pommes de terre et carotte, et lancer le mode STEAM : c'est la minute 0. À la minute 14, poser les œufs directement sur l'inox, à côté des légumes. À la minute 19, ajouter les épinards sur le papier. À la minute 22, tout est prêt : les cubes s'écrasent à la fourchette, les épinards sont affaissés, les œufs ont cuit 8 minutes. Ne pas soulever le couvercle avant la minute 14. [cuisson 22 min]",
+ "Les œufs mollets — Sortir les œufs avec une cuillère, les plonger 2 minutes dans le bol d'eau froide pour stopper la cuisson, puis les écaler délicatement sous un filet d'eau en tapotant la coquille : le blanc est pris, le jaune encore coulant. [2 min]",
+ "La purée — Presser les épinards dans la passoire pour ôter l'eau. Écraser les pommes de terre au presse-purée avec le lait de riz tiède ({{lait de riz}}), l'isolat de pois ({{isolat de protéine de pois}}) délayé dans une cuillère d'eau et une pincée de sel, jusqu'à obtenir une purée lisse, brillante, qui nappe la cuillère. [3 min]",
+ "Dressage — Dans l'assiette creuse tiède, déposer la purée en nid avec le dos d'une cuillère. Disposer les épinards d'un côté et les rondelles de carotte en éventail de l'autre. Couper chaque œuf en deux et le poser au centre du nid, jaune vers le haut. Terminer d'un filet d'huile d'olive crue ({{huile d'olive}}) et de pointes vertes de ciboulette ciselées ({{ciboulette}}). [3 min]"];
+OV["p-poulet-effiloche-potimarron"] = [
+ intro("une planche et un couteau, un économe, un presse-purée, deux fourchettes, un petit bol et un fouet, une assiette creuse tiède"),
+ "Mise en place — Sortir le blanc de poulet ({{blanc de poulet}}) du frigo 15 minutes avant et ôter la peau. Éplucher les pommes de terre ({{pommes de terre}}) et le potimarron ({{potimarron}}) et les couper en cubes de 3 cm. Éplucher la carotte ({{carotte}}) et la tailler en bâtonnets de 1 cm. [10 min]",
+ "Le montage de la cuve — Verser 250 ml d'eau tiède dans la cuve. Dans le panier, poser le papier sulfurisé percé avec pommes de terre, potimarron et carotte. Poser le poulet à côté, directement sur l'inox, sans papier, avec une branche de thym ({{thym}}). Refermer. [3 min]",
+ "La cuisson lente — Lancer le mode SLOW COOK pour 45 minutes, sans ouvrir le couvercle. À la fin, le poulet se défait en fibres humides sous la fourchette et les cubes de légumes sont traversés sans résistance par la pointe d'un couteau. Laisser reposer 5 minutes avant d'ouvrir. [cuisson 45 min]",
+ "L'effilochage — Déposer le poulet sur la planche et le tirer à deux fourchettes en fines fibres, en écartant les parties dures. Garder un peu de jus de la cuve. [3 min]",
+ "La purée — Écraser pommes de terre et potimarron au presse-purée avec une cuillère de jus tiède de la cuve et une pincée de sel : une purée orangée, lisse, qui se tient en nid. [3 min]",
+ "La crème de pois — Délayer l'isolat ({{isolat de protéine de pois}}) dans le bouillon tiède ({{bouillon}}) en fouettant jusqu'à une crème sans grumeaux. Ne pas la chauffer. [2 min]",
+ "Dressage — Assiette creuse tiède : la purée en nid au centre, le poulet effiloché en dôme par-dessus, les bâtonnets de carotte plantés sur le côté. Napper de crème de pois en filet, finir d'huile d'olive crue ({{huile d'olive}}) et de persil ciselé ({{persil}}). [3 min]"];
+OV["p-poulet-poche-riz"] = [
+ intro("une casserole avec couvercle, une planche et un couteau, un économe, une passoire, une louche, un petit bol et un fouet"),
+ "Mise en place — Éplucher la carotte ({{carotte}}) et la couper en rondelles de 8 mm. Ôter la peau du blanc de poulet ({{blanc de poulet}}). Laver les épinards ({{épinards}}) et retirer les grosses tiges. [6 min]",
+ "Le bouillon — Dans la casserole, porter à frémissement le bouillon ({{bouillon}}) avec les rondelles de carotte, une branche de thym ({{thym}}) et une pincée de sel. Laisser frémir à feu doux : la carotte est prête quand elle s'écrase entre deux doigts. [cuisson 12 min]",
+ "Pocher le poulet — Plonger le blanc dans le bouillon frémissant, couvrir, couper le feu et laisser pocher dans la chaleur résiduelle pendant 20 minutes. La chair est alors blanche et juteuse à cœur, sans trace rose. [cuisson 20 min]",
+ "La vapeur — Pendant le pochage, lancer le mode STEAM du Bamboo : réchauffer le riz basmati ({{riz cuit}}) avec une cuillère de bouillon dans un bol, 3 minutes, puis laisser tomber les épinards 3 minutes sur le papier sulfurisé percé et les presser doucement. [cuisson 6 min]",
+ "La crème de pois — Prélever 4 cuillères de bouillon tiède, y délayer l'isolat ({{isolat de protéine de pois}}) en fouettant jusqu'à une crème lisse. [2 min]",
+ "Dressage — Dans l'assiette creuse tiède, tasser le riz en dôme avec une cuillère, trancher le poulet en biais en lamelles de 5 mm et les disposer en éventail contre le riz. Ajouter les épinards d'un côté, les carottes de l'autre, napper de crème de pois, finir d'huile d'olive crue ({{huile d'olive}}) et de persil ciselé ({{persil}}). [3 min]"];
+OV["p-poulet-quinoa-courgette"] = [
+ intro("un économe, une planche et un couteau, un petit bol et un fouet, une assiette creuse tiède"),
+ "Mise en place — Éplucher la courgette ({{courgette épluchée}}) à 100 % (aucune peau verte), retirer le cœur graineux et la couper en dés de 1 cm, sans dépasser la quantité indiquée. Éplucher la carotte ({{carotte}}) et la couper en rondelles de 8 mm. Ôter la peau du poulet ({{blanc de poulet}}). [8 min]",
+ "La vapeur, minute par minute — Lancer le mode STEAM. Minute 0 : poser le poulet directement sur l'inox. Minute 4 : ajouter dans le panier, sur le papier sulfurisé percé, les rondelles de carotte. Minute 12 : ajouter les dés de courgette. Minute 24 : arrêter. Le poulet est blanc à cœur, la carotte s'écrase entre deux doigts, la courgette est translucide. [cuisson 24 min]",
+ "Le quinoa — Réchauffer le quinoa cuit ({{quinoa cuit}}) 3 minutes dans la vapeur, dans un bol avec une cuillère d'eau, puis l'aérer à la fourchette. [cuisson 3 min]",
+ "La crème de pois — Délayer l'isolat ({{isolat de protéine de pois}}) dans 3 cuillères d'eau tiède, saler d'une pincée, ajouter la ciboulette ciselée ({{ciboulette}}, pointes vertes seulement), puis l'huile de sésame grillé ({{huile de sésame grillé}}) en filet. [2 min]",
+ "Dressage — Quinoa en couronne dans l'assiette creuse tiède. Au centre, le poulet tranché en biais, autour les légumes en éventail, et un zigzag de crème de pois sur l'ensemble. [3 min]"];
+OV["p-poulet-riz-pakchoi"] = [
+ intro("une planche et un couteau, un économe, un petit bol et un fouet, un bol pour le riz, une assiette creuse tiède"),
+ "Mise en place — Peser exactement 75 g de haricots verts ({{haricots verts}}), les équeuter et les couper en tronçons de 3 cm. Séparer les feuilles du pak choï ({{pak choï}}), tailler les tiges en tronçons de 2 cm. Éplucher la carotte ({{carotte}}) et la couper en bâtonnets. Ôter la peau du poulet ({{blanc de poulet}}). [8 min]",
+ "La vapeur, minute par minute — Mode STEAM. Minute 0 : le poulet directement sur l'inox et les haricots verts sur le papier percé. Minute 2 : ajouter la carotte et les tiges de pak choï. Minute 24 : ajouter les feuilles de pak choï. Minute 26 : arrêter. Les haricots doivent être mous, jamais croquants, et le poulet blanc à cœur. [cuisson 26 min]",
+ "Le riz — Pendant les 5 dernières minutes, poser le riz basmati cuit ({{riz cuit}}) dans un bol avec une cuillère d'eau à côté du poulet pour le réchauffer. [cuisson 5 min]",
+ "La crème de pois — Délayer l'isolat ({{isolat de protéine de pois}}) dans 3 cuillères d'eau tiède, y ajouter le persil haché ({{persil}}) et une pincée de sel. [2 min]",
+ "Dressage — Riz en dôme dans l'assiette creuse tiède, poulet tranché en biais contre le riz, haricots et carottes en éventail, pak choï en bouquet. Napper de crème de pois puis d'un filet d'huile d'olive crue ({{huile d'olive}}). [3 min]"];
+OV["p-poulet-puree-panais"] = [
+ intro("une planche et un couteau, un économe, un presse-purée, deux fourchettes, un petit bol et un fouet"),
+ "Mise en place — Éplucher les pommes de terre ({{pommes de terre}}) et le panais ({{panais}}), ôter le cœur ligneux du panais, tailler en cubes de 2 cm. Éplucher la carotte ({{carotte}}) et la couper en tronçons de 3 cm. Ôter la peau du poulet ({{blanc de poulet}}). [8 min]",
+ "La cuisson lente — Verser 250 ml d'eau tiède dans la cuve, mettre légumes et branche de thym ({{thym}}) sur le papier sulfurisé percé dans le panier, le poulet directement sur l'inox. Lancer SLOW COOK pour 45 minutes sans ouvrir le couvercle. Le poulet est prêt quand ses fibres se séparent sans résistance. [cuisson 45 min]",
+ "Effilocher — Laisser reposer 5 minutes, puis tirer le poulet à deux fourchettes en fines fibres humides. [3 min]",
+ "La purée — Écraser pommes de terre et panais avec une cuillère de jus de la cuve et une pincée de sel : purée blonde, lisse, légèrement sucrée. [3 min]",
+ "La crème de pois — Délayer l'isolat ({{isolat de protéine de pois}}) dans le bouillon tiède ({{bouillon}}). [2 min]",
+ "Dressage — Purée en nid au centre de l'assiette creuse tiède, poulet effiloché en dôme par-dessus, carottes tout autour, crème de pois en filet, huile d'olive crue ({{huile d'olive}}). [3 min]"];
+OV["p-poulet-riz-aubergine"] = [
+ intro("un économe, du papier absorbant, une planche et un couteau, deux fourchettes, un petit bol et un fouet"),
+ "L'aubergine — Éplucher entièrement l'aubergine ({{aubergine épluchée}}), la couper en dés de 2 cm, saupoudrer d'une pincée de sel et laisser dégorger 10 minutes sur du papier absorbant, puis l'éponger. Éplucher la carotte ({{carotte}}) en rondelles de 8 mm. Ôter la peau du poulet ({{blanc de poulet}}). [12 min]",
+ "La vapeur, minute par minute — Mode STEAM. Minute 0 : poulet directement sur l'inox. Minute 4 : carotte et dés d'aubergine sur le papier sulfurisé percé. Minute 24 : arrêter. L'aubergine doit s'écraser comme une crème, sans aucune résistance. [cuisson 24 min]",
+ "Effilocher et écraser — Tirer le poulet cuit à deux fourchettes en fines fibres, écraser l'aubergine à la fourchette avec une pincée de sel. [3 min]",
+ "Le riz — Réchauffer le riz basmati ({{riz cuit}}) 3 minutes dans la vapeur, dans un bol avec une cuillère d'eau. [cuisson 3 min]",
+ "La crème de pois — Délayer l'isolat ({{isolat de protéine de pois}}) dans 3 cuillères d'eau tiède, ajouter la ciboulette {{ciboulette}} (pointes vertes seulement). [2 min]",
+ "Dressage — Riz au fond d'un bol large tiède, aubergine écrasée et poulet en deux quartiers face à face, carottes à côté. Crème de pois en zigzag puis huile de sésame grillé ({{huile de sésame grillé}}) en filet. [3 min]"];
+OV["p-veloute-butternut-poulet"] = [
+ intro("un économe, une planche et un couteau, un mixeur plongeant, un petit bol, une assiette creuse tiède"),
+ "Mise en place — Éplucher la butternut ({{butternut}}), retirer les graines et la tailler en cubes de 3 cm. Éplucher la carotte ({{carotte}}) en rondelles. Ôter la peau du poulet ({{blanc de poulet}}). [8 min]",
+ "La vapeur, minute par minute — Mode STEAM. Minute 0 : poulet directement sur l'inox avec une branche de thym ({{thym}}). Minute 2 : butternut et carotte sur le papier percé. Minute 24 : arrêter. La butternut doit s'écraser à la fourchette. [cuisson 24 min]",
+ "Le velouté — Mixer butternut et carotte avec le bouillon tiède ({{bouillon}}) et l'isolat de pois ({{isolat de protéine de pois}}) jusqu'à un velouté épais, lisse et brillant. Saler d'une pincée. [4 min]",
+ "Le quinoa — Réchauffer le quinoa cuit ({{quinoa cuit}}) 3 minutes dans la vapeur, avec une cuillère d'eau. [cuisson 3 min]",
+ "Dressage — Velouté dans l'assiette creuse tiède, quinoa en quenelle au centre, poulet tranché en éventail sur le quinoa. Filet d'huile d'olive crue ({{huile d'olive}}) et feuilles de thym. [3 min]"];
+OV["p-papillote-poulet"] = [
+ intro("une feuille de papier sulfurisé de 35 cm, une ficelle de cuisine, une planche et un couteau, un économe, un petit bol et un fouet"),
+ "Mise en place — Éplucher les pommes de terre ({{pommes de terre}}) en cubes de 3 cm, la carotte ({{carotte}}) en bâtonnets de 1 cm, la courgette ({{courgette épluchée}}) à 100 % en dés de 1 cm. Ôter la peau du poulet ({{blanc de poulet}}). [9 min]",
+ "La papillote — Sur la feuille de papier sulfurisé, déposer carotte, courgette, poulet et le thym ({{thym}}). Saler très légèrement, refermer la papillote en plissant les bords et l'attacher de ficelle pour qu'elle soit hermétique. [4 min]",
+ "La vapeur — Mode STEAM. Minute 0 : la papillote et les pommes de terre dans le panier. Minute 26 : arrêter. Ouvrir la papillote au-dessus d'un bol pour récupérer le jus. [cuisson 26 min]",
+ "La crème de pois — Délayer l'isolat ({{isolat de protéine de pois}}) dans 4 cuillères du jus de la papillote, tiède, avec le persil haché ({{persil}}). [2 min]",
+ "Dressage — Verser le contenu de la papillote dans l'assiette creuse tiède, pommes de terre à côté, crème de pois en filet, huile d'olive crue ({{huile d'olive}}). [3 min]"];
+OV["p-parmentier-poulet"] = [
+ intro("une planche et un couteau, un économe, un presse-purée, deux fourchettes, un cercle ou un ramequin pour mouler, un petit bol"),
+ "Mise en place — Éplucher les pommes de terre ({{pommes de terre}}) et la carotte ({{carotte}}) en cubes de 2 cm ; détailler uniquement les têtes du brocoli ({{brocoli}}) en petits bouquets, sans la tige. Ôter la peau du poulet ({{blanc de poulet}}). [8 min]",
+ "La cuisson lente — SLOW COOK 45 minutes : poulet directement sur l'inox, légumes sur le papier percé dans le panier (le brocoli en dernier, sur le dessus). Ne pas ouvrir le couvercle. [cuisson 45 min]",
+ "Le hachis — Effilocher le poulet, l'écraser grossièrement à la fourchette avec les carottes et le bouillon tiède ({{bouillon}}) pour obtenir un hachis moelleux. [3 min]",
+ "La purée — Écraser les pommes de terre avec l'isolat ({{isolat de protéine de pois}}) délayé dans une cuillère d'eau chaude et une pincée de sel : purée lisse et riche. [3 min]",
+ "Dressage — Dans le cercle posé sur l'assiette tiède, tasser le hachis, recouvrir de purée lissée à la spatule, retirer le cercle, entourer des bouquets de brocoli. Pas de gratin : le plat se sert tiède. Thym ({{thym}}) et filet d'huile d'olive crue ({{huile d'olive}}). [4 min]"];
+OV["p-bol-avocat"] = [
+ intro("une planche et un couteau, un économe, une fourchette, un petit bol et un fouet, un bol large tiède"),
+ "Mise en place — Éplucher la carotte ({{carotte}}) en rondelles de 8 mm, détailler les têtes de brocoli ({{brocoli}}) en petits bouquets, ôter la peau du poulet ({{blanc de poulet}}). [8 min]",
+ "La vapeur, minute par minute — Mode STEAM. Minute 0 : poulet directement sur l'inox et carotte sur le papier percé. Minute 12 : brocoli. Minute 24 : arrêter. Le brocoli doit être très tendre, jamais croquant. [cuisson 24 min]",
+ "Le riz — Réchauffer le riz basmati ({{riz cuit}}) 3 minutes dans la vapeur, dans un bol avec une cuillère d'eau. [cuisson 3 min]",
+ "L'avocat — Peser 25 g d'avocat ({{avocat}}) bien mûr, soit un huitième, et l'écraser à la fourchette : c'est la limite du protocole, jamais davantage. [1 min]",
+ "La crème de pois — Délayer l'isolat ({{isolat de protéine de pois}}) dans 3 cuillères d'eau tiède avec la ciboulette ciselée ({{ciboulette}}). [2 min]",
+ "Dressage — Riz au fond du bol, poulet tranché en biais, carottes et brocoli en quartiers, avocat écrasé en quenelle au centre. Crème de pois en zigzag puis filet d'huile de sésame grillé ({{huile de sésame grillé}}). [3 min]"];
+OV["p-risotto-riz-poulet"] = [
+ intro("une casserole avec couvercle, une cuillère en bois, une planche et un couteau, un économe, deux fourchettes, un petit bol"),
+ "Mise en place — Éplucher la carotte ({{carotte}}) et la couper en petits dés de 5 mm. Laver les épinards ({{épinards}}). Ôter la peau du poulet ({{blanc de poulet}}). [6 min]",
+ "Le poulet — Porter le bouillon ({{bouillon}}) à frémissement avec le thym ({{thym}}), y plonger le poulet, couvrir, couper le feu et laisser pocher 15 minutes. Le retirer puis l'effilocher à deux fourchettes. [cuisson 15 min]",
+ "Les légumes — Remettre le bouillon à frémissement, y cuire les dés de carotte 8 minutes jusqu'à ce qu'ils soient fondants, puis ajouter les épinards 2 minutes. [cuisson 10 min]",
+ "Le risotto — Ajouter le riz cuit ({{riz cuit}}) et le laisser s'imprégner à feu doux 5 minutes en remuant : il devient crémeux. [cuisson 5 min]",
+ "La liaison — Hors du feu, incorporer l'isolat ({{isolat de protéine de pois}}) délayé dans une cuillère de bouillon : le riz devient nappant et soyeux. [2 min]",
+ "Dressage — Risotto dans l'assiette creuse tiède, étalé d'un tour de poignet, poulet effiloché en petit tas au centre, filet d'huile d'olive crue ({{huile d'olive}}) et feuilles de thym. [2 min]"];
+OV["p-chawanmushi-riz"] = [
+ intro("deux ramequins, une passoire fine, un fouet ou une fourchette, un petit bol, une planche et un couteau"),
+ "Mise en place — Éplucher la carotte ({{carotte}}) et la courgette ({{courgette épluchée}}) entièrement, les couper en dés de 5 mm. Les cuire 8 minutes dans le panier vapeur (mode STEAM) sur le papier percé, jusqu'à ce qu'ils s'écrasent. [cuisson 8 min]",
+ "L'appareil — Délayer l'isolat ({{isolat de protéine de pois}}) dans le bouillon tiède ({{bouillon}}), battre les œufs ({{œufs}}) à la fourchette sans faire de mousse, mélanger, saler d'une pincée et filtrer à la passoire fine pour un flan parfaitement lisse. [4 min]",
+ "Le flan — Répartir les légumes dans les deux ramequins, verser l'appareil par-dessus à la louche, couvrir de papier sulfurisé et cuire en mode STEAM, couvercle légèrement entrouvert pour baisser la vapeur : le flan est prêt quand il tremble comme une panna cotta au centre. [cuisson 15 min]",
+ "Le riz — Pendant les 3 dernières minutes, poser le riz ({{riz cuit}}) dans un bol à côté pour le réchauffer. [cuisson 3 min]",
+ "Dressage — Riz dans un bol tiède, flan à côté dans son ramequin, ciboulette (pointes vertes) et huile de sésame grillé ({{huile de sésame grillé}}) en filet sur le flan. [2 min]"];
+OV["p-oeufs-poches-veloute"] = [
+ intro("une casserole, une écumoire ou une cuillère trouée, un mixeur plongeant, un économe, une planche et un couteau, du papier absorbant"),
+ "Mise en place — Éplucher le potimarron ({{potimarron}}), la carotte ({{carotte}}) et les pommes de terre ({{pommes de terre}}) et les couper en cubes de 3 cm. [8 min]",
+ "La vapeur — Mode STEAM, légumes sur le papier percé avec une branche de thym ({{thym}}) : 20 minutes, jusqu'à ce que la pointe d'un couteau traverse les cubes sans résistance. Garder les pommes de terre pour l'assiette. [cuisson 20 min]",
+ "Le velouté — Mixer potimarron et carotte avec le bouillon tiède ({{bouillon}}) et l'isolat de pois ({{isolat de protéine de pois}}) : un velouté épais, orangé, qui nappe la cuillère. Ajuster d'une pincée de sel. [4 min]",
+ "Les œufs pochés — Faire frémir de l'eau salée, créer un léger tourbillon à la cuillère, faire glisser un œuf ({{œufs}}) cassé dans une tasse, pocher 3 minutes sans bouillir ; répéter. Égoutter sur du papier absorbant. Le blanc est pris, le jaune coule. [cuisson 4 min]",
+ "Dressage — Velouté dans l'assiette creuse tiède, pommes de terre à côté, œufs pochés au centre. Filet d'huile d'olive crue ({{huile d'olive}}) et feuilles de thym. [3 min]"];
+OV["p-omelette-vapeur"] = [
+ intro("une râpe fine, un fouet, un ramequin ou un petit bol de 15 cm, une planche et un couteau, un économe"),
+ "Mise en place — Éplucher entièrement la courgette ({{courgette épluchée}}) et la râper finement. Éplucher la carotte ({{carotte}}) et les pommes de terre ({{pommes de terre}}) et les couper en cubes de 3 cm. [9 min]",
+ "La vapeur des légumes — Mode STEAM : carotte et pommes de terre sur le papier percé, 20 minutes, jusqu'à ce qu'ils s'écrasent. [cuisson 20 min]",
+ "L'appareil — Délayer l'isolat ({{isolat de protéine de pois}}) dans l'eau tiède ({{eau tiède}}), battre avec les œufs ({{œufs}}) à la fourchette, ajouter la courgette râpée et une pincée de sel. [3 min]",
+ "L'omelette — Verser dans le ramequin recouvert de papier sulfurisé et le poser dans le panier avec les légumes pour les 14 dernières minutes, en mode STEAM, couvercle légèrement entrouvert. L'omelette est cuite quand elle est gonflée et ferme au toucher. [cuisson 14 min]",
+ "Dressage — Démouler l'omelette tiède, la trancher en deux, disposer pommes de terre et carottes à côté, filet d'huile d'olive crue ({{huile d'olive}}) et ciboulette (pointes vertes). [2 min]"];
+OV["p-oeufs-cocotte"] = [
+ intro("deux ramequins, une planche et un couteau, un économe, un petit bol et un fouet, du papier sulfurisé"),
+ "La crème — Délayer l'isolat ({{isolat de protéine de pois}}) dans le bouillon tiède ({{bouillon}}) pour obtenir une crème fluide. [2 min]",
+ "Les épinards — Faire tomber les épinards ({{épinards}}) 3 minutes à la vapeur, les presser et les répartir au fond des deux ramequins. Napper de crème de pois. [cuisson 3 min]",
+ "Les œufs — Casser un œuf ({{œufs}}) par ramequin sur les épinards, saler d'une pincée, couvrir de papier sulfurisé. [2 min]",
+ "La cuisson, minute par minute — Éplucher la carotte ({{carotte}}) en rondelles de 8 mm. Mode STEAM : minute 0, les rondelles de carotte dans le panier ; minute 3, ajouter les ramequins. Les œufs sont prêts à la minute 12 (9 minutes de cuisson) : blanc pris, jaune encore coulant ; la cuisson continue un peu hors de la vapeur. [cuisson 12 min]",
+ "Le quinoa — Réchauffer le quinoa cuit ({{quinoa cuit}}) 3 minutes dans la vapeur à la fin. [cuisson 3 min]",
+ "Dressage — Poser les ramequins sur une assiette tiède, quinoa et carottes à côté, filet d'huile d'olive crue ({{huile d'olive}}) et persil ciselé ({{persil}}). [2 min]"];
+OV["p-okayu-soir"] = [
+ intro("la cuve du Bamboo (SLOW COOK) ou une casserole, une cuillère en bois, une planche et un couteau, un bol de service"),
+ "Mise en place — Éplucher la carotte ({{carotte}}) et la couper en petits dés de 5 mm. Émincer très finement le poulet ({{blanc de poulet}}). Laver les épinards ({{épinards}}). [6 min]",
+ "Le bouillon — Porter le bouillon ({{bouillon}}) à frémissement avec les dés de carotte, 8 minutes, jusqu'à ce qu'ils soient fondants. [cuisson 8 min]",
+ "Le poulet — Ajouter le poulet émincé et pocher à feu très doux 6 minutes : il blanchit à cœur. [cuisson 6 min]",
+ "Le riz — Ajouter le riz cuit ({{riz cuit}}), laisser mijoter 12 minutes en remuant de temps en temps jusqu'à ce que les grains éclatent et que le bouillon épaississe comme un porridge ; ajouter les épinards les 2 dernières minutes. [cuisson 12 min]",
+ "La liaison — Hors du feu, délayer l'isolat ({{isolat de protéine de pois}}) dans une louche de bouillon et l'incorporer en remuant. [2 min]",
+ "L'œuf — Faire frémir l'œuf ({{œuf}}) 6 minutes dans une petite casserole, l'écaler. [cuisson 6 min]",
+ "Dressage — Okayu dans le bol tiède, œuf coupé en deux au centre, huile de sésame grillé ({{huile de sésame grillé}}) en filet, ciboulette {{ciboulette}} (pointes vertes seulement). [2 min]"];
+OV["p-salade-tiede-oeufs"] = [
+ intro("une planche et un couteau, un économe, un petit bol, une assiette creuse"),
+ "Mise en place — Peser 75 g de haricots verts ({{haricots verts}}), les équeuter. Éplucher les pommes de terre ({{pommes de terre}}) en cubes de 3 cm et la carotte ({{carotte}}) en rondelles de 8 mm. [9 min]",
+ "La vapeur, minute par minute — Mode STEAM. Minute 0 : pommes de terre, carotte et haricots verts sur le papier percé. Minute 13 : poser les œufs ({{œufs}}) sur l'inox, ils cuisent 12 minutes. Minute 25 : arrêter. Les haricots doivent être mous. [cuisson 25 min]",
+ "Tiédir — Laisser tiédir 10 minutes : la salade se sert tiède, jamais froide. Passer les œufs sous l'eau froide, les écaler et les couper en quartiers. [10 min]",
+ "La crème de pois — Délayer l'isolat ({{isolat de protéine de pois}}) dans l'eau tiède ({{eau tiède}}), ajouter le persil haché ({{persil}}) et une pincée de sel. [2 min]",
+ "Dressage — Pommes de terre en couronne dans l'assiette creuse, haricots et carottes en éventail, quartiers d'œufs au centre. Crème de pois en filet puis huile d'olive crue ({{huile d'olive}}). [3 min]"];
+OV["p-gnocchis-sarrasin"] = [
+ intro("une casserole, une écumoire, un presse-purée, un mixeur plongeant, une planche et un couteau, une fourchette"),
+ "La pâte — Éplucher les pommes de terre ({{pommes de terre}}) et les cuire 22 minutes à la vapeur (mode STEAM), les écraser finement, ajouter la farine de sarrasin ({{farine de sarrasin}}), l'œuf ({{œuf}}) et une pincée de sel. Pétrir rapidement : la pâte doit rester légèrement collante. [cuisson 22 min]",
+ "Façonner — Rouler la pâte en boudins de 1,5 cm, couper des tronçons de 2 cm, les marquer d'un coup de fourchette. [6 min]",
+ "La crème de potimarron — Cuire le potimarron ({{potimarron}}) 18 minutes à la vapeur, le mixer avec le bouillon tiède ({{bouillon}}) et l'isolat ({{isolat de protéine de pois}}) en crème épaisse. [cuisson 18 min]",
+ "Le poulet — Cuire le blanc de poulet ({{blanc de poulet}}) 22 minutes à la vapeur, l'effilocher, ajouter les épinards ({{épinards}}) 3 minutes pour les faire fondre. [cuisson 22 min]",
+ "Pocher les gnocchis — Les plonger dans une grande casserole d'eau frémissante salée ; ils sont cuits 4 minutes après leur remontée à la surface. Les égoutter délicatement à l'écumoire. [cuisson 4 min]",
+ "Dressage — Crème de potimarron dans l'assiette creuse tiède, gnocchis dessus, poulet et épinards au centre, filet d'huile d'olive crue ({{huile d'olive}}) et thym ({{thym}}). [3 min]"];
+OV["p-tofu-riz-sesame"] = [
+ intro("du papier absorbant et une assiette pour presser le tofu, une planche et un couteau, un économe, un petit bol et un fouet, un bol large tiède"),
+ "Presser le tofu — Égoutter le tofu ferme ({{tofu ferme}}), l'envelopper dans du papier absorbant, poser une assiette lestée dessus et laisser 10 minutes : il rend son eau et absorbera mieux la crème. Le couper en dés de 2 cm. [12 min]",
+ "Mise en place — Éplucher la carotte ({{carotte}}) et la couper en rondelles de 8 mm. Détailler les têtes de brocoli ({{brocoli}}) en petits bouquets, sans la tige. [4 min]",
+ "La vapeur, minute par minute — Mode STEAM. Minute 0 : rondelles de carotte sur le papier percé. Minute 3 : dés de tofu. Minute 4 : bouquets de brocoli. Minute 14 : arrêter. Le brocoli doit être très tendre, la carotte fondante, le tofu chaud à cœur. [cuisson 14 min]",
+ "Le riz — Réchauffer le riz basmati ({{riz cuit}}) 3 minutes dans la vapeur, dans un bol avec une cuillère d'eau. [cuisson 3 min]",
+ "La crème de pois — Délayer l'isolat ({{isolat de protéine de pois}}) dans 3 cuillères d'eau tiède, saler d'une pincée, ajouter la ciboulette {{ciboulette}} (pointes vertes seulement) puis l'huile de sésame grillé ({{huile de sésame grillé}}). [2 min]",
+ "Dressage — Riz en dôme dans le bol tiède, tofu au centre, carottes et brocoli en éventail, crème de pois en zigzag sur l'ensemble. [3 min]"];
+OV["p-tofu-mijote-quinoa"] = [
+ intro("une casserole avec couvercle, une louche, une planche et un couteau, un économe, du papier absorbant"),
+ "Presser et tailler — Presser le tofu ({{tofu ferme}}) 10 minutes dans du papier absorbant sous une assiette, puis le couper en cubes de 2 cm. Éplucher la carotte ({{carotte}}) en rondelles et la courgette ({{courgette épluchée}}) à 100 % en dés de 1 cm. [12 min]",
+ "Le bouillon — Porter le bouillon ({{bouillon}}) à frémissement avec les rondelles de carotte et le thym ({{thym}}). Cuire 12 minutes à petit frémissement, jusqu'à ce que les rondelles s'écrasent. [cuisson 12 min]",
+ "Mijoter le tofu — Ajouter le tofu et la courgette, baisser le feu et laisser mijoter 10 minutes sans bouillir : le tofu boit le bouillon et la courgette devient fondante. [cuisson 10 min]",
+ "Le quinoa — Réchauffer le quinoa cuit ({{quinoa cuit}}) 3 minutes dans la vapeur du Bamboo (mode STEAM), dans un bol avec une cuillère d'eau. [cuisson 3 min]",
+ "La liaison — Hors du feu, délayer l'isolat ({{isolat de protéine de pois}}) dans une louche de bouillon tiède et l'incorporer en filet en remuant. [2 min]",
+ "Dressage — Quinoa au fond de l'assiette creuse tiède, tofu et légumes dessus, bouillon lié versé tout autour. Huile d'olive crue ({{huile d'olive}}) et persil ciselé ({{persil}}). [2 min]"];
+OV["p-tofu-puree-courgette"] = [
+ intro("du papier absorbant, une planche et un couteau, un économe, un presse-purée, un petit bol"),
+ "Presser et tailler — Presser le tofu ({{tofu ferme}}) 10 minutes dans du papier absorbant sous une assiette, puis le couper en dés de 2 cm. Éplucher les pommes de terre ({{pommes de terre}}) en cubes de 3 cm, la carotte ({{carotte}}) en rondelles de 8 mm et la courgette ({{courgette épluchée}}) à 100 % en dés. [12 min]",
+ "La vapeur, minute par minute — Mode STEAM. Minute 0 : pommes de terre et carotte sur le papier percé. Minute 10 : dés de tofu. Minute 12 : courgette. Minute 22 : arrêter. Tout s'écrase à la fourchette. [cuisson 22 min]",
+ "La purée — Écraser pommes de terre et courgette avec l'isolat ({{isolat de protéine de pois}}) délayé dans le lait de riz tiède ({{lait de riz}}) : une purée soyeuse, vert pâle. Écraser la courgette en dernier, sinon elle rend de l'eau. [3 min]",
+ "Dressage — Purée en nid dans l'assiette creuse tiède, tofu posé dessus, carottes autour. Filet d'huile d'olive crue ({{huile d'olive}}) et ciboulette {{ciboulette}} (pointes vertes seulement). [3 min]"];
+OV["p-tofu-aubergine-riz"] = [
+ intro("un économe, du papier absorbant, du papier sulfurisé, une planche et un couteau, un petit bol et un fouet"),
+ "L'aubergine — Éplucher entièrement l'aubergine ({{aubergine épluchée}}), la couper en dés de 2 cm, saler, laisser dégorger 10 minutes sur du papier absorbant, éponger. [12 min]",
+ "Mise en place — Presser le tofu ({{tofu ferme}}) 10 minutes pendant le dégorgement, le couper en dés de 2 cm. Éplucher la carotte ({{carotte}}) en rondelles de 8 mm. [4 min]",
+ "La vapeur, minute par minute — Mode STEAM. Minute 0 : carotte et aubergine sur le papier percé. Minute 6 : tofu. Minute 16 : arrêter. L'aubergine doit s'écraser comme une crème. [cuisson 16 min]",
+ "Le riz — Réchauffer le riz ({{riz cuit}}) 3 minutes dans la vapeur, avec une cuillère d'eau. [cuisson 3 min]",
+ "La crème de pois — Délayer l'isolat ({{isolat de protéine de pois}}) dans 3 cuillères d'eau tiède avec une pincée de sel. [2 min]",
+ "Dressage — Riz en dôme, aubergine écrasée à la fourchette et tofu en quartiers, carottes à côté. Crème de pois puis huile de sésame grillé ({{huile de sésame grillé}}) et ciboulette {{ciboulette}} (pointes vertes seulement). [3 min]"];
+OV["p-tofu-quinoa-potimarron"] = [
+ intro("un économe, du papier absorbant, une casserole, une louche, une planche et un couteau, un petit bol"),
+ "Presser et tailler — Presser le tofu ({{tofu ferme}}) 10 minutes, le couper en dés de 2 cm. Éplucher le potimarron ({{potimarron}}) en cubes de 3 cm. Séparer côtes et feuilles des blettes ({{blettes}}), éplucher les fils des côtes et les couper en tronçons de 2 cm. [12 min]",
+ "La vapeur, minute par minute — Mode STEAM. Minute 0 : potimarron et côtes de blettes sur le papier percé. Minute 14 : tofu et feuilles de blettes. Minute 20 : arrêter. Le potimarron s'écrase à la fourchette. [cuisson 20 min]",
+ "Le quinoa — Chauffer le quinoa ({{quinoa cuit}}) avec le bouillon ({{bouillon}}) et le thym ({{thym}}) 6 minutes à feu doux, en l'écrasant légèrement à la cuillère : une texture crémeuse. [cuisson 6 min]",
+ "La liaison — Hors du feu, incorporer l'isolat ({{isolat de protéine de pois}}) délayé dans une cuillère d'eau tiède. [2 min]",
+ "Dressage — Quinoa crémeux dans l'assiette creuse tiède, potimarron écrasé grossièrement, tofu et blettes au centre, huile d'olive crue ({{huile d'olive}}). [3 min]"];
+OV["p-tofu-haricots-pdt"] = [
+ intro("un économe, du papier absorbant, une planche et un couteau, un petit bol, une assiette creuse"),
+ "Mise en place — Presser le tofu ({{tofu ferme}}) 10 minutes, le couper en dés de 2 cm. Peser 75 g de haricots verts ({{haricots verts}}) et les équeuter. Éplucher les pommes de terre ({{pommes de terre}}) en cubes de 3 cm et la carotte ({{carotte}}) en rondelles. [12 min]",
+ "La vapeur, minute par minute — Mode STEAM. Minute 0 : pommes de terre, carotte et haricots verts sur le papier percé. Minute 15 : tofu. Minute 25 : arrêter. Les haricots doivent être mous. [cuisson 25 min]",
+ "Tiédir — Laisser tiédir 10 minutes : le plat se sert tiède. [10 min]",
+ "La crème de pois — Délayer l'isolat ({{isolat de protéine de pois}}) dans l'eau tiède ({{eau tiède}}), saler et ajouter le persil haché ({{persil}}). [2 min]",
+ "Dressage — Pommes de terre en couronne, haricots et carottes en éventail, tofu au centre, crème de pois puis huile d'olive crue ({{huile d'olive}}). [3 min]"];
+OV["p-boulettes-tofu-okara"] = [
+ intro("du papier absorbant, un grand bol, une fourchette, un économe, un mixeur plongeant, un petit bol d'eau pour humidifier les mains"),
+ "La farce — Presser le tofu ({{tofu ferme}}) 10 minutes, l'écraser finement à la fourchette avec l'okara d'amande ({{okara d'amande}}), le persil haché ({{persil}}) et une pincée de sel. Pétrir jusqu'à une farce homogène. [8 min]",
+ "Les boulettes — Avec les mains humides, former 6 boulettes de la taille d'une noix. [5 min]",
+ "La vapeur, minute par minute — Éplucher le potimarron ({{potimarron}}) et la carotte ({{carotte}}). Mode STEAM. Minute 0 : potimarron et carotte sur le papier percé. Minute 2 : boulettes sur le papier. Minute 16 : arrêter. Les boulettes sont fermes et tièdes à cœur. [cuisson 16 min]",
+ "La crème de potimarron — Écraser le potimarron avec le bouillon tiède ({{bouillon}}) et l'isolat de pois ({{isolat de protéine de pois}}) en crème lisse. [3 min]",
+ "Le riz — Réchauffer le riz basmati ({{riz cuit}}) 3 minutes dans la vapeur. [cuisson 3 min]",
+ "Dressage — Riz dans l'assiette creuse tiède, boulettes dessus, crème de potimarron autour, carottes à côté, huile d'olive crue ({{huile d'olive}}). [3 min]"];
+OV["p-tofu-brouille-epinards"] = [
+ intro("du papier absorbant, une fourchette, une petite casserole, une planche et un couteau, un économe"),
+ "Mise en place — Éplucher les pommes de terre ({{pommes de terre}}) en cubes de 3 cm et la carotte ({{carotte}}) en rondelles de 8 mm. Presser le tofu ({{tofu ferme}}) 10 minutes. [12 min]",
+ "La vapeur — Mode STEAM, pommes de terre et carotte sur le papier percé : 20 minutes, jusqu'à ce qu'elles s'écrasent à la fourchette. [cuisson 20 min]",
+ "Le tofu brouillé — Émietter le tofu à la fourchette. Dans la petite casserole, le réchauffer 4 minutes à feu très doux avec les épinards ({{épinards}}) et une cuillère d'eau, en remuant. Incorporer l'isolat ({{isolat de protéine de pois}}) délayé dans une cuillère d'eau tiède : une texture de petits grains crémeux, sans la moindre coloration. [cuisson 5 min]",
+ "Dressage — Pommes de terre et carottes dans l'assiette creuse tiède, tofu brouillé au centre, huile d'olive crue ({{huile d'olive}}) et ciboulette {{ciboulette}} (pointes vertes seulement). [2 min]"];
+OV["p-veloute-carotte-tofu"] = [
+ intro("un économe, une planche et un couteau, un mixeur plongeant, du papier absorbant, une assiette creuse tiède"),
+ "Tailler — Éplucher la carotte ({{carotte}}) et les pommes de terre ({{pommes de terre}}) en cubes de 2 cm. Presser le tofu ({{tofu ferme}}) 10 minutes et le couper en dés de 1 cm. [12 min]",
+ "La cuisson — Mode STEAM, légumes sur le papier percé : minute 0 ; tofu à la minute 15 ; arrêter à la minute 20, quand les légumes s'écrasent entre deux doigts. [cuisson 20 min]",
+ "Le velouté — Mixer carottes et pommes de terre avec le bouillon tiède ({{bouillon}}) et l'isolat ({{isolat de protéine de pois}}) jusqu'à un velouté épais, lisse et brillant. Saler d'une pincée. [4 min]",
+ "Dressage — Velouté dans l'assiette creuse tiède, dés de tofu au centre, huile d'olive crue ({{huile d'olive}}), persil ciselé ({{persil}}) et thym ({{thym}}). [2 min]"];
+OV["p-sardines-vapeur"] = [
+ intro("une planche et un couteau, un économe, du papier absorbant, un petit bol et un fouet"),
+ "Les sardines — Faire écailler, vider et lever les filets des sardines fraîches ({{sardines fraîches}}) chez le poissonnier, les éponger et retirer les arêtes restantes à la pince. Plat réservé au midi, hors phase sensible. [8 min]",
+ "Mise en place — Éplucher les pommes de terre ({{pommes de terre}}) en cubes de 3 cm, la carotte ({{carotte}}) en rondelles, la courgette ({{courgette épluchée}}) entièrement en dés. [9 min]",
+ "La vapeur, minute par minute — Mode STEAM. Minute 0 : pommes de terre et carotte sur le papier percé. Minute 12 : courgette. Minute 16 : filets de sardines directement sur l'inox, 6 minutes. Minute 22 : arrêter. [cuisson 22 min]",
+ "La crème de pois — Délayer l'isolat ({{isolat de protéine de pois}}) dans 3 cuillères d'eau tiède avec le persil haché ({{persil}}) et une pincée de sel. [2 min]",
+ "Dressage — Pommes de terre et légumes dans l'assiette creuse tiède, filets de sardines posés par-dessus, crème de pois puis huile d'olive crue ({{huile d'olive}}). [3 min]"];
+OV["p-sardines-riz"] = [
+ intro("du papier absorbant, une planche et un couteau, un économe, une fourchette, un bol tiède"),
+ "Mise en place — Éplucher la carotte ({{carotte}}) en rondelles de 8 mm, équeuter les haricots verts ({{haricots verts}}). Égoutter très longuement les sardines au naturel ({{sardines au naturel}}) sur du papier absorbant. [8 min]",
+ "La vapeur — Mode STEAM, carotte et haricots sur le papier percé : 22 minutes, jusqu'à ce qu'ils soient fondants. [cuisson 22 min]",
+ "Le riz — Réchauffer le riz basmati ({{riz cuit}}) 3 minutes dans la vapeur, avec une cuillère d'eau. [cuisson 3 min]",
+ "La crème de pois — Délayer l'isolat ({{isolat de protéine de pois}}) dans 3 cuillères d'eau tiède, ajouter le persil ({{persil}}) et une pincée de sel. [2 min]",
+ "Dressage — Riz dans le bol tiède, légumes en éventail, sardines émiettées dessus, crème de pois puis huile d'olive crue ({{huile d'olive}}). [3 min]"];
+OV["p-galette-okara"] = [
+ intro("un fouet, un ramequin de 15 cm, une râpe fine, une planche et un couteau, un économe"),
+ "Mise en place — Éplucher les pommes de terre ({{pommes de terre}}), la carotte ({{carotte}}) et la courgette ({{courgette épluchée}}) entièrement ; râper finement la courgette. [10 min]",
+ "La vapeur — Mode STEAM : pommes de terre et carotte en cubes sur le papier percé, 20 minutes, jusqu'à ce qu'elles s'écrasent. [cuisson 20 min]",
+ "L'appareil — Mélanger l'okara d'amande ({{okara d'amande}}), l'isolat ({{isolat de protéine de pois}}), les œufs ({{œufs}}), la courgette râpée et une pincée de sel. [4 min]",
+ "La galette — Verser dans le ramequin recouvert de papier sulfurisé, le poser dans le panier pour les 14 dernières minutes, couvercle légèrement entrouvert : la galette est ferme au toucher, moelleuse et sans coloration. [cuisson 14 min]",
+ "Dressage — Démouler la galette tiède, la trancher en deux, pommes de terre et carottes à côté, filet d'huile d'olive crue ({{huile d'olive}}) et ciboulette {{ciboulette}} (pointes vertes seulement). [2 min]"];
+OV["p-hachis-tofu-okara"] = [
+ intro("du papier absorbant, une fourchette, un presse-purée, un cercle pour mouler, une planche et un couteau"),
+ "Mise en place — Éplucher les pommes de terre ({{pommes de terre}}) et la carotte ({{carotte}}) en cubes de 2 cm, détailler les têtes de brocoli ({{brocoli}}). Presser le tofu ({{tofu ferme}}) 10 minutes. [12 min]",
+ "La vapeur, minute par minute — Mode STEAM. Minute 0 : pommes de terre et carotte. Minute 10 : brocoli. Minute 22 : arrêter. [cuisson 22 min]",
+ "Le hachis — Émietter le tofu avec l'okara d'amande ({{okara d'amande}}), écraser les carottes, ajouter le bouillon tiède ({{bouillon}}) et le thym ({{thym}}) : un hachis moelleux et parfumé. [4 min]",
+ "La purée — Écraser les pommes de terre avec l'isolat ({{isolat de protéine de pois}}) délayé dans une cuillère d'eau chaude et une pincée de sel. [3 min]",
+ "Dressage — Hachis au fond du cercle posé sur l'assiette tiède, purée lissée par-dessus à la spatule, cercle retiré, brocoli autour. Pas de gratin : le plat se sert tiède. Filet d'huile d'olive crue ({{huile d'olive}}). [4 min]"];
+OV["v6-bibimbap-doux"] = [
+ intro("une planche et un couteau, un économe, un petit bol et un fouet, un bol large tiède, de petits bols pour chaque légume"),
+ "Mise en place — Éplucher la carotte ({{carotte}}) et la tailler en bâtonnets de 5 mm. Séparer les feuilles du pak choï ({{pak choï}}) et couper les tiges en tronçons de 2 cm. Laver les épinards ({{épinards}}). Sortir l'œuf ({{œuf}}) du frigo 10 minutes avant. [8 min]",
+ "La vapeur des légumes — Mode STEAM. Minute 0 : carotte et tiges de pak choï sur le papier percé. Minute 8 : feuilles de pak choï et épinards. Minute 14 : arrêter. Chaque légume reste séparé pour garder sa couleur : les presser doucement et les ranger dans un bol chacun. [cuisson 14 min]",
+ "Le tofu et l'œuf — À la minute 5, glisser dans le panier le tofu ({{tofu ferme}}) en dés (il chauffe 9 minutes) et poser l'œuf sur l'inox (il cuit 7 minutes pour un jaune coulant : le sortir à la minute 12, le passer 1 minute sous l'eau froide et l'écaler). [cuisson 9 min]",
+ "Le riz — Pendant les 3 dernières minutes, réchauffer le riz ({{riz cuit}}) dans un bol avec une cuillère d'eau. [cuisson 3 min]",
+ "La crème de sésame — Délayer l'isolat ({{isolat de protéine de pois}}) dans 3 cuillères d'eau tiède avec la sauce soja ({{sauce soja}}), puis ajouter l'huile de sésame grillé ({{huile de sésame grillé}}) hors du feu. [2 min]",
+ "Dressage — Dans le bol large tiède, tasser le riz au fond, disposer les légumes en quartiers de couleurs autour, le tofu au centre et l'œuf coupé en deux dessus. Émietter le nori ({{nori}}), parsemer de sésame ({{graines de sésame}}). Servir la crème à part et mélanger à table, de bas en haut. [3 min]"];
+OV["v6-soba-tofu"] = [
+ intro("une casserole, une passoire, une planche et un couteau, un économe, un petit bol et un fouet, des baguettes ou une fourchette"),
+ "Mise en place — Éplucher le daikon ({{daikon}}) et le couper en demi-rondelles de 8 mm, éplucher la carotte ({{carotte}}) en bâtonnets, séparer feuilles et tiges du pak choï ({{pak choï}}). Vérifier que les soba sont 100 % sarrasin. [8 min]",
+ "La vapeur, minute par minute — Mode STEAM. Minute 0 : daikon et carotte sur le papier percé. Minute 8 : tofu ({{tofu ferme}}) en dés de 2 cm et tiges de pak choï. Minute 14 : feuilles de pak choï. Minute 16 : arrêter. [cuisson 16 min]",
+ "Les soba — Pendant la vapeur, plonger les soba ({{soba cuites}}) 6 minutes dans l'eau frémissante non salée, les rincer à l'eau tiède en les frottant doucement pour ôter l'amidon, bien égoutter. [cuisson 6 min]",
+ "La crème miso — Délayer le miso ({{miso blanc}}) dans 3 cuillères d'eau tiède, y fouetter l'isolat ({{isolat de protéine de pois}}), ajouter l'huile de sésame grillé ({{huile de sésame grillé}}). Ne jamais chauffer le miso. [2 min]",
+ "Dressage — Soba enroulées en nid au centre d'un bol large tiède, tofu posé dessus, légumes tout autour, crème en filet et nori ({{nori}}) ciselé en fins rubans. [3 min]"];
+OV["v6-miso-repas"] = [
+ intro("une casserole (ou la cuve du Bamboo en SLOW COOK), une louche, une planche et un couteau, un économe, un bol profond tiède"),
+ "Mise en place — Éplucher le daikon ({{daikon}}) et la carotte ({{carotte}}) en fines demi-rondelles de 5 mm. Réhydrater le wakamé ({{wakamé}}) 5 minutes dans l'eau froide, puis l'égoutter. [8 min]",
+ "Le bouillon — Porter l'eau ({{eau}}) à frémissement avec daikon et carotte et laisser cuire à petit frémissement 12 minutes, jusqu'à ce qu'ils s'écrasent. [cuisson 12 min]",
+ "Le tofu et les épinards — Ajouter le tofu ({{tofu ferme}}) en dés de 1,5 cm, le wakamé et les épinards ({{épinards}}), et laisser 3 minutes à feu très doux. [cuisson 3 min]",
+ "Le miso — Éteindre. Délayer le miso ({{miso blanc}}) et l'isolat ({{isolat de protéine de pois}}) dans une louche de bouillon, puis remettre dans la casserole. Ne jamais faire bouillir. [2 min]",
+ "Dressage — Riz ({{riz cuit}}) tassé au fond du bol profond tiède, bouillon et garnitures versés à la louche, goutte d'huile de sésame grillé ({{huile de sésame grillé}}) à la surface. [2 min]"];
+OV["v6-japchae-doux"] = [
+ intro("une casserole, une passoire, des ciseaux, un grand saladier, une planche et un couteau, un petit bol et un fouet"),
+ "Mise en place — Couper la carotte ({{carotte}}) en fines lanières, éplucher les côtes de blettes ({{blettes}}) et les tailler en tronçons de 2 cm, laver les épinards ({{épinards}}). [8 min]",
+ "La vapeur, minute par minute — Mode STEAM. Minute 0 : carotte et côtes de blettes sur le papier percé. Minute 10 : feuilles de blettes, épinards et tofu ({{tofu ferme}}) en bâtonnets. Minute 14 : arrêter. [cuisson 14 min]",
+ "Les vermicelles — Cuire 8 minutes dans l'eau frémissante, égoutter, couper aux ciseaux en tronçons de 10 cm. [cuisson 8 min]",
+ "La crème — Délayer l'isolat ({{isolat de protéine de pois}}) dans 3 cuillères d'eau tiède avec la sauce soja ({{sauce soja}}), puis l'huile de sésame grillé ({{huile de sésame grillé}}). [2 min]",
+ "Le mélange — Dans le saladier, mêler délicatement les vermicelles ({{vermicelles de patate douce cuits}}) tièdes, les légumes, le tofu et la crème, en soulevant à deux mains. [3 min]",
+ "Dressage — Dresser en nid dans une assiette creuse tiède, en laissant les légumes colorés sur le dessus. Parsemer de sésame ({{graines de sésame}}). [1 min]"];
+OV["v6-donburi-oeufs"] = [
+ intro("une planche et un couteau, un économe, un petit bol et un fouet, un bol profond tiède, un bol d'eau froide"),
+ "Mise en place — Éplucher la carotte ({{carotte}}) en rondelles de 8 mm, couper le pak choï ({{pak choï}}) en tronçons, laver les épinards ({{épinards}}). Sortir les œufs ({{œuf}}) du frigo 10 minutes avant. [8 min]",
+ "La vapeur, minute par minute — Mode STEAM. Minute 0 : carotte et tiges de pak choï. Minute 7 : œufs sur l'inox. Minute 11 : feuilles de pak choï et épinards. Minute 14 : arrêter. Les œufs ont cuit 7 minutes. [cuisson 14 min]",
+ "Les œufs mollets — Les passer 2 minutes sous l'eau froide, les écaler sous un filet d'eau. Le jaune reste coulant. [2 min]",
+ "Le riz et la sauce — Réchauffer le riz ({{riz cuit}}) 3 minutes dans la vapeur. Délayer l'isolat ({{isolat de protéine de pois}}) dans 3 cuillères d'eau tiède avec la sauce soja ({{sauce soja}}). [cuisson 3 min]",
+ "Dressage — Riz dans le bol profond tiède, légumes tout autour, œufs coupés en deux au centre, crème en filet et huile de sésame grillé ({{huile de sésame grillé}}). [3 min]"];
+OV["v6-gimbap"] = [
+ intro("un couteau très affûté et humide, une planche, un économe, un petit bol, une natte à sushi ou un torchon propre"),
+ "Mise en place — Couper la carotte ({{carotte}}) en bâtonnets fins, le tofu ({{tofu ferme}}) en bâtonnets de 1 cm, laver les épinards ({{épinards}}) et préparer la courge spaghetti ({{courge spaghetti}}) cuite. [8 min]",
+ "La vapeur, minute par minute — Mode STEAM. Minute 0 : carotte sur le papier percé. Minute 10 : tofu et épinards. Minute 14 : arrêter. Presser les épinards. La courge spaghetti, cuite 25 minutes à part, est effilochée à la fourchette. [cuisson 14 min]",
+ "Le riz — Réchauffer le riz ({{riz cuit}}) 3 minutes et le mêler à l'huile de sésame grillé ({{huile de sésame grillé}}). Il doit rester tiède. [cuisson 3 min]",
+ "Le roulage — Étaler le riz sur une feuille de nori ({{nori}}) en laissant 2 cm libres en haut, aligner les garnitures au centre, rouler serré en humidifiant le bord pour souder. [6 min]",
+ "La crème et le dressage — Délayer l'isolat ({{isolat de protéine de pois}}) avec une cuillère d'eau tiède. Trancher le rouleau en tronçons de 2 cm avec le couteau humide, les dresser debout, parsemer de sésame ({{graines de sésame}}) et servir la crème à côté. [3 min]"];
+OV["v6-risotto-potimarron"] = [
+ intro("une casserole avec couvercle, une cuillère en bois, une planche et un couteau, un économe, une fourchette"),
+ "Mise en place — Éplucher le potimarron ({{potimarron}}) en cubes de 2 cm, les côtes de blettes ({{blettes}}) en tronçons, couper le tofu ({{tofu ferme}}) en dés. [10 min]",
+ "La vapeur, minute par minute — Mode STEAM. Minute 0 : potimarron et côtes de blettes sur le papier percé. Minute 13 : feuilles de blettes et tofu. Minute 16 : arrêter. [cuisson 16 min]",
+ "Le risotto — Chauffer le riz cuit ({{riz cuit}}) avec le bouillon ({{bouillon}}) à feu doux, en y écrasant le potimarron à la fourchette, 8 minutes, jusqu'à une texture crémeuse. [cuisson 8 min]",
+ "La liaison — Hors du feu, incorporer l'isolat ({{isolat de protéine de pois}}) délayé dans une cuillère d'eau tiède. [2 min]",
+ "Dressage — Risotto dans l'assiette creuse tiède, étalé d'un tour de poignet, blettes et tofu au centre, persil haché ({{persil}}) et huile d'olive crue ({{huile d'olive}}). [3 min]"];
+OV["v6-courge-spaghetti"] = [
+ intro("un grand couteau, une cuillère, une fourchette, une planche, un économe, un petit bol et un fouet"),
+ "Mise en place — Couper la courge spaghetti ({{courge spaghetti}}) en deux dans la longueur, retirer les graines. Éplucher les pommes de terre ({{pommes de terre}}) en cubes de 3 cm et la carotte ({{carotte}}) en rondelles. Couper le tofu ({{tofu ferme}}) en dés. [10 min]",
+ "La vapeur, minute par minute — Mode STEAM. Minute 0 : courge, face coupée vers le haut. Minute 7 : pommes de terre et carotte sur le papier percé. Minute 21 : tofu et épinards ({{épinards}}). Minute 25 : arrêter. [cuisson 25 min]",
+ "Les filaments — Effilocher la chair de courge à la fourchette en longs spaghettis. [3 min]",
+ "La crème de pois — Délayer l'isolat ({{isolat de protéine de pois}}) avec 3 cuillères d'eau tiède, le basilic haché ({{basilic}}) et une pincée de sel. [2 min]",
+ "Dressage — Nid de courge au centre, pommes de terre à côté, tofu et épinards au centre du nid, crème de pois puis huile d'olive crue ({{huile d'olive}}). [3 min]"];
+OV["v6-quinoa-blettes"] = [
+ intro("une planche et un couteau, un économe, un petit bol et un fouet, une fourchette"),
+ "Mise en place — Éplucher les côtes de blettes ({{blettes}}) et les couper en tronçons, la carotte ({{carotte}}) en rondelles de 8 mm, la courgette ({{courgette}}) à 100 % en dés de 1 cm. Sortir l'œuf ({{œuf}}) du frigo 10 minutes avant. [8 min]",
+ "La vapeur, minute par minute — Mode STEAM. Minute 0 : l'œuf sur l'inox (il cuit 12 minutes pour un œuf dur), carotte et côtes de blettes sur le papier percé. Minute 9 : feuilles de blettes, courgette et tofu ({{tofu ferme}}). Minute 14 : arrêter. [cuisson 14 min]",
+ "L'œuf mimosa — Passer l'œuf sous l'eau froide, l'écaler, écraser le jaune à la fourchette pour le mimosa. [3 min]",
+ "Le quinoa et la crème — Réchauffer le quinoa ({{quinoa cuit}}) 3 minutes dans la vapeur. Délayer l'isolat ({{isolat de protéine de pois}}) dans 3 cuillères d'eau tiède avec le persil ({{persil}}). [cuisson 3 min]",
+ "Dressage — Quinoa en couronne, légumes au centre, tofu autour, mimosa d'œuf en pluie, crème de pois et huile d'olive crue ({{huile d'olive}}). [3 min]"];
+OV["v6-patate-douce-puree"] = [
+ intro("une planche et un couteau, un économe, un presse-purée, un petit bol et un fouet"),
+ "Mise en place — Éplucher les pommes de terre ({{pommes de terre}}) et la patate douce ({{patate douce}}) en cubes de 3 cm, détailler les têtes de brocoli ({{brocoli}}), éplucher la carotte ({{carotte}}) en rondelles. Couper le tofu ({{tofu ferme}}) en dés. [10 min]",
+ "La vapeur, minute par minute — Mode STEAM. Minute 0 : pommes de terre, patate douce et carotte sur le papier percé. Minute 6 : brocoli et tofu. Minute 18 : arrêter. [cuisson 18 min]",
+ "La purée — Écraser pommes de terre et patate douce à la fourchette avec deux cuillères d'eau chaude, le thym ({{thym}}) et une pincée de sel. [3 min]",
+ "La crème de pois — Délayer l'isolat ({{isolat de protéine de pois}}) avec 3 cuillères d'eau tiède. [2 min]",
+ "Dressage — Purée en nid, tofu et légumes autour, crème de pois et huile d'olive crue ({{huile d'olive}}). [3 min]"];
+OV["v6-chawanmushi-tofu"] = [
+ intro("deux ramequins, une passoire fine, un fouet, une planche et un couteau, un bol pour le riz"),
+ "Mise en place — Couper le daikon ({{daikon}}) et la carotte ({{carotte}}) en petits dés de 5 mm, le pak choï ({{pak choï}}) en tronçons. [8 min]",
+ "Les légumes — Vapeur (mode STEAM) 14 minutes, jusqu'à ce qu'ils s'écrasent. [cuisson 14 min]",
+ "Le flan — Battre l'œuf ({{œuf}}) avec le bouillon tiède ({{bouillon}}) et l'isolat ({{isolat de protéine de pois}}) sans faire de mousse, passer au tamis. Répartir dans les ramequins avec les dés de tofu ({{tofu ferme}}). [4 min]",
+ "La vapeur douce — Couvrir de papier sulfurisé, poser dans le panier et cuire 12 minutes, couvercle légèrement entrouvert : le flan tremble au centre. [cuisson 12 min]",
+ "Dressage — Servir avec les légumes, le riz ({{riz cuit}}) réchauffé 3 minutes, et un filet d'huile de sésame grillé ({{huile de sésame grillé}}). [2 min]"];
+OV["v6-bol-fenouil"] = [
+ intro("une planche et un couteau, un petit bol et un fouet, un bol large tiède"),
+ "Mise en place — Couper le fenouil ({{fenouil}}) en fines lamelles, peser 75 g de haricots verts ({{haricots verts}}) et les couper en tronçons, éplucher la carotte ({{carotte}}) en rondelles. [8 min]",
+ "La vapeur, minute par minute — Mode STEAM. Minute 0 : haricots verts. Minute 9 : carotte et fenouil. Minute 21 : tofu ({{tofu ferme}}). Minute 25 : arrêter. Les haricots doivent être mous. [cuisson 25 min]",
+ "Le quinoa — Réchauffer le quinoa ({{quinoa cuit}}) 3 minutes dans la vapeur. [cuisson 3 min]",
+ "La crème à l'aneth — Délayer l'isolat ({{isolat de protéine de pois}}) avec 3 cuillères d'eau tiède, l'aneth ciselé finement ({{aneth}}) et une pincée de sel. [2 min]",
+ "Dressage — Quinoa au fond d'un bol large tiède, légumes en quartiers, tofu au centre, crème à l'aneth et huile d'olive crue ({{huile d'olive}}). [3 min]"];
+NEW_RECIPES.forEach(r => { if (OV[r.id]) r.steps = OV[r.id]; });
+
 const DEFAULT_RECIPES = NEW_RECIPES.slice();
 const SIGNATURE = [];
 
@@ -1028,7 +1549,7 @@ const ING_DB = [
   /* féculents (cuits) */
   ["riz cru","Féculents",{g:350,n:1}],["riz","Féculents",{g:130,n:1}],["quinoa","Féculents",{g:120,n:1}],["millet","Féculents",{g:120,n:1}],
   ["pommes de terre","Féculents",{g:82,n:1}],["pomme de terre","Féculents",{g:82,n:1}],
-  ["farine de sarrasin","Féculents",{g:340,n:1}],["pain de sarrasin","Féculents",{p:70,g:230,n:1}],["flocons de sarrasin","Féculents",{g:340,n:"p3"}],
+  ["farine de sarrasin","Féculents",{g:340,n:1}],["pain de sarrasin","Féculents",{p:70,g:230,n:1}],["flocons de sarrasin","Féculents",{g:340,n:1}],
   ["flocons d'avoine","Féculents",{g:370,n:1}],["avoine","Féculents",{g:370,n:1}],
   ["pates","Féculents",{g:150,n:"r"}],["lasagne","Féculents",{g:350,n:"r"}],
   /* légumes : tous cuits, pelés, épépinés */
@@ -1039,6 +1560,8 @@ const ING_DB = [
   ["epinards","Légumes",{g:23,n:1,s:[3,4,5,6,9,10,11]}],
   ["haricots verts","Légumes",{g:30,n:1,s:[6,7,8,9,10],w:"75 g maximum cuits (seuil low-FODMAP)"}],
   ["aubergine","Légumes",{g:25,n:1,s:[7,8,9,10],w:"toujours pelée et très bien cuite"}],
+  ["pak choi","Légumes",{g:13,n:1,s:[5,6,7,8,9,10,11],w:"75 g maximum, bien cuit"}],["blettes","Légumes",{g:20,n:1,s:[5,6,7,8,9,10,11],w:"côtes épluchées, 75 g maximum"}],
+  ["daikon","Légumes",{g:18,n:1,s:[10,11,12,1,2],w:"toujours cuit : cru il est piquant"}],["courge spaghetti","Légumes",{g:31,n:1,s:[9,10,11,12,1],w:"75 g maximum bien cuite"}],
   ["brocoli","Légumes",{g:35,n:1,s:[9,10,11,12,1,2,3],w:"têtes seulement, bien cuites"}],
   ["panais","Légumes",{g:75,n:1,s:[10,11,12,1,2,3]}],["navet","Légumes",{g:28,n:1,s:[10,11,12,1,2,3]}],
   ["celeri-rave","Légumes",{g:40,n:1,s:[10,11,12,1,2,3],w:FOD}],["celeri","Légumes",{g:20,n:1,s:[10,11,12,1,2,3],w:FOD}],
@@ -1050,12 +1573,20 @@ const ING_DB = [
   ["poivron","Légumes",{g:30,n:1,s:[7,8,9,10],w:"pelé et épépiné, très bien cuit"}],
   ["petits pois","Légumes",{g:80,n:1,s:[5,6,7],w:FOD}],
   /* fruits : paliers de réintroduction */
-  ["banane","Fruits",{p:90,g:90,n:"p2"}],["myrtilles","Fruits",{g:57,n:"p2"}],["peche","Fruits",{g:40,n:"p2"}],["nectarine","Fruits",{g:44,n:"p2"}],
+  ["banane","Fruits",{p:90,g:90,n:"t",w:"fruit doux : banane bien mûre, 60 g environ par repas"}],["myrtilles","Fruits",{g:57,n:"t",w:"fruit doux : cuites doucement, 60 g environ"}],["peche","Fruits",{g:40,n:"p2"}],["nectarine","Fruits",{g:44,n:"p2"}],
   ["graines de chia","Épicerie",{g:480,n:"p3"}],
   /* herbes, laits, huiles */
+  ["basilic","Herbes & aromates",{g:0,n:"t"}],["menthe","Herbes & aromates",{g:0,n:"t"}],["aneth","Herbes & aromates",{g:0,n:"t"}],["cerfeuil","Herbes & aromates",{g:0,n:"t"}],
+  ["estragon","Herbes & aromates",{g:0,n:"t"}],["coriandre","Herbes & aromates",{g:0,n:"t"}],["sauge","Herbes & aromates",{g:0,n:"t"}],
+  /* produits japonais et coréens doux (sans piment, sans ail, sans oignon) */
+  ["miso blanc","Épicerie",{c:20,n:"t",w:"fermenté : petite quantité (1 c. à café), à éviter en phase de sensibilité aiguë"}],
+  ["sauce soja","Épicerie",{c:3,n:"t",w:"fermentée et salée : 1 c. à café, à éviter en phase de sensibilité aiguë"}],
+  ["nori","Épicerie",{p:2,n:"t"}],["wakame","Épicerie",{g:45,n:"t"}],["graines de sesame","Épicerie",{c:17,n:"t"}],
+  ["soba","Féculents",{g:100,n:1,w:"100 % sarrasin uniquement"}],["vermicelles de patate douce","Féculents",{g:110,n:"t"}],
+  ["tofu soyeux","Tofu & protéines végétales",{g:55,n:1}],
   ["persil","Herbes & aromates",{g:0,n:"t"}],["ciboulette","Herbes & aromates",{g:0,n:"t",w:"pointes vertes uniquement"}],["thym","Herbes & aromates",{g:0,n:"t"}],["romarin","Herbes & aromates",{g:0,n:"t"}],
   ["skyr","Produits laitiers & végétaux",{g:60,n:"r"}],["lait de riz","Produits laitiers & végétaux",{g:50,n:"t"}],["lait d'avoine","Produits laitiers & végétaux",{g:45,n:"t"}],
-  ["creme de soja","Produits laitiers & végétaux",{g:150,c:6,n:"r"}],
+  ["creme de soja","Produits laitiers & végétaux",{g:150,c:7,n:"t"}],["yaourt de soja","Produits laitiers & végétaux",{g:45,n:"t"}],["skyr de soja","Produits laitiers & végétaux",{g:65,n:"t"}],["lait de soja","Produits laitiers & végétaux",{g:40,n:"t"}],
   ["huile de sesame","Épicerie",{c:40,n:1}],["huile d'olive","Épicerie",{c:40,n:1}],["huile","Épicerie",{c:40,n:1}],
   ["sirop d'erable","Épicerie",{c:17,n:"t"}],["bouillon","Divers",{g:5,n:1}],
   ["puree d'amande","Épicerie",{c:28,n:"r"}],["graines de courge","Épicerie",{g:560,n:"r"}],
@@ -1189,15 +1720,24 @@ const STARCHES = {
     rep:"de petites spirales blanches se détachent du grain, une odeur douce de noisette",
     ctl:"le germe est visible et le grain est tendre sous la dent",
     err:"ne pas rincer : le quinoa garde une amertume irritante",
-    keep:"Le quinoa se garde 2 jours en boîte en verre, réchauffé 3 min à la vapeur."},
-  millet:{n:"millet crémeux",h:"Le millet",base:"Millet",ing:[["millet cuit",140,"g"]],t:30,
-    mat:"une passoire fine, la cuve du Bamboo", out:"",
-    feu:"programme Riz du Bamboo (2,5 fois le volume de millet en eau)",
-    cook:"Rincer 50 g de millet cru, l'égoutter, le cuire au programme Riz avec une pincée de sel, laisser reposer 10 min couvert, puis le travailler à la fourchette ou à la cuillère pour une texture crémeuse.",
-    rep:"les grains éclatent doucement et l'eau est absorbée",
-    ctl:"le millet est tendre, presque fondu, sans cœur dur",
-    err:"le servir trop ferme : il est moins digeste",
-    keep:"Le millet se garde 2 jours en boîte en verre, réchauffé à la vapeur avec une cuillère d'eau."}
+    keep:"Le quinoa se garde 2 jours en boîte en verre, réchauffé 3 min à la vapeur."}
+  ,
+  soba:{n:"soba tièdes",h:"Les soba",base:"Sarrasin",ing:[["soba cuites",140,"g"]],t:12,
+    mat:"une casserole, une passoire, un bol d'eau tiède", out:"",
+    feu:"eau frémissante sur la plaque",
+    cook:"Vérifier que les soba sont 100 % sarrasin. Les plonger 6 min dans l'eau frémissante non salée, les rincer à l'eau tiède en les frottant doucement, les égoutter bien.",
+    rep:"l'eau mousse légèrement, les nouilles brunes deviennent souples",
+    ctl:"une nouille se coupe sans effort sous la dent, elle est tendre jusqu'au cœur",
+    err:"les servir fermes ou glacées : elles irritent le larynx",
+    keep:"Les soba cuites se gardent 1 jour, légèrement huilées."},
+  vermicelles:{n:"vermicelles de patate douce",h:"Les vermicelles",base:"Vermicelles",ing:[["vermicelles de patate douce cuits",140,"g"]],t:12,
+    mat:"une casserole, une passoire, des ciseaux", out:"",
+    feu:"eau frémissante sur la plaque",
+    cook:"Cuire les vermicelles 8 min dans l'eau frémissante, égoutter, couper aux ciseaux en tronçons de 10 cm et mêler à quelques gouttes d'huile de sésame grillé.",
+    rep:"ils deviennent translucides et élastiques",
+    ctl:"ils s'écrasent sans effort entre deux doigts",
+    err:"les cuire trop peu : ils restent caoutchouteux",
+    keep:"Les vermicelles se cuisent à la minute."}
 };
 /* cap : quantité maximale par repas (seuil low-FODMAP) */
 const VG = (key, ss, n, h, ing, t, mat, cut, cook, rep, ctl, err, cap) =>
@@ -1259,6 +1799,23 @@ const VEGS = {
     "retirer les parties dures et fibreuses, couper le bulbe de fenouil en fines lamelles",
     "Poser les lamelles sur un papier sulfurisé percé dans le panier et cuire 16 min jusqu'à ce qu'elles soient fondantes.",
     "une odeur d'anis douce","elles s'écrasent à la fourchette","les servir croquantes",60)
+  ,
+  pakchoi:VG("pak choi",[5,6,7,8,9,10,11],"pak choï","Le pak choï","pak choï",8,"un couteau, du papier sulfurisé",
+    "séparer les feuilles du pak choï, les rincer, couper les tiges blanches en tronçons de 2 cm et garder les feuilles entières",
+    "Poser d'abord les tiges sur un papier sulfurisé percé dans le panier, cuire 6 min, puis ajouter les feuilles pour 2 min : le tout doit être très tendre.",
+    "les tiges deviennent translucides et les feuilles s'affaissent","les tiges s'écrasent à la fourchette","les servir croquantes",75),
+  blettes:VG("blettes",[5,6,7,8,9,10,11],"blettes","Les blettes","blettes",12,"un couteau, un économe, du papier sulfurisé",
+    "détacher les côtes des feuilles, éplucher les fils des côtes, les tailler en tronçons de 2 cm et ciseler les feuilles en larges rubans",
+    "Poser les côtes dans le panier, cuire 8 min, ajouter les feuilles 3 min, puis presser doucement pour retirer l'eau.",
+    "les côtes deviennent translucides et les feuilles fondent","les côtes s'écrasent sans résistance","laisser des fils sur les côtes",75),
+  daikon:VG("daikon",[10,11,12,1,2],"daikon","Le daikon","daikon",16,"un économe, un couteau, du papier sulfurisé",
+    "éplucher généreusement le daikon et le couper en demi-rondelles de 8 mm",
+    "Poser les demi-rondelles sur un papier sulfurisé percé dans le panier et cuire 16 min : cuit, le daikon perd tout piquant et devient doux comme un navet.",
+    "les rondelles deviennent translucides","elles s'écrasent à la fourchette","le servir ferme : il garde du piquant",90),
+  courgespaghetti:VG("courge spaghetti",[9,10,11,12,1],"courge spaghetti","La courge spaghetti","courge spaghetti",25,"un grand couteau, une cuillère, une fourchette",
+    "couper la courge spaghetti en deux dans la longueur, retirer les graines à la cuillère",
+    "Poser les deux moitiés face coupée vers le haut dans le panier et cuire 25 min, puis effilocher la chair à la fourchette en longs filaments.",
+    "la chair devient translucide et se détache en filaments","la fourchette entre sans résistance","la servir mi-cuite : les filaments restent durs",75)
 };
 const SAUCES = {
   oliveperslil:{n:"crème de pois persillée",ing:[ISO,["huile d'olive",1,"c. à café"],["eau tiède",3,"c. à soupe"],["persil","",H],["sel","","1 pincée"]],
@@ -1281,9 +1838,20 @@ const SAUCES = {
     prep:"Chauffer le bouillon de carotte et de thym sans qu'il bout, le laisser tiédir, puis y délayer l'isolat en fouettant. Ajouter le persil haché et l'huile d'olive crue au service.",
     tex:"une crème fluide, veloutée, qui nappe à peine la cuillère",
     err:"verser l'isolat dans un bouillon brûlant : il forme des grumeaux"}
+  ,
+  sojasesame:{n:"crème de pois soja-sésame",ing:[ISO,["huile de sésame grillé",1,"c. à café"],["sauce soja",1,"c. à café"],["eau tiède",3,"c. à soupe"]],
+    mat:"un petit bol, un fouet",
+    prep:"Délayer l'isolat dans l'eau tiède en fouettant jusqu'à une crème lisse, ajouter la sauce soja, puis l'huile de sésame grillé en filet, hors du feu.",
+    tex:"une crème lisse, brune et brillante, qui nappe la cuillère",
+    err:"chauffer la sauce : l'isolat floconne et l'huile de sésame cuite devient lourde"},
+  misodoux:{n:"crème de pois au miso doux",ing:[ISO,["miso blanc",1,"c. à café"],["huile de sésame grillé",1,"c. à café"],["eau tiède",3,"c. à soupe"]],
+    mat:"un petit bol, un fouet",
+    prep:"Délayer le miso blanc dans l'eau tiède, y fouetter l'isolat jusqu'à une crème lisse, puis ajouter l'huile de sésame grillé. Ne jamais faire bouillir le miso.",
+    tex:"une crème couleur noisette, lisse et veloutée",
+    err:"faire bouillir le miso : il perd son parfum"}
 };
 const FORMATS = [
-  {id:"bamboo",n:"Vapeur Bamboo",st:"Vapeur Bamboo",s:["riz","pdtvap","quinoa"],p:["blanc","tofu","mollets"],v:["carotte","haricots","courgette","aubergine","potimarron","epinards","brocoli","panais"],k:2,d:1,
+  {id:"bamboo",n:"Vapeur Bamboo",st:"Vapeur Bamboo",s:["riz","pdtvap","quinoa"],p:["blanc","tofu","mollets"],v:["carotte","haricots","courgette","aubergine","potimarron","epinards","brocoli","panais","pakchoi","blettes","navet","patatedouce","fenouil","daikon","courgespaghetti","butternut"],k:2,d:1,
    sa:["oliveperslil","sesame","thym","bouillon"],x:[],
    mat:"une assiette creuse tiède",
    core:"Le cycle vapeur. Lancer un seul cycle en commençant par l'élément le plus long (pommes de terre 20 min), puis ajouter les autres pour que tout finisse ensemble : la protéine posée sur l'inox nu, les légumes sur papier sulfurisé percé. Repères : la vapeur reste régulière, sans gros bouillons. Point de contrôle : tous les éléments sont chauds à cœur. À éviter : soulever le couvercle à chaque étape.",
@@ -1291,7 +1859,7 @@ const FORMATS = [
    fin:"Finir avec quelques herbes fraîches ciselées finement. Servir tiède, jamais brûlant.",
    orga:"Tous les éléments se cuisent la veille ; réchauffer 3 min à la vapeur et préparer la crème de pois au dernier moment.",
    tip:"Un seul cycle vapeur, trois niveaux : c'est la force du Bamboo. L'huile crue s'ajoute toujours à la fin."},
-  {id:"slow",n:"Slow cook Bamboo",st:"Slow cook Bamboo",s:["pdtvap","riz","millet"],p:["effile"],v:["carotte","haricots","courgette","potimarron","panais","epinards","brocoli"],k:2,d:1,
+  {id:"slow",n:"Slow cook Bamboo",st:"Slow cook Bamboo",s:["pdtvap","riz","quinoa"],p:["effile"],v:["carotte","haricots","courgette","potimarron","panais","epinards","brocoli","navet","celerirave","patatedouce","blettes","butternut"],k:2,d:1,
    sa:["oliveperslil","thym","bouillon"],x:[],
    mat:"une assiette creuse tiède, deux fourchettes",
    core:"Le montage de la cuve. Verser l'eau tiède dans la cuve, poser le papier sulfurisé percé dans le panier avec les légumes, le blanc de poulet à côté directement sur l'inox. Lancer le mode SLOW COOK, 45 min. Repères : une odeur de bouillon monte, un léger bruissement. Point de contrôle : tout est fondant. À éviter : ouvrir le couvercle avant la fin.",
@@ -1299,7 +1867,7 @@ const FORMATS = [
    fin:"Ciseler l'herbe fraîche finement et la répartir en pluie.",
    orga:"Le plat entier se cuit la veille, 2 jours en boîte en verre. La crème de pois se prépare au dernier moment.",
    tip:"Le poulet reste moelleux parce qu'il cuit à la vapeur douce, sans jamais bouillir."},
-  {id:"cocon",n:"Cocon purée",st:"Cocon & purées",s:["puree"],p:["blanc","effile","mollets","tofu"],v:["carotte","potimarron","panais","butternut","brocoli","epinards"],k:1,d:1,
+  {id:"cocon",n:"Cocon purée",st:"Cocon & purées",s:["puree"],p:["blanc","effile","mollets","tofu"],v:["carotte","potimarron","panais","butternut","brocoli","epinards","navet","patatedouce","blettes","courgespaghetti","celerirave"],k:1,d:1,
    sa:["oliveperslil","thym","bouillon"],x:[],
    mat:"un presse-purée, une assiette creuse tiède",
    core:"L'écrasement. Écraser la purée avec le légume cuit, deux cuillères d'eau chaude prise sur la cuve, et une pincée de sel. Repères : la purée devient lisse et brillante. Point de contrôle : elle se tient en nid sur la cuillère. À éviter : mixer trop longtemps, elle devient élastique.",
@@ -1307,7 +1875,7 @@ const FORMATS = [
    fin:"Herbes fraîches ciselées en pluie fine.",
    orga:"La purée se garde 2 jours, réchauffée 4 min à la vapeur ; l'huile crue s'ajoute au service.",
    tip:"Une purée tiède est le meilleur ami d'un larynx irrité : douce, chaude sans être brûlante."},
-  {id:"fraicheur",n:"Salade tiède",st:"Fraîcheur tiède",s:["pdtvap","quinoa"],p:["oeufs","mollets","blanc","tofu"],v:["haricots","carotte","courgette","brocoli","potimarron"],k:2,d:1,
+  {id:"fraicheur",n:"Salade tiède",st:"Fraîcheur tiède",s:["pdtvap","quinoa"],p:["oeufs","mollets","blanc","tofu"],v:["haricots","carotte","courgette","brocoli","potimarron","pakchoi","blettes","daikon","epinards","courgespaghetti","fenouil"],k:2,d:1,
    sa:["oliveperslil","sesame","thym"],x:[],
    mat:"un saladier, deux cuillères pour mélanger",
    core:"L'assaisonnement tiède. Laisser tiédir les éléments cuits 10 min : le plat se sert tiède, pas glacé. Enrober les pommes de terre de la moitié de la crème, ajouter les légumes, mélanger délicatement. Repères : la crème enrobe sans détremper. Point de contrôle : tout est tiède au toucher. À éviter : sortir le plat froid du frigo, le froid irrite le larynx.",
@@ -1315,14 +1883,47 @@ const FORMATS = [
    fin:"Herbes fraîches ciselées, un filet d'huile crue en finition si la crème est déjà bue.",
    orga:"Les éléments se cuisent la veille (2 jours en verre) ; l'assemblage se fait au dernier moment.",
    tip:"Un plat tiède est bien plus doux pour le larynx qu'une salade froide : ici tout est cuit."},
-  {id:"bol",n:"Bol tiède",st:"Vapeur Bamboo",s:["riz","quinoa","millet"],p:["blanc","effile","tofu","mollets"],v:["carotte","haricots","aubergine","courgette","potimarron","epinards","brocoli"],k:2,d:1,
+  {id:"bol",n:"Bol tiède",st:"Vapeur Bamboo",s:["riz","quinoa","soba"],p:["blanc","effile","tofu","mollets"],v:["carotte","haricots","aubergine","courgette","potimarron","epinards","brocoli","pakchoi","blettes","daikon","patatedouce","courgespaghetti","butternut"],k:2,d:1,
    sa:["oliveperslil","sesame","thym","bouillon"],x:[],
    mat:"un bol large tiède",
    core:"L'assemblage du bol. Réchauffer le féculent 3 min à la vapeur, préparer les quartiers de garniture tièdes. Repères : la vapeur est douce. Point de contrôle : le bol est tiède sur toute sa hauteur. À éviter : un bol bouillant.",
    a:"Bol large tiède. Féculent au fond en dôme aplati, garnitures en quartiers nets, protéine au centre, crème en zigzag.",
    fin:"Herbes fraîches ciselées et un dernier filet d'huile crue.",
    orga:"Féculent, légumes et protéine se préparent la veille ; le bol se monte à la minute.",
-   tip:"Tout tailler à la même taille et ranger chaque garniture en éventail donne un bol digne d'un restaurant."}
+   tip:"Tout tailler à la même taille et ranger chaque garniture en éventail donne un bol digne d'un restaurant."}  ,
+  {id:"bibimbap",n:"Bibimbap doux",st:"Fraîcheur tiède",s:["riz"],p:["tofu","mollets"],v:["carotte","epinards","pakchoi","blettes","daikon","courgette","haricots","courgespaghetti"],k:2,d:1,
+   sa:["sojasesame","misodoux"],x:[["graines de sésame",1,"c. à café"],["nori",1,"pièce"]],herbs:["ciboulette","coriandre","persil"],
+   mat:"un bol large tiède, de petits bols pour chaque légume",
+   core:"Les légumes séparés. Cuire chaque légume séparément à la vapeur pour que les couleurs restent bien distinctes. Repères : chaque légume garde son parfum et sa teinte. Point de contrôle : tous sont tièdes et fondants. À éviter : tout mélanger avant de dresser.",
+   a:"Bol large tiède. Riz au fond en dôme aplati, légumes en quartiers de couleurs autour, protéine au centre, nori émietté sur le dessus.",
+   fin:"Servir la crème à part et mélanger à table, de bas en haut, pour que le riz s'imprègne de tous les parfums.",
+   orga:"Les légumes et le riz se préparent la veille ; le bol se monte à la minute.",
+   tip:"Mélanger à table, de bas en haut : c'est le geste qui donne son nom au plat."},
+  {id:"soba",n:"Soba tièdes",st:"Fraîcheur tiède",s:["soba"],p:["tofu","mollets","blanc"],v:["carotte","pakchoi","daikon","epinards","courgette","blettes","courgespaghetti"],k:2,d:1,
+   sa:["sojasesame","misodoux"],x:[["graines de sésame",1,"c. à café"],["nori",1,"pièce"]],herbs:["ciboulette","coriandre","persil"],
+   mat:"un bol large tiède, des baguettes ou une fourchette",
+   core:"L'assaisonnement. Enrober les soba tièdes de la moitié de la crème, ajouter les légumes cuits tièdes en filets, puis la protéine. Repères : les nouilles brillent sans baigner. Point de contrôle : tout est tiède. À éviter : servir glacé comme des soba froides, le froid irrite le larynx.",
+   a:"Bol large tiède. Soba en nid, protéine au centre, légumes tout autour, nori ciselé en rubans.",
+   fin:"Napper du reste de crème et parsemer de sésame.",
+   orga:"Les soba, les légumes et la crème se préparent la veille ; le bol se monte à la minute.",
+   tip:"Rincées à l'eau tiède, les soba gardent un goût de noisette et restent souples."},
+  {id:"misosoupe",n:"Soupe-repas miso",st:"Cocon & purées",s:["riz","soba"],p:["tofu","mollets"],v:["pakchoi","epinards","daikon","carotte","courgette","blettes","courgespaghetti"],k:2,d:1,
+   sa:["sojasesame"],x:[["miso blanc",1,"c. à café"],["wakamé",3,"g"],["eau",350,"ml"]],herbs:["ciboulette","persil"],
+   mat:"une casserole, un bol profond, une louche",
+   core:"Le bouillon miso. Porter l'eau à frémissement, ajouter le wakamé réhydraté, les légumes cuits et la protéine, 2 min à feu très doux. Hors du feu, délayer le miso dans une louche de bouillon puis le remettre. Repères : le bouillon est doré et fume doucement. Point de contrôle : tiède-chaud, jamais bouillant. À éviter : faire bouillir le miso.",
+   a:"Bol profond tiède. Féculent au fond, protéine et légumes par-dessus, bouillon versé à la louche.",
+   fin:"Quelques herbes ciselées finement, servir tiède.",
+   orga:"Le bouillon se prépare la veille sans miso ; le miso se délaye à la minute.",
+   tip:"Le miso ne bout jamais : on le délaye hors du feu pour garder tout son parfum."},
+  {id:"japchae",n:"Japchae doux",st:"Fraîcheur tiède",s:["vermicelles"],p:["tofu","blanc"],v:["carotte","epinards","pakchoi","blettes","courgette","daikon"],k:2,d:2,
+   sa:["sojasesame"],x:[["graines de sésame",1,"c. à café"],["huile de sésame grillé",1,"c. à café"]],herbs:["ciboulette","coriandre"],
+   mat:"un grand saladier, des ciseaux",
+   core:"Le mélange tiède. Dans un grand saladier, mélanger délicatement les vermicelles tièdes, les légumes cuits à la vapeur et la protéine avec la crème, en soulevant à deux mains. Repères : les vermicelles brillent. Point de contrôle : tout est tiède et bien enrobé. À éviter : trop mélanger, les légumes se délitent.",
+   a:"Assiette creuse tiède. Dresser en nid, légumes colorés sur le dessus.",
+   fin:"Parsemer de sésame et d'un dernier filet d'huile de sésame grillé.",
+   orga:"Se prépare la veille et se réchauffe 3 min à la vapeur.",
+   tip:"Les vermicelles de patate douce restent souples même tièdes, sans coller."}
+
 ];
 
 function combos(arr, k){
@@ -1363,7 +1964,7 @@ function qtyList(ing){
     : String(q).replace(".", ",") + " " + u + " " + de(n)).join(", ");
 }
 
-function buildGen(g){
+function buildGen0(g){
   const f = FORMATS.find(x => x.id === g.f), P = PROTEINS[g.p], S = STARCHES[g.s], Sa = SAUCES[g.sa];
   const V = g.v.map(v => VEGS[v]);
   const ing = [];
@@ -1441,7 +2042,7 @@ const SLOTS = [
 ];
 const CATS = ["Poulet","Œufs","Tofu","Sardines","Protéines végétales","Okara & douceurs","Purées & vapeur"];
 const STYLES = ["Petit-déjeuner","Vapeur Bamboo","Slow cook Bamboo","Cocon & purées","Fraîcheur tiède"];
-const BASES = ["Riz","Pommes de terre","Quinoa","Millet","Avoine","Sarrasin"];
+const BASES = ["Riz","Pommes de terre","Quinoa","Avoine","Sarrasin","Vermicelles"];
 const UNITS = ["g","ml","pièce","tranche","c. à café","c. à soupe","pincée","quelques brins","feuille","pot","tasse"];
 
 /* couleur par catégorie de plat (tokens CSS --c-*) */
@@ -1463,7 +2064,7 @@ const fmtK = n => n ? n.toLocaleString("fr-FR") : "—";
 function recipeToState(r){ return { ...clone(r), ing: r.ing.map(i => ({ id: uid(), ...i })), own: !!r.own }; }
 function mealFromRecipe(r){
   return { id: uid(), name: r.n, recipeId: r.id, cat: r.cat, st: r.st, base: r.base,
-    t: r.t, d: r.d, ing: r.ing.map(i => ({ id: uid(), n: i.n, q: i.q, u: i.u })), steps: [...r.steps], tip: r.tip || "", kcalM: r.kcalM || 0, tc: r.tc || 0 };
+    t: r.t, d: r.d, ing: r.ing.map(i => ({ id: uid(), n: i.n, q: i.q, u: i.u })), steps: [...r.steps], tip: r.tip || "", kcalM: r.kcalM || 0, tc: r.tc || 0, go: r.go || "" };
 }
 function mealFromGen(m){
   return { id: uid(), name: m.name, sub: m.sub, recipeId: null, cat: m.cat, st: m.st, base: m.base,
@@ -1475,18 +2076,19 @@ function emptyDay(name){ return { id: uid(), name, meals: { b: null, l: null, d:
 function recipeById(id){ return S.recipes.find(r => r.id === id); }
 
 function buildDefaultPlan(recipes){
-  const order = ["Poulet","Œufs","Tofu","Sardines","Protéines végétales","Okara & douceurs","Purées & vapeur"];
-  const mk = pool => { const buckets = order.map(c => pool.filter(r => r.cat === c)); const seq = [];
-    while (buckets.some(b => b.length)) buckets.forEach(b => { if (b.length) seq.push(b.shift()); }); return seq; };
-  const bk = mk(recipes.filter(r => r.st === "Petit-déjeuner")), ld = mk(recipes.filter(r => r.st !== "Petit-déjeuner" && r.cat !== "Sardines"));
-  const weeks = []; let kb = 0, kl = 0;
+  const rr = pool => { const cats = [...new Set(pool.map(r => r.cat))], bk = cats.map(c => pool.filter(r => r.cat === c)), out = [];
+    while (bk.some(b => b.length)) bk.forEach(b => { if (b.length) out.push(b.shift()); }); return out; };
+  const bf = recipes.filter(r => r.st === "Petit-déjeuner"), sw = rr(bf.filter(r => r.go === "Sucré")), sa = rr(bf.filter(r => r.go !== "Sucré")), bks = [];
+  for (let i = 0; i < Math.max(sw.length, sa.length); i++) { if (sw[i]) bks.push(sw[i]); if (sa[i]) bks.push(sa[i]); }
+  const ld = recipes.filter(r => r.st !== "Petit-déjeuner" && r.cat !== "Sardines" && CATS.includes(r.cat));
+  const veg = rr(ld.filter(r => isVegCat(r.cat))), meat = rr(ld.filter(r => !isVegCat(r.cat)));
+  const weeks = []; let kb = 0, kv = 0, km = 0, k = 0;
   for (let w = 0; w < 4; w++){
     const days = [];
     for (let d = 0; d < 7; d++){
       const day = emptyDay(DAY_NAMES[d]);
-      day.meals.b = mealFromRecipe(bk[kb++ % bk.length]);
-      day.meals.l = mealFromRecipe(ld[kl++ % ld.length]);
-      day.meals.d = mealFromRecipe(ld[kl++ % ld.length]);
+      day.meals.b = mealFromRecipe(bks[kb++ % bks.length]);
+      ["l", "d"].forEach(sl => { const isMeat = k++ % 5 === 4 && meat.length; day.meals[sl] = mealFromRecipe(isMeat ? meat[km++ % meat.length] : veg[kv++ % veg.length]); });
       days.push(day);
     }
     weeks.push({ id: uid(), name: "Semaine " + (w + 1), days });
@@ -1495,8 +2097,8 @@ function buildDefaultPlan(recipes){
 }
 function defaultState(){
   const recipes = DEFAULT_RECIPES.map(recipeToState);
-  return { v: 2, font: "editorial", recipes, weeks: buildDefaultPlan(recipes), weights: [], goal: 60, checked: {}, ui: { view: "plan", week: 0 },
-    kcalT: { b: null, l: null, d: null }, autoAdapt: true, autoVeg: true, sensible: false, pantry: [], shopExtra: [], cooked: {}, reint: { start: null, foods: {}, current: null } };
+  return { v: 3, font: "editorial", recipes, weeks: buildDefaultPlan(recipes), weights: [], goal: 60, checked: {}, ui: { view: "plan", week: 0 },
+    kcalT: { b: null, l: null, d: null }, vegRatio: 80, autoAdapt: true, autoVeg: true, sensible: false, pantry: [], shopExtra: [], cooked: {}, reint: { start: null, foods: {}, current: null } };
 }
 
 /* ---------- persistance ---------- */
@@ -1562,7 +2164,7 @@ function protocolPanel(){
     <details><summary>Les trois niveaux d'aliments</summary>
       <h4>Niveau 1 · base sûre, tous les jours</h4>
       <ul>${li([
-        "<span class='ok'>Féculents cuits :</span> riz basmati ou jasmin, pomme de terre, potimarron, farine ou pain de sarrasin pur, quinoa, avoine certifiée sans gluten, millet.",
+        "<span class='ok'>Féculents cuits :</span> riz basmati ou jasmin, pomme de terre, potimarron, farine ou pain de sarrasin pur, quinoa, avoine certifiée sans gluten, soba 100 % sarrasin.",
         "<span class='ok'>Légumes cuits, pelés, épépinés :</span> tous, de préférence de saison (courgette, carotte, potimarron, jeunes pousses d'épinards, haricots verts, aubergine pelée, brocoli en têtes, butternut, pâtisson, panais…). Les fermentescibles (chou-fleur, poireau, petits pois, betterave, céleri, fenouil, patate douce) en petite portion. Cru à éviter au maximum.",
         "<span class='ok'>Protéines :</span> tofu ferme, blanc de poulet, œuf (mollet, poché, dur), isolat de protéine de pois, okara d'amande.",
         "<span class='ok'>Lipides :</span> huile d'olive à cru uniquement, ajoutée au moment de servir ; huile de sésame grillé."])}</ul>
@@ -1578,8 +2180,8 @@ function protocolPanel(){
     </details>
     <details><summary>Portions par repas (poids cuits)</summary>
       <table class="tbl"><thead><tr><th></th><th>Petit-déj.</th><th>Déjeuner</th><th>Dîner</th></tr></thead><tbody>
-        <tr><th>Féculents</th><td>80 à 100 g (ou 30 g de flocons d'avoine crus)</td><td>120 à 150 g</td><td>120 à 150 g</td></tr>
-        <tr><th>Tofu ou poulet</th><td>50 à 60 g</td><td>80 à 100 g</td><td>80 à 100 g</td></tr>
+        <tr><th>Féculents</th><td>60 à 100 g (ou 25 à 35 g de flocons crus), petit-déjeuner léger d'environ 250 kcal</td><td>120 à 150 g</td><td>120 à 150 g</td></tr>
+        <tr><th>Tofu ou poulet</th><td>40 à 60 g (ou yaourt, skyr ou crème de soja)</td><td>80 à 100 g</td><td>80 à 100 g</td></tr>
         <tr><th>Équivalents</th><td>1 œuf ou 15 g d'isolat</td><td>20 à 25 g d'isolat</td><td>1 œuf ou 20 à 25 g d'isolat</td></tr>
         <tr><th>Légumes doux</th><td>facultatif</td><td>150 à 200 g</td><td>150 à 200 g</td></tr>
         <tr><th>Huile à cru</th><td>1 c. à café</td><td>1 c. à café</td><td>1 c. à café</td></tr></tbody></table>
@@ -1904,7 +2506,7 @@ function renderPropModal(){
   const t = PROP.t;
   openModal(`<p class="eyebrow">${esc(S.weeks[t.w].name)}, ${esc(S.weeks[t.w].days[t.d].name)}, ${slotLabel(t.s).toLowerCase()}</p>
     <h2 class="display-s">Idées pour ce ${slotLabel(t.s).toLowerCase()}</h2>
-    ${filterBar("prop")}
+    ${PROP.t.s === "b" ? bfFilter("prop") : filterBar("prop")}
     <div class="prop-grid">${PROP.items.map((m, i) => propCard(m, i, `<button class="btn primary" data-act="propChoose" data-i="${i}">Choisir</button>`)).join("")}</div>
     <div class="sheet-foot"><button class="btn" data-act="propMore">Autres propositions</button><button class="btn ghost push" data-act="close">Fermer</button></div>`, { wide: true });
 }
@@ -1934,7 +2536,7 @@ A.src = ds => { const st = ds.ns === "prop" ? PROP : INSP; st.src = ds.v; if (ds
 
 /* ---------- moteur de propositions (petit-déjeuner, déjeuner et dîner) ---------- */
 function slotOf(f){ return f.slot || (f.t && f.t.s) || (f.to && f.to.s) || "l"; }
-const okSens = r => !(S.sensible && (r.ing || []).some(i => /sardine/.test(norm(i.n))));
+const okSens = r => !(S.sensible && (r.ing || []).some(i => /sardine|miso|sauce soja/.test(norm(i.n))));
 function catalogFor(f){
   const bk = slotOf(f) === "b";
   return S.recipes.filter(r => CATS.includes(r.cat) && r.st !== "Douceurs" && ((r.st === "Petit-déjeuner") === bk) && okSens(r) &&
@@ -1993,7 +2595,7 @@ function viewInspCompose(){
       <p class="lede">plats différents peuvent être composés en combinant ${Object.keys(PROTEINS).length} protéines, ${Object.keys(STARCHES).length} féculents, ${Object.keys(VEGS).length} légumes et ${Object.keys(SAUCES).length} sauces dans ${FORMATS.length} formats, en plus des ${S.recipes.length} recettes du carnet. Tous respectent le protocole de Cat : aliments de niveau 1, légumes cuits, pas d'ail ni d'oignon, cuissons douces, plats tièdes, huile crue.</p>
     </section>
     <div class="seg" role="tablist">${scopes.map(([v, l]) => `<button class="seg-b" data-act="scope" data-v="${v}" aria-pressed="${INSP.scope === v}">${l}</button>`).join("")}</div>
-    ${filterBar("insp")}
+    ${slotOf(INSP) === "b" && INSP.scope === "meal" ? bfFilter("insp") : filterBar("insp")}
     <div class="insp-go"><button class="btn primary big" data-act="inspGo">${INSP.result ? "Proposer autre chose" : "Proposer"}</button></div>
     <div id="inspResult">${inspResult()}</div>`;
 }
@@ -2011,10 +2613,10 @@ function inspResult(){
   const r = INSP.result; if (!r) return `<p class="muted center">Choisis un format et des envies, puis lance une proposition.</p>`;
   if (INSP.scope === "meal") {
     return `<div class="prop-grid">${r.map((m, i) => propCard(m, i, `
-      <button class="btn" data-act="inspView" data-i="${i}">Voir et modifier</button>
-      <button class="btn" data-act="inspPlace" data-i="${i}">Ajouter au planning</button>
-      <button class="link" data-act="inspSave" data-i="${i}">Enregistrer dans le carnet</button>
-      <button class="link" data-act="inspReroll" data-i="${i}">Remplacer</button>`)).join("")}</div>`;
+      <button class="btn primary" data-act="inspPlace" data-i="${i}">Ajouter au planning</button>
+      <button class="btn" data-act="inspSave" data-i="${i}">Garder dans mes recettes</button>
+      <button class="btn" data-act="inspView" data-i="${i}">Modifier</button>
+      <button class="link" data-act="inspReroll" data-i="${i}">Une autre idée</button>`)).join("")}</div>`;
   }
   const dayHtml = (p, di) => `<div class="meals">${SLOTS.map(sl => { const m = p[sl.k]; if (!m) return `<div class="meal empty"><div class="slot">${sl.label}</div><span class="muted small">—</span></div>`;
     return `<div class="meal slot-${sl.k}${CAT_KEY[m.cat] ? " has-cat" : ""}" ${catSt(m.cat)}><div class="slot">${sl.label}</div>
@@ -2076,7 +2678,7 @@ function placeTemp(m){
     <div class="fields">
       <label class="field"><span>Semaine</span><select id="placeW">${S.weeks.map((w, i) => `<option value="${i}" ${i === w0 ? "selected" : ""}>${esc(w.name)}</option>`).join("")}</select></label>
       <label class="field"><span>Jour</span><select id="placeD">${S.weeks[w0].days.map((d, i) => `<option value="${i}">${esc(d.name)}</option>`).join("")}</select></label>
-      <label class="field"><span>Repas</span><select id="placeS">${SLOTS.map(s => `<option value="${s.k}">${s.label}</option>`).join("")}</select></label>
+      <label class="field"><span>Repas</span><select id="placeS">${SLOTS.map(s => `<option value="${s.k}" ${s.k === (TEMP && TEMP.st === "Petit-déjeuner" ? "b" : "l") ? "selected" : ""}>${s.label}</option>`).join("")}</select></label>
     </div><p class="muted small">Le repas existant à cet endroit sera remplacé (annulable).</p>
     <div class="sheet-foot"><button class="btn ghost" data-act="close">Annuler</button><button class="btn primary push" data-act="placeGo">Ajouter</button></div>`);
 }
@@ -2386,14 +2988,14 @@ function reportWeek(title, w, before){
     const a = before[di] && before[di][si], b = after[di][si]; if (!a && !b) return; let lines;
     if (!a) lines = ["Ajouté : " + b.name]; else if (!b) lines = ["Retiré : " + a.name]; else if (a.id !== b.id) lines = [a.name + " → " + b.name]; else lines = diffIng(a.ing, b.ing).lines;
     if (a && b && a.k !== b.k) lines.push("≈ " + fmtK(a.k) + " → " + fmtK(b.k) + " kcal");
-    if (lines.length) items.push({ day: d.name, slot: sl.label, name: b ? b.name : a.name, lines });
+    if (lines.length) items.push({ day: d.name, slot: sl.label, name: b ? b.name : a.name, lines, di, sk: sl.k, here: !!b });
   }));
   if (!items.length) { toast("Rien n'a changé"); return false; }
   MODAL = { kind: "report" };
   openModal(`<p class="eyebrow">${esc(w.name)}</p><h2 class="display-s">${esc(title)}</h2>
-    <p class="muted">${items.length} repas modifié${items.length > 1 ? "s" : ""}. Voici exactement ce qui a changé :</p>
-    <ul class="rep-list">${items.map(it => `<li><p class="rep-h"><span class="rep-d">${esc(it.day)} · ${esc(it.slot)}</span><strong>${esc(it.name)}</strong></p><ul>${it.lines.map(l => `<li>${esc(l)}</li>`).join("")}</ul></li>`).join("")}</ul>
-    <div class="sheet-foot"><button class="btn ghost" data-act="repUndo">Annuler ces changements</button><button class="btn primary push" data-act="close">OK, c'est bon</button></div>`);
+    <p class="muted">${items.length} repas modifié${items.length > 1 ? "s" : ""}. <b>Ces changements sont déjà appliqués</b> dans ton planning. Touche « Voir la recette » pour la lire.</p>
+    <ul class="rep-list">${items.map(it => `<li><p class="rep-h"><span class="rep-d">${esc(it.day)} · ${esc(it.slot)}</span><strong>${esc(it.name)}</strong></p><ul>${it.lines.map(l => `<li>${esc(l)}</li>`).join("")}</ul>${it.here ? `<button class="mini" data-act="openMeal" data-d="${it.di}" data-s="${it.sk}">${ic("book")} Voir la recette</button>` : ""}</li>`).join("")}</ul>
+    <div class="sheet-foot"><button class="btn ghost" data-act="repUndo">Annuler ces changements</button><button class="btn primary push" data-act="close">Voir mon planning</button></div>`);
   return true;
 }
 /* dès qu'un repas est choisi : légume de saison intégré, portions adaptées, et la recette s'ouvre avec le détail des changements */
@@ -2681,11 +3283,11 @@ function mealBadges(m){
 /* ---------- INSPIRATIONS : mon frigo ---------- */
 const FR_COMMON = {
   f: ["œufs","blanc de poulet","tofu ferme","carotte","courgette","potimarron","butternut","épinards","haricots verts","aubergine","brocoli","panais","persil","ciboulette","thym","bouillon","lait de riz"],
-  g: ["riz basmati","pommes de terre","quinoa","millet","flocons d'avoine","farine de sarrasin","isolat de protéine de pois","okara d'amande","huile d'olive","huile de sésame grillé"]
+  g: ["riz basmati","pommes de terre","quinoa","soba","flocons d'avoine","farine de sarrasin","isolat de protéine de pois","okara d'amande","huile d'olive","huile de sésame grillé"]
 };
 let FR = { min: 0 };
 const pantryHas = n => S.pantry.some(p => norm(p.n) === norm(n));
-const KEY_GROUPS = [["riz cuit","riz cru","riz basmati","riz"],["oeuf","oeufs"],["quinoa cuit","quinoa"],["millet cuit","millet"],["tofu ferme","tofu"],
+const KEY_GROUPS = [["riz cuit","riz cru","riz basmati","riz"],["oeuf","oeufs"],["quinoa cuit","quinoa"],["soba cuites","soba"],["tofu ferme","tofu"],
   ["isolat de proteine de pois","isolat","proteines de pois","isolat de pois"],["blanc de poulet","poulet"],["huile d'olive","huile"],["flocons d'avoine","avoine"]];
 const canonKey = k => { for (let g = 0; g < KEY_GROUPS.length; g++) if (KEY_GROUPS[g].indexOf(k) >= 0) return "g" + g; return k; };
 const DB_KEYS = new Set(ING_DB.map(e => e.k));
@@ -2865,7 +3467,7 @@ const diffDays = (a, b) => Math.round((new Date(b + "T12:00:00") - new Date(a + 
 const fmtDate = iso => iso ? new Date(iso + "T12:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" }) : "";
 
 /* ---------- portions par repas (poids cuits) ---------- */
-const PORTIONS = { b: { f: [80, 100], fr: [25, 35], p: [50, 60] }, l: { f: [120, 150], fr: [20, 40], p: [80, 100] }, d: { f: [120, 150], fr: [20, 40], p: [80, 100] } };
+const PORTIONS = { b: { f: [60, 100], fr: [25, 35], p: [40, 60] }, l: { f: [120, 150], fr: [20, 40], p: [80, 100] }, d: { f: [120, 150], fr: [20, 40], p: [80, 100] } };
 const RAW_STARCH = ["riz cru", "flocons d'avoine", "avoine", "farine de sarrasin", "flocons de sarrasin"];
 const SOLID_PROT = ["tofu ferme", "tofu", "blanc de poulet", "poulet", "sardine"];
 const isQty = i => num(i.q) > 0 && unitKind(i.u) === "g";
@@ -2965,10 +3567,7 @@ function leversCard(){
 
 /* ---------- réintroduction progressive ---------- */
 const REINT_FOODS = [
-  { key: "banane", palier: 2, n: "Banane bien mûre", ing: "banane", normal: 100, u: "g", note: "écrasée, bien mûre (tachetée)" },
-  { key: "myrtilles", palier: 2, n: "Myrtilles cuites", ing: "myrtilles", normal: 60, u: "g", note: "compotées doucement" },
   { key: "peche", palier: 2, n: "Compote de pêche ou nectarine maison", ing: "peche", normal: 100, u: "g", note: "fruits épluchés, cuits à la vapeur" },
-  { key: "flocons de sarrasin", palier: 3, n: "Flocons de sarrasin", ing: "flocons de sarrasin", normal: 30, u: "g", note: "crus, cuits en porridge" },
   { key: "graines de chia", palier: 3, n: "Graines de chia moulues", ing: "graines de chia moulues", normal: 10, u: "g", note: "moulues finement, bien hydratées" }
 ];
 const REINT_P1 = ["Aubergine pelée", "Courge butternut", "Têtes de brocoli vapeur", "Pâtisson"];
@@ -3014,7 +3613,7 @@ function riCatalog(open){
     <p class="muted">Palier 1 : légumes cuits doux. Déjà remis dans l'appli (${REINT_P1.join(", ")}) : ils sont disponibles dès maintenant.</p>
     <h3 class="ri-h">Palier 2 · fruits doux cuits ou mûrs</h3><ul class="ri-list">${REINT_FOODS.filter(f => f.palier === 2).map(row).join("")}</ul>
     <h3 class="ri-h">Palier 3 · féculents et graines</h3><ul class="ri-list">${REINT_FOODS.filter(f => f.palier === 3).map(row).join("")}</ul>
-    <p class="muted small">Le millet fait déjà partie de la base sûre.</p></section>`;
+    <p class="muted small">La banane bien mûre et les myrtilles cuites sont maintenant autorisées en petite quantité (60 g environ) dans les petits-déjeuners.</p></section>`;
 }
 function defineReint(){
   A.riStart = () => { const v = ($("#riStart") || {}).value || todayISO(); reint().start = v; save(); render(); toast("Les 90 jours ont commencé le " + fmtDate(v)); };
@@ -3041,7 +3640,8 @@ function settingsBlock(){
     <div class="goalrow">${f("b", "Petit-déjeuner (kcal)")}${f("l", "Déjeuner (kcal)")}${f("d", "Dîner (kcal)")}</div>
     <label class="check sw"><input type="checkbox" data-bind="autoAdapt" ${S.autoAdapt !== false ? "checked" : ""}> Mettre automatiquement aux portions du protocole les repas que j'ajoute</label>
     <label class="check sw"><input type="checkbox" data-bind="autoVeg" ${S.autoVeg !== false ? "checked" : ""}> Compléter les repas avec un légume de saison quand il en manque</label>
-    <label class="check sw"><input type="checkbox" data-bind="sensible" ${S.sensible ? "checked" : ""}> Phase de sensibilité aiguë (masque les sardines)</label>
+    <label class="check sw"><input type="checkbox" data-bind="sensible" ${S.sensible ? "checked" : ""}> Phase de sensibilité aiguë (masque les sardines, le miso et la sauce soja)</label>
+    <div class="frow"><span class="flabel">Repas végétariens (œufs, tofu, protéines végétales)</span><div class="chips">${[60,70,80,90,100].map(v => `<button class="chip" data-act="vegRatio" data-v="${v}" aria-pressed="${vegRatio() === v}">${v} %</button>`).join("")}</div></div>
     <h2 class="group-title">Légumes de saison</h2><p class="muted">En ${monthName()} : ${esc(seasonVegs({ ing: [] }, 14).map(k => VEGS[k].n).join(", "))}. Tous sont cuits, pelés, épépinés.</p>`;
 }
 function defineSettingsActions(){
@@ -3086,6 +3686,7 @@ function ensureDefaults(){
   if (S.autoAdapt == null) S.autoAdapt = true;
   if (S.autoVeg == null) S.autoVeg = true;
   if (S.sensible == null) S.sensible = false;
+  if (!(S.vegRatio > 0)) S.vegRatio = 80;
   if (!Array.isArray(S.pantry)) S.pantry = [];
   if (!Array.isArray(S.shopExtra)) S.shopExtra = [];
   if (!S.cooked || typeof S.cooked !== "object") S.cooked = {};
@@ -3093,7 +3694,7 @@ function ensureDefaults(){
   S.weeks.forEach(w => w.days.forEach(d => { d.meals = d.meals || {}; if (!("b" in d.meals)) d.meals.b = null; }));
   const ks = Object.keys(S.cooked); if (ks.length > 80) ks.slice(0, ks.length - 80).forEach(k => delete S.cooked[k]);
 }
-function migrateAll(){ if (!S.v || S.v < 2) migrateProto(); }
+function migrateAll(){ if (!S.v || S.v < 2) migrateProto(); if (S.v < 3) migrate3(); }
 /* v2 : nouveau protocole. Le carnet fourni est remplacé par la version mise à jour ; les recettes créées par Cat sont conservées.
    Les repas du planning qui venaient de l'ancien carnet sont renouvelés, et un petit-déjeuner est ajouté là où il manque. */
 function migrateProto(){
@@ -3154,6 +3755,179 @@ A.importPaste = () => {
     <div class="sheet-foot"><button class="btn ghost" data-act="close">Annuler</button><button class="btn primary push" data-act="pasteGo">Importer</button></div>`, { focus: "#pasteBk" });
 };
 A.pasteGo = () => { const t = $("#pasteBk").value.trim(); if (!t) return toast("Colle d'abord le texte de la sauvegarde."); MODAL = null; const m = $("#modal"); m.classList.remove("open"); m.hidden = true; document.body.classList.remove("locked"); importText(t); };
+
+/* =====================================================================
+   v3 : 80 % végétarien, légumes variés, herbes, plats japonais et coréens doux,
+   petits-déjeuners légers (sucré / salé), recette visible tout de suite, aperçu des menus
+   ===================================================================== */
+const NONVEG = ["Poulet", "Sardines"];
+const isVegCat = c => NONVEG.indexOf(c) < 0;
+const vegRatio = () => S.vegRatio > 0 ? S.vegRatio : 80;
+const EGG_PREPS = [/oeufs? (?:durs?|mollets?|poches?|au plat|brouilles?|cocotte)/, /omelette/, /chawan/, /\boeufs? mollets?\b/];
+function eggsOK(m){
+  const t = norm((m.name || m.n || "") + " " + (m.steps || []).join(" ").replace(/\{\{[^}]*\}\}/g, " ")); let n = 0;
+  EGG_PREPS.forEach(re => { if (re.test(t)) n++; }); return n <= 1;
+}
+const FERMENTED_RE = /\b(miso|sauce soja)\b/;
+const hasFermented = m => (m.ing || []).some(i => FERMENTED_RE.test(norm(i.n)));
+
+/* ---------- variations : légumes variés, herbes, 80 % végétarien ---------- */
+const RECENT_VEG = [];
+function pickVeg(f, not){
+  const cs = vegCombos(f).filter(c => !not || c.join() !== not.join()); if (!cs.length) return null;
+  const ws = cs.map(c => c.reduce((p, k) => p * vegWeight(k) * (RECENT_VEG.indexOf(k) >= 0 ? .25 : 1), 1));
+  let r = Math.random() * ws.reduce((a, b) => a + b, 0), res = cs[cs.length - 1];
+  for (let i = 0; i < cs.length; i++) { r -= ws[i]; if (r <= 0) { res = cs[i]; break; } }
+  RECENT_VEG.push(...res); while (RECENT_VEG.length > 14) RECENT_VEG.shift(); return res;
+}
+const HERBS_DEFAULT = ["persil", "basilic", "aneth", "cerfeuil", "thym", "estragon"];
+["bamboo", "slow", "cocon", "fraicheur", "bol"].forEach(id => { const f = FORMATS.find(x => x.id === id); if (f && !f.herbs) f.herbs = HERBS_DEFAULT; });
+function buildGen(g){
+  const f = FORMATS.find(x => x.id === g.f);
+  if (g.herb === undefined) g.herb = f.herbs && f.herbs.length ? pick(f.herbs) : "";
+  const m = buildGen0(g), fin = m.steps.findIndex(s => /^Finition — /.test(s));
+  if (g.herb && !m.ing.some(i => norm(i.n).indexOf(norm(g.herb)) >= 0)) {
+    m.ing.push({ n: g.herb, q: "", u: H });
+    const extra = " Ciseler très finement quelques brins " + de(g.herb) + " frais : un parfum doux, sans aucun piquant.";
+    if (fin >= 0) m.steps[fin] += extra; else m.steps.splice(m.steps.length - 1, 0, "Finition —" + extra);
+  }
+  m.gen = { ...g }; return m;
+}
+function randomGen(filters = {}, tries = 160){
+  const cats = filters.cats || [], bases = filters.bases || [], styles = filters.styles || [];
+  const wv = cats.length ? null : Math.random() * 100 < vegRatio();
+  for (let t = 0; t < tries; t++){
+    const fl = FORMATS.filter(f => (!styles.length || styles.includes(f.st)) && f.s.some(s => !bases.length || bases.includes(STARCHES[s].base)));
+    if (!fl.length) return null;
+    const f = pick(fl);
+    const ps = formatProteins(f).filter(p => PROTEINS[p] && (!cats.length || cats.includes(PROTEINS[p].cat)) && (wv === null || isVegCat(PROTEINS[p].cat) === wv));
+    const ss = f.s.filter(s => !bases.length || bases.includes(STARCHES[s].base));
+    if (!ps.length || !ss.length) continue;
+    const m = buildGen({ f: f.id, p: pick(ps), s: pick(ss), v: pickVeg(f), sa: pick(f.sa) });
+    if (!protoCheck(m).bad.length && eggsOK(m) && !(S.sensible && hasFermented(m))) return m;
+  }
+  return null;
+}
+function catalogFor(f){
+  const bk = slotOf(f) === "b", wv = bk || (f.cats && f.cats.length) ? null : Math.random() * 100 < vegRatio();
+  return S.recipes.filter(r => CATS.includes(r.cat) && r.st !== "Douceurs" && ((r.st === "Petit-déjeuner") === bk) && okSens(r) && eggsOK(r) &&
+    (!bk || !f.pd || r.go === f.pd) && (wv === null || isVegCat(r.cat) === wv) &&
+    (!f.cats || !f.cats.length || f.cats.includes(r.cat)) && (!f.bases || !f.bases.length || f.bases.includes(r.base)) && (!f.styles || !f.styles.length || f.styles.includes(r.st)));
+}
+/* petits-déjeuners : une fois sur deux sucré, une fois sur deux salé */
+function proposeMeals(n, f){
+  const out = [], seen = new Set(), bk = slotOf(f) === "b", off = Math.random() < .5 ? 0 : 1;
+  for (let i = 0; i < n * 3 && out.length < n; i++){
+    const ff = bk && !f.pd ? { ...f, pd: (out.length + off) % 2 === 0 ? "Sucré" : "Salé" } : f;
+    const m = oneProposal(ff, seen); if (m && !seen.has(m.name)) { seen.add(m.name); out.push(m); }
+  }
+  return out;
+}
+function proposeWeek(f){
+  const days = [], avoid = new Set(), count = {}, off = Math.random() < .5 ? 0 : 1;
+  const limit = f.cats && f.cats.length ? 99 : 5;
+  for (let i = 0; i < 7; i++){
+    let best = null;
+    for (let t = 0; t < 30; t++){
+      const p = proposeDay({ ...f, pd: f.pd || ((i + off) % 2 === 0 ? "Sucré" : "Salé") }, avoid);
+      const ok = [p.l, p.d].every(m => !m || (count[m.cat] || 0) < (limit > 50 ? limit : isVegCat(m.cat) ? 7 : 3));
+      best = p; if (ok) break;
+    }
+    SLOTS.forEach(sl => { const m = best[sl.k]; if (!m) return; avoid.add(m.name); if (sl.k !== "b") count[m.cat] = (count[m.cat] || 0) + 1; });
+    days.push(best);
+  }
+  return days;
+}
+function bfFilter(ns){
+  const st = ns === "prop" ? PROP : INSP;
+  return `<div class="filters"><div class="frow"><span class="flabel">Petit-déjeuner</span><div class="chips">
+    ${[["", "Sucré et salé"], ["Sucré", "Sucré"], ["Salé", "Salé"]].map(([v, l]) => `<button class="chip" data-act="pdKind" data-ns="${ns}" data-v="${v}" aria-pressed="${(st.pd || "") === v}">${l}</button>`).join("")}</div></div>
+    <p class="muted small">Légers : 10 à 20 minutes, une moitié sucrée, une moitié salée.</p></div>`;
+}
+A.pdKind = ds => { const st = ds.ns === "prop" ? PROP : INSP; st.pd = ds.v;
+  if (ds.ns === "prop") { PROP.items = proposeMeals(6, PROP); renderPropModal(); } else { INSP.result = null; render(); } };
+A.vegRatio = ds => { S.vegRatio = +ds.v; save(); render(); };
+
+/* ---------- recette visible tout de suite, sans quitter l'écran ---------- */
+let NEWSET = new Set();
+function mealBadges(m){
+  const b = []; if (NEWSET.has(m.id)) b.push("nouveau");
+  if (m.go) b.push(m.go.toLowerCase());
+  if (m.adj && Math.abs(m.adj - 1) > .02) b.push("portions " + (m.adj > 1 ? "+" : "−") + Math.round(Math.abs(m.adj - 1) * 100) + " %");
+  (m.iv || []).slice(0, 2).forEach(v => b.push("+ " + v));
+  return b.map(x => `<span class="mb${x === "nouveau" ? " new" : ""}">${esc(x)}</span>`).join("");
+}
+function mealPeek(m){
+  const ings = (m.ing || []).filter(i => String(i.n).trim());
+  return `<div class="peek"><p class="muted small">${m.t ? m.t + " min · " : ""}≈ ${fmtK(kcalOf(m))} kcal</p>${protoBanner(m)}
+    <h5>Ingrédients</h5><ul class="peek-ing">${ings.map(i => `<li>${hasQ(i) ? `<b>${esc(qtyStr(i))}</b> ` : ""}${esc(i.n)}${!hasQ(i) && i.u ? ` <span class="muted">(${esc(i.u)})</span>` : ""}</li>`).join("")}</ul>
+    <h5>Préparation</h5><ol class="steps">${stepsHTML(m.steps, m.ing)}</ol>${m.tip ? `<p class="peek-tip"><b>Astuce du chef :</b> ${esc(m.tip)}</p>` : ""}</div>`;
+}
+function propCard(m, i, actions){
+  const ings = m.ing.filter(x => x.q !== "").slice(0, 5).map(x => x.n).join(", ");
+  return `<article class="prop" ${catSt(m.cat)}><p class="prop-tag">${catTag(m.cat)}<span>${m.gen ? "Variation" : "Carnet"}, ${esc(m.st || "")}${m.go ? " · " + esc(m.go.toLowerCase()) : ""}</span></p>
+    <h4 class="dish-name">${esc(m.name)}</h4>${m.sub ? `<p class="dish-sub">${esc(m.sub)}</p>` : ""}
+    <p class="muted small">${esc(ings)}…</p><p class="dish-meta">≈ ${fmtK(kcalOf(m))} kcal ${protoDot(m)}</p>
+    <details class="peek-d"><summary>${ic("book")} Voir la recette complète</summary>${mealPeek(m)}</details>
+    <div class="prop-actions">${S.recipes.some(r => r.n === m.name) ? actions.replace(/<button class="btn" data-act="inspSave"[^>]*>[^<]*<\/button>/, '<span class="muted small">✓ Déjà dans tes recettes</span>') : actions}</div></article>`;
+}
+
+/* ---------- aperçu des nouveaux menus : rien ne change tant qu'on n'applique pas ---------- */
+let PV = null;
+function pvMeal(m, di, sk){
+  if (!m) return "";
+  return `<div class="pv-meal" ${catSt(m.cat)}><details><summary><span class="slot">${slotLabel(sk)}</span><span class="pv-n">${esc(m.name)}</span><span class="pv-k">≈ ${fmtK(kcalOf(m))} kcal</span></summary>${mealPeek(m)}</details>
+    <button class="mini" data-act="pvRe" data-di="${di}" data-s="${sk}" aria-label="Autre proposition">${ic("swap")} Autre</button></div>`;
+}
+function pvBody(){
+  const w = curWeek();
+  const day = (p, di, name) => `<article class="day pv-day"><div class="day-head"><span class="day-name static">${esc(name)}</span><span class="muted small">≈ ${fmtK(SLOTS.reduce((s, sl) => s + (p[sl.k] ? kcalOf(p[sl.k]) : 0), 0))} kcal par jour</span></div>${SLOTS.map(sl => pvMeal(p[sl.k], di, sl.k)).join("")}</article>`;
+  return PV.scope === "week" ? PV.items.map((p, i) => day(p, i, w.days[i].name)).join("") : day(PV.items, 0, w.days[PV.di].name);
+}
+function openPreview(){
+  const w = curWeek(), wk = PV.scope === "week";
+  MODAL = { kind: "preview" };
+  openModal(`<p class="eyebrow">${esc(w.name)}</p><h2 class="display-s">${wk ? "Nouveaux menus pour la semaine" : "Nouveaux repas pour " + esc(w.days[PV.di].name)}</h2>
+    <p class="muted"><b>Rien n'est encore modifié.</b> Touche un repas pour lire sa recette, « Autre » pour le changer, puis applique quand le menu te plaît.</p>
+    <div id="pvBody">${pvBody()}</div>
+    <div class="sheet-foot"><button class="btn ghost" data-act="close">Annuler</button><button class="btn" data-act="pvAgain">${ic("swap")} Tout refaire</button><button class="btn primary push" data-act="pvApply">${wk ? "Appliquer à la semaine" : "Appliquer à ce jour"}</button></div>`, { wide: true });
+}
+function pvAvoid(){ const s = new Set(); (PV.scope === "week" ? PV.items : [PV.items]).forEach(p => SLOTS.forEach(sl => p[sl.k] && s.add(p[sl.k].name))); return s; }
+function pvNew(){
+  const w = curWeek();
+  if (PV.scope === "week") { const ps = proposeWeek({}); PV.items = w.days.map((d, i) => ps[i % 7]); }
+  else PV.items = proposeDay({}, weekUsed(w, PV.di));
+}
+A.proposeWeek = () => { PV = { scope: "week" }; pvNew(); openPreview(); };
+A.proposeDay = ds => { PV = { scope: "day", di: +ds.d }; pvNew(); openPreview(); };
+A.pvAgain = () => { pvNew(); $("#pvBody").innerHTML = pvBody(); };
+A.pvRe = ds => { const p = PV.scope === "week" ? PV.items[+ds.di] : PV.items, m = oneProposal({ slot: ds.s }, pvAvoid()); if (!m) return toast("Pas d'autre idée pour l'instant");
+  p[ds.s] = m; $("#pvBody").innerHTML = pvBody(); };
+A.pvApply = () => {
+  const w = curWeek(); snapshot(); NEWSET = new Set(); let n = 0;
+  const put = (d, p) => SLOTS.forEach(sl => { if (p[sl.k]) { d.meals[sl.k] = p[sl.k]; NEWSET.add(p[sl.k].id); n++; } });
+  if (PV.scope === "week") w.days.forEach((d, i) => put(d, PV.items[i])); else put(w.days[PV.di], PV.items);
+  save(); closeModal(); render(); toast(n + " repas remplacés", true); PV = null;
+};
+
+/* ---------- version 3 : migration ---------- */
+const V3_REMOVED = { "pdj-millet-potimarron": "pdj-potimarron-vanille", "p-poulet-millet-haricots": "p-poulet-riz-pakchoi", "p-tofu-millet-potimarron": "p-tofu-quinoa-potimarron" };
+const V3_OLD_PDJ = ["pdj-porridge-sale", "pdj-galette-sarrasin", "pdj-riz-tiede-sesame", "pdj-puree-oeuf-poulet", "pdj-chawanmushi", "pdj-pouding-avoine", "pdj-crepe-sarrasin-tofu"];
+function migrate3(){
+  const own = S.recipes.filter(r => r.own); S.recipes = DEFAULT_RECIPES.map(recipeToState).concat(own);
+  const fresh = buildDefaultPlan(S.recipes), byId = id => S.recipes.find(r => r.id === id);
+  let j = 0;
+  S.weeks.forEach((w, wi) => w.days.forEach((d, di) => {
+    const src = fresh[wi % fresh.length].days[di % 7].meals;
+    ["b", "l", "d"].forEach(k => {
+      const m = d.meals[k]; if (!m || !m.recipeId) return;
+      if (V3_REMOVED[m.recipeId] && byId(V3_REMOVED[m.recipeId])) d.meals[k] = mealFromRecipe(byId(V3_REMOVED[m.recipeId]));
+      else if (V3_OLD_PDJ.indexOf(m.recipeId) >= 0 || (k !== "b" && /millet/.test(norm(m.ing.map(i => i.n).join(" "))))) d.meals[k] = copyMeal(src[k] || src.l);
+    });
+  }));
+  if (!(S.vegRatio > 0)) S.vegRatio = 80;
+  S.v = 3;
+}
 
 function viewInsp(){
   const mode = (S.ui && S.ui.insp) || "compose";
