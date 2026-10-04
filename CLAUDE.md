@@ -47,3 +47,14 @@ et on commite `build/` **et** `index.html` ensemble. Le script échoue si une an
 
 ## Mise en ligne
 GitHub Pages sert `index.html` depuis `main` (racine). Un changement fusionné est en ligne en une à deux minutes.
+
+## Règles du Bamboo appliquées aux recettes (d'après `docs/bamboo.md`)
+- Vapeur (STEAM) : eau chaude jusqu'au repère « 2-3 » de la cuve (au moins 2 tasses de 180 ml, soit 360 ml) ; durée réglable jusqu'à 1 h par paliers de 5 ou 10 minutes ; **ne jamais ouvrir pendant un cycle** : on enchaîne deux cycles (éléments longs, puis éléments courts) ; aliments de 3,5 cm d'épaisseur au maximum.
+- Guide du fabricant : carotte 20 min, brocoli 15, épinards 15, potimarron 20, pomme de terre 40 (450 g), poulet 30, poisson 25.
+- SLOW COOK : de 2 à 8 heures seulement. PORRIDGE : de 1 à 3 heures. Riz blanc : programme WHITE, 35 minutes. Quinoa : QUICK COOK, 1 volume de quinoa pour 1 volume d'eau.
+- **Jamais de lait pour cuire l'avoine** (débordement) : cuire à l'eau, ajouter le lait chaud après. Pas de vinaigre dans la cuve, pas de papier absorbant ni ciré dans la cuve.
+- Œufs : à la casserole (mollet 6 min 30, dur 10 min), pas dans le Bamboo.
+- Les recettes de `cat_ov_v4*.js` suivent ces règles ; en cas de doute, relire `docs/bamboo.md`.
+
+## Migrations de données
+Les recettes fournies sont recopiées dans les données de chaque utilisateur. Toute modification des recettes fournies exige une migration dans `build/cat_v6.js` (fonction `migrateN`) et une montée de version dans `build/build_cat.py` (`return { v: N`) et `build/cat_proto.js` (`migrateAll`). Version actuelle : 4.

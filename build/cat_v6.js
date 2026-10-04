@@ -171,3 +171,19 @@ function migrate3(){
   if (!(S.vegRatio > 0)) S.vegRatio = 80;
   S.v = 3;
 }
+
+/* ---------- version 4 : recettes remises en conformité avec le mode d'emploi du Bamboo ---------- */
+function migrate4(){
+  const own = S.recipes.filter(r => r.own), oldIds = new Set(S.recipes.filter(r => !r.own).map(r => r.id));
+  S.recipes = DEFAULT_RECIPES.map(recipeToState).concat(own);
+  const fresh = buildDefaultPlan(S.recipes), byId = id => S.recipes.find(r => r.id === id);
+  S.weeks.forEach((w, wi) => w.days.forEach((d, di) => {
+    const src = fresh[wi % fresh.length].days[di % 7].meals;
+    ["b", "l", "d"].forEach(k => {
+      const m = d.meals[k]; if (!m || !m.recipeId || !oldIds.has(m.recipeId)) return;
+      const r = byId(m.recipeId), nm = r ? mealFromRecipe(r) : copyMeal(src[k] || src.l);
+      nm.id = m.id; protoAdaptMeal(nm, k, kT(k)); d.meals[k] = nm;
+    });
+  }));
+  S.v = 4;
+}
