@@ -36,7 +36,7 @@ catalog=('/* ============ CATALOGUE DE RECETTES : PROTOCOLE DE CAT (v2) ========
  '   Niveau 1 : riz, pomme de terre, potimarron, sarrasin, quinoa, avoine sans gluten, soba pur sarrasin ; légumes cuits ; tofu ferme, blanc de poulet, œuf, isolat de pois, okara d\'amande ;\n'
  '   huile d\'olive ou de sésame grillé à cru. Exclus : légumineuses, ail, oignon, fibres crues, fritures, hautes températures.\n'
  '   Étapes linéaires : « Titre — consigne [durée] ». {{ingrédient}} est remplacé par la quantité réelle de la liste. */\n'
- 'const HERBS = "quelques brins";\n'+rd('cat_rec_b.js')+'\n'+rd('cat_rec_1.js')+'\n'+rd('cat_rec_2.js')+'\n'+rd('cat_rec_v6.js')+'\n'+rd('cat_ov_1.js')+rd('cat_ov_2.js')+rd('cat_ov_3.js')+'\nconst DEFAULT_RECIPES = NEW_RECIPES.slice();\nconst SIGNATURE = [];\n\n')
+ 'const HERBS = "quelques brins";\n'+rd('cat_rec_b.js')+'\n'+rd('cat_rec_1.js')+'\n'+rd('cat_rec_2.js')+'\n'+rd('cat_rec_v6.js')+'\n'+rd('cat_ov_lib.js')+rd('cat_ov_v4a.js')+rd('cat_ov_v4b.js')+rd('cat_ov_v4c.js')+'\nconst DEFAULT_RECIPES = NEW_RECIPES.slice();\nconst SIGNATURE = [];\n\n')
 rep_block('/* ============ CATALOGUE DE RECETTES','/* ============ BASE INGRÉDIENTS',catalog)
 # 3. base d'ingrédients
 rep_block('/* ============ BASE INGRÉDIENTS','function norm(s){',rd('cat_db.js')+'\n')
@@ -100,7 +100,7 @@ rep_block('function buildDefaultPlan(recipes){','function defaultState(){','''fu
 }
 ''')
 rep('return { v: 1, font: "editorial", recipes, weeks: buildDefaultPlan(recipes), weights: [], goal: 60, checked: {}, ui: { view: "plan", week: 0 } };',
-    'return { v: 3, font: "editorial", recipes, weeks: buildDefaultPlan(recipes), weights: [], goal: 60, checked: {}, ui: { view: "plan", week: 0 },\n    kcalT: { b: null, l: null, d: null }, vegRatio: 80, autoAdapt: true, autoVeg: true, sensible: false, pantry: [], shopExtra: [], cooked: {}, reint: { start: null, foods: {}, current: null } };')
+    'return { v: 4, font: "editorial", recipes, weeks: buildDefaultPlan(recipes), weights: [], goal: 60, checked: {}, ui: { view: "plan", week: 0 },\n    kcalT: { b: null, l: null, d: null }, vegRatio: 80, autoAdapt: true, autoVeg: true, sensible: false, pantry: [], shopExtra: [], cooked: {}, reint: { start: null, foods: {}, current: null } };')
 rep('''  S.ui = S.ui || { view: "plan", week: 0 }; S.checked = S.checked || {}; S.weights = S.weights || [];
   if (S.goal == null) S.goal = 73;
   S.v = S.v || 1;''','''  S.v = S.v || 1;

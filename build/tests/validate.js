@@ -2,7 +2,7 @@ const fs=require('fs');
 const norm=s=>String(s||"").toLowerCase().replace(/œ/g,"oe").replace(/æ/g,"ae").replace(/[’`]/g,"'").normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/\s+/g," ").trim();
 global.norm=norm; global.HERBS="quelques brins";
 const load=f=>fs.readFileSync(require('path').join(__dirname,'..',f),'utf8');
-let code=load('cat_db.js')+load('cat_rec_b.js')+load('cat_rec_1.js')+load('cat_rec_2.js')+load('cat_rec_v6.js')+load('cat_ov_1.js')+load('cat_ov_2.js')+load('cat_ov_3.js')+load('cat_gen.js')+`
+let code=load('cat_db.js')+load('cat_rec_b.js')+load('cat_rec_1.js')+load('cat_rec_2.js')+load('cat_rec_v6.js')+load('cat_ov_lib.js')+load('cat_ov_v4a.js')+load('cat_ov_v4b.js')+load('cat_ov_v4c.js')+load('cat_gen.js')+`
 function lookup(name){const n=norm(name);return ING_DB.find(e=>n.includes(e.k))||null;}
 function unitKind(u){const x=norm(u);if(!x)return "p";if(x==="g"||x==="ml")return "g";if(/(cafe|c\\.? ?a ?c)/.test(x))return "c";if(/(soupe|c\\.? ?a ?s)/.test(x))return "s";if(/(pincee|brins|quelques)/.test(x))return "z";return "p";}
 function ingKcal(i){const q=parseFloat(String(i.q).replace(',','.'));if(!q)return 0;const e=lookup(i.n);if(!e)return 0;switch(unitKind(i.u)){case 'g':return e.g!=null?e.g*q/100:0;case 'c':return e.c!=null?e.c*q:0;case 's':return e.c!=null?e.c*3*q:(e.g!=null?e.g*q*15/100:0);case 'p':return e.p!=null?e.p*q:0;}return 0;}
