@@ -301,3 +301,21 @@ function migrate8(){
   }));
   S.v = 8;
 }
+
+/* ---------- version 9 : catalogue entièrement renouvelé, planning refait ----------
+   Toutes les recettes fournies sont remplacées. Chaque repas du planning est refait avec le nouveau planning de départ,
+   sauf ceux tirés d'une recette personnelle ou créés à la main (sans recette ni génération). */
+function migrate9(){
+  const own = S.recipes.filter(r => r.own), ownIds = new Set(own.map(r => r.id));
+  S.recipes = DEFAULT_RECIPES.map(recipeToState).concat(own);
+  const fresh = buildDefaultPlan(S.recipes);
+  S.weeks.forEach((w, wi) => w.days.forEach((d, di) => {
+    const src = fresh[wi % fresh.length].days[di % 7].meals;
+    ["b", "l", "d"].forEach(k => {
+      const m = d.meals[k];
+      if (m && ((m.recipeId && ownIds.has(m.recipeId)) || (!m.recipeId && !m.gen))) return;
+      const nm = copyMeal(src[k] || src.l); if (m) nm.id = m.id; protoAdaptMeal(nm, k, kT(k)); d.meals[k] = nm;
+    });
+  }));
+  S.v = 9;
+}
