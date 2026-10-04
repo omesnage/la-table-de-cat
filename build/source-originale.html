@@ -1,0 +1,1969 @@
+<!doctype html>
+<html lang="fr" data-font="editorial">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>La Table de Cat · plan doux</title>
+<meta name="theme-color" content="#FAFAF7">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍚</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Karla:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAFAF7; --card:#FFFFFF; --ink:#1D1C1A; --ink-2:#3A3834; --mute:#7B776F;
+  --line:#E5E2DB; --line-2:#CFCAC0; --celadon:#56766A; --wash:#EEF3EF; --danger:#9B4A3C;
+  /* une couleur par catégorie de plat */
+  --c-poisson:#C4674B; --c-crevettes:#D08A7A; --c-poulet:#C8963E; --c-boeuf:#7E3B3B;
+  --c-jambon:#B06A45; --c-oeufs:#D4A93C; --c-veg:#6F8F6A;
+  --cc:var(--celadon);
+  --serif:"Cormorant Garamond","Cormorant",Garamond,Georgia,serif;
+  --sans:"Jost","Futura","Avenir Next","Helvetica Neue",Arial,sans-serif;
+  --serif-w:500; --fsa:.47; --title-ls:0;
+  --r:999px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 15px/1.55 var(--sans);-webkit-font-smoothing:antialiased}
+body.locked{overflow:hidden}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:0;padding:0}
+:focus-visible{outline:2px solid var(--celadon);outline-offset:2px}
+.muted{color:var(--mute)} .small{font-size:12.5px} .center{text-align:center;padding:40px 0}
+.danger{color:var(--danger)!important}
+
+/* en-tête */
+.top{position:sticky;top:0;z-index:20;background:rgba(250,250,247,.94);backdrop-filter:saturate(1.2) blur(8px);border-bottom:1px solid var(--line)}
+.top-in{max-width:1240px;margin:0 auto;display:flex;align-items:baseline;gap:40px;padding:18px 32px}
+.brand{font:italic 400 26px/1 var(--serif);letter-spacing:.01em;white-space:nowrap}
+/* menu du bas (smartphone) : pastille colorée par rubrique */
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;justify-content:space-around;gap:0;padding:8px 6px calc(8px + env(safe-area-inset-bottom));
+  background:rgba(255,255,255,.97);backdrop-filter:saturate(1.2) blur(8px);border-top:1px solid var(--line);box-shadow:0 -6px 24px rgba(29,28,26,.06)}
+.tabbar button{--nf:#fff;flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:4px;padding:2px 0;font-size:10.5px;letter-spacing:.02em;color:var(--mute);white-space:nowrap;transition:color .2s;-webkit-tap-highlight-color:transparent}
+.tabbar .ico{display:grid;place-items:center;width:46px;height:32px;border-radius:16px;background:color-mix(in srgb,var(--nc) 16%,transparent);transition:background .2s,transform .15s}
+.tabbar svg{width:22px;height:22px;fill:none;stroke:var(--nc);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;transition:stroke .2s}
+.tabbar button:active .ico{transform:scale(.9)}
+.tabbar button[aria-current="page"]{color:color-mix(in srgb,var(--nc) 70%,var(--ink));font-weight:500}
+.tabbar button[aria-current="page"] .ico{background:var(--nc);box-shadow:0 4px 10px color-mix(in srgb,var(--nc) 40%,transparent);animation:pop .4s cubic-bezier(.3,1.6,.5,1)}
+.tabbar button[aria-current="page"] svg{stroke:var(--nf)}
+@keyframes pop{0%{transform:scale(.8) translateY(3px)}60%{transform:scale(1.12) translateY(-3px)}100%{transform:none}}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* boutons */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border:1px solid var(--line-2);border-radius:var(--r);font-size:13.5px;font-weight:500;background:transparent;transition:background .15s,border-color .15s;white-space:nowrap}
+.btn:hover{border-color:var(--ink)}
+.btn.primary{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.btn.primary:hover{background:var(--ink-2)}
+.btn.ghost{border-color:transparent}
+.btn.ghost:hover{border-color:var(--line-2)}
+.btn.big{padding:14px 34px;font-size:15px}
+.btn.file{cursor:pointer}
+.link{color:var(--celadon);font-size:13px;text-decoration:underline;text-decoration-color:transparent;text-underline-offset:3px;transition:text-decoration-color .15s}
+.link:hover{text-decoration-color:currentColor}
+.icon{width:30px;height:30px;border-radius:50%;color:var(--mute);font-size:15px;line-height:1}
+.icon:hover:not(:disabled){background:var(--wash);color:var(--ink)}
+.icon:disabled{opacity:.25;cursor:default}
+.icon.del:hover{color:var(--danger);background:#F6ECEA}
+.actions{display:flex;flex-wrap:wrap;gap:8px}
+
+/* titres */
+.display{font:400 44px/1.08 var(--serif);margin:0 0 8px;letter-spacing:-.005em}
+.display-s{font:400 30px/1.15 var(--serif);margin:0 0 10px}
+.eyebrow{font-size:12.5px;color:var(--mute);margin:0 0 6px}
+.pagehead{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:28px}
+.pagehead p{max-width:62ch;margin:0}
+.group-title{font:italic 400 22px/1.2 var(--serif);margin:0 0 10px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.book-group .group-title{border-bottom-color:var(--cc);display:flex;align-items:center;gap:10px}
+.book-group .group-title::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--cc);flex:none}
+
+/* couleur de catégorie */
+.cat-tag{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;letter-spacing:.04em;padding:2px 10px 2px 8px;border-radius:var(--r);
+  color:color-mix(in srgb,var(--cc) 68%,var(--ink));background:color-mix(in srgb,var(--cc) 12%,transparent);white-space:nowrap}
+.cat-tag::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--cc)}
+
+/* semaines */
+.weekbar{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:34px;scrollbar-width:thin}
+.wtab{padding:8px 16px;border-radius:var(--r);font-size:13.5px;color:var(--mute);white-space:nowrap;border:1px solid transparent}
+.wtab:hover{color:var(--ink)}
+.wtab[aria-current="true"]{color:var(--ink);border-color:var(--celadon)}
+.wtab.add{color:var(--celadon)}
+.weekhead{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:18px}
+.weekhead p{margin:4px 0 0}
+.title-input{font:400 52px/1.05 var(--serif);border:0;background:transparent;padding:0;width:100%;max-width:560px;border-bottom:1px solid transparent}
+.title-input:hover,.title-input:focus{border-bottom-color:var(--line-2);outline:none}
+
+/* jours */
+.day{display:grid;grid-template-columns:190px 1fr;gap:28px;padding:30px 0;border-top:1px solid var(--line)}
+.day:last-child{border-bottom:1px solid var(--line)}
+.day-head{display:flex;flex-direction:column;gap:4px}
+.day-name{font:italic 400 28px/1.1 var(--serif);border:0;background:transparent;padding:0;width:100%;border-bottom:1px solid transparent}
+.day-name:hover,.day-name:focus{border-bottom-color:var(--line-2);outline:none}
+.day-name.static{display:block}
+.day-tools{display:flex;flex-direction:column;align-items:flex-start;gap:4px;margin-top:10px}
+.meals{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+.meal{display:flex;flex-direction:column;gap:6px;min-width:0}
+.meal.has-cat{border-left:2px solid var(--cc);padding-left:16px}
+.slot{font-size:12.5px;color:var(--mute);letter-spacing:.02em;display:flex;align-items:center;gap:7px}
+.slot::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--c-poulet)}
+.slot-d .slot::before,.slot.slot-d::before{background:var(--celadon)}
+.day-name{color:color-mix(in srgb,var(--celadon) 65%,var(--ink))}
+.wtab[aria-current="true"]{background:color-mix(in srgb,var(--celadon) 10%,transparent)}
+.group-title{border-bottom-color:color-mix(in srgb,var(--celadon) 35%,var(--line))}
+.stat-v{color:color-mix(in srgb,var(--celadon) 60%,var(--ink))}
+.meal-tools .link{color:color-mix(in srgb,var(--cc) 70%,var(--ink))}
+.dish{text-align:left;display:flex;flex-direction:column;gap:4px;align-items:flex-start}
+.dish-name{font:400 19px/1.28 var(--serif);color:var(--ink);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:4px;text-decoration-thickness:1px;transition:text-decoration-color .15s}
+.dish:hover .dish-name{text-decoration-color:var(--cc)}
+.dish-sub{font-size:13px;color:var(--ink-2)}
+.dish-meta{font-size:12.5px;color:var(--mute);display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center}
+.meal-tools{display:flex;gap:14px;opacity:0;transition:opacity .15s}
+.meal:hover .meal-tools,.meal:focus-within .meal-tools{opacity:1}
+@media (hover:none){.meal-tools{opacity:1}}
+.meal.empty .create{text-align:left;color:var(--celadon);font-size:14px;padding:12px 0;border-top:1px dashed var(--line-2)}
+.meal.empty .create:hover{color:var(--ink)}
+.add-day{padding:30px 0}
+.empty-state{padding:80px 0;text-align:center}
+
+/* feuille latérale */
+.modal{position:fixed;inset:0;z-index:50;background:rgba(29,28,26,0);transition:background .25s}
+.modal.open{background:rgba(29,28,26,.3)}
+.sheet{position:absolute;top:0;right:0;bottom:0;width:min(660px,100%);background:var(--paper);overflow-y:auto;box-shadow:-24px 0 60px rgba(29,28,26,.12);transform:translateX(24px);opacity:0;transition:transform .28s cubic-bezier(.2,.7,.2,1),opacity .2s}
+.sheet.wide{width:min(940px,100%)}
+.modal.open .sheet{transform:none;opacity:1}
+.sheet-close{position:sticky;top:0;display:flex;justify-content:flex-end;padding:14px 18px 0;background:linear-gradient(var(--paper) 70%,transparent)}
+.sheet-body{padding:6px 44px 44px}
+.sheet-foot{display:flex;flex-wrap:wrap;gap:8px;margin-top:34px;padding-top:22px;border-top:1px solid var(--line)}
+.push{margin-left:auto}
+
+/* éditeur */
+.ed-title{font:400 34px/1.15 var(--serif);border:0;border-bottom:1px solid var(--line);border-radius:0;background:transparent;width:100%;padding:4px 0 10px;margin:0;resize:none;overflow:hidden;display:block}
+.ed-title:focus{outline:none;border-bottom-color:var(--ink)}
+.ed-title.static{border:0}
+.ed-sub{margin:8px 0 0;color:var(--ink-2)}
+.ed-kcal{margin:14px 0 0;font-size:13.5px}
+.ed-sec{margin-top:30px}
+.ed-sec h3,.gen-panel h3{font:italic 400 20px/1.2 var(--serif);margin:0 0 10px}
+.gen-panel{margin-top:26px;padding:20px 22px;background:var(--wash);border-radius:4px}
+.gen-panel p{margin:0 0 12px}
+.fields{display:flex;flex-wrap:wrap;gap:14px 18px;margin:18px 0 8px}
+.gen-panel .fields{margin:0 0 10px}
+.field{display:flex;flex-direction:column;gap:5px;font-size:12.5px;color:var(--mute);min-width:130px}
+.field input,.field select,select,.search,textarea{background:var(--card);border:1px solid var(--line);border-radius:3px;padding:9px 11px;color:var(--ink);font-size:14px}
+.field input:focus,select:focus,.search:focus,textarea:focus{outline:none;border-color:var(--ink)}
+textarea{width:100%;resize:vertical;line-height:1.6}
+.ing-list{list-style:none;margin:0 0 14px;padding:0}
+.ing{display:grid;grid-template-columns:64px 118px 1fr auto;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line)}
+.ing input{border:0;background:transparent;padding:7px 6px;border-radius:3px;min-width:0;font-size:14.5px}
+.ing input:hover{background:var(--card)}
+.ing input:focus{outline:none;background:var(--card);box-shadow:inset 0 0 0 1px var(--ink)}
+.ing-q{text-align:right}
+.ing-empty{padding:12px 0}
+.ing-tools{display:flex;gap:2px}
+.steps{list-style:none;counter-reset:st;padding:0;margin:0}
+.steps li{counter-increment:st;display:grid;grid-template-columns:44px 1fr;column-gap:6px;padding:16px 0;border-bottom:1px solid var(--line)}
+.steps li:last-child{border-bottom:0}
+.steps li::before{content:counter(st, decimal-leading-zero);grid-row:1 / span 2;font:400 13px/1.9 var(--sans);letter-spacing:.08em;color:var(--cc)}
+.steps li.muted::before{content:none}
+.step-h{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:color-mix(in srgb,var(--cc) 80%,var(--ink));font-weight:500;margin-bottom:4px}
+.steps p{margin:0;color:var(--ink-2);line-height:1.7;max-width:68ch}
+.steps .lab{font-weight:500;color:var(--ink);font-size:.82em;letter-spacing:.08em;text-transform:uppercase}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:6px}
+.sec-head h3{margin:0}
+.ed-kcal .sep{display:inline-block;width:18px;height:1px;background:var(--line-2);vertical-align:middle;margin:0 12px}
+.font-list{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:6px 0 40px}
+.font-opt{text-align:left;padding:22px 22px 20px;border:1px solid var(--line);border-radius:4px;background:var(--card);display:flex;flex-direction:column;gap:10px}
+.font-opt:hover{border-color:var(--ink-2)}
+.font-opt[aria-pressed="true"]{border-color:var(--celadon);box-shadow:inset 0 0 0 1px var(--celadon)}
+.font-opt .fo-t{font-size:26px;line-height:1.15}
+.font-opt .fo-s{font-size:13.5px;color:var(--ink-2)}
+.font-opt .fo-n{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+@media (max-width:760px){.font-list{grid-template-columns:1fr}.steps li{grid-template-columns:34px 1fr}}
+
+/* choix */
+.choice-list{display:flex;flex-direction:column;gap:10px;margin-top:22px}
+.choice{text-align:left;display:flex;flex-direction:column;gap:4px;padding:18px 20px;border:1px solid var(--line);border-radius:4px;background:var(--card)}
+button.choice:hover{border-color:var(--celadon)}
+.choice strong{font:400 20px/1.2 var(--serif)}
+.choice span{color:var(--mute);font-size:13.5px}
+.choice .row{display:flex;gap:10px;margin-top:8px}
+
+/* recherche / liste de choix */
+.search{width:100%;padding:12px 14px;font-size:15px;margin:10px 0 14px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{padding:6px 13px;border:1px solid var(--line-2);border-radius:var(--r);font-size:13px;color:var(--ink-2);display:inline-flex;align-items:center;gap:7px}
+.chip:hover{border-color:var(--ink)}
+.chip .dot{width:7px;height:7px;border-radius:50%;background:var(--cc);flex:none}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.pick-list{list-style:none;padding:0;margin:18px 0 0;columns:2;column-gap:36px}
+.pick-list li{break-inside:avoid;margin-bottom:8px}
+.pick{display:flex;flex-direction:column;text-align:left;padding:10px 14px;border-left:2px solid var(--cc);border-radius:0 3px 3px 0;
+  background:color-mix(in srgb,var(--cc) 7%,transparent);width:100%;gap:2px}
+.pick:hover .dish-name{text-decoration-color:var(--cc)}
+
+/* propositions */
+.filters{display:flex;flex-direction:column;gap:12px;margin:18px 0 22px}
+.frow{display:grid;grid-template-columns:90px 1fr;gap:12px;align-items:start}
+.flabel{font-size:12.5px;color:var(--mute);padding-top:7px}
+.prop-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px}
+.prop{background:var(--card);background:color-mix(in srgb,var(--cc) 7%,var(--card));border:1px solid var(--line);border-top:2px solid var(--cc);border-radius:4px;padding:20px 20px 16px;display:flex;flex-direction:column;gap:6px}
+.prop h4{margin:0}
+.prop p{margin:0}
+.prop-tag{font-size:12px;color:var(--mute);display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
+.prop-actions{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-top:auto;padding-top:12px}
+
+/* inspirations */
+.insp-hero{display:grid;grid-template-columns:auto 1fr;gap:36px;align-items:end;padding:10px 0 34px;border-bottom:1px solid var(--line);margin-bottom:30px}
+.big-figure{font:400 128px/.82 var(--serif);margin:0;letter-spacing:-.03em;color:var(--celadon)}
+.lede{font:400 19px/1.5 var(--serif);max-width:52ch;margin:0 0 6px;color:var(--ink-2)}
+.seg{display:inline-flex;border:1px solid var(--line-2);border-radius:var(--r);padding:3px}
+.seg-b{padding:8px 20px;border-radius:var(--r);font-size:14px;color:var(--mute)}
+.seg-b[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.insp-go{margin:6px 0 36px}
+.apply{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:24px 0;font-size:14px}
+
+/* carnet */
+.book-filters{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:10px;margin-bottom:34px}
+.book-filters .search{margin:0}
+.book-group{margin-bottom:40px}
+.book-list{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:1fr 1fr;column-gap:48px;row-gap:8px}
+.book-item{display:flex;flex-direction:column;gap:3px;text-align:left;padding:12px 14px;border-left:2px solid var(--cc);border-radius:0 3px 3px 0;
+  background:color-mix(in srgb,var(--cc) 7%,transparent);width:100%}
+.book-item:hover .dish-name{text-decoration-color:var(--cc)}
+
+/* courses */
+.shop-controls{display:flex;flex-wrap:wrap;gap:22px;align-items:flex-end;padding:18px 0 28px;border-bottom:1px solid var(--line);margin-bottom:30px}
+.checks{display:flex;flex-wrap:wrap;gap:6px 14px}
+.check{display:inline-flex;align-items:center;gap:7px;font-size:13.5px;color:var(--ink);cursor:pointer}
+input[type=checkbox]{accent-color:var(--celadon);width:16px;height:16px}
+.shop-cols{columns:3 280px;column-gap:44px}
+.shop-group{break-inside:avoid;margin-bottom:30px}
+.shop-list{list-style:none;margin:0;padding:0}
+.shop-list label{display:grid;grid-template-columns:20px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.si-q{color:var(--mute);font-size:13px;text-align:right}
+.shop-list li.done .si-name{text-decoration:line-through;color:var(--mute)}
+
+/* poids */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:28px}
+.stat{padding:22px 0;display:flex;flex-direction:column;gap:4px}
+.stat-v{font:400 34px/1 var(--serif)}
+.stat-l{font-size:12.5px;color:var(--mute)}
+.goal{width:3.2em;font:400 34px/1 var(--serif);border:0;border-bottom:1px solid var(--line-2);background:transparent;padding:0}
+.weight-form{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end;margin-bottom:30px}
+.chart svg{width:100%;height:auto;display:block}
+.chart .grid{stroke:var(--line);stroke-width:1}
+.chart .axis{fill:var(--mute);font:11px var(--sans)}
+.chart .goal-line{stroke:var(--celadon);stroke-dasharray:4 5;stroke-width:1}
+.chart .curve{fill:none;stroke:var(--ink);stroke-width:1.6}
+.chart .dot{fill:var(--paper);stroke:var(--ink);stroke-width:1.4}
+.wlist{list-style:none;padding:0;margin:30px 0 0;max-width:620px}
+.wlist li{display:grid;grid-template-columns:1fr 90px 80px 32px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line)}
+
+/* données */
+.data-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin-bottom:30px}
+.data-grid p{min-height:3em}
+
+/* toast */
+.toast{position:fixed;left:50%;bottom:92px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--ink);color:var(--paper);padding:12px 20px;border-radius:var(--r);font-size:14px;display:flex;gap:18px;align-items:center;transition:.25s;z-index:80;max-width:calc(100% - 32px)}
+.toast.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.toast .link{color:#BFD3C9}
+
+/* responsive */
+@media (max-width:1020px){
+  .meals{gap:22px 28px}
+  .day{grid-template-columns:150px 1fr}
+}
+@media (max-width:720px){
+  .tabbar{gap:0;padding-left:4px;padding-right:4px}
+  .tabbar button{min-width:0;flex:1 1 0;padding:7px 2px 6px;font-size:10.5px}
+  .top-in{flex-direction:column;gap:8px;padding:14px 18px 6px}
+  main{padding:24px 18px 110px}
+  .title-input{font-size:38px}
+  .day{grid-template-columns:1fr;gap:14px;padding:24px 0}
+  .day-head{flex-direction:row;flex-wrap:wrap;align-items:baseline;gap:4px 14px}
+  .day-name{width:auto;flex:1 1 60%;font-size:26px}
+  .day-tools{flex-direction:row;gap:16px;margin:0;width:100%}
+  .meals{grid-template-columns:1fr;gap:18px}
+  .meal{padding-left:14px;border-left:1px solid var(--line)}
+  .sheet-body{padding:0 20px 36px}
+  .ing{grid-template-columns:52px 84px 1fr;row-gap:0}
+  .ing-tools{grid-column:1/-1;justify-content:flex-end}
+  .pick-list{columns:1}
+  .book-filters{grid-template-columns:1fr 1fr}
+  .book-filters .search{grid-column:1/-1}
+  .book-list{grid-template-columns:1fr}
+  .insp-hero{grid-template-columns:1fr;gap:14px}
+  .big-figure{font-size:88px}
+  .frow{grid-template-columns:1fr;gap:6px}
+  .stats{grid-template-columns:1fr 1fr}
+  .data-grid{grid-template-columns:1fr;gap:28px}
+  .display{font-size:36px}
+  .push{margin-left:0}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+@media print{.tabbar,.top,.meal-tools,.day-tools,.weekbar,.actions,.add-day{display:none}}
+
+/* protocole de Cat */
+.proto{margin:0 0 26px;display:grid;gap:10px}
+.proto details{background:color-mix(in srgb,var(--celadon) 7%,var(--card));border:1px solid var(--line);border-left:3px solid var(--celadon);border-radius:0 12px 12px 0;padding:12px 16px}
+.proto summary{cursor:pointer;font:italic 400 20px/1.3 var(--serif);color:color-mix(in srgb,var(--celadon) 60%,var(--ink));list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.proto summary::-webkit-details-marker{display:none}
+.proto summary::after{content:"+";font:400 22px/1 var(--sans);color:var(--celadon);transition:transform .2s}
+.proto details[open] summary::after{transform:rotate(45deg)}
+.proto h4{margin:16px 0 4px;font:500 11.5px/1.3 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:color-mix(in srgb,var(--celadon) 70%,var(--ink))}
+.proto ul,.proto ol{margin:6px 0 4px;padding-left:20px}
+.proto li{margin:5px 0;color:var(--ink-2);font-size:14px;line-height:1.55}
+.proto .ok{color:color-mix(in srgb,var(--c-veg) 70%,var(--ink))}
+.proto .no{color:var(--danger)}
+
+/* accents : vert céladon, bandeau multicolore, mouvement */
+html{-webkit-tap-highlight-color:transparent}
+.top::before{content:"";display:block;height:4px;background:linear-gradient(90deg,var(--celadon),var(--c-veg),var(--c-oeufs),var(--c-poulet),var(--c-poisson),var(--c-crevettes),var(--c-boeuf))}
+.brand{color:color-mix(in srgb,var(--celadon) 80%,var(--ink))}
+.btn.primary{background:var(--celadon);border-color:var(--celadon);color:#fff}
+.btn.primary:hover{background:color-mix(in srgb,var(--celadon) 82%,#000)}
+.btn:active{transform:scale(.97)}
+.chip[aria-pressed="true"],.seg-b[aria-pressed="true"]{background:var(--celadon);border-color:var(--celadon);color:#fff}
+.chip[aria-pressed="true"] .dot{background:#fff}
+.wtab[aria-current="true"]{background:var(--celadon);border-color:var(--celadon);color:#fff}
+.wtab{transition:background .2s,color .2s}
+.title-input,.display{color:color-mix(in srgb,var(--celadon) 55%,var(--ink))}
+.cat-tag{background:color-mix(in srgb,var(--cc) 18%,transparent)}
+.meal.has-cat{background:color-mix(in srgb,var(--cc) 7%,transparent);padding:12px 14px 12px 16px;border-radius:0 12px 12px 0}
+.day{transition:background .2s}
+.prop,.pick,.book-item{transition:transform .15s,box-shadow .15s}
+.prop:active,.pick:active,.book-item:active,.dish:active{transform:scale(.985)}
+.prop{box-shadow:0 6px 18px color-mix(in srgb,var(--cc) 12%,transparent)}
+#main>*{animation:rise .35s ease both}
+.sheet-body h1,.sheet-body h2{color:color-mix(in srgb,var(--celadon) 55%,var(--ink))}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+
+/* typographies interchangeables */
+html[data-font="modern"]{--serif:"Jost","Futura","Avenir Next",Arial,sans-serif;--sans:"Jost","Futura","Avenir Next",Arial,sans-serif;--serif-w:300;--fsa:none;--title-ls:-.01em}
+html[data-font="classic"]{--serif:"Playfair Display",Georgia,serif;--sans:"Karla","Helvetica Neue",Arial,sans-serif;--serif-w:400;--fsa:none;--title-ls:0}
+.brand,.display,.display-s,.group-title,.title-input,.day-name,.dish-name,.ed-title,.ed-sec h3,.gen-panel h3,.choice strong,.fo-t{font-weight:var(--serif-w);font-size-adjust:var(--fsa);letter-spacing:var(--title-ls)}
+.dish-name{font-weight:var(--serif-w)}
+
+</style>
+</head>
+<body>
+<header class="top"><div class="top-in">
+  <span class="brand">La Table de Cat</span>
+</div></header>
+<nav class="tabbar" aria-label="Sections">
+  <button data-nav="plan" style="--nc:var(--celadon)"><i class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg></i><span>Planning</span></button>
+  <button data-nav="insp" style="--nc:var(--c-poulet);--nf:var(--ink)"><i class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M18.5 16.5l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></svg></i><span>Inspirations</span></button>
+  <button data-nav="book" style="--nc:var(--c-poisson)"><i class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4.5A1.5 1.5 0 0 1 6.5 3H19v15H6.5A1.5 1.5 0 0 0 5 19.5z"/><path d="M5 19.5A1.5 1.5 0 0 0 6.5 21H19v-3M9 7.5h6"/></svg></i><span>Carnet</span></button>
+  <button data-nav="shop" style="--nc:var(--c-veg)"><i class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1.2 11.2a1.5 1.5 0 0 1-1.5 1.3H7.7a1.5 1.5 0 0 1-1.5-1.3z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg></i><span>Courses</span></button>
+  <button data-nav="weight" style="--nc:var(--c-boeuf)"><i class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18a8 8 0 1 1 16 0"/><path d="M12 18l3.5-5.5"/><circle cx="12" cy="18" r="1"/></svg></i><span>Poids</span></button>
+  <button data-nav="data" style="--nc:var(--c-jambon)"><i class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg></i><span>Réglages</span></button>
+</nav>
+<p class="warn" id="storageWarn" hidden>Le stockage du navigateur est indisponible ici : les modifications seront perdues au rechargement. Exporte une sauvegarde depuis « Réglages ».</p>
+<main id="main"></main>
+<div class="modal" id="modal" hidden><div class="sheet" role="dialog" aria-modal="true">
+  <div class="sheet-close"><button class="icon" data-act="close" aria-label="Fermer">×</button></div>
+  <div class="sheet-body"></div>
+</div></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+/* ============ CATALOGUE DE RECETTES — PROTOCOLE DE CAT ============
+   Reflux LPR + SII (transit ralenti), low-FODMAP, cuissons fondantes, plats tièdes.
+   Interdits : ail, oignon, échalote, poivre, piment, vinaigre, citron, moutarde, tomate crue,
+   pollen, dattes, peau et gras animal cuits. Seuils : haricots verts 75 g cuits, courgette 60 g épluchée.
+   Quantités des féculents CUITES. Huile d'olive crue 1 à 2 c. à soupe par repas.
+   Les étapes détaillées de chaque fiche sont dans DEV (plus bas), par identifiant. */
+
+const R = (id, n, cat, st, base, ing) =>
+  ({ id, n, cat, st, base, t: 0, d: 1, ing: ing.map(([n, q, u]) => ({ n, q, u })), steps: [], tip: "" });
+
+const HERBS = "quelques brins";
+
+const DEFAULT_RECIPES = [
+/* ---------------- POULET ---------------- */
+R("poulet-effiloche-bamboo","Poulet effiloché Bamboo, carottes & pommes de terre","Poulet","Slow cook Bamboo","Pommes de terre",
+ [["cuisse de poulet",200,"g"],["carotte",120,"g"],["pommes de terre",200,"g"],["huile d'olive",1,"c. à soupe"],["persil","",HERBS]]),
+R("poulet-vapeur-riz","Blanc de poulet vapeur, riz tiède & carottes fondantes","Poulet","Vapeur Bamboo","Riz",
+ [["blanc de poulet",130,"g"],["riz cuit",180,"g"],["carotte",100,"g"],["huile d'olive",1,"c. à soupe"],["persil","",HERBS]]),
+R("poulet-thym-romarin","Cuisse de poulet au thym & romarin, purée de pommes de terre","Poulet","Slow cook Bamboo","Pommes de terre",
+ [["cuisse de poulet",200,"g"],["pommes de terre",200,"g"],["carotte",60,"g"],["huile d'olive",1,"c. à soupe"],["thym","",HERBS],["romarin","",HERBS]]),
+R("poulet-haricots-riz","Poulet effiloché, riz & haricots verts fondants","Poulet","Slow cook Bamboo","Riz",
+ [["cuisse de poulet",180,"g"],["riz cuit",170,"g"],["haricots verts",75,"g"],["huile d'olive",1,"c. à soupe"],["persil","",HERBS]]),
+R("poulet-skyr-ciboulette","Blanc de poulet vapeur, pommes de terre & sauce skyr-ciboulette","Poulet","Vapeur Bamboo","Pommes de terre",
+ [["blanc de poulet",130,"g"],["pommes de terre",200,"g"],["carotte",80,"g"],["skyr",2,"c. à soupe"],["huile d'olive",1,"c. à soupe"],["eau tiède",1,"c. à soupe"],["ciboulette","",HERBS]]),
+R("bol-poulet-aubergine","Bol de riz tiède, poulet & aubergine fondante","Poulet","Vapeur Bamboo","Riz",
+ [["blanc de poulet",120,"g"],["riz cuit",170,"g"],["aubergine épluchée",75,"g"],["huile d'olive",1,"c. à soupe"],["persil","",HERBS]]),
+R("poulet-carotte-cocon","Poulet effiloché sur purée carotte-pomme de terre","Poulet","Cocon & purées","Pommes de terre",
+ [["cuisse de poulet",170,"g"],["pommes de terre",180,"g"],["carotte",100,"g"],["huile d'olive",1,"c. à soupe"],["persil","",HERBS]]),
+
+/* ---------------- ŒUFS ---------------- */
+R("salade-fraicheur-jour24","Salade fraîcheur : haricots verts, carotte, pommes de terre & œufs durs","Œufs","Fraîcheur tiède","Pommes de terre",
+ [["haricots verts",75,"g"],["carotte",80,"g"],["pommes de terre",100,"g"],["œufs",2,"pièce"],["huile d'olive",1,"c. à soupe"],["eau",1,"c. à soupe"],["persil","",HERBS]]),
+R("salade-fraicheur-skyr","Salade fraîcheur, sauce skyr-ciboulette","Œufs","Fraîcheur tiède","Pommes de terre",
+ [["haricots verts",75,"g"],["carotte",80,"g"],["pommes de terre",100,"g"],["œufs",2,"pièce"],["skyr",2,"c. à soupe"],["huile d'olive",1,"c. à soupe"],["eau tiède",1,"c. à soupe"],["ciboulette","",HERBS]]),
+R("oeufs-vapeur-soyeux","Œufs vapeur soyeux, carotte râpée & riz","Œufs","Vapeur Bamboo","Riz",
+ [["œufs",2,"pièce"],["eau tiède",100,"ml"],["carotte",60,"g"],["riz cuit",150,"g"],["huile d'olive",1,"c. à soupe"],["ciboulette","",HERBS]]),
+R("okayu-oeuf-carotte","Okayu, riz mijoté au Bamboo, œuf mollet & carotte","Œufs","Cocon & purées","Riz",
+ [["riz cuit",200,"g"],["œuf",1,"pièce"],["carotte",80,"g"],["huile d'olive",1,"c. à soupe"],["persil","",HERBS]]),
+R("oeufs-mollets-puree","Œufs mollets sur purée de pommes de terre & courgette","Œufs","Cocon & purées","Pommes de terre",
+ [["œufs",2,"pièce"],["pommes de terre",180,"g"],["courgette épluchée",60,"g"],["huile d'olive",1,"c. à soupe"],["ciboulette","",HERBS]]),
+R("omelette-vapeur-carotte","Omelette vapeur moelleuse à la carotte, pommes de terre","Œufs","Vapeur Bamboo","Pommes de terre",
+ [["œufs",3,"pièce"],["carotte",60,"g"],["pommes de terre",150,"g"],["huile d'olive",1,"c. à soupe"],["ciboulette","",HERBS]]),
+
+/* ---------------- TOFU ---------------- */
+R("tofu-vapeur-riz","Tofu ferme vapeur, riz tiède & carottes, huile de cameline","Tofu","Vapeur Bamboo","Riz",
+ [["tofu ferme",150,"g"],["riz cuit",170,"g"],["carotte",100,"g"],["huile de cameline",1,"c. à soupe"],["persil","",HERBS]]),
+R("tofu-puree-courgette","Tofu vapeur sur purée de pommes de terre & courgette","Tofu","Cocon & purées","Pommes de terre",
+ [["tofu ferme",130,"g"],["pommes de terre",180,"g"],["courgette épluchée",60,"g"],["huile d'olive",1,"c. à soupe"],["ciboulette","",HERBS]]),
+R("tofu-haricots-salade","Salade tiède tofu, haricots verts & pommes de terre","Tofu","Fraîcheur tiède","Pommes de terre",
+ [["tofu ferme",130,"g"],["haricots verts",75,"g"],["pommes de terre",150,"g"],["carotte",60,"g"],["huile d'olive",1,"c. à soupe"],["eau",1,"c. à soupe"],["persil","",HERBS]]),
+R("tofu-aubergine-riz","Tofu & aubergine fondante à la vapeur, riz","Tofu","Vapeur Bamboo","Riz",
+ [["tofu ferme",130,"g"],["aubergine épluchée",75,"g"],["riz cuit",170,"g"],["huile d'olive",1,"c. à soupe"],["ciboulette","",HERBS]]),
+R("tofu-ferment-riz","Riz tiède, tofu ferme & tofu fermenté, carotte","Tofu","Vapeur Bamboo","Riz",
+ [["tofu ferme",120,"g"],["tofu fermenté",15,"g"],["riz cuit",180,"g"],["carotte",100,"g"],["huile d'olive",1,"c. à soupe"],["persil","",HERBS]]),
+R("tofu-creme-soja","Tofu vapeur, crème de soja persillée & pommes de terre","Tofu","Vapeur Bamboo","Pommes de terre",
+ [["tofu ferme",130,"g"],["pommes de terre",200,"g"],["crème de soja",3,"c. à soupe"],["huile d'olive",1,"c. à soupe"],["persil","",HERBS]]),
+
+/* ---------------- PROTÉINES VÉGÉTALES ---------------- */
+R("lasagnes-sg-pst","Lasagnes sans gluten, PST, carotte & crème de soja","Protéines végétales","Au four","Pâtes sans gluten",
+ [["feuilles de lasagnes sans gluten",60,"g"],["PST (protéines de soja texturées)",30,"g"],["carotte",200,"g"],["crème de soja",4,"c. à soupe"],["huile d'olive",1,"c. à soupe"],["thym","",HERBS]]),
+R("hachis-pst","Hachis parmentier végétal de PST, carotte & pomme de terre","Protéines végétales","Vapeur Bamboo","Pommes de terre",
+ [["PST (protéines de soja texturées)",40,"g"],["carotte",100,"g"],["pommes de terre",250,"g"],["huile d'olive",1,"c. à soupe"],["persil","",HERBS]]),
+R("bol-pst-riz","Bol de riz tiède, PST fondante & carotte","Protéines végétales","Vapeur Bamboo","Riz",
+ [["PST (protéines de soja texturées)",35,"g"],["riz cuit",170,"g"],["carotte",100,"g"],["huile d'olive",1,"c. à soupe"],["persil","",HERBS]]),
+R("pates-pst-carotte","Pâtes sans gluten, sauce carotte douce & PST","Protéines végétales","Cocon & purées","Pâtes sans gluten",
+ [["pâtes sans gluten cuites",200,"g"],["PST (protéines de soja texturées)",30,"g"],["carotte",150,"g"],["huile d'olive",1,"c. à soupe"],["thym","",HERBS]]),
+R("veloute-pois-carotte","Velouté carotte-pomme de terre enrichi aux protéines de pois","Protéines végétales","Cocon & purées","Pommes de terre",
+ [["protéines de pois",20,"g"],["carotte",150,"g"],["pommes de terre",200,"g"],["huile d'olive",1,"c. à soupe"],["ciboulette","",HERBS]]),
+
+/* ---------------- OKARA & DOUCEURS ---------------- */
+R("okara-muffin-mug","Muffin mug à l'okara de riz, banane & vanille","Okara & douceurs","Douceurs","Okara",
+ [["okara de riz",2,"c. à soupe"],["banane",0.5,"pièce"],["œuf",1,"pièce"],["sirop d'érable",1,"c. à café"],["huile d'olive",1,"c. à café"],["vanille naturelle",1,"pincée"]]),
+R("okara-pouding","Pouding d'okara, lait de riz, amande blanche & graines de courge","Okara & douceurs","Douceurs","Okara",
+ [["okara de riz",3,"c. à soupe"],["lait de riz",120,"ml"],["sirop d'érable",1,"c. à café"],["purée d'amande blanche",1,"c. à café"],["graines de courge",10,"g"]]),
+R("okara-galette","Galette salée à l'okara, œuf & carotte, pommes de terre vapeur","Okara & douceurs","Vapeur Bamboo","Okara",
+ [["okara de riz",3,"c. à soupe"],["œuf",1,"pièce"],["carotte",30,"g"],["huile d'olive",1,"c. à café"],["pommes de terre",150,"g"],["persil","",HERBS]]),
+
+/* ---------------- PURÉES & VAPEUR ---------------- */
+R("puree-cocon-soir","Purée cocon du soir : pommes de terre & courgette épluchée","Purées & vapeur","Cocon & purées","Pommes de terre",
+ [["pommes de terre",175,"g"],["courgette épluchée",60,"g"],["huile d'olive",1,"c. à soupe"]]),
+R("puree-carotte-pdt","Purée carotte-pomme de terre à l'huile d'olive crue","Purées & vapeur","Cocon & purées","Pommes de terre",
+ [["pommes de terre",150,"g"],["carotte",120,"g"],["huile d'olive",1,"c. à soupe"],["persil","",HERBS]]),
+R("vapeur-douce-legumes","Vapeur douce : haricots verts, carottes & pommes de terre","Purées & vapeur","Vapeur Bamboo","Pommes de terre",
+ [["haricots verts",75,"g"],["carotte",100,"g"],["pommes de terre",200,"g"],["huile d'olive",1,"c. à soupe"],["persil","",HERBS]])
+];
+const SIGNATURE = [];
+
+/* ============ FICHES DÉTAILLÉES ============
+   id : [temps en min, difficulté 1-3, étapes « Titre — texte », astuce du chef]
+   Chaque fiche : Avant de commencer, épluchage et découpe (une étape par élément),
+   cuissons au Bamboo (mode, temps, repères des sens, point de contrôle, erreur à éviter),
+   sauce crue, dressage tiède, organisation. */
+const DEV = {
+/* ---------- POULET ---------- */
+"poulet-effiloche-bamboo":[70,1,[
+ "Avant de commencer — Ustensiles : le rice cooker Yum Asia Bamboo (cuve et panier vapeur inox), une feuille de papier sulfurisé, un économe, une planche, un couteau d'office, deux fourchettes. Sortir la cuisse du frigo 20 min avant : une viande tempérée cuit plus régulièrement. Prévoir 250 à 300 ml d'eau tiède pour la cuve, à ajuster au repère du mode d'emploi.",
+ "Épluchage, les carottes — Éplucher les carottes à l'économe, retirer les deux extrémités, puis les tailler en bâtonnets de 1 cm de section sur 6 cm de long. Une découpe régulière garantit une cuisson fondante partout.",
+ "Épluchage, les pommes de terre — Éplucher, retirer les yeux, couper en gros cubes de 3 cm : ils cuisent sans se défaire.",
+ "La cuisse — Retirer au couteau les plaques de gras visibles, saler très légèrement. La peau reste pendant la cuisson pour garder le moelleux, elle sera retirée après.",
+ "Le montage de la cuve — Verser l'eau tiède dans la cuve. Poser la feuille de papier sulfurisé, percée de quelques trous, au fond du panier, y ranger carottes et pommes de terre. Poser la cuisse à côté, directement sur l'inox et sans papier : le gras s'égoutte au fond de la cuve.",
+ "La cuisson — Mode SLOW COOK, 50 min (ou mode STEAM, 45 min, panier inox en place). Repères : une vapeur douce s'échappe du couvercle, une odeur de bouillon de poule monte, la chair se rétracte sur l'os. Point de contrôle : à la jonction cuisse-pilon, le jus est clair et la chair se détache sans résister ; la pointe d'un couteau traverse carottes et pommes de terre. À éviter : soulever le couvercle en cours de cuisson, la vapeur s'échappe et la cuisson ralentit.",
+ "Le gras — Laisser reposer 5 min, retirer la peau d'une seule pièce et la jeter. Ne pas servir le jus de la cuve : il concentre le gras de la cuisse. À éviter : garder un morceau de peau cuite.",
+ "L'effilochage — Effilocher la chair à deux fourchettes en fines fibres, en écartant os, cartilage et tendons. Point de contrôle : les fibres sont tendres, humides, sans aucun morceau dur.",
+ "Dressage tiède — Assiette creuse tiède (chaude au toucher, jamais brûlante). Poser carottes et pommes de terre à gauche, légèrement écrasées à la fourchette, l'effiloché à droite en petit dôme. Filet d'huile d'olive crue (1 c. à soupe) sur l'ensemble, persil ciselé finement (2 mm) en pluie. À éviter : servir bouillant, ce qui irrite le larynx.",
+ "Organisation — Le poulet effiloché se garde 2 jours dans une boîte en verre fermée ; le réchauffer 4 min à la vapeur. Les légumes se cuisent la veille. L'huile d'olive s'ajoute toujours crue, au dernier moment."],
+ "Cuire la cuisse sur l'inox et non dans le jus : c'est ce qui allège le plat, tout en gardant une chair fondante."],
+
+"poulet-vapeur-riz":[55,1,[
+ "Avant de commencer — Ustensiles : le rice cooker Yum Asia Bamboo (cuve et panier vapeur inox), papier sulfurisé, économe, planche, couteau. Sortir le blanc de poulet du frigo 15 min avant. Prévoir 250 à 300 ml d'eau pour la vapeur, à ajuster au repère du mode d'emploi.",
+ "Épluchage, les carottes — Éplucher, retirer les extrémités, tailler en rondelles de 8 mm d'épaisseur.",
+ "Le blanc de poulet — Ôter la peau et le gras, ouvrir le blanc en deux dans l'épaisseur pour obtenir une épaisseur régulière de 1,5 cm, saler très légèrement.",
+ "Le riz — Rincer le riz jusqu'à ce que l'eau soit presque claire, cuire au rice cooker programme Riz avec 1,2 fois son volume d'eau, puis laisser reposer 10 min couvercle fermé. Repères : l'odeur de riz chaud, des grains brillants qui se détachent. Point de contrôle : un grain écrasé entre les doigts n'a plus de cœur dur. À éviter : soulever le couvercle pendant le repos.",
+ "La vapeur, le poulet — Cuve remplie d'eau. Poser le poulet directement sur l'inox, sans papier, pour que le gras s'égoutte. Mode STEAM, 25 min. Repères : la vapeur monte régulière, la chair blanchit uniformément. Point de contrôle : en coupant le plus épais, la chair est blanche à cœur, humide, le jus clair. À éviter : ouvrir trop tôt.",
+ "La vapeur, les carottes — Étaler un papier sulfurisé percé dans un second niveau, y poser les carottes et les cuire en même temps que la fin de cuisson du poulet (10 min avant la fin). Point de contrôle : elles s'écrasent entre deux doigts, fondantes.",
+ "L'huile crue — Dans un petit bol, mélanger 1 c. à soupe d'huile d'olive et 2 c. à café d'eau tiède, une pincée de sel : l'émulsion enrobe sans graisser. Texture visée : légère, elle nappe à peine la cuillère.",
+ "Dressage tiède — Bol large tiède. Riz au fond, carottes en éventail, poulet tranché en biais (5 mm) en appui. Filet d'huile émulsionnée, persil ciselé (2 mm). À éviter : servir brûlant.",
+ "Organisation — Riz cuit la veille (24 h au frigo, réchauffé à la vapeur 3 min). Poulet cuit d'avance, 2 jours en boîte en verre. Huile ajoutée crue au moment de servir."],
+ "Le papier sulfurisé sous les légumes et l'inox nu sous la viande : deux gestes qui font toute la différence pour un plat léger."],
+
+"poulet-thym-romarin":[75,2,[
+ "Avant de commencer — Ustensiles : le rice cooker Yum Asia Bamboo (cuve et panier inox), papier sulfurisé, économe, planche, deux fourchettes, presse-purée ou fourchette. Sortir la cuisse 20 min avant. Prévoir 250 à 300 ml d'eau tiède dans la cuve.",
+ "Épluchage, les pommes de terre — Éplucher, retirer les yeux, couper en cubes de 3 cm.",
+ "Épluchage, la carotte — Éplucher, couper en rondelles de 8 mm.",
+ "Les herbes — Effeuiller le thym, hacher grossièrement une branche de romarin (une petite pincée seulement : le romarin est puissant). Frotter la cuisse avec les herbes et une pincée de sel, retirer le gras visible.",
+ "Le montage — Papier sulfurisé percé dans le panier, pommes de terre et carotte dessus. La cuisse à côté, directement sur l'inox sans papier. Eau dans la cuve.",
+ "La cuisson — Mode SLOW COOK, 50 min (ou STEAM 45 min). Repères : des notes de thym et de romarin dans la vapeur, la chair qui se décolle de l'os. Point de contrôle : jus clair, chair tendre, pommes de terre traversées sans résistance par un couteau. À éviter : relever le plat avec un condiment que le protocole exclut, les herbes suffisent.",
+ "Retirer la peau — Après 5 min de repos, retirer la peau, la jeter avec le jus de la cuve. Effilocher grossièrement.",
+ "La purée — Écraser pommes de terre et carotte au presse-purée avec 2 c. à soupe d'eau chaude prise sur la vapeur, jusqu'à une texture épaisse et lisse. Point de contrôle : sans morceaux durs. À éviter : mixer trop longtemps, la purée devient collante.",
+ "Dressage tiède — Assiette creuse tiède. Purée en nid, poulet effiloché au centre, filet d'huile d'olive crue (1 c. à soupe), thym frais en finition.",
+ "Organisation — Purée et poulet se conservent 2 jours en boîte en verre. Réchauffer 4 min à la vapeur, ajouter l'huile crue seulement au service."],
+ "Le romarin se dose à la pincée : il parfume sans irriter."],
+
+"poulet-haricots-riz":[65,1,[
+ "Avant de commencer — Ustensiles : le rice cooker Yum Asia Bamboo (cuve, panier inox), papier sulfurisé, économe, planche, deux fourchettes. Sortir la cuisse 20 min avant. Prévoir 250 à 300 ml d'eau tiède.",
+ "Les haricots verts — Peser exactement 75 g de haricots verts crus, retirer les deux extrémités, les couper en tronçons de 3 cm. Ne pas dépasser 75 g : c'est le seuil low-FODMAP.",
+ "La cuisse — Retirer le gras visible, saler légèrement.",
+ "Le riz — Rincer, cuire au rice cooker programme Riz (1,2 fois son volume d'eau), reposer 10 min. Repères : odeur de riz chaud, grains brillants. Point de contrôle : plus de cœur dur. À éviter : ouvrir avant la fin du repos.",
+ "La cuisson du poulet — Poser la cuisse sur l'inox, sans papier. Mode SLOW COOK, 50 min (ou STEAM 45 min). Repères : vapeur douce, chair qui se rétracte. Point de contrôle : jus clair, chair qui se détache. À éviter : soulever le couvercle.",
+ "Les haricots fondants — Papier sulfurisé percé sous les haricots, les poser dans le panier pour les 25 dernières minutes. Point de contrôle : ils sont mous, sans aucune fermeté sous la dent. À éviter : les servir croquants.",
+ "Retirer la peau — Retirer la peau, la jeter, ne pas servir le jus. Effilocher la chair en fines fibres.",
+ "Dressage tiède — Bol large tiède. Riz au fond, effiloché d'un côté, haricots de l'autre. Filet d'huile d'olive crue (1 c. à soupe), persil ciselé (2 mm).",
+ "Organisation — Haricots et poulet se cuisent la veille (2 jours en boîte en verre), riz 24 h. Réchauffer 3 min à la vapeur."],
+ "Des haricots verts cuits jusqu'à devenir fondants sont bien mieux tolérés que croquants."],
+
+"poulet-skyr-ciboulette":[55,2,[
+ "Avant de commencer — Ustensiles : le rice cooker Yum Asia Bamboo (cuve, panier inox), papier sulfurisé, économe, planche, petit bol, fourchette. Sortir le poulet 15 min avant. Prévoir 250 à 300 ml d'eau tiède.",
+ "Épluchage, les pommes de terre — Éplucher, couper en cubes de 3 cm.",
+ "Épluchage, la carotte — Éplucher, tailler en bâtonnets de 1 cm de section sur 6 cm.",
+ "Le blanc de poulet — Ôter peau et gras, ouvrir en deux dans l'épaisseur (1,5 cm), saler légèrement.",
+ "La vapeur, le poulet — Poulet sur l'inox sans papier, mode STEAM, 25 min. Repères : vapeur régulière, chair qui blanchit. Point de contrôle : blanc à cœur, jus clair. À éviter : trop cuire, le blanc devient sec.",
+ "La vapeur, les légumes — Papier sulfurisé percé dans le panier, pommes de terre et carotte dessus : mettre les pommes de terre dès le départ (20 min) et la carotte 15 min avant la fin. Point de contrôle : la pointe d'un couteau traverse tout sans résistance.",
+ "La sauce skyr-ciboulette — Quantités : 2 c. à soupe de skyr (30 g au maximum), 1 c. à soupe d'huile d'olive, 1 c. à soupe d'eau tiède, une pincée de sel, ciboulette (pointes vertes uniquement, ciselées à 3 mm). Fouetter jusqu'à une sauce lisse. Texture visée : crémeuse, elle nappe la cuillère. À éviter : dépasser 2 c. à soupe de skyr.",
+ "Dressage tiède — Assiette plate tiède. Pommes de terre en rosace, carotte en éventail, poulet tranché en biais. Sauce en filet, ciboulette en pointes vertes.",
+ "Organisation — Poulet et légumes cuits la veille (2 jours). Sauce préparée le jour même (skyr non garanti sans lactose : rester à 2 c. à soupe)."],
+ "Le skyr doit rester à petite dose (2 c. à soupe) : ici il apporte de la douceur, pas du lactose."],
+
+"bol-poulet-aubergine":[60,2,[
+ "Avant de commencer — Ustensiles : le rice cooker Yum Asia Bamboo (cuve, panier inox), papier sulfurisé, économe, planche, couteau. Sortir le poulet 15 min avant. Prévoir 250 à 300 ml d'eau.",
+ "Épluchage, l'aubergine — Éplucher complètement l'aubergine (sans peau), la couper en dés de 2 cm. Peser 75 g. La saler 10 min, éponger.",
+ "Le blanc de poulet — Ôter peau et gras, ouvrir en deux dans l'épaisseur, saler légèrement.",
+ "Le riz — Rincer, cuire (programme Riz, 1,2 fois le volume d'eau), reposer 10 min. Point de contrôle : grains tendres.",
+ "La vapeur, le poulet — Sur l'inox sans papier, mode STEAM, 25 min. Point de contrôle : blanc à cœur, jus clair. À éviter : ouvrir en cours.",
+ "La vapeur, l'aubergine — Papier sulfurisé percé, dés d'aubergine 15 min dans le panier (dernier tiers de cuisson). Repères : la chair devient translucide et molle. Point de contrôle : elle s'écrase à la fourchette. À éviter : la servir mi-cuite, elle est indigeste.",
+ "L'émulsion crue — 1 c. à soupe d'huile d'olive, 2 c. à café d'eau tiède, sel. Fouetter. Texture visée : nappante et légère.",
+ "Dressage tiède — Bol large tiède. Riz, aubergine écrasée légèrement en couronne, poulet tranché en éventail. Filet d'émulsion, persil ciselé fin.",
+ "Organisation — Riz cuit la veille. Aubergine cuite d'avance (2 jours en verre). Poulet à la vapeur le jour même."],
+ "Toujours peler l'aubergine et la cuire jusqu'à ce qu'elle soit très tendre : c'est la condition d'une bonne digestion."],
+
+"poulet-carotte-cocon":[70,2,[
+ "Avant de commencer — Ustensiles : le rice cooker Yum Asia Bamboo (cuve, panier inox), papier sulfurisé, économe, planche, presse-purée, deux fourchettes. Sortir la cuisse 20 min avant. Prévoir 250 à 300 ml d'eau tiède.",
+ "Épluchage, les pommes de terre — Éplucher, couper en cubes de 3 cm.",
+ "Épluchage, la carotte — Éplucher, rondelles de 8 mm.",
+ "La cuisse — Retirer le gras visible, saler légèrement.",
+ "La cuisson — Papier percé sous pommes de terre et carotte dans le panier, cuisse sur l'inox sans papier. Mode SLOW COOK, 50 min (ou STEAM 45 min). Repères : vapeur douce, odeur de bouillon. Point de contrôle : chair qui se détache, légumes fondants. À éviter : ouvrir en cours de cuisson.",
+ "Retirer la peau — Retirer et jeter la peau et le jus. Effilocher en fibres fines.",
+ "La purée — Écraser légèrement pommes de terre et carotte avec 2 c. à soupe d'eau chaude. Texture visée : onctueuse, orange pâle, sans morceau. À éviter : ajouter un gras cuit, l'huile d'olive crue suffit.",
+ "Dressage tiède — Assiette creuse tiède. Purée en nid, effiloché dessus, huile d'olive crue en filet (1 c. à soupe), persil ciselé (2 mm).",
+ "Organisation — Purée et poulet cuits la veille, 2 jours en boîte en verre, réchauffés 4 min à la vapeur."],
+ "La carotte donne à la purée sa douceur naturelle sans aucun ajout de sucre."],
+
+/* ---------- ŒUFS ---------- */
+"salade-fraicheur-jour24":[40,1,[
+ "Avant de commencer — Ustensiles : le rice cooker Yum Asia Bamboo (cuve, panier inox), papier sulfurisé, économe, râpe fine, planche, petit bol, fourchette. Sortir les œufs 10 min avant. Prévoir 250 à 300 ml d'eau dans la cuve.",
+ "Les haricots verts — Peser exactement 75 g, retirer les extrémités, couper en tronçons de 3 cm. C'est le seuil low-FODMAP à ne pas dépasser.",
+ "Épluchage, les pommes de terre — Éplucher 100 g de pommes de terre, couper en cubes de 2 cm.",
+ "Épluchage, la carotte — Éplucher, râper très finement (trous fins) pour obtenir de fins filaments. Réserver au frais.",
+ "La vapeur, haricots et pommes de terre — Papier sulfurisé percé dans le panier, haricots et pommes de terre dessus. Mode STEAM, 20 min. Repères : la vapeur parfume les haricots, leur vert devient plus mat. Point de contrôle : haricots mous, sans aucune résistance ; pommes de terre traversées par un couteau. À éviter : les haricots croquants.",
+ "Les œufs durs — Poser les œufs directement sur l'inox, 12 min en STEAM. Puis 3 min dans l'eau froide. Point de contrôle : jaune bien pris, jaune pâle, sans anneau vert. À éviter : plus de 13 min.",
+ "La sauce huile d'olive-persil — Quantités : 1 c. à soupe d'huile d'olive, 1 c. à soupe d'eau, une pincée de sel, persil haché à 2 mm. Fouetter à la fourchette. Texture visée : émulsion légère qui nappe à peine la cuillère.",
+ "Le refroidissement — Laisser tiédir pommes de terre et haricots 10 min : le plat est servi tiède, pas glacé. À éviter : le sortir du frigo froid, le froid pique le larynx.",
+ "Dressage tiède — Assiette creuse. Pommes de terre en couronne, haricots en éventail, carotte râpée au centre en nid, œufs coupés en deux. Sauce en filet, persil en pluie.",
+ "Organisation — Tous les éléments se cuisent la veille (2 jours en boîte en verre). La sauce se prépare au dernier moment."],
+ "Variante skyr : voir « Salade fraîcheur, sauce skyr-ciboulette » : 2 c. à soupe de skyr, 1 c. à soupe d'huile d'olive, 1 c. à soupe d'eau tiède."],
+
+"salade-fraicheur-skyr":[40,1,[
+ "Avant de commencer — Ustensiles : le rice cooker Yum Asia Bamboo (cuve, panier inox), papier sulfurisé, économe, râpe fine, petit bol, fouet. Sortir les œufs 10 min avant. 250 à 300 ml d'eau dans la cuve.",
+ "Les haricots verts — Peser 75 g, retirer les extrémités, couper en tronçons de 3 cm.",
+ "Épluchage, les pommes de terre — Éplucher 100 g, cubes de 2 cm.",
+ "Épluchage, la carotte — Éplucher, râper finement.",
+ "La vapeur, haricots et pommes de terre — Papier percé dans le panier. Mode STEAM, 20 min. Repères : vapeur régulière. Point de contrôle : haricots mous, pommes de terre fondantes. À éviter : croquant.",
+ "Les œufs durs — Sur l'inox, 12 min en STEAM, puis 3 min à l'eau froide. Point de contrôle : jaune pris sans anneau vert.",
+ "La sauce skyr-ciboulette — Quantités : 2 c. à soupe de skyr, 1 c. à soupe d'huile d'olive, 1 c. à soupe d'eau tiède, sel, ciboulette (pointes vertes seulement, à 3 mm). Fouetter. Texture visée : crémeuse, elle nappe la cuillère. À éviter : plus de 2 c. à soupe de skyr.",
+ "Dressage tiède — Assiette creuse tiède. Pommes de terre, haricots, nid de carotte râpée, œufs coupés en deux. Sauce en filet, ciboulette en pointes.",
+ "Organisation — Éléments cuits la veille. Sauce au dernier moment."],
+ "Le vert de la ciboulette seul est autorisé : le blanc contient des fructanes."],
+
+"oeufs-vapeur-soyeux":[35,2,[
+ "Avant de commencer — Ustensiles : le rice cooker Yum Asia Bamboo (cuve, panier inox), un bol résistant à la chaleur de 12 cm, une assiette pour le couvrir, papier sulfurisé, râpe fine, fouet. Sortir les œufs 10 min avant. 250 à 300 ml d'eau dans la cuve.",
+ "Épluchage, la carotte — Éplucher, râper finement (trous fins), peser 60 g.",
+ "L'appareil — Battre les œufs avec 100 ml d'eau tiède et une pincée de sel, à la fourchette, sans faire mousser. Filtrer au chinois pour un flan lisse. Point de contrôle : liquide jaune pâle, sans bulles.",
+ "Le riz — Rincer, cuire (programme Riz), reposer 10 min. Point de contrôle : grains tendres.",
+ "La vapeur, la carotte — Carotte râpée dans le bol, sous l'appareil : elle cuit et parfume. Verser l'appareil, couvrir le bol d'une assiette ou de papier sulfurisé pour que la buée ne tombe pas.",
+ "La vapeur, les œufs — Mode STEAM, 12 à 15 min, feu doux : couvercle légèrement entrouvert si le Bamboo le permet. Repères : le flan se fige, sans gros bouillons ni trous. Point de contrôle : au centre, il tremble comme une gelée et le doigt n'y laisse pas de liquide. À éviter : une vapeur trop forte, le flan devient spongieux.",
+ "L'huile crue — Filet d'1 c. à soupe d'huile d'olive sur le flan tiède, hors du feu.",
+ "Dressage tiède — Bol tiède : riz au fond, flan servi à la cuillère par-dessus, ciboulette (pointes vertes ciselées à 3 mm). À éviter : servir bouillant.",
+ "Organisation — Le flan se fait à la minute, il se garde 1 jour au frais et se mange tiède. Riz cuit la veille."],
+ "Un flan d'œuf à la vapeur est l'un des plats les plus doux qui soient pour un larynx sensible."],
+
+"okayu-oeuf-carotte":[45,1,[
+ "Avant de commencer — Ustensiles : le rice cooker Yum Asia Bamboo (cuve), une cuillère en bois, économe, râpe fine, casserole pour l'œuf. Sortir l'œuf 10 min avant.",
+ "Épluchage, la carotte — Éplucher, couper en dés de 5 mm pour qu'ils fondent dans le riz.",
+ "L'okayu — Dans la cuve : 200 g de riz cuit, 350 ml d'eau, une pincée de sel. Mode SLOW COOK, 30 min. Repères : l'eau se trouble en lait, le riz gonfle et se défait, une odeur douce de riz. Point de contrôle : la texture est celle d'un porridge crémeux qui nappe la cuillère. À éviter : de ne pas remuer, le riz accroche au fond.",
+ "La carotte — Ajouter les dés 15 min avant la fin. Point de contrôle : ils s'écrasent à la cuillère.",
+ "L'œuf mollet — Plonger l'œuf dans l'eau frémissante 6 min, puis 2 min sous l'eau froide, écaler. Point de contrôle : blanc pris, jaune coulant. À éviter : un jaune trop cuit.",
+ "L'ajustement — Si l'okayu épaissit, ajouter 2 c. à soupe d'eau chaude. Texture visée : crémeuse, jamais collante.",
+ "L'huile crue — Verser 1 c. à soupe d'huile d'olive hors du feu, remuer.",
+ "Dressage tiède — Bol tiède. Okayu à la louche, œuf mollet coupé en deux au centre, persil ciselé (2 mm).",
+ "Organisation — L'okayu se garde 1 jour en boîte en verre ; le réchauffer avec un peu d'eau. L'œuf se cuit au dernier moment."],
+ "L'okayu est le plat de convalescence japonais : idéal les jours de reflux ou de ventre sensible."],
+
+"oeufs-mollets-puree":[40,1,[
+ "Avant de commencer — Ustensiles : le rice cooker Yum Asia Bamboo (cuve, panier inox), papier sulfurisé, économe, presse-purée, planche. Sortir les œufs 10 min avant. 250 à 300 ml d'eau dans la cuve.",
+ "Épluchage, les pommes de terre — Éplucher, couper en cubes de 3 cm.",
+ "Épluchage, la courgette — Éplucher à 100 % (aucune peau verte), retirer les graines, couper en dés de 1 cm. Peser 60 g : c'est le seuil low-FODMAP.",
+ "La vapeur, la purée — Papier sulfurisé percé dans le panier, pommes de terre et courgette dessus. Mode STEAM, 20 min. Repères : la vapeur est régulière, les cubes deviennent translucides. Point de contrôle : tout s'écrase à la fourchette. À éviter : une courgette encore ferme.",
+ "Les œufs mollets — Poser les œufs sur l'inox pendant les 8 dernières minutes (STEAM). Puis 2 min sous l'eau froide, écaler. Point de contrôle : blanc pris, jaune coulant.",
+ "La purée — Écraser au presse-purée avec 2 c. à soupe d'eau chaude, 1 c. à soupe d'huile d'olive crue, une pincée de sel. Texture visée : onctueuse, elle se tient en nid.",
+ "Dressage tiède — Assiette creuse tiède. Purée en nid, œufs coupés en deux au dernier moment, ciboulette (pointes vertes à 3 mm).",
+ "Organisation — La purée se garde 2 jours en verre, réchauffée 4 min à la vapeur ; l'huile et les œufs frais au dernier moment."],
+ "Couper l'œuf mollet au dernier moment : le jaune coule comme une sauce et remplace tout assaisonnement gras."],
+
+"omelette-vapeur-carotte":[40,2,[
+ "Avant de commencer — Ustensiles : le rice cooker Yum Asia Bamboo (cuve, panier inox), un bol de 14 cm résistant à la chaleur, papier sulfurisé, fouet, râpe fine. Sortir les œufs 10 min avant. 250 à 300 ml d'eau dans la cuve.",
+ "Épluchage, la carotte — Éplucher, râper finement, peser 60 g.",
+ "Épluchage, les pommes de terre — Éplucher 150 g, couper en cubes de 2 cm.",
+ "L'appareil — Battre les 3 œufs avec 2 c. à soupe d'eau tiède et une pincée de sel, sans faire mousser. Ajouter la carotte râpée.",
+ "Les pommes de terre — Papier sulfurisé percé dans le panier, mode STEAM, 20 min. Repères : elles perdent leur éclat cru et deviennent farineuses. Point de contrôle : fondantes.",
+ "L'omelette — Verser l'appareil dans le bol (sans aucune matière grasse ajoutée), couvrir d'un papier sulfurisé, poser sur le panier pour les 15 dernières minutes. Repères : l'omelette gonfle, puis se fige de la périphérie vers le centre. Point de contrôle : le dessus est ferme et une lame ressort sèche. À éviter : une vapeur trop vive, l'omelette devient poreuse.",
+ "Le démoulage — Laisser tiédir 3 min, passer un couteau pour décoller, retourner sur une assiette.",
+ "Dressage tiède — Assiette plate tiède. Omelette coupée en deux parts, pommes de terre à côté. Filet d'huile d'olive crue (1 c. à soupe), ciboulette (pointes vertes).",
+ "Organisation — L'omelette vapeur se garde 2 jours et se mange tiède. Pommes de terre cuites la veille."],
+ "L'omelette vapeur reste moelleuse sans une goutte de gras cuit."],
+
+/* ---------- TOFU ---------- */
+"tofu-vapeur-riz":[45,1,[
+ "Avant de commencer — Ustensiles : le rice cooker Yum Asia Bamboo (cuve, panier inox), papier sulfurisé, économe, planche, couteau, papier absorbant. Sortir le tofu du frigo 10 min avant. 250 à 300 ml d'eau dans la cuve.",
+ "Le tofu — Égoutter le tofu ferme, l'envelopper dans du papier absorbant, le presser 10 min sous une assiette lestée. Le couper en dés de 3 cm. Point de contrôle : il ne rend plus d'eau.",
+ "Épluchage, les carottes — Éplucher, rondelles de 8 mm.",
+ "Le riz — Rincer, cuire (programme Riz), reposer 10 min. Repères : grains brillants, odeur de riz chaud.",
+ "La vapeur, le tofu — Papier sulfurisé percé dans le panier, tofu dessus, mode STEAM, 10 min. Repères : il gonfle légèrement et devient plus ferme. Point de contrôle : chaud à cœur. À éviter : plus de 15 min, il devient caoutchouteux.",
+ "La vapeur, les carottes — Carottes en même temps (15 min). Point de contrôle : s'écrasent entre deux doigts.",
+ "La sauce cameline — 1 c. à soupe d'huile de cameline, 1 c. à soupe d'eau, une pincée de sel. Fouetter. Texture visée : légère émulsion, elle nappe à peine la cuillère. À éviter : chauffer l'huile de cameline, elle perd ses oméga-3.",
+ "Dressage tiède — Bol tiède. Riz, carottes en éventail, dés de tofu au centre, filet d'huile de cameline, persil ciselé (2 mm).",
+ "Organisation — Tofu et carottes cuits la veille (2 jours en boîte en verre), réchauffés 3 min à la vapeur."],
+ "L'huile de cameline se sert crue et tiède : elle apporte des oméga-3 sans irriter."],
+
+"tofu-puree-courgette":[40,1,[
+ "Avant de commencer — Ustensiles : le rice cooker Yum Asia Bamboo (cuve, panier inox), papier sulfurisé, économe, presse-purée, papier absorbant. 250 à 300 ml d'eau.",
+ "Le tofu — Égoutter, presser 10 min dans du papier absorbant, couper en tranches de 1 cm.",
+ "Épluchage, les pommes de terre — Éplucher, couper en cubes de 3 cm.",
+ "Épluchage, la courgette — Éplucher à 100 %, retirer les graines, dés de 1 cm, peser 60 g.",
+ "La vapeur, la purée — Papier percé dans le panier, pommes de terre et courgette. Mode STEAM, 20 min. Repères : vapeur régulière, cubes translucides. Point de contrôle : tout s'écrase à la fourchette.",
+ "La vapeur, le tofu — Tranches de tofu sur papier percé pendant les 10 dernières minutes. Point de contrôle : tièdes à cœur. À éviter : les laisser trop longtemps.",
+ "La purée — Écraser avec 2 c. à soupe d'eau chaude, 1 c. à soupe d'huile d'olive crue, sel. Texture visée : onctueuse, elle se tient.",
+ "Dressage tiède — Assiette creuse tiède. Purée en nid, tofu en éventail dessus, ciboulette (pointes vertes ciselées à 3 mm).",
+ "Organisation — Purée et tofu cuits la veille (2 jours en verre), réchauffés 4 min à la vapeur."],
+ "Le tofu ferme se comporte comme une viande blanche : doux, neutre, très digeste."],
+
+"tofu-haricots-salade":[40,1,[
+ "Avant de commencer — Ustensiles : le rice cooker Yum Asia Bamboo (cuve, panier inox), papier sulfurisé, économe, râpe, petit bol, papier absorbant. 250 à 300 ml d'eau.",
+ "Le tofu — Égoutter, presser 10 min, couper en dés de 2 cm.",
+ "Les haricots verts — Peser 75 g exactement, retirer les extrémités, couper en tronçons de 3 cm.",
+ "Épluchage, les pommes de terre et la carotte — Éplucher 150 g de pommes de terre, cubes de 2 cm ; éplucher la carotte, rondelles de 5 mm.",
+ "La vapeur — Papier percé dans le panier : pommes de terre, haricots et carotte, mode STEAM, 20 min ; tofu sur l'inox les 8 dernières minutes. Repères : vapeur régulière. Point de contrôle : haricots mous, pommes de terre fondantes, tofu tiède à cœur. À éviter : croquant.",
+ "La sauce huile d'olive-persil — 1 c. à soupe d'huile d'olive, 1 c. à soupe d'eau, sel, persil (2 mm). Fouetter. Texture visée : légère.",
+ "Le tiédissement — Laisser tiédir 10 min : le plat doit être tiède, jamais froid.",
+ "Dressage tiède — Assiette creuse. Pommes de terre, haricots et carotte mélangés délicatement, tofu en dés dessus. Sauce en filet, persil en pluie.",
+ "Organisation — Éléments cuits la veille, 2 jours en verre. Sauce au dernier moment."],
+ "Un plat tiède est beaucoup plus doux pour le larynx qu'une salade froide."],
+
+"tofu-aubergine-riz":[50,2,[
+ "Avant de commencer — Ustensiles : le rice cooker Yum Asia Bamboo (cuve, panier inox), papier sulfurisé, économe, planche, papier absorbant. 250 à 300 ml d'eau.",
+ "Le tofu — Égoutter, presser 10 min, couper en dés de 3 cm.",
+ "Épluchage, l'aubergine — Éplucher entièrement, dés de 2 cm, peser 75 g. Saler 10 min, éponger.",
+ "Le riz — Rincer, cuire (programme Riz), reposer 10 min.",
+ "La vapeur, l'aubergine — Papier percé dans le panier, mode STEAM, 15 min. Repères : la chair devient translucide et molle. Point de contrôle : elle s'écrase à la fourchette. À éviter : mi-cuite.",
+ "La vapeur, le tofu — Tofu sur le panier les 10 dernières minutes. Point de contrôle : chaud à cœur.",
+ "L'émulsion — 1 c. à soupe d'huile d'olive, 2 c. à café d'eau tiède, sel. Texture visée : nappante et légère.",
+ "Dressage tiède — Bol tiède. Riz, aubergine écrasée, tofu en dés, filet d'émulsion, ciboulette (pointes vertes).",
+ "Organisation — Aubergine, tofu et riz cuits la veille (2 jours en verre). Réchauffer 3 min à la vapeur."],
+ "L'aubergine pelée et très cuite devient une crème naturelle : aucune graisse nécessaire."],
+
+"tofu-ferment-riz":[40,1,[
+ "Avant de commencer — Ustensiles : le rice cooker Yum Asia Bamboo (cuve, panier inox), papier sulfurisé, économe, fourchette, papier absorbant. 250 à 300 ml d'eau.",
+ "Le tofu ferme — Égoutter, presser 10 min, couper en dés de 2 cm.",
+ "Le tofu fermenté — Prélever 15 g, l'écraser à la fourchette avec 1 c. à soupe d'eau tiède : c'est un condiment très salé, à petite dose seulement. À éviter : dépasser 15 g.",
+ "Épluchage, les carottes — Éplucher, rondelles de 8 mm.",
+ "Le riz — Rincer, cuire (programme Riz), reposer 10 min.",
+ "La vapeur — Carottes sur papier percé (15 min), tofu ferme les 8 dernières minutes, mode STEAM. Point de contrôle : carottes fondantes, tofu chaud à cœur. À éviter : ouvrir en cours.",
+ "L'assaisonnement — Mélanger le tofu fermenté écrasé à 1 c. à soupe d'huile d'olive. Texture visée : crème épaisse, riche en goût.",
+ "Dressage tiède — Bol tiède. Riz, carottes, dés de tofu, petite noix de crème de tofu fermenté au centre, persil ciselé.",
+ "Organisation — Riz et carottes cuits la veille. Le tofu fermenté se garde selon son emballage."],
+ "Un petit cube de tofu fermenté remplace à lui seul la sauce soja, sans piquant."],
+
+"tofu-creme-soja":[45,1,[
+ "Avant de commencer — Ustensiles : le rice cooker Yum Asia Bamboo (cuve, panier inox), papier sulfurisé, économe, fouet, papier absorbant. 250 à 300 ml d'eau.",
+ "Le tofu — Égoutter, presser 10 min, couper en tranches de 1,5 cm.",
+ "Épluchage, les pommes de terre — Éplucher, couper en cubes de 3 cm.",
+ "La vapeur — Papier percé sous les pommes de terre, mode STEAM, 20 min ; tofu sur l'inox les 10 dernières minutes. Repères : vapeur régulière. Point de contrôle : pommes de terre fondantes, tofu tiède. À éviter : plus de 15 min de tofu.",
+ "La crème de soja — Quantités : 3 c. à soupe de crème de soja, 1 c. à soupe d'huile d'olive, persil (2 mm), une pincée de sel. Fouetter, laisser tiédir sur l'eau chaude. Texture visée : crémeuse. À éviter : la faire bouillir.",
+ "Le mélange — Écraser légèrement les pommes de terre dans la crème.",
+ "Dressage tiède — Assiette creuse tiède. Pommes de terre crémeuses, tofu par-dessus, persil.",
+ "Organisation — Tofu et pommes de terre cuits la veille. Crème au dernier moment."],
+ "La crème de soja apporte le côté crémeux d'un gratin, sans lactose."],
+
+/* ---------- PROTÉINES VÉGÉTALES ---------- */
+"lasagnes-sg-pst":[80,3,[
+ "Avant de commencer — Ustensiles : un plat à gratin de 20 cm, le rice cooker Yum Asia Bamboo (mode STEAM pour la purée de carotte), un mixeur plongeant, une casserole, un four préchauffé à 180 °C. Sortir la crème de soja 10 min avant.",
+ "Épluchage, les carottes — Éplucher 200 g de carottes, couper en rondelles de 8 mm.",
+ "La purée de carotte — Papier percé dans le panier, mode STEAM, 20 min. Repères : la vapeur parfume, les rondelles s'assombrissent. Mixer avec 2 c. à soupe d'eau de cuisson et une pincée de sel. Texture visée : lisse, elle nappe la cuillère. À éviter : une sauce acide ou aromatisée, la carotte apporte déjà tout le goût.",
+ "La réhydratation des PST — Couvrir 30 g de PST d'eau chaude 10 min, presser fortement entre les mains. Point de contrôle : elles sont tendres, sans cœur dur.",
+ "La garniture — Mélanger PST, la moitié de la purée de carotte, thym effeuillé, sel. Texture visée : humide mais qui se tient.",
+ "La béchamel de soja — Chauffer doucement 4 c. à soupe de crème de soja avec 2 c. à soupe d'eau, sans bouillir. Texture visée : nappante.",
+ "Le montage — Alterner couches : feuilles sans gluten, garniture, crème de soja. Terminer par une couche de purée de carotte.",
+ "La cuisson — 180 °C, 30 à 35 min, jusqu'à tendreté complète des pâtes. Repères : le dessus prend une légère couleur, la vapeur sort par les bords. Point de contrôle : la pointe d'un couteau traverse toutes les couches sans résistance. À éviter : des pâtes encore fermes.",
+ "Dressage tiède — Laisser reposer 10 min : la lasagne se tient. Couper une part carrée, poser sur assiette tiède, filet d'huile d'olive crue (1 c. à soupe), thym.",
+ "Organisation — Lasagnes montées la veille, cuites le jour même (ajouter 5 min). Se conservent 2 jours cuites, se réchauffent 5 min à la vapeur."],
+ "Une purée de carotte remplace une sauce acide : douce, sucrée naturellement, sans aucune acidité."],
+
+"hachis-pst":[55,2,[
+ "Avant de commencer — Ustensiles : le rice cooker Yum Asia Bamboo (cuve, panier inox), papier sulfurisé, économe, presse-purée, un ramequin de 12 cm. 250 à 300 ml d'eau.",
+ "La réhydratation des PST — Couvrir 40 g de PST d'eau chaude 10 min, presser fortement. Point de contrôle : tendres, sans cœur dur.",
+ "Épluchage, la carotte — Éplucher, dés de 5 mm.",
+ "Épluchage, les pommes de terre — Éplucher, cubes de 3 cm.",
+ "La vapeur — Papier percé, pommes de terre et carotte, mode STEAM, 20 min. Repères : vapeur régulière. Point de contrôle : tout s'écrase. À éviter : dés de carotte encore fermes.",
+ "La garniture — Mélanger PST et carotte écrasée avec 1 c. à soupe d'eau chaude, sel. Texture visée : humide et compacte.",
+ "La purée — Écraser les pommes de terre avec 2 c. à soupe d'eau chaude, 1 c. à soupe d'huile d'olive crue, sel.",
+ "Le montage — Garniture au fond du ramequin, purée dessus, lissée à la fourchette.",
+ "La remise en température — Ramequin sur le panier, mode STEAM, 10 min. Point de contrôle : chaud à cœur, tiède en surface.",
+ "Dressage tiède — Servir dans le ramequin sur une assiette, persil ciselé (2 mm), filet d'huile d'olive crue.",
+ "Organisation — Le hachis se monte la veille, 2 jours en verre, réchauffé 10 min à la vapeur."],
+ "Le gratin est remplacé par une remise en température à la vapeur : moins gras, plus doux."],
+
+"bol-pst-riz":[45,1,[
+ "Avant de commencer — Ustensiles : le rice cooker Yum Asia Bamboo (cuve, panier inox), papier sulfurisé, économe, planche, bol, passoire. 250 à 300 ml d'eau.",
+ "La réhydratation des PST — 35 g de PST couvertes d'eau chaude 10 min, pressées fortement. Point de contrôle : tendres, sans cœur dur.",
+ "Épluchage, les carottes — Éplucher, rondelles de 8 mm.",
+ "Le riz — Rincer, cuire (programme Riz), reposer 10 min.",
+ "La vapeur, les carottes — Papier percé, mode STEAM, 15 min. Point de contrôle : fondantes.",
+ "La vapeur, les PST — Les PST sur papier percé, 10 min en même temps. Repères : elles deviennent moelleuses et parfumées. Point de contrôle : chaudes à cœur. À éviter : PST croquantes.",
+ "L'émulsion crue — 1 c. à soupe d'huile d'olive, 2 c. à café d'eau, sel. Texture visée : légère.",
+ "Dressage tiède — Bol tiède. Riz, carottes, PST en quartiers, filet d'émulsion, persil.",
+ "Organisation — PST et carottes cuites la veille, 2 jours en verre, réchauffées 3 min."],
+ "Les PST bien réhydratées et pressées n'ont aucune texture de carton : elles s'imprègnent du parfum de la vapeur."],
+
+"pates-pst-carotte":[45,2,[
+ "Avant de commencer — Ustensiles : le rice cooker Yum Asia Bamboo (cuve, panier inox), une casserole pour les pâtes, mixeur plongeant, passoire. 250 à 300 ml d'eau.",
+ "La réhydratation des PST — 30 g de PST dans de l'eau chaude 10 min, pressées.",
+ "Épluchage, les carottes — Éplucher 150 g de carottes, rondelles de 8 mm.",
+ "La purée de carotte — Mode STEAM, 20 min sur papier percé. Mixer avec 3 c. à soupe d'eau. Texture visée : lisse, nappante.",
+ "Les pâtes — Cuire les pâtes sans gluten à l'eau bouillante salée, 1 minute de plus que le paquet pour qu'elles soient très tendres. Garder une louche d'eau. Point de contrôle : sans point blanc, fondantes. À éviter : al dente.",
+ "Les PST — Les réchauffer 8 min à la vapeur. Point de contrôle : chaudes à cœur.",
+ "Le mélange — Enrober les pâtes de purée de carotte, ajouter les PST, 1 c. à soupe d'eau de cuisson.",
+ "Dressage tiède — Assiette creuse tiède. Nid de pâtes, filet d'huile d'olive crue (1 c. à soupe), thym.",
+ "Organisation — Purée et PST faites la veille. Pâtes cuites au dernier moment."],
+ "Les pâtes sans gluten se cuisent volontiers plus longtemps : elles deviennent plus digestes."],
+
+"veloute-pois-carotte":[45,1,[
+ "Avant de commencer — Ustensiles : le rice cooker Yum Asia Bamboo (cuve, panier inox), papier sulfurisé, économe, mixeur plongeant, fouet. 250 à 300 ml d'eau.",
+ "Épluchage, les carottes — Éplucher 150 g, rondelles de 8 mm.",
+ "Épluchage, les pommes de terre — Éplucher 200 g, cubes de 3 cm.",
+ "La vapeur — Papier percé, mode STEAM, 20 min. Repères : vapeur régulière. Point de contrôle : tout s'écrase.",
+ "Le mixage — Mixer les légumes avec 250 ml d'eau chaude, une pincée de sel. Texture visée : velours, il nappe la cuillère.",
+ "Les protéines de pois — Délayer 20 g de protéines de pois dans 4 c. à soupe d'eau tiède, puis les fouetter dans le velouté. À éviter : verser la poudre sèche, elle fait des grumeaux.",
+ "L'huile crue — 1 c. à soupe d'huile d'olive, versée hors du feu.",
+ "Dressage tiède — Bol tiède. Velouté à la louche, ciboulette (pointes vertes).",
+ "Organisation — Velouté prêt la veille, 2 jours en verre ; réchauffer sans bouillir."],
+ "Ce velouté est chaud mais jamais brûlant : idéal en soirée."],
+
+/* ---------- OKARA & DOUCEURS ---------- */
+"okara-muffin-mug":[8,1,[
+ "Avant de commencer — Ustensiles : une tasse ou un mug large allant au micro-ondes, une fourchette, une cuillère à soupe. Sortir l'œuf 10 min avant. L'okara doit être frais (2-3 jours au frigo).",
+ "La banane — Écraser une demi-banane bien ferme à la fourchette en purée épaisse.",
+ "L'okara — Prendre 2 c. à soupe d'okara de riz : toujours le réhydrater, il est astringent. Le mélanger à 2 c. à soupe d'eau tiède 2 min.",
+ "L'appareil — Ajouter l'œuf, 1 c. à café de sirop d'érable, 1 c. à café d'huile d'olive, une pincée de vanille naturelle. Mélanger jusqu'à homogénéité. Texture visée : pâte épaisse qui tombe de la cuillère.",
+ "La cuisson — Micro-ondes 750-800 W, 1 min 30. Repères : le muffin gonfle puis retombe, une odeur de vanille. Point de contrôle : une lame en ressort sèche. À éviter : plus de 2 min, il devient caoutchouteux.",
+ "Le repos — Laisser tiédir 2 min : il continue de cuire et se raffermit.",
+ "Dressage tiède — Démouler ou déguster dans le mug, tiède, jamais chaud.",
+ "Organisation — À préparer à la minute. L'okara se garde 2 à 3 jours au frigo dans une boîte en verre."],
+ "L'okara doit toujours être réhydraté : sinon, sa texture est astringente."],
+
+"okara-pouding":[10,1,[
+ "Avant de commencer — Ustensiles : un bol, une cuillère, un petit verre doseur. Sortir le lait de riz 10 min avant. Okara frais (2-3 jours au frigo).",
+ "Le lait de riz — Tiédir 120 ml de lait de riz maison (Ollait) 30 secondes au micro-ondes, 750-800 W : il doit être tiède, pas chaud. Point de contrôle : tiède au poignet.",
+ "L'okara réhydraté — Mettre 3 c. à soupe d'okara dans le bol avec 1 c. à soupe d'eau tiède et écraser à la fourchette 1 min : l'okara est astringent et doit toujours être réhydraté avant d'être mangé.",
+ "L'okara — 3 c. à soupe d'okara de riz dans le bol, versées de lait tiède. Laisser gonfler 5 min. Repères : l'okara absorbe le lait et devient crémeux. Point de contrôle : texture de porridge onctueux, jamais sec ni granuleux.",
+ "La douceur — Ajouter 1 c. à café de sirop d'érable, 1 c. à café de purée d'amande blanche. Mélanger.",
+ "Les graines — Torréfier 10 g de graines de courge 2 min à sec dans une petite poêle. Repères : elles gonflent et éclatent doucement. À éviter : les laisser brunir.",
+ "Dressage tiède — Bol tiède. Pouding lissé, graines de courge en pluie.",
+ "Organisation — Le pouding se prépare la veille au frais, 24 h en verre, réchauffé 30 secondes au moment de servir. Okara 2 à 3 jours maximum."],
+ "Le sirop d'érable se limite à 1 c. à café pour rester dans les seuils FODMAP."],
+
+"okara-galette":[25,2,[
+ "Avant de commencer — Ustensiles : le rice cooker Yum Asia Bamboo (cuve, panier inox), une petite poêle antiadhésive de 16 cm, spatule fine, râpe fine, bol. Sortir l'œuf 10 min avant. Okara frais (2-3 jours au frigo).",
+ "Épluchage, la carotte — Éplucher, râper très finement, peser 30 g (2 c. à soupe).",
+ "Épluchage, les pommes de terre — Éplucher 150 g, cubes de 2 cm.",
+ "La vapeur — Papier sulfurisé percé, pommes de terre, mode STEAM, 20 min. Point de contrôle : fondantes.",
+ "L'appareil — Mélanger 3 c. à soupe d'okara réhydratées dans 2 c. à soupe d'eau tiède, l'œuf, la carotte râpée, du persil et une pincée de sel. Texture visée : pâte épaisse qui se tient.",
+ "La cuisson — Petite poêle à feu doux (plaque 3 sur 9), 1 c. à café d'huile d'olive, verser, aplatir en galette de 1 cm. 3 min par face. Repères : un léger grésillement, le dessous prend une couleur dorée pâle. Point de contrôle : la galette se décolle seule, ferme au toucher. À éviter : un feu fort, elle brûle et devient amère.",
+ "Dressage tiède — Assiette plate tiède. Galette à gauche, pommes de terre vapeur à droite, persil ciselé.",
+ "Organisation — La galette se cuit à la minute. Pommes de terre cuites la veille."],
+ "Cuite à feu doux, la galette d'okara reste moelleuse : la poêle ne doit jamais fumer."],
+
+/* ---------- PURÉES & VAPEUR ---------- */
+"puree-cocon-soir":[35,1,[
+ "Avant de commencer — Ustensiles : le rice cooker Yum Asia Bamboo (cuve, panier inox), papier sulfurisé, économe, presse-purée ou mixeur plongeant. 250 à 300 ml d'eau tiède.",
+ "Épluchage, les pommes de terre — Éplucher, retirer les yeux, cubes de 3 cm. Peser 175 g.",
+ "Épluchage, la courgette — Éplucher à 100 % (aucune peau verte), retirer le cœur graineux, dés de 1 cm. Peser exactement 60 g : c'est le seuil low-FODMAP.",
+ "La vapeur — Papier sulfurisé percé dans le panier, pommes de terre et courgette dessus. Mode STEAM, 15 à 20 min. Repères : vapeur régulière, les dés deviennent translucides. Point de contrôle : tout s'écrase sans effort à la fourchette. À éviter : une courgette encore ferme.",
+ "L'écrasement — Écraser au presse-purée (ou mixer brièvement) avec 2 c. à soupe d'eau chaude prise sur la cuve. Texture visée : lisse, épaisse, elle se tient sur la cuillère. À éviter : mixer trop longtemps, la purée devient élastique.",
+ "L'huile crue — Incorporer 1 c. à soupe d'huile d'olive crue et une pincée de sel hors du feu.",
+ "Dressage tiède — Assiette creuse tiède. Purée en dôme, creux au centre, petit filet d'huile d'olive crue.",
+ "Organisation — La purée se garde 2 jours en verre au frigo, réchauffée 4 min à la vapeur. Ajouter l'huile crue seulement au dernier moment."],
+ "Pour le transit : l'huile d'olive crue est indispensable, elle ne se cuit jamais."],
+
+"puree-carotte-pdt":[35,1,[
+ "Avant de commencer — Ustensiles : le rice cooker Yum Asia Bamboo (cuve, panier inox), papier sulfurisé, économe, presse-purée. 250 à 300 ml d'eau tiède.",
+ "Épluchage, les pommes de terre — Éplucher 150 g, cubes de 3 cm.",
+ "Épluchage, les carottes — Éplucher 120 g, rondelles de 8 mm.",
+ "La vapeur — Papier percé, mode STEAM, 20 min. Repères : les rondelles s'assombrissent, la vapeur sent la carotte. Point de contrôle : tout s'écrase. À éviter : des morceaux fermes.",
+ "L'écrasement — Presse-purée avec 2 c. à soupe d'eau chaude. Texture visée : épaisse, orange pâle, sans morceau.",
+ "L'huile crue — 1 c. à soupe d'huile d'olive et une pincée de sel hors du feu.",
+ "Dressage tiède — Assiette creuse tiède. Purée en nid, persil ciselé (2 mm).",
+ "Organisation — Purée prête la veille, 2 jours en verre, réchauffée 4 min à la vapeur."],
+ "La carotte cuite fondante est une fibre douce et très bien tolérée."],
+
+"vapeur-douce-legumes":[35,1,[
+ "Avant de commencer — Ustensiles : le rice cooker Yum Asia Bamboo (cuve, panier inox), papier sulfurisé, économe, planche. 250 à 300 ml d'eau.",
+ "Les haricots verts — Peser 75 g exactement, retirer les extrémités, tronçons de 3 cm.",
+ "Épluchage, la carotte — Éplucher, bâtonnets de 1 cm de section.",
+ "Épluchage, les pommes de terre — Éplucher 200 g, cubes de 3 cm.",
+ "La vapeur — Papier sulfurisé percé dans le panier, tout ensemble, mode STEAM, 25 min. Repères : la vapeur parfume, les haricots virent au vert mat. Point de contrôle : haricots mous, carottes et pommes de terre traversées par un couteau. À éviter : les haricots croquants.",
+ "L'huile crue — 1 c. à soupe d'huile d'olive, une pincée de sel, persil (2 mm). Mélanger.",
+ "Dressage tiède — Assiette creuse tiède. Trois petits tas côte à côte, filet d'huile crue, persil.",
+ "Organisation — Légumes cuits la veille, 2 jours en verre, réchauffés 3 min."],
+ "Trois légumes, un seul cycle vapeur : c'est la simplicité du Bamboo."]
+};
+
+/* application des fiches détaillées aux recettes du carnet */
+DEFAULT_RECIPES.push(...SIGNATURE);
+DEFAULT_RECIPES.forEach(r => { const x = DEV[r.id]; if (x) { r.t = x[0]; r.d = x[1]; r.steps = x[2]; r.tip = x[3]; } });
+
+/* ============ BASE INGRÉDIENTS : rayon + kcal indicatives ============
+   g = kcal / 100 g (ou 100 ml), p = kcal par pièce/tranche, c = kcal par c. à café */
+const ING_DB = [
+  ["cuisse de poulet","Volaille",{g:125}],["blanc de poulet","Volaille",{g:110}],["poulet","Volaille",{g:120}],
+  ["oeuf","Œufs",{p:75,g:145}],
+  ["tofu fermente","Tofu & protéines végétales",{g:130}],["tofu ferme","Tofu & protéines végétales",{g:130}],["tofu","Tofu & protéines végétales",{g:120}],
+  ["pst","Tofu & protéines végétales",{g:330}],["proteines de pois","Tofu & protéines végétales",{g:380}],["proteines vegetales","Tofu & protéines végétales",{g:330}],
+  ["okara","Tofu & protéines végétales",{g:90}],
+  ["riz cuit","Féculents",{g:130}],["pates","Féculents",{g:150}],["lasagne","Féculents",{g:350}],["pommes de terre","Féculents",{g:82}],
+  ["carotte","Légumes",{g:40}],["haricots verts","Légumes",{g:30}],["courgette","Légumes",{g:17}],["aubergine","Légumes",{g:25}],
+  ["banane","Fruits",{p:90,g:90}],
+  ["persil","Herbes & aromates",{g:0}],["ciboulette","Herbes & aromates",{g:0}],["thym","Herbes & aromates",{g:0}],["romarin","Herbes & aromates",{g:0}],
+  ["skyr","Produits laitiers & végétaux",{g:60}],["lait de riz","Produits laitiers & végétaux",{g:50}],["creme de soja","Produits laitiers & végétaux",{g:150,c:6}],
+  ["huile","Épicerie",{c:40}],["sirop d'erable","Épicerie",{c:17}],["puree d'amande","Épicerie",{c:28}],["graines de courge","Épicerie",{g:560}],
+  ["vanille","Épicerie",{c:0}],["sel","Épicerie",{c:0}],["eau","Divers",{g:0}]
+].map(([k,a,v]) => ({ k: norm(k), a, ...v })).sort((x,y) => y.k.length - x.k.length);
+
+const AISLE_ORDER = ["Légumes","Herbes & aromates","Fruits","Volaille","Œufs","Tofu & protéines végétales","Produits laitiers & végétaux","Féculents","Épicerie","Divers"];
+
+function norm(s){
+  return String(s||"").toLowerCase().replace(/œ/g,"oe").replace(/æ/g,"ae").replace(/[’`]/g,"'")
+    .normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/\s+/g," ").trim();
+}
+function lookup(name){ const n = norm(name); return ING_DB.find(e => n.includes(e.k)) || null; }
+
+function unitKind(u){
+  const x = norm(u);
+  if (!x) return "p";
+  if (x === "g" || x === "gr" || x === "grammes") return "g";
+  if (x === "kg") return "kg";
+  if (x === "ml") return "g";
+  if (x === "cl") return "cl";
+  if (x === "l") return "l";
+  if (/(c\.? ?a ?c|cafe|cac|cuillere a cafe)/.test(x)) return "c";
+  if (/(c\.? ?a ?s|soupe|cas)/.test(x)) return "s";
+  if (/(pincee|brins|quelques|au gout)/.test(x)) return "z";
+  return "p"; // pièce, tranche, feuille, pot, tasse…
+}
+function ingKcal(i){
+  const q = parseFloat(String(i.q).replace(",", "."));
+  if (!q || isNaN(q)) return 0;
+  const e = lookup(i.n); if (!e) return 0;
+  switch (unitKind(i.u)) {
+    case "g":  return e.g != null ? e.g * q / 100 : 0;
+    case "kg": return e.g != null ? e.g * q * 10 : 0;
+    case "cl": return e.g != null ? e.g * q / 10 : 0;
+    case "l":  return e.g != null ? e.g * q * 10 : 0;
+    case "c":  return e.c != null ? e.c * q : (e.g != null ? e.g * q * 5 / 100 : 0);
+    case "s":  return e.c != null ? e.c * 3 * q : (e.g != null ? e.g * q * 15 / 100 : 0);
+    case "p":  return e.p != null ? e.p * q : 0;
+    default: return 0;
+  }
+}
+function kcalOf(obj){ if (!obj || !obj.ing) return 0; return Math.round(obj.ing.reduce((s,i) => s + ingKcal(i), 0) / 10) * 10; }
+function aisleOf(name){ const e = lookup(name); return e ? e.a : "Divers"; }
+
+/* ============ MOTEUR DE VARIATIONS ============
+   Chaque composant apporte ses ustensiles, sa mise en place et sa cuisson au rice cooker Bamboo :
+   feu = mode (STEAM ou SLOW COOK), cook = geste et durée, rep = repères des sens,
+   ctl = point de contrôle, err = erreur à éviter, keep = préparation à l'avance et conservation.
+   buildGen() assemble une vraie fiche pas à pas, entièrement modifiable ensuite.
+   Seuils low-FODMAP intégrés : haricots verts 75 g, courgette épluchée 60 g. */
+const H = "quelques brins";
+const BAMBOO = "le rice cooker Yum Asia Bamboo (cuve et panier vapeur inox)";
+const PROTEINS = {
+  cuisse:{n:"cuisse de poulet effilochée",h:"La cuisse de poulet",cat:"Poulet",ing:[["cuisse de poulet",180,"g"]],t:55,
+    mat:BAMBOO + ", du papier sulfurisé, deux fourchettes", out:"la cuisse de poulet 20 min avant",
+    mp:"retirer au couteau les plaques de gras visibles de la cuisse et la saler très légèrement ; la peau reste pendant la cuisson pour garder le moelleux, elle sera retirée après",
+    feu:"mode SLOW COOK du Bamboo, 250 à 300 ml d'eau tiède dans la cuve",
+    cook:"Poser la cuisse directement sur l'inox du panier, sans papier, pour que le gras s'égoutte au fond de la cuve. Cuire 50 min (ou en mode STEAM 45 min). Laisser reposer 5 min, retirer la peau d'une pièce et la jeter avec le jus de la cuve, puis effilocher la chair à deux fourchettes en fines fibres.",
+    rep:"une vapeur douce s'échappe du couvercle, une odeur de bouillon de poule monte, la chair se rétracte sur l'os",
+    ctl:"à la jonction cuisse-pilon, le jus est clair et la chair se détache sans résister",
+    err:"soulever le couvercle en cours de cuisson, garder de la peau cuite ou servir le jus de cuve, riche en gras",
+    keep:"Le poulet effiloché se garde 2 jours dans une boîte en verre fermée, réchauffé 4 min à la vapeur."},
+  blanc:{n:"blanc de poulet vapeur",h:"Le blanc de poulet",cat:"Poulet",ing:[["blanc de poulet",130,"g"]],t:30,
+    mat:BAMBOO + ", une planche, un couteau", out:"le blanc de poulet 15 min avant",
+    mp:"ôter la peau et le gras du blanc de poulet, l'ouvrir en deux dans l'épaisseur pour obtenir 1,5 cm régulier, le saler très légèrement",
+    feu:"mode STEAM du Bamboo, 250 à 300 ml d'eau dans la cuve",
+    cook:"Poser le blanc directement sur l'inox, sans papier, et cuire 25 min. Le trancher en biais en lamelles de 5 mm.",
+    rep:"la vapeur monte régulière, la chair blanchit uniformément",
+    ctl:"en coupant le morceau le plus épais, la chair est blanche à cœur, humide, avec un jus clair",
+    err:"ouvrir le couvercle trop tôt ou dépasser 30 min : le blanc devient sec",
+    keep:"Le blanc cuit se garde 2 jours en boîte en verre, réchauffé 3 min à la vapeur."},
+  oeufs:{n:"œufs durs",h:"Les œufs durs",cat:"Œufs",ing:[["œufs",2,"pièce"]],t:15,
+    mat:BAMBOO + ", un bol d'eau froide", out:"les œufs 10 min avant",
+    mp:"poser les œufs sortis du frigo depuis 10 min pour éviter que la coquille ne se fende ; ne pas les percer",
+    feu:"mode STEAM du Bamboo, 250 à 300 ml d'eau dans la cuve",
+    cook:"Poser les œufs directement sur l'inox, cuire 12 min, puis 3 min dans l'eau froide et écaler sous un filet d'eau.",
+    rep:"la vapeur est régulière, la coquille reste intacte, une légère odeur d'œuf chaud",
+    ctl:"le jaune est pris, jaune pâle, sans anneau vert ni gris",
+    err:"dépasser 13 min : le jaune verdit et sèche",
+    keep:"Les œufs durs se gardent 3 jours non écalés au frigo."},
+  mollets:{n:"œufs mollets",h:"Les œufs mollets",cat:"Œufs",ing:[["œufs",2,"pièce"]],t:12,
+    mat:BAMBOO + ", un bol d'eau froide", out:"les œufs 10 min avant",
+    mp:"utiliser des œufs à température ambiante (10 min hors du frigo), les poser sans les percer",
+    feu:"mode STEAM du Bamboo, 250 à 300 ml d'eau dans la cuve",
+    cook:"Poser les œufs sur l'inox, cuire 8 min, puis 2 min dans l'eau froide, écaler délicatement sous un filet d'eau. Les couper en deux au dernier moment.",
+    rep:"la vapeur est régulière, aucune odeur soufrée",
+    ctl:"à l'ouverture, le blanc est pris et le jaune coule",
+    err:"dépasser 9 min : le jaune durcit",
+    keep:"Les œufs mollets se cuisent le jour même."},
+  tofu:{n:"tofu ferme vapeur",h:"Le tofu",cat:"Tofu",ing:[["tofu ferme",130,"g"]],t:14,
+    mat:BAMBOO + ", du papier absorbant, une assiette pour presser", out:"le tofu 10 min avant",
+    mp:"égoutter le tofu ferme, l'envelopper dans du papier absorbant et le presser 10 min sous une assiette lestée ; le couper en dés de 2 cm",
+    feu:"mode STEAM du Bamboo, 250 à 300 ml d'eau dans la cuve",
+    cook:"Poser les dés sur un papier sulfurisé percé dans le panier et cuire 10 min.",
+    rep:"le tofu gonfle légèrement et devient plus ferme, une vapeur neutre",
+    ctl:"les dés sont chauds à cœur et se tiennent sans se briser",
+    err:"cuire plus de 15 min : le tofu devient caoutchouteux",
+    keep:"Le tofu pressé et cuit se garde 2 jours dans une boîte en verre."},
+  pst:{n:"PST fondantes",h:"Les PST",cat:"Protéines végétales",ing:[["PST (protéines de soja texturées)",35,"g"]],t:22,
+    mat:BAMBOO + ", un bol, une passoire, du papier sulfurisé", out:"",
+    mp:"couvrir 35 g de PST sèches d'eau chaude, laisser gonfler 10 min, puis les presser fortement entre les mains pour ôter toute l'eau",
+    feu:"mode STEAM du Bamboo, 250 à 300 ml d'eau dans la cuve",
+    cook:"Poser les PST réhydratées sur un papier sulfurisé percé dans le panier et cuire 10 min : elles s'imprègnent de vapeur et deviennent moelleuses.",
+    rep:"elles gonflent, une odeur douce de céréale, une texture qui s'assouplit",
+    ctl:"elles sont tendres, sans aucun cœur dur, et chaudes à cœur",
+    err:"les servir mal réhydratées ou non pressées : elles restent cartonneuses",
+    keep:"Les PST cuites se gardent 2 jours en boîte en verre, réchauffées 3 min à la vapeur."}
+};
+const STARCHES = {
+  pdtvap:{n:"pommes de terre vapeur",h:"Les pommes de terre",base:"Pommes de terre",ing:[["pommes de terre",200,"g"]],t:22,
+    mat:BAMBOO + ", du papier sulfurisé, un économe", out:"",
+    feu:"mode STEAM du Bamboo, 250 à 300 ml d'eau dans la cuve",
+    cook:"Éplucher les pommes de terre, retirer les yeux et les couper en cubes de 3 cm. Les poser sur un papier sulfurisé percé dans le panier et cuire 20 min.",
+    rep:"la vapeur monte régulière, les cubes deviennent légèrement translucides sur les bords, une odeur de pomme de terre cuite",
+    ctl:"la pointe d'un couteau traverse un cube sans aucune résistance",
+    err:"des cubes de tailles inégales : certains restent fermes",
+    keep:"Les pommes de terre se cuisent la veille et se gardent 2 jours en boîte en verre."},
+  puree:{n:"purée de pommes de terre",h:"La purée",base:"Pommes de terre",ing:[["pommes de terre",200,"g"]],t:25,
+    mat:BAMBOO + ", du papier sulfurisé, un presse-purée", out:"",
+    feu:"mode STEAM du Bamboo, 250 à 300 ml d'eau dans la cuve",
+    cook:"Éplucher les pommes de terre et les couper en cubes de 3 cm. Cuire 20 min sur papier sulfurisé percé, puis les écraser au presse-purée avec 2 c. à soupe d'eau chaude prise dans la cuve et une pincée de sel.",
+    rep:"la vapeur est régulière, les cubes s'affaissent sous la pression",
+    ctl:"la purée est lisse, épaisse, et se tient en nid sur la cuillère",
+    err:"mixer trop longtemps : elle devient élastique et collante",
+    keep:"La purée se garde 2 jours en verre, réchauffée 4 min à la vapeur."},
+  riz:{n:"riz",h:"Le riz",base:"Riz",ing:[["riz cuit",170,"g"]],t:35,
+    mat:"le rice cooker Yum Asia Bamboo (cuve), une passoire fine", out:"",
+    feu:"programme Riz du Bamboo (1,2 fois le volume de riz en eau)",
+    cook:"Rincer 70 g de riz cru jusqu'à ce que l'eau soit presque claire, l'égoutter, le cuire au programme Riz, puis laisser reposer 10 min sous le couvercle fermé, avant d'aérer à la fourchette.",
+    rep:"l'odeur de riz chaud, la vapeur fine qui se calme, des grains brillants",
+    ctl:"un grain écrasé entre les doigts n'a plus de cœur dur",
+    err:"soulever le couvercle pendant le repos : la vapeur s'échappe et le riz reste dur",
+    keep:"Le riz se cuit la veille, refroidi rapidement et gardé 24 h au frigo, réchauffé 3 min à la vapeur."},
+  pates:{n:"pâtes sans gluten",h:"Les pâtes",base:"Pâtes sans gluten",ing:[["pâtes sans gluten cuites",200,"g"]],t:14,
+    mat:"une grande casserole, une passoire, une louche", out:"",
+    feu:"eau bouillante salée",
+    cook:"Cuire les pâtes sans gluten dans une grande casserole d'eau bouillante salée, 1 minute de plus que le temps du paquet pour qu'elles soient très tendres. Prélever une louche d'eau de cuisson avant d'égoutter.",
+    rep:"des bouillons réguliers, l'eau se trouble légèrement",
+    ctl:"une pâte coupée en deux ne garde aucun point blanc, elle est fondante",
+    err:"les servir al dente : elles seraient plus difficiles à digérer",
+    keep:"Les pâtes se cuisent au dernier moment."}
+};
+const VEGS = {
+  carotte:{n:"carotte",h:"La carotte",ing:[["carotte",100,"g"]],t:16,
+    mat:"un économe, un couteau, du papier sulfurisé",
+    cut:"éplucher la carotte à l'économe, retirer les extrémités et la couper en rondelles de 8 mm d'épaisseur",
+    feu:"mode STEAM du Bamboo",
+    cook:"Poser les rondelles sur un papier sulfurisé percé dans le panier et cuire 15 min : la carotte est une fibre douce, excellente pour le transit.",
+    rep:"la vapeur sent la carotte cuite, les rondelles s'assombrissent légèrement",
+    ctl:"elles s'écrasent entre deux doigts, fondantes",
+    err:"une carotte encore ferme : elle irrite les intestins sensibles",
+    keep:"Les carottes cuites se gardent 2 jours en boîte en verre."},
+  haricots:{n:"haricots verts",h:"Les haricots verts",ing:[["haricots verts",75,"g"]],t:26,
+    mat:"une balance, un couteau, du papier sulfurisé",
+    cut:"peser exactement 75 g de haricots verts (seuil low-FODMAP à ne pas dépasser), retirer les deux extrémités et les couper en tronçons de 3 cm",
+    feu:"mode STEAM du Bamboo",
+    cook:"Poser les haricots sur un papier sulfurisé percé dans le panier et cuire 25 min, jusqu'à ce qu'ils soient mous.",
+    rep:"le vert devient mat, la vapeur a une odeur douce de légume cuit",
+    ctl:"les haricots sont mous, sans aucune fermeté sous la dent",
+    err:"les servir croquants ou dépasser 75 g",
+    keep:"Les haricots cuits se gardent 2 jours en boîte en verre."},
+  courgette:{n:"courgette",h:"La courgette",ing:[["courgette épluchée",60,"g"]],t:12,
+    mat:"une balance, un économe, un couteau, du papier sulfurisé",
+    cut:"éplucher la courgette à 100 % (aucune peau verte), retirer le cœur graineux, la couper en dés de 1 cm et peser exactement 60 g (seuil low-FODMAP)",
+    feu:"mode STEAM du Bamboo",
+    cook:"Poser les dés sur un papier sulfurisé percé dans le panier et cuire 12 min.",
+    rep:"les dés deviennent translucides et s'affaissent",
+    ctl:"ils s'écrasent à la fourchette sans effort",
+    err:"garder de la peau ou dépasser 60 g",
+    keep:"La courgette cuite se garde 2 jours en boîte en verre."},
+  aubergine:{n:"aubergine",h:"L'aubergine",ing:[["aubergine épluchée",75,"g"]],t:17,
+    mat:"une balance, un économe, du papier absorbant, du papier sulfurisé",
+    cut:"éplucher entièrement l'aubergine (aucune peau), la couper en dés de 2 cm, peser 75 g, les saler et les laisser dégorger 10 min avant de les éponger",
+    feu:"mode STEAM du Bamboo",
+    cook:"Poser les dés sur un papier sulfurisé percé dans le panier et cuire 15 min.",
+    rep:"la chair devient translucide et molle",
+    ctl:"elle s'écrase à la fourchette comme une crème",
+    err:"la servir mi-cuite : elle est indigeste",
+    keep:"L'aubergine cuite se garde 2 jours en boîte en verre."}
+};
+const SAUCES = {
+  oliveperslil:{n:"huile d'olive-persil",ing:[["huile d'olive",1,"c. à soupe"],["eau",1,"c. à soupe"],["persil","",H],["sel","","1 pincée"]],
+    mat:"un petit bol, une fourchette",
+    prep:"Hacher le persil en morceaux de 2 mm. Fouetter l'huile d'olive, l'eau et le sel à la fourchette jusqu'à l'émulsion, puis ajouter le persil. Ne jamais chauffer l'huile : elle se sert crue.",
+    tex:"une émulsion légère qui nappe à peine la cuillère",
+    err:"l'ajouter sur un plat bouillant : l'huile cuite est plus lourde pour le reflux"},
+  skyr:{n:"skyr-ciboulette",ing:[["skyr",2,"c. à soupe"],["huile d'olive",1,"c. à soupe"],["eau tiède",1,"c. à soupe"],["ciboulette","",H]],
+    mat:"un petit bol, un fouet",
+    prep:"Ciseler uniquement les pointes vertes de la ciboulette (3 mm). Fouetter 2 c. à soupe de skyr avec l'huile d'olive, l'eau tiède et une pincée de sel, puis ajouter la ciboulette.",
+    tex:"crémeuse et lisse, elle nappe la cuillère",
+    err:"dépasser 2 c. à soupe de skyr (lactose) ou utiliser le blanc de la ciboulette"},
+  cameline:{n:"cameline-thym",ing:[["huile de cameline",1,"c. à soupe"],["eau",1,"c. à soupe"],["thym","",H]],
+    mat:"un petit bol, une fourchette",
+    prep:"Effeuiller le thym. Fouetter l'huile de cameline, l'eau et une pincée de sel, puis ajouter le thym.",
+    tex:"une émulsion légère, dorée, qui nappe à peine la cuillère",
+    err:"chauffer l'huile de cameline : elle perd ses oméga-3"},
+  soja:{n:"crème de soja persillée",ing:[["crème de soja",3,"c. à soupe"],["huile d'olive",1,"c. à soupe"],["persil","",H]],
+    mat:"un petit bol, un fouet",
+    prep:"Hacher le persil (2 mm). Fouetter la crème de soja avec l'huile d'olive et une pincée de sel, puis ajouter le persil. La laisser tiédir 2 min sur la cuve chaude.",
+    tex:"crémeuse, elle nappe la cuillère",
+    err:"la faire bouillir : elle tourne"}
+};
+const FORMATS = [
+  {id:"bamboo",n:"Vapeur Bamboo",st:"Vapeur Bamboo",s:["riz","pdtvap"],p:["blanc","tofu","mollets","pst"],v:["carotte","haricots","courgette","aubergine"],k:2,d:1,
+   sa:["oliveperslil","skyr","cameline","soja"],x:[],
+   mat:"une assiette creuse tiède",
+   core:"Le cycle vapeur. Lancer un seul cycle en commençant par l'élément le plus long (pommes de terre 20 min), puis ajouter les autres pour que tout finisse ensemble : la protéine posée sur l'inox nu, les légumes sur papier sulfurisé percé. Repères : la vapeur reste régulière, sans gros bouillons. Point de contrôle : tous les éléments sont chauds à cœur. À éviter : soulever le couvercle à chaque étape.",
+   a:"Assiette creuse tiède. Dresser le féculent en dôme, poser les légumes en éventail à côté, la protéine tranchée en appui. Napper d'un filet de sauce crue.",
+   fin:"Finir avec quelques herbes fraîches ciselées finement. Servir tiède, jamais brûlant.",
+   orga:"Tous les éléments se cuisent la veille ; réchauffer 3 min à la vapeur et ajouter la sauce crue au dernier moment.",
+   tip:"Un seul cycle vapeur, trois niveaux : c'est la force du Bamboo. L'huile crue s'ajoute toujours à la fin."},
+  {id:"slow",n:"Slow cook Bamboo",st:"Slow cook Bamboo",s:["pdtvap","riz"],p:["cuisse"],v:["carotte","haricots","courgette","aubergine"],k:2,d:1,
+   sa:["oliveperslil","cameline","soja"],x:[],
+   mat:"une assiette creuse tiède, deux fourchettes",
+   core:"Le montage de la cuve. Verser l'eau tiède dans la cuve, poser le papier sulfurisé percé dans le panier avec les légumes, la cuisse à côté directement sur l'inox. Lancer le mode SLOW COOK, 50 min. Repères : une odeur de bouillon monte, un léger bruissement. Point de contrôle : tout est fondant. À éviter : ouvrir le couvercle avant la fin.",
+   a:"Assiette creuse tiède. Féculent et légumes légèrement écrasés à gauche, effiloché en petit dôme à droite, filet de sauce crue sur l'ensemble.",
+   fin:"Ciseler l'herbe fraîche finement et la répartir en pluie.",
+   orga:"Le plat entier se cuit la veille, 2 jours en boîte en verre. La sauce crue se prépare au dernier moment.",
+   tip:"L'inox nu sous la viande égoutte le gras : le jus de cuve ne se sert jamais."},
+  {id:"cocon",n:"Cocon purée",st:"Cocon & purées",s:["puree"],p:["blanc","cuisse","mollets","tofu","pst"],v:["courgette","carotte"],k:1,d:1,
+   sa:["oliveperslil","cameline","soja"],x:[],
+   mat:"un presse-purée, une assiette creuse tiède",
+   core:"L'écrasement. Écraser la purée avec le légume cuit, deux cuillères d'eau chaude prise sur la cuve, et une pincée de sel. Repères : la purée devient lisse et brillante. Point de contrôle : elle se tient en nid sur la cuillère. À éviter : mixer trop longtemps, elle devient élastique.",
+   a:"Assiette creuse tiède. Purée en nid au centre, protéine posée dessus, filet de sauce crue.",
+   fin:"Herbes fraîches ciselées en pluie fine.",
+   orga:"La purée se garde 2 jours, réchauffée 4 min à la vapeur ; l'huile crue s'ajoute au service.",
+   tip:"Une purée tiède est le meilleur ami d'un larynx irrité : douce, chaude sans être brûlante."},
+  {id:"fraicheur",n:"Salade tiède",st:"Fraîcheur tiède",s:["pdtvap"],p:["oeufs","mollets","blanc","tofu"],v:["haricots","carotte","courgette"],k:2,d:1,
+   sa:["oliveperslil","skyr","cameline"],x:[],
+   mat:"un saladier, deux cuillères pour mélanger",
+   core:"L'assaisonnement tiède. Laisser tiédir les éléments cuits 10 min : le plat se sert tiède, pas glacé. Enrober les pommes de terre de la moitié de la sauce, ajouter les légumes, mélanger délicatement. Repères : la sauce enrobe sans détremper. Point de contrôle : tout est tiède au toucher. À éviter : sortir la salade froide du frigo, le froid irrite le larynx.",
+   a:"Assiette creuse. Pommes de terre en couronne, légumes en éventail, protéine au centre, sauce en filet.",
+   fin:"Herbes fraîches ciselées, un filet d'huile crue en finition si la sauce est déjà bue.",
+   orga:"Les éléments se cuisent la veille (2 jours en verre) ; l'assemblage se fait au dernier moment.",
+   tip:"Un plat tiède est bien plus doux pour le larynx qu'une salade froide."},
+  {id:"bol",n:"Bol de riz tiède",st:"Vapeur Bamboo",s:["riz"],p:["blanc","cuisse","tofu","mollets","pst"],v:["carotte","haricots","aubergine","courgette"],k:2,d:1,
+   sa:["oliveperslil","skyr","cameline","soja"],x:[],
+   mat:"un bol large tiède",
+   core:"L'assemblage du bol. Réchauffer le riz 3 min à la vapeur, préparer les quartiers de garniture tièdes. Repères : la vapeur du riz est douce. Point de contrôle : le bol est tiède sur toute sa hauteur. À éviter : un bol bouillant.",
+   a:"Bol large tiède. Riz au fond en dôme aplati, garnitures en quartiers nets, protéine au centre, sauce en zigzag.",
+   fin:"Herbes fraîches ciselées et un dernier filet d'huile crue.",
+   orga:"Riz, légumes et protéine se préparent la veille ; le bol se monte à la minute.",
+   tip:"Tout tailler à la même taille et ranger chaque garniture en éventail donne un bol digne d'un restaurant."},
+  {id:"pates",n:"Pâtes douces",st:"Cocon & purées",s:["pates"],p:["pst","tofu","blanc"],v:["carotte","courgette"],k:1,d:2,
+   sa:["oliveperslil","soja","cameline"],x:[],
+   mat:"un mixeur plongeant, une assiette creuse tiède",
+   core:"La sauce de légume. Mixer le légume cuit à la vapeur avec 3 c. à soupe d'eau de cuisson des pâtes jusqu'à obtenir une sauce lisse, puis enrober les pâtes. Repères : la sauce devient veloutée et brillante. Point de contrôle : elle nappe les pâtes sans nager au fond. À éviter : relever la sauce avec un condiment que le protocole exclut.",
+   a:"Assiette creuse tiède. Nid de pâtes, protéine posée dessus, filet de sauce crue.",
+   fin:"Herbes fraîches ciselées.",
+   orga:"Purée de légume prête la veille ; les pâtes se cuisent au dernier moment.",
+   tip:"Les pâtes sans gluten se cuisent volontiers plus longtemps : elles deviennent plus digestes."}
+];
+
+function combos(arr, k){
+  if (k === 1) return arr.map(x => [x]);
+  const out = []; for (let i=0;i<arr.length;i++) for (let j=i+1;j<arr.length;j++) out.push([arr[i],arr[j]]); return out;
+}
+function formatProteins(f){ return f.p || Object.keys(PROTEINS); }
+function countVariations(){
+  return FORMATS.reduce((t,f) => t + formatProteins(f).length * f.s.length * combos(f.v,f.k).length * f.sa.length, 0);
+}
+function scaleQ(q, m){ if (q === "" || q == null || !m || m === 1) return q; const r = Math.round(q * m / 5) * 5; return r || q; }
+
+/* texte d'une étape de cuisson : mode, geste, repères, contrôle, erreur */
+function cookStep(c){
+  return (c.feu ? cap(c.feu) + ". " : "") + c.cook + (c.rep ? " Repères : " + c.rep + "." : "") +
+    (c.ctl ? " Point de contrôle : " + c.ctl + "." : "") + (c.err ? " À éviter : " + c.err + "." : "");
+}
+const de = s => /^[aeiouhéèêœ]/i.test(s) ? "d'" + s : "de " + s;
+function qtyList(ing){
+  return ing.map(([n, q, u]) => q === "" || q == null ? n + " (" + u + ")"
+    : String(q).replace(".", ",") + " " + u + " " + de(n)).join(", ");
+}
+
+function buildGen(g){
+  const f = FORMATS.find(x => x.id === g.f), P = PROTEINS[g.p], S = STARCHES[g.s], Sa = SAUCES[g.sa];
+  const V = g.v.map(v => VEGS[v]);
+  const ing = [];
+  const add = (arr, m) => arr.forEach(([n,q,u]) => {
+    if (norm(n) === "sel") return;
+    const ex = ing.find(i => norm(i.n) === norm(n) && norm(i.u) === norm(u) && q !== "");
+    if (ex) ex.q = Math.round((parseFloat(ex.q) + parseFloat(q)) * 100) / 100;
+    else ing.push({ n, q: m ? scaleQ(q, m) : q, u });
+  });
+  add(P.ing, f.pm); add(S.ing); V.forEach(v => add(v.ing)); add(Sa.ing); add(f.x);
+  const vegNames = V.map(v => v.n);
+  const name = `${f.n} : ${P.n}, ${vegNames.join(" & ")}`;
+  const uniq = a => [...new Set(a.filter(Boolean))];
+  const mats = uniq([P.mat, S.mat, ...V.map(v => v.mat), Sa.mat, f.mat].flatMap(m => m.split(/, /).map(x => x.trim()))).join(", ");
+  const outs = uniq([P.out, S.out]).join(", ");
+  const steps = [
+    "Avant de commencer — Ustensiles : " + mats + ". " + (outs ? "À sortir du frigo : " + outs + ", pour éviter un choc thermique à la cuisson. " : "") + "Préparer une assiette tiède et un torchon propre à portée de main.",
+    "Épluchage et découpe, " + low(P.h) + " — " + cap(P.mp) + ".",
+    ...V.map(v => "Épluchage et découpe, " + low(v.h) + " — " + cap(v.cut) + "."),
+    S.h + " — " + cookStep(S),
+    ...V.map(v => v.h + " — " + cookStep(v)),
+    P.h + " — " + cookStep(P),
+    "La sauce " + Sa.n + " — Quantités : " + qtyList(Sa.ing) + ". " + Sa.prep + " Texture visée : " + Sa.tex + ". À éviter : " + Sa.err + ".",
+    "L'assemblage — " + f.core,
+    "Dressage tiède — " + f.a,
+    "Finition — " + f.fin,
+    "Organisation — À l'avance : " + [S.keep, P.keep, f.orga].join(" ")
+  ];
+  // les cuissons se font en parallèle dans le Bamboo : on retient la plus longue, plus la préparation
+  const t = Math.round((15 + Math.max(S.t, P.t, ...V.map(v => v.t))) / 5) * 5;
+  return { name, sub: `${cap(S.n)}, sauce ${Sa.n}`, st: f.st, cat: P.cat, base: S.base, t, d: f.d, ing, steps, tip: f.tip, gen: { ...g } };
+}
+function cap(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
+function low(s){ return s.charAt(0).toLowerCase() + s.slice(1); }
+function pick(a){ return a[Math.floor(Math.random() * a.length)]; }
+function shuffle(a){ a = a.slice(); for (let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+/* filtres : {cats:[...], bases:[...], styles:[...]} (vides = tout) */
+function randomGen(filters = {}, tries = 80){
+  const cats = filters.cats || [], bases = filters.bases || [], styles = filters.styles || [];
+  for (let t = 0; t < tries; t++){
+    const fl = FORMATS.filter(f => (!styles.length || styles.includes(f.st)) && f.s.some(s => !bases.length || bases.includes(STARCHES[s].base)));
+    if (!fl.length) return null;
+    const f = pick(fl);
+    const ps = formatProteins(f).filter(p => !cats.length || cats.includes(PROTEINS[p].cat));
+    const ss = f.s.filter(s => !bases.length || bases.includes(STARCHES[s].base));
+    if (!ps.length || !ss.length) continue;
+    const g = { f: f.id, p: pick(ps), s: pick(ss), v: pick(combos(f.v, f.k)), sa: pick(f.sa) };
+    const m = buildGen(g);
+    if (kcalOf(m) <= 850) return m;
+  }
+  return null;
+}
+function swapGen(meal, key, value){
+  const g = { ...meal.gen }; const f = FORMATS.find(x => x.id === g.f);
+  if (key === "p") g.p = value; if (key === "s") g.s = value; if (key === "sa") g.sa = value;
+  if (key === "f") {
+    const nf = FORMATS.find(x => x.id === value); g.f = value;
+    if (!formatProteins(nf).includes(g.p)) g.p = pick(formatProteins(nf));
+    if (!nf.s.includes(g.s)) g.s = pick(nf.s);
+    if (!nf.sa.includes(g.sa)) g.sa = pick(nf.sa);
+    g.v = pick(combos(nf.v, nf.k));
+  }
+  if (key === "v") g.v = pick(combos(f.v, f.k).filter(c => c.join() !== g.v.join())) || g.v;
+  return buildGen(g);
+}
+
+/* ============ LA TABLE — application ============ */
+const LS_KEY = "la-table-cat-v1";
+const DAY_NAMES = ["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"];
+const SLOTS = [
+  { k:"l", label:"Déjeuner", create:"Créer un déjeuner" },
+  { k:"d", label:"Dîner", create:"Créer un dîner" }
+];
+const CATS = ["Poulet","Œufs","Tofu","Protéines végétales","Okara & douceurs","Purées & vapeur"];
+const STYLES = ["Vapeur Bamboo","Slow cook Bamboo","Cocon & purées","Fraîcheur tiède","Au four","Douceurs"];
+const BASES = ["Riz","Pommes de terre","Pâtes sans gluten","Okara"];
+const UNITS = ["g","ml","pièce","tranche","c. à café","c. à soupe","pincée","quelques brins","feuille","pot","tasse"];
+
+/* couleur par catégorie de plat (tokens CSS --c-*) */
+const CAT_KEY = { "Poulet":"poulet", "Œufs":"oeufs", "Tofu":"veg", "Protéines végétales":"jambon",
+  "Okara & douceurs":"crevettes", "Purées & vapeur":"poisson" };
+const catVar = c => CAT_KEY[c] ? `var(--c-${CAT_KEY[c]})` : "var(--celadon)";
+const catSt = c => CAT_KEY[c] ? `style="--cc:${catVar(c)}"` : "";
+const catTag = c => CAT_KEY[c] ? `<span class="cat-tag" ${catSt(c)}>${esc(c)}</span>` : "";
+
+let S = null, STORAGE_OK = true, UNDO = null, saveTimer = null;
+const uid = () => Math.random().toString(36).slice(2, 10);
+const clone = o => JSON.parse(JSON.stringify(o));
+const $ = s => document.querySelector(s);
+const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+const fmtN = n => { const x = Math.round(n * 10) / 10; return String(x).replace(".", ","); };
+const fmtK = n => n ? n.toLocaleString("fr-FR") : "—";
+
+/* ---------- construction des objets ---------- */
+function recipeToState(r){ return { ...clone(r), ing: r.ing.map(i => ({ id: uid(), ...i })), own: !!r.own }; }
+function mealFromRecipe(r){
+  return { id: uid(), name: r.n, recipeId: r.id, cat: r.cat, st: r.st, base: r.base,
+    t: r.t, d: r.d, ing: r.ing.map(i => ({ id: uid(), n: i.n, q: i.q, u: i.u })), steps: [...r.steps], tip: r.tip || "" };
+}
+function mealFromGen(m){
+  return { id: uid(), name: m.name, sub: m.sub, recipeId: null, cat: m.cat, st: m.st, base: m.base,
+    t: m.t, d: m.d, ing: m.ing.map(i => ({ id: uid(), n: i.n, q: i.q, u: i.u })), steps: [...m.steps], tip: m.tip || "", gen: m.gen };
+}
+function copyDayMeals(p){ const o = {}; SLOTS.forEach(s => o[s.k] = p[s.k] ? copyMeal(p[s.k]) : null); return o; }
+function copyMeal(m){ const c = clone(m); c.id = uid(); c.ing.forEach(i => i.id = uid()); return c; }
+function emptyDay(name){ return { id: uid(), name, meals: { l: null, d: null } }; }
+function recipeById(id){ return S.recipes.find(r => r.id === id); }
+
+function buildDefaultPlan(recipes){
+  const order = ["Poulet","Œufs","Tofu","Protéines végétales","Purées & vapeur","Okara & douceurs"];
+  const buckets = order.map(c => recipes.filter(r => r.cat === c && r.st !== "Douceurs"));
+  const seq = [];
+  while (buckets.some(b => b.length)) buckets.forEach(b => { if (b.length) seq.push(b.shift()); });
+  const weeks = []; let k = 0;
+  for (let w = 0; w < 4; w++){
+    const days = [];
+    for (let d = 0; d < 7; d++){
+      const day = emptyDay(DAY_NAMES[d]);
+      day.meals.l = mealFromRecipe(seq[k++ % seq.length]);
+      day.meals.d = mealFromRecipe(seq[k++ % seq.length]);
+      days.push(day);
+    }
+    weeks.push({ id: uid(), name: "Semaine " + (w + 1), days });
+  }
+  return weeks;
+}
+function defaultState(){
+  const recipes = DEFAULT_RECIPES.map(recipeToState);
+  return { v: 1, font: "editorial", recipes, weeks: buildDefaultPlan(recipes), weights: [], goal: 60, checked: {}, ui: { view: "plan", week: 0 } };
+}
+
+/* ---------- persistance ---------- */
+function load(){
+  try {
+    const raw = localStorage.getItem(LS_KEY);
+    if (raw) { S = JSON.parse(raw); if (!S || !S.weeks || !S.recipes) throw 0; }
+    else S = defaultState();
+  } catch (e) { S = defaultState(); }
+  S.ui = S.ui || { view: "plan", week: 0 }; S.checked = S.checked || {}; S.weights = S.weights || [];
+  if (S.goal == null) S.goal = 73;
+  S.v = S.v || 1;
+  applyFont();
+  save();
+}
+function save(){
+  clearTimeout(saveTimer);
+  try { localStorage.setItem(LS_KEY, JSON.stringify(S)); STORAGE_OK = true; }
+  catch (e) { STORAGE_OK = false; }
+}
+function saveSoon(){ clearTimeout(saveTimer); saveTimer = setTimeout(save, 250); }
+window.addEventListener("pagehide", save);
+
+function snapshot(){ UNDO = JSON.stringify(S); }
+function undo(){ if (!UNDO) return; S = JSON.parse(UNDO); UNDO = null; save(); render(); toast("Modification annulée"); }
+
+/* ---------- calculs : déjeuner et dîner uniquement ---------- */
+function dayKcal(day){ return SLOTS.reduce((s, sl) => s + (day.meals[sl.k] ? kcalOf(day.meals[sl.k]) : 0), 0); }
+function weekAvg(week){ const ds = week.days.filter(d => d.meals.l || d.meals.d); if (!ds.length) return 0; return Math.round(ds.reduce((s, d) => s + dayKcal(d), 0) / ds.length / 10) * 10; }
+function curWeek(){ if (!S.weeks.length) return null; S.ui.week = Math.max(0, Math.min(S.ui.week, S.weeks.length - 1)); return S.weeks[S.ui.week]; }
+
+/* ---------- toast ---------- */
+let toastTimer = null;
+function toast(msg, withUndo){
+  const t = $("#toast");
+  t.innerHTML = `<span>${esc(msg)}</span>${withUndo ? `<button class="link" data-act="undo">Annuler</button>` : ""}`;
+  t.classList.add("show"); clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove("show"), withUndo ? 6000 : 2600);
+}
+
+/* ============ RENDU PRINCIPAL ============ */
+function render(){
+  document.querySelectorAll("[data-nav]").forEach(b => b.setAttribute("aria-current", b.dataset.nav === S.ui.view ? "page" : "false"));
+  const v = S.ui.view, main = $("#main");
+  main.innerHTML = v === "plan" ? viewPlan() : v === "insp" ? viewInsp() : v === "book" ? viewBook()
+    : v === "shop" ? viewShop() : v === "weight" ? viewWeight() : viewData();
+  if (v === "book") renderBookList();
+  $("#storageWarn").hidden = STORAGE_OK;
+}
+
+
+/* ---------- PROTOCOLE DE CAT (rappel affiché dans le planning) ---------- */
+function protocolPanel(){
+  const li = a => a.map(x => `<li>${x}</li>`).join("");
+  return `<div class="proto">
+    <details open><summary>Routine du matin</summary>
+      <ol>${li([
+        "Un grand verre d'eau tiède à jeun : il déclenche le réflexe gastro-colique.",
+        "Petit-déjeuner, avec un verre de lait végétal fait maison (lait de riz Ollait ou Yum Asia).",
+        "En option : 1 c. à café de psyllium blond mélangée dans le lait, à boire immédiatement, sans laisser gélifier.",
+        "Obligatoire après le psyllium : un grand verre d'eau plate, pour éviter la formation d'un bouchon."])}</ol>
+    </details>
+    <details><summary>Règles et seuils du protocole</summary>
+      <p class="muted small" style="margin:8px 0 0">Reflux LPR et syndrome de l'intestin irritable à tendance constipation. Phase de consolidation, après le jour 24-27.</p>
+      <h4>Reflux LPR</h4><ul>${li(["Zéro acide : citron, vinaigre, tomate crue.","Zéro piment, poivre, ail, oignon.","Zéro gras cuit ou lourd.","Température tiède obligatoire."])}</ul>
+      <h4>SII et FODMAPs</h4><ul>${li(["Cuissons fondantes, légumes toujours épluchés.","Respect des seuils low-FODMAP.","Pas de fermentescibles forts (pollen, dattes)."])}</ul>
+      <h4>Transit</h4><ul>${li(["Hydratation ciblée.","Huile d'olive crue, 1 à 2 c. à soupe par repas, indispensable.","Fibres solubles douces."])}</ul>
+      <h4>Seuils des légumes</h4><ul>${li([
+        "Pomme de terre : sans restriction, vapeur ou purée.",
+        "Carotte : finement râpée ou cuite fondante.",
+        "<b>Haricots verts : 75 g maximum</b>, pesés cuits, bien fondants, jamais croquants.",
+        "<b>Courgette : 60 g maximum</b>, pesée épluchée à 100 %, en dés, cuite vapeur.",
+        "Aubergine : sans la peau, bien cuite."])}</ul>
+      <h4>Assaisonnements autorisés</h4><ul>${li([
+        "Huile d'olive crue, huile de cameline ou de noix (oméga-3), toujours crues.",
+        "Persil frais, ciboulette (pointes vertes uniquement), thym, romarin.",
+        "Sirop d'érable pur (1 c. à café), vanille naturelle, une pincée de sel."])}</ul>
+      <h4 class="no">Interdits</h4><ul class="no">${li([
+        "Ail, oignon, échalote, poivre, piment, vinaigre, citron, moutarde.",
+        "Pollen et dattes.",
+        "Peau de poulet cuite et gras animal cuit.",
+        "Skyr classique : 2 c. à soupe au maximum, sauf s'il est garanti sans lactose."])}</ul>
+    </details>
+    <details><summary>Le Bamboo, mode d'emploi</summary>
+      <ul>${li([
+        "<b>Mode STEAM</b> : légumes vapeur, poissons et viandes avec le panier inox.",
+        "<b>Mode SLOW COOK</b> : plats mijotés, viandes fondantes (poulet effiloché : 45 à 50 min).",
+        "Sous les légumes : un papier sulfurisé (barrière anti-gras, anti-adhésif).",
+        "Sous les viandes : rien, directement sur l'inox, pour que le gras s'égoutte au fond de la cuve.",
+        "Ollait : laits végétaux maison (riz, avoine, amande-macadamia) et récupération de l'okara.",
+        "Okara : 2 à 3 jours au frigo dans une boîte en verre, toujours réhydraté (il est astringent)."])}</ul>
+    </details>
+  </div>`;
+}
+
+/* ---------- PLANNING ---------- */
+function viewPlan(){
+  const w = curWeek();
+  const tabs = S.weeks.map((wk, i) => `<button class="wtab" data-act="week" data-i="${i}" aria-current="${i === S.ui.week}">${esc(wk.name)}</button>`).join("");
+  if (!w) return `<div class="weekbar">${tabs}<button class="wtab add" data-act="newWeek">＋ Créer une nouvelle semaine</button></div>
+    <div class="empty-state"><p class="display-s">Aucune semaine pour l'instant.</p><button class="btn primary" data-act="newWeek">＋ Créer une nouvelle semaine</button></div>`;
+  const days = w.days.map((d, di) => dayBlock(d, di)).join("");
+  return `
+  <div class="weekbar" role="tablist">${tabs}<button class="wtab add" data-act="newWeek">＋ Créer une nouvelle semaine</button></div>
+  <header class="weekhead">
+    <div>
+      <input class="title-input" data-bind="weekName" value="${esc(w.name)}" aria-label="Nom de la semaine">
+      <p class="muted">${w.days.length} jour${w.days.length > 1 ? "s" : ""}, environ ${fmtK(weekAvg(w))} kcal par jour, déjeuner et dîner</p>
+    </div>
+    <div class="actions">
+      <button class="btn" data-act="proposeWeek">Proposer toute la semaine</button>
+      <button class="btn" data-act="goShop">Liste de courses</button>
+      <button class="btn ghost danger" data-act="delWeek">Supprimer</button>
+    </div>
+  </header>
+  ${protocolPanel()}<div class="days">${days}</div>
+  <div class="add-day"><button class="btn" data-act="newDay">＋ Créer un nouveau jour</button></div>`;
+}
+function dayBlock(d, di){
+  const meals = SLOTS.map(sl => mealCell(d.meals[sl.k], sl, di)).join("");
+  return `<article class="day">
+    <div class="day-head">
+      <input class="day-name" data-bind="dayName" data-d="${di}" value="${esc(d.name)}" aria-label="Nom du jour">
+      <span class="muted small">${dayKcal(d) ? "≈ " + fmtK(dayKcal(d)) + " kcal par jour" : ""}</span>
+      <div class="day-tools">
+        <button class="link" data-act="proposeDay" data-d="${di}">Proposer la journée</button>
+        <button class="link danger" data-act="delDay" data-d="${di}">Supprimer</button>
+      </div>
+    </div>
+    <div class="meals">${meals}</div>
+  </article>`;
+}
+function mealCell(m, sl, di){
+  const at = `data-d="${di}" data-s="${sl.k}"`;
+  if (!m) return `<div class="meal empty slot-${sl.k}"><div class="slot">${sl.label}</div>
+    <button class="create" data-act="createMeal" ${at}>＋ ${sl.create}</button></div>`;
+  const cls = CAT_KEY[m.cat] ? " has-cat" : "";
+  const meta = [m.st || "", kcalOf(m) ? "≈ " + fmtK(kcalOf(m)) + " kcal" : ""].filter(Boolean).join(", ");
+  return `<div class="meal slot-${sl.k}${cls}" ${catSt(m.cat)}><div class="slot">${sl.label}</div>
+    <button class="dish" data-act="openMeal" ${at}><span class="dish-name">${esc(m.name || "Repas sans nom")}</span>
+    ${m.sub ? `<span class="dish-sub">${esc(m.sub)}</span>` : ""}<span class="dish-meta">${catTag(m.cat)}<span>${esc(meta)}</span></span></button>
+    <div class="meal-tools"><button class="link" data-act="proposeMeal" ${at}>Autres idées</button><button class="link" data-act="pickRecipe" ${at}>Carnet</button></div></div>`;
+}
+
+/* ============ MODALE ============ */
+let MODAL = null; // { target, kind }
+function openModal(html, opts = {}){
+  const m = $("#modal");
+  m.querySelector(".sheet").className = "sheet" + (opts.wide ? " wide" : "");
+  m.querySelector(".sheet-body").innerHTML = html;
+  m.hidden = false; document.body.classList.add("locked");
+  requestAnimationFrame(() => { m.classList.add("open"); fitTitle(); });
+  if (opts.focus) { const f = m.querySelector(opts.focus); if (f) f.focus(); }
+}
+function closeModal(){
+  const m = $("#modal"); m.classList.remove("open"); m.hidden = true; document.body.classList.remove("locked");
+  if (MODAL && MODAL.kind === "meal") { const o = getMeal(MODAL.t); if (o && !o.name.trim()) o.name = "Repas sans nom"; }
+  MODAL = null; save(); render();
+}
+document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("#modal").hidden) closeModal(); });
+
+function getMeal(t){ const w = S.weeks[t.w]; return w && w.days[t.d] ? w.days[t.d].meals[t.s] : null; }
+function setMeal(t, m){ S.weeks[t.w].days[t.d].meals[t.s] = m; }
+function slotLabel(k){ return SLOTS.find(s => s.k === k).label; }
+
+/* ---------- ÉDITEUR (repas / recette / brouillon) ---------- */
+function edObj(){
+  if (!MODAL) return null;
+  if (MODAL.kind === "meal") return getMeal(MODAL.t);
+  if (MODAL.kind === "recipe") return recipeById(MODAL.id);
+  if (MODAL.kind === "draft" || MODAL.kind === "temp") return MODAL.obj;
+  return null;
+}
+function nameKey(){ return MODAL.kind === "meal" || MODAL.kind === "temp" ? "name" : "n"; }
+const DIFF = ["Facile","Intermédiaire","Élaboré"];
+/* met en valeur les repères, points de contrôle et erreurs à éviter */
+const fmtStep = t => esc(t).replace(/(Repères|Point de contrôle|À éviter) :/g, '<span class="lab">$1&nbsp;:</span>');
+function stepsHTML(steps){
+  if (!steps || !steps.length) return `<li class="muted">Aucune étape pour l'instant.</li>`;
+  return steps.map(st => { const m = st.match(/^([^—]{2,48}?)\s+—\s+(.+)$/);
+    return m ? `<li><span class="step-h">${esc(m[1])}</span><p>${fmtStep(m[2])}</p></li>` : `<li><p>${fmtStep(st)}</p></li>`; }).join("");
+}
+function metaLine(o){ return [o.t ? o.t + " min" : "", o.d ? DIFF[+o.d - 1] : ""].filter(Boolean).join(" · "); }
+
+function openEditor(kind, ref){
+  MODAL = kind === "meal" ? { kind, t: ref } : kind === "recipe" ? { kind, id: ref } : { kind, obj: ref };
+  const o = edObj(); if (!o) return;
+  const isRecipe = kind === "recipe" || kind === "draft";
+  const title = isRecipe ? o.n : o.name;
+  const where = kind === "meal" ? `${esc(S.weeks[ref.w].name)}, ${esc(S.weeks[ref.w].days[ref.d].name)}, ${slotLabel(ref.s).toLowerCase()}`
+    : kind === "draft" ? "Nouvelle recette" : kind === "temp" ? (o.gen ? "Idée proposée, à modifier librement avant de l'ajouter" : "Recette du carnet") : "Carnet de recettes";
+  const withCur = (list, v) => v && !list.includes(v) ? [...list, v] : list;
+  const sel = (key, list, val) => `<label class="field"><span>${{cat:"Catégorie",st:"Style",base:"Féculent"}[key]}</span>
+    <select data-ed="${key}">${withCur(list, val).map(x => `<option ${x === val ? "selected" : ""}>${esc(x)}</option>`).join("")}</select></label>`;
+  const recipeFields = isRecipe ? `<div class="fields">
+      ${sel("cat", CATS, o.cat)}${sel("st", STYLES, o.st)}${sel("base", [...BASES, "Aucun"], o.base)}
+      <label class="field"><span>Temps (min)</span><input data-ed="t" inputmode="numeric" value="${esc(o.t || "")}"></label>
+      <label class="field"><span>Difficulté</span><select data-ed="d">${[1,2,3].map(n => `<option value="${n}" ${+o.d === n ? "selected" : ""}>${DIFF[n-1]}</option>`).join("")}</select></label>
+    </div>` : "";
+  const variation = (kind === "meal" || kind === "temp") && o.gen ? genPanel(o.gen) : "";
+  const footer = kind === "meal" ? `
+      <button class="btn" data-act="proposeMeal" data-w="${ref.w}" data-d="${ref.d}" data-s="${ref.s}">Autres idées pour ce repas</button>
+      <button class="btn" data-act="pickRecipe" data-w="${ref.w}" data-d="${ref.d}" data-s="${ref.s}">Choisir dans le carnet</button>
+      <button class="btn" data-act="mealToBook">Enregistrer dans le carnet</button>
+      ${o.recipeId && recipeById(o.recipeId) ? `<button class="btn ghost" data-act="resetMeal">Rétablir la recette d'origine</button>` : ""}
+      <button class="btn ghost danger" data-act="clearMeal">Retirer ce repas</button>
+      <button class="btn primary push" data-act="close">Terminé</button>`
+    : kind === "recipe" ? `
+      <button class="btn" data-act="recipeToPlan" data-id="${o.id}">Ajouter au planning</button>
+      <button class="btn ghost danger" data-act="delRecipe" data-id="${o.id}">Supprimer la recette</button>
+      <button class="btn primary push" data-act="close">Terminé</button>`
+    : kind === "temp" ? `
+      <button class="btn primary" data-act="tempPlace">Ajouter au planning</button>
+      <button class="btn" data-act="tempSave">Enregistrer dans le carnet</button>
+      <button class="btn ghost push" data-act="close">Fermer</button>`
+    : `<button class="btn ghost" data-act="close">Annuler</button><button class="btn primary push" data-act="saveDraft">Enregistrer la recette</button>`;
+  openModal(`<div id="edWrap" ${catSt(o.cat)}>
+    <p class="eyebrow">${where}</p>
+    <textarea class="ed-title" data-ed="name" rows="1" placeholder="${isRecipe ? "Nom de la recette" : "Nom du repas"}" aria-label="Nom">${esc(title)}</textarea>
+    ${o.sub ? `<p class="ed-sub">${esc(o.sub)}</p>` : ""}
+    <p class="ed-kcal">${catTag(o.cat)} ${metaLine(o) ? `<span>${esc(metaLine(o))}</span><span class="sep"></span>` : ""}Environ <strong id="edKcal">${fmtK(kcalOf(o))}</strong> kcal <span class="muted">(indicatif, recalculé à chaque modification)</span></p>
+    ${recipeFields}${variation}
+    <section class="ed-sec"><h3>Ingrédients</h3><ol class="ing-list" id="ingList">${ingRows(o)}</ol>
+      <button class="btn" data-act="ingAdd">＋ Ajouter un ingrédient</button></section>
+    <section class="ed-sec"><div class="sec-head"><h3>Préparation</h3><button class="link" data-act="editSteps" id="stepsBtn">${o.steps && o.steps.length ? "Modifier la préparation" : "Voir la recette"}</button></div>
+      <ol class="steps" id="stepsRead" ${o.steps && o.steps.length ? "" : "hidden"}>${stepsHTML(o.steps)}</ol>
+      <div id="stepsEditWrap" ${o.steps && o.steps.length ? "hidden" : ""}><p class="muted small">Une étape par ligne. Pour lui donner un titre : « Titre — texte ».</p>
+      <textarea data-ed="steps" id="stepsEdit" rows="${Math.max(8, (o.steps || []).length * 2 + 2)}">${esc((o.steps || []).join("\n"))}</textarea></div></section>
+    <section class="ed-sec"><h3>Astuce du chef</h3><textarea data-ed="tip" rows="2">${esc(o.tip || "")}</textarea></section>
+    <div class="sheet-foot">${footer}</div>
+    <datalist id="units">${UNITS.map(u => `<option value="${u}">`).join("")}</datalist></div>`, { focus: kind === "meal" && !o.name ? ".ed-title" : kind === "draft" ? ".ed-title" : null });
+}
+function fitTitle(){ const t = document.querySelector(".ed-title"); if (t && t.tagName === "TEXTAREA") { t.style.height = "auto"; t.style.height = t.scrollHeight + "px"; } }
+function ingRows(o){
+  if (!o.ing.length) return `<li class="ing-empty muted">Aucun ingrédient pour l'instant.</li>`;
+  return o.ing.map((i, k) => `<li class="ing" data-i="${k}">
+    <input class="ing-q" data-ing="q" value="${esc(i.q)}" inputmode="decimal" placeholder="Qté" aria-label="Quantité">
+    <input class="ing-u" data-ing="u" value="${esc(i.u)}" list="units" placeholder="unité" aria-label="Unité">
+    <input class="ing-n" data-ing="n" value="${esc(i.n)}" placeholder="Ingrédient" aria-label="Ingrédient">
+    <span class="ing-tools">
+      <button class="icon" data-act="ingUp" data-i="${k}" aria-label="Monter" ${k === 0 ? "disabled" : ""}>↑</button>
+      <button class="icon" data-act="ingDown" data-i="${k}" aria-label="Descendre" ${k === o.ing.length - 1 ? "disabled" : ""}>↓</button>
+      <button class="icon del" data-act="ingDel" data-i="${k}" aria-label="Supprimer">×</button>
+    </span></li>`).join("");
+}
+function refreshIng(focusLast){
+  const o = edObj(); $("#ingList").innerHTML = ingRows(o); $("#edKcal").textContent = fmtK(kcalOf(o));
+  if (focusLast) { const r = [...document.querySelectorAll("#ingList .ing-n")].pop(); if (r) r.focus(); }
+}
+function genPanel(g){
+  const f = FORMATS.find(x => x.id === g.f);
+  const opt = (arr, cur, lab) => arr.map(k => `<option value="${k}" ${k === cur ? "selected" : ""}>${esc(lab(k))}</option>`).join("");
+  return `<section class="gen-panel"><h3>Varier ce plat</h3><p class="muted small">Change un élément, le reste de la recette suit.</p>
+    <div class="fields">
+      <label class="field"><span>Format</span><select data-gen="f">${opt(FORMATS.map(x => x.id), g.f, k => FORMATS.find(x => x.id === k).n)}</select></label>
+      <label class="field"><span>Protéine</span><select data-gen="p">${opt(formatProteins(f), g.p, k => cap(PROTEINS[k].n))}</select></label>
+      <label class="field"><span>Féculent</span><select data-gen="s">${opt(f.s, g.s, k => cap(STARCHES[k].n))}</select></label>
+      <label class="field"><span>Sauce</span><select data-gen="sa">${opt(f.sa, g.sa, k => cap(SAUCES[k].n))}</select></label>
+    </div>
+    <button class="link" data-act="genVeg">Changer les légumes</button></section>`;
+}
+
+/* saisie en direct dans l'éditeur et ailleurs */
+document.addEventListener("input", e => {
+  const el = e.target;
+  if (el.dataset.bind === "weekName") { const w = curWeek(); w.name = el.value; saveSoon(); const t = document.querySelector(`.wtab[data-i="${S.ui.week}"]`); if (t) t.textContent = el.value; return; }
+  if (el.dataset.bind === "dayName") { curWeek().days[+el.dataset.d].name = el.value; saveSoon(); return; }
+  if (el.dataset.bind === "bookSearch") { BOOK.q = el.value; renderBookList(); return; }
+  if (el.dataset.bind === "pickSearch") { PICK.q = el.value; renderPickList(); return; }
+  if (!MODAL) return;
+  const o = edObj(); if (!o) return;
+  if (el.dataset.ing) {
+    const k = +el.closest(".ing").dataset.i; o.ing[k][el.dataset.ing] = el.value;
+    $("#edKcal").textContent = fmtK(kcalOf(o)); saveSoon(); return;
+  }
+  const key = el.dataset.ed; if (!key) return;
+  if (key === "name") { if (/\n/.test(el.value)) el.value = el.value.replace(/\n/g, " "); o[nameKey()] = el.value; fitTitle(); }
+  else if (key === "steps") o.steps = el.value.split("\n").map(s => s.trim()).filter(Boolean);
+  else if (key === "t" || key === "d") o[key] = el.value;
+  else o[key] = el.value;
+  if (MODAL.kind !== "draft") saveSoon();
+});
+document.addEventListener("change", e => {
+  const el = e.target;
+  if (MODAL && el.dataset.ed && el.tagName === "SELECT") { const o = edObj(); o[el.dataset.ed] = el.dataset.ed === "d" ? +el.value : el.value; if (MODAL.kind !== "draft") saveSoon();
+    if (el.dataset.ed === "cat") { const w = $("#edWrap"); if (w) w.style.setProperty("--cc", catVar(el.value)); } }
+  if (MODAL && el.dataset.gen && MODAL.kind === "temp") { TEMP = mealFromGen(swapGen(TEMP, el.dataset.gen, el.value)); openEditor("temp", TEMP); return; }
+  if (MODAL && el.dataset.gen) { const m = getMeal(MODAL.t); snapshot(); const nm = mealFromGen(swapGen(m, el.dataset.gen, el.value)); nm.id = m.id; setMeal(MODAL.t, nm); save(); openEditor("meal", MODAL.t); toast("Plat modifié", true); }
+  if (el.dataset.bind === "shopWeek") { SHOP.w = +el.value; SHOP.days = null; render(); }
+  if (el.dataset.bind === "shopDay") { const ds = shopDays(); SHOP.days = ds.map((v, i) => i === +el.dataset.i ? el.checked : v); render(); }
+  if (el.dataset.bind === "shopItem") { const w = S.weeks[SHOP.w]; S.checked[w.id] = S.checked[w.id] || {}; S.checked[w.id][el.dataset.key] = el.checked; save(); el.closest("li").classList.toggle("done", el.checked); }
+  if (el.dataset.bind === "goal") { S.goal = parseFloat(el.value.replace(",", ".")) || S.goal; save(); render(); }
+  if (el.dataset.bind === "importFile") importFile(el.files[0]);
+  if (el.dataset.bind === "bookCat") { BOOK.cat = el.value; renderBookList(); }
+  if (el.dataset.bind === "bookSt") { BOOK.st = el.value; renderBookList(); }
+  if (el.dataset.bind === "bookBase") { BOOK.base = el.value; renderBookList(); }
+});
+
+/* ============ ACTIONS (clics) ============ */
+const A = {};
+document.addEventListener("click", e => {
+  const nav = e.target.closest("[data-nav]");
+  if (nav) { S.ui.view = nav.dataset.nav; save(); render(); window.scrollTo(0, 0); return; }
+  if (e.target.id === "modal") { closeModal(); return; }
+  const a = e.target.closest("[data-act]"); if (!a || a.disabled) return;
+  const fn = A[a.dataset.act]; if (fn) { e.preventDefault(); fn(a.dataset, a); }
+});
+const T = ds => ({ w: ds.w != null ? +ds.w : S.ui.week, d: +ds.d, s: ds.s });
+
+A.undo = () => undo();
+A.close = () => closeModal();
+A.week = ds => { S.ui.week = +ds.i; save(); render(); };
+A.goShop = () => { SHOP.w = S.ui.week; SHOP.days = null; S.ui.view = "shop"; render(); window.scrollTo(0, 0); };
+
+/* repas */
+A.openMeal = ds => openEditor("meal", T(ds));
+A.createMeal = ds => {
+  const t = T(ds), sl = SLOTS.find(s => s.k === t.s);
+  MODAL = { kind: "create", t };
+  openModal(`<p class="eyebrow">${esc(S.weeks[t.w].name)}, ${esc(S.weeks[t.w].days[t.d].name)}</p>
+    <h2 class="display-s">${sl.create}</h2>
+    <div class="choice-list">
+      <button class="choice" data-act="pickRecipe" data-w="${t.w}" data-d="${t.d}" data-s="${t.s}"><strong>Choisir dans le carnet</strong><span>Une des ${S.recipes.length} recettes déjà écrites.</span></button>
+      <button class="choice" data-act="proposeMeal" data-w="${t.w}" data-d="${t.d}" data-s="${t.s}"><strong>Me proposer des idées</strong><span>Six suggestions, renouvelables à volonté.</span></button>
+      <button class="choice" data-act="freeMeal" data-w="${t.w}" data-d="${t.d}" data-s="${t.s}"><strong>Créer un repas libre</strong><span>Nom, ingrédients, quantités et préparation à saisir.</span></button>
+    </div>`);
+};
+A.freeMeal = ds => {
+  const t = T(ds); snapshot();
+  setMeal(t, { id: uid(), name: "", recipeId: null, cat: "", st: "", base: "", ing: [{ id: uid(), n: "", q: "", u: "g" }], steps: [], tip: "" });
+  save(); openEditor("meal", t);
+};
+A.clearMeal = () => { const t = MODAL.t; snapshot(); setMeal(t, null); save(); closeModal(); toast("Repas retiré", true); };
+A.resetMeal = () => { const t = MODAL.t, m = getMeal(t), r = recipeById(m.recipeId); snapshot(); const nm = mealFromRecipe(r); nm.id = m.id; setMeal(t, nm); save(); openEditor("meal", t); toast("Recette d'origine rétablie", true); };
+A.mealToBook = () => {
+  const m = getMeal(MODAL.t);
+  const r = { id: "r-" + uid(), n: m.name || "Recette sans nom", cat: CATS.includes(m.cat) ? m.cat : (m.cat || "Tofu"), st: m.st || "Cocon & purées",
+    base: m.base || "Aucun", t: m.t || "", d: m.d || 1, ing: m.ing.map(i => ({ id: uid(), n: i.n, q: i.q, u: i.u })), steps: [...m.steps], tip: m.tip || "", own: true };
+  S.recipes.unshift(r); m.recipeId = r.id; save(); toast("Ajouté au carnet : " + r.n);
+};
+A.genVeg = () => { if (MODAL.kind === "temp") { TEMP = mealFromGen(swapGen(TEMP, "v")); openEditor("temp", TEMP); return; } const t = MODAL.t, m = getMeal(t); snapshot(); const nm = mealFromGen(swapGen(m, "v")); nm.id = m.id; setMeal(t, nm); save(); openEditor("meal", t); };
+
+/* ingrédients */
+A.ingAdd = () => { const o = edObj(); o.ing.push({ id: uid(), n: "", q: "", u: "g" }); if (MODAL.kind !== "draft") save(); refreshIng(true); };
+A.ingDel = ds => { const o = edObj(); o.ing.splice(+ds.i, 1); if (MODAL.kind !== "draft") save(); refreshIng(); };
+A.ingUp = ds => { const o = edObj(), i = +ds.i; if (i > 0) { [o.ing[i-1], o.ing[i]] = [o.ing[i], o.ing[i-1]]; if (MODAL.kind !== "draft") save(); refreshIng(); } };
+A.ingDown = ds => { const o = edObj(), i = +ds.i; if (i < o.ing.length - 1) { [o.ing[i+1], o.ing[i]] = [o.ing[i], o.ing[i+1]]; if (MODAL.kind !== "draft") save(); refreshIng(); } };
+
+/* jours et semaines */
+A.newDay = () => { const w = curWeek(); snapshot(); w.days.push(emptyDay(DAY_NAMES[w.days.length % 7])); save(); render(); toast("Jour ajouté", true);
+  const days = document.querySelectorAll(".day"); days[days.length - 1].scrollIntoView({ behavior: "smooth", block: "center" }); };
+A.delDay = ds => { const w = curWeek(); snapshot(); w.days.splice(+ds.d, 1); save(); render(); toast("Jour supprimé", true); };
+A.delWeek = () => { const w = curWeek(); if (!confirm(`Supprimer « ${w.name} » et ses ${w.days.length} jours ?`)) return; snapshot(); S.weeks.splice(S.ui.week, 1); S.ui.week = Math.max(0, S.ui.week - 1); save(); render(); toast("Semaine supprimée", true); };
+A.newWeek = () => {
+  MODAL = { kind: "newWeek" };
+  openModal(`<h2 class="display-s">Créer une nouvelle semaine</h2><p class="muted">7 jours, chacun avec un déjeuner et un dîner.</p>
+    <div class="choice-list">
+      <button class="choice" data-act="mkWeek" data-mode="auto"><strong>Semaine proposée</strong><span>Menus variés composés automatiquement, modifiables ensuite.</span></button>
+      <button class="choice" data-act="mkWeek" data-mode="blank"><strong>Semaine vierge</strong><span>7 jours vides, à remplir depuis le carnet ou les idées.</span></button>
+    </div>`);
+};
+A.mkWeek = ds => {
+  snapshot(); const n = "Semaine " + (S.weeks.length + 1); let w;
+  if (ds.mode === "auto") { w = { id: uid(), name: n, days: proposeWeek({}).map((p, i) => ({ id: uid(), name: DAY_NAMES[i], meals: p })) }; }
+  else { w = { id: uid(), name: n, days: DAY_NAMES.map(dn => emptyDay(dn)) }; }
+  S.weeks.push(w); S.ui.week = S.weeks.length - 1; S.ui.view = "plan"; save(); closeModal(); toast(n + " créée", true);
+};
+A.proposeDay = ds => { const w = curWeek(), d = w.days[+ds.d]; snapshot(); const p = proposeDay({}, weekUsed(w, +ds.d)); d.meals.l = p.l; d.meals.d = p.d; save(); render(); toast(`${d.name} : nouveaux déjeuner et dîner`, true); };
+A.proposeWeek = () => { const w = curWeek(); snapshot(); const ps = proposeWeek({});
+  w.days.forEach((d, i) => { const p = ps[i % 7]; d.meals.l = p.l; d.meals.d = p.d; });
+  save(); render(); toast("Nouveaux menus pour " + w.name, true); };
+
+/* carnet → planning */
+let PICK = { t: null, q: "", cat: "" };
+A.pickRecipe = ds => {
+  const t = T(ds); PICK = { t, q: "", cat: "" }; MODAL = { kind: "pick", t };
+  openModal(`<p class="eyebrow">${esc(S.weeks[t.w].name)}, ${esc(S.weeks[t.w].days[t.d].name)}, ${slotLabel(t.s).toLowerCase()}</p>
+    <h2 class="display-s">Choisir dans le carnet</h2>
+    <input class="search" data-bind="pickSearch" placeholder="Rechercher une recette ou un ingrédient" aria-label="Rechercher">
+    <div class="chips" id="pickChips"></div><ul class="pick-list" id="pickList"></ul>`, { wide: true, focus: ".search" });
+  renderPickList();
+};
+A.pickCat = ds => { PICK.cat = ds.v; renderPickList(); };
+function recipeMatches(r, q){ if (!q) return true; const n = norm(q); return norm(r.n).includes(n) || r.ing.some(i => norm(i.n).includes(n)) || norm(r.st).includes(n); }
+function renderPickList(){
+  const cats = ["", ...CATS];
+  $("#pickChips").innerHTML = cats.map(c => `<button class="chip" ${catSt(c)} data-act="pickCat" data-v="${esc(c)}" aria-pressed="${PICK.cat === c}">${c ? '<span class="dot"></span>' : ""}${c || "Toutes"}</button>`).join("");
+  const list = S.recipes.filter(r => (!PICK.cat || r.cat === PICK.cat) && recipeMatches(r, PICK.q));
+  $("#pickList").innerHTML = list.length ? list.map(r => `<li ${catSt(r.cat)}><button class="pick" data-act="choose" data-id="${r.id}">
+    <span class="dish-name">${esc(r.n)}</span><span class="dish-meta">${catTag(r.cat)}<span>${esc(r.st)}, ≈ ${fmtK(kcalOf(r))} kcal</span></span></button></li>`).join("")
+    : `<li class="muted">Aucune recette ne correspond. Essaie un autre mot ou une autre catégorie.</li>`;
+}
+A.choose = ds => { const t = PICK.t, r = recipeById(ds.id); snapshot(); setMeal(t, mealFromRecipe(r)); save(); closeModal(); toast(`${slotLabel(t.s)} : ${r.n}`, true); };
+
+/* propositions pour un repas */
+let PROP = { t: null, items: [], cats: [], bases: [], src: "mix" };
+A.proposeMeal = ds => { const t = T(ds); PROP = { t, items: [], cats: [], bases: [], src: "mix" }; MODAL = { kind: "prop", t }; PROP.items = proposeMeals(6, PROP); renderPropModal(); };
+function renderPropModal(){
+  const t = PROP.t;
+  openModal(`<p class="eyebrow">${esc(S.weeks[t.w].name)}, ${esc(S.weeks[t.w].days[t.d].name)}, ${slotLabel(t.s).toLowerCase()}</p>
+    <h2 class="display-s">Idées pour ce ${slotLabel(t.s).toLowerCase()}</h2>
+    ${filterBar("prop")}
+    <div class="prop-grid">${PROP.items.map((m, i) => propCard(m, i, `<button class="btn primary" data-act="propChoose" data-i="${i}">Choisir</button>`)).join("")}</div>
+    <div class="sheet-foot"><button class="btn" data-act="propMore">Autres propositions</button><button class="btn ghost push" data-act="close">Fermer</button></div>`, { wide: true });
+}
+A.propMore = () => { PROP.items = proposeMeals(6, PROP); renderPropModal(); };
+A.propChoose = ds => { const t = PROP.t, m = PROP.items[+ds.i]; snapshot(); setMeal(t, copyMeal(m)); save(); closeModal(); toast(`${slotLabel(t.s)} : ${m.name}`, true); };
+function propCard(m, i, actions){
+  const ings = m.ing.filter(x => x.q !== "").slice(0, 5).map(x => x.n).join(", ");
+  return `<article class="prop" ${catSt(m.cat)}><p class="prop-tag">${catTag(m.cat)}<span>${m.gen ? "Variation" : "Carnet"}, ${esc(m.st || "")}</span></p>
+    <h4 class="dish-name">${esc(m.name)}</h4>${m.sub ? `<p class="dish-sub">${esc(m.sub)}</p>` : ""}
+    <p class="muted small">${esc(ings)}…</p><p class="dish-meta">≈ ${fmtK(kcalOf(m))} kcal</p>
+    <div class="prop-actions">${actions}</div></article>`;
+}
+function filterBar(ns){
+  const st = ns === "prop" ? PROP : INSP;
+  const chip = (group, v) => `<button class="chip" ${group === "cats" ? catSt(v) : ""} data-act="flt" data-ns="${ns}" data-g="${group}" data-v="${esc(v)}" aria-pressed="${st[group].includes(v)}">${group === "cats" ? '<span class="dot"></span>' : ""}${esc(v)}</button>`;
+  return `<div class="filters">
+    <div class="frow"><span class="flabel">Protéine</span><div class="chips">${CATS.map(c => chip("cats", c)).join("")}</div></div>
+    <div class="frow"><span class="flabel">Féculent</span><div class="chips">${BASES.map(c => chip("bases", c)).join("")}</div></div>
+    ${ns === "insp" ? `<div class="frow"><span class="flabel">Style</span><div class="chips">${STYLES.map(c => chip("styles", c)).join("")}</div></div>` : ""}
+    <div class="frow"><span class="flabel">Source</span><div class="chips">
+      ${[["mix","Carnet et variations"],["book","Carnet seulement"],["gen","Variations seulement"]].map(([v, l]) => `<button class="chip" data-act="src" data-ns="${ns}" data-v="${v}" aria-pressed="${st.src === v}">${l}</button>`).join("")}
+    </div></div></div>`;
+}
+A.flt = ds => { const st = ds.ns === "prop" ? PROP : INSP; const arr = st[ds.g]; const i = arr.indexOf(ds.v); i >= 0 ? arr.splice(i, 1) : arr.push(ds.v);
+  if (ds.ns === "prop") { PROP.items = proposeMeals(6, PROP); renderPropModal(); } else { INSP.result = null; render(); } };
+A.src = ds => { const st = ds.ns === "prop" ? PROP : INSP; st.src = ds.v; if (ds.ns === "prop") { PROP.items = proposeMeals(6, PROP); renderPropModal(); } else { INSP.result = null; render(); } };
+
+/* ---------- moteur de propositions (déjeuner et dîner) ---------- */
+function catalogFor(f){
+  return S.recipes.filter(r => CATS.includes(r.cat) && r.st !== "Douceurs" &&
+    (!f.cats || !f.cats.length || f.cats.includes(r.cat)) && (!f.bases || !f.bases.length || f.bases.includes(r.base)) && (!f.styles || !f.styles.length || f.styles.includes(r.st)));
+}
+function oneProposal(f, avoid){
+  avoid = avoid || new Set();
+  const src = f.src || "mix";
+  for (let t = 0; t < 40; t++){
+    const useBook = src === "book" || (src === "mix" && Math.random() < 0.4);
+    let m = null;
+    if (useBook) { const list = catalogFor(f).filter(r => !avoid.has(r.n)); if (list.length) m = mealFromRecipe(pick(list)); else if (src === "book") return null; }
+    if (!m) { const g = randomGen({ cats: f.cats, bases: f.bases, styles: f.styles }); if (g) m = mealFromGen(g); }
+    if (m && !avoid.has(m.name)) return m;
+  }
+  return null;
+}
+function proposeMeals(n, f){
+  const out = [], seen = new Set();
+  for (let i = 0; i < n * 3 && out.length < n; i++){ const m = oneProposal(f, seen); if (m && !seen.has(m.name)) { seen.add(m.name); out.push(m); } }
+  return out;
+}
+function weekUsed(w, skip){ const s = new Set(); w.days.forEach((d, i) => { if (i !== skip) ["l","d"].forEach(k => d.meals[k] && s.add(d.meals[k].name)); }); return s; }
+function proposeDay(f, avoid){
+  avoid = new Set(avoid || []);
+  const l = oneProposal(f, avoid) || oneProposal({ src: "gen" }, avoid); avoid.add(l.name);
+  let d = null;
+  for (let t = 0; t < 25; t++){ d = oneProposal(f, avoid); if (d && (d.cat !== l.cat || (f.cats && f.cats.length === 1))) break; }
+  if (!d) d = oneProposal({ src: "gen" }, avoid);
+  return { l, d };
+}
+function proposeWeek(f){
+  const days = [], avoid = new Set(), count = {};
+  const limit = f.cats && f.cats.length ? 99 : 4;
+  for (let i = 0; i < 7; i++){
+    let best = null;
+    for (let t = 0; t < 30; t++){
+      const p = proposeDay(f, avoid);
+      const ok = [p.l, p.d].every(m => (count[m.cat] || 0) < limit);
+      best = p; if (ok) break;
+    }
+    [best.l, best.d].forEach(m => { avoid.add(m.name); count[m.cat] = (count[m.cat] || 0) + 1; });
+    days.push(best);
+  }
+  return days;
+}
+
+/* ---------- INSPIRATIONS ---------- */
+let INSP = { scope: "meal", cats: [], bases: [], styles: [], src: "mix", result: null, to: { w: 0, d: 0, s: "l" } };
+function viewInsp(){
+  const total = countVariations();
+  const scopes = [["meal","Un repas"],["day","Une journée"],["week","Une semaine"]];
+  return `<section class="insp-hero">
+      <p class="big-figure">${total.toLocaleString("fr-FR")}</p>
+      <p class="lede">plats différents peuvent être composés en combinant ${Object.keys(PROTEINS).length} protéines, ${Object.keys(STARCHES).length} féculents, ${Object.keys(VEGS).length} légumes et ${Object.keys(SAUCES).length} sauces dans ${FORMATS.length} formats, en plus des ${S.recipes.length} recettes du carnet. Tous respectent le protocole de Cat : sans ail ni oignon, sans poivre, cuissons fondantes, plats tièdes, huile d'olive crue.</p>
+    </section>
+    <div class="seg" role="tablist">${scopes.map(([v, l]) => `<button class="seg-b" data-act="scope" data-v="${v}" aria-pressed="${INSP.scope === v}">${l}</button>`).join("")}</div>
+    ${filterBar("insp")}
+    <div class="insp-go"><button class="btn primary big" data-act="inspGo">${INSP.result ? "Proposer autre chose" : "Proposer"}</button></div>
+    <div id="inspResult">${inspResult()}</div>`;
+}
+A.scope = ds => { INSP.scope = ds.v; INSP.result = null; render(); };
+A.inspGo = () => {
+  INSP.result = INSP.scope === "meal" ? proposeMeals(6, INSP) : INSP.scope === "day" ? proposeDay(INSP) : proposeWeek(INSP);
+  render(); $("#inspResult").scrollIntoView({ behavior: "smooth", block: "start" });
+};
+function weekDaySelect(){
+  const w = Math.min(INSP.to.w, S.weeks.length - 1), wk = S.weeks[w];
+  return `<select data-act-change id="toW">${S.weeks.map((x, i) => `<option value="${i}" ${i === w ? "selected" : ""}>${esc(x.name)}</option>`).join("")}</select>
+    <select id="toD">${wk ? wk.days.map((d, i) => `<option value="${i}" ${i === INSP.to.d ? "selected" : ""}>${esc(d.name)}</option>`).join("") : ""}</select>`;
+}
+function inspResult(){
+  const r = INSP.result; if (!r) return `<p class="muted center">Choisis un format et des envies, puis lance une proposition.</p>`;
+  if (INSP.scope === "meal") {
+    return `<div class="prop-grid">${r.map((m, i) => propCard(m, i, `
+      <button class="btn" data-act="inspView" data-i="${i}">Voir et modifier</button>
+      <button class="btn" data-act="inspPlace" data-i="${i}">Ajouter au planning</button>
+      <button class="link" data-act="inspSave" data-i="${i}">Enregistrer dans le carnet</button>
+      <button class="link" data-act="inspReroll" data-i="${i}">Remplacer</button>`)).join("")}</div>`;
+  }
+  const dayHtml = (p, di) => `<div class="meals">${SLOTS.map(sl => { const m = p[sl.k]; if (!m) return `<div class="meal empty"><div class="slot">${sl.label}</div><span class="muted small">—</span></div>`;
+    return `<div class="meal slot-${sl.k}${CAT_KEY[m.cat] ? " has-cat" : ""}" ${catSt(m.cat)}><div class="slot">${sl.label}</div>
+      <button class="dish" data-act="inspViewDay" data-di="${di}" data-s="${sl.k}"><span class="dish-name">${esc(m.name)}</span>${m.sub ? `<span class="dish-sub">${esc(m.sub)}</span>` : ""}<span class="dish-meta">${catTag(m.cat)}<span>≈ ${fmtK(kcalOf(m))} kcal</span></span></button>
+      <div class="meal-tools"><button class="link" data-act="inspRerollDay" data-di="${di}" data-s="${sl.k}">Remplacer</button></div></div>`; }).join("")}</div>`;
+  const kc = p => fmtK(SLOTS.reduce((s, sl) => s + kcalOf(p[sl.k]), 0));
+  if (INSP.scope === "day") {
+    return `<article class="day"><div class="day-head"><span class="day-name static">Journée proposée</span><span class="muted small">≈ ${kc(r)} kcal par jour</span></div>${dayHtml(r, -1)}</article>
+      <div class="apply"><span>Appliquer à</span>${weekDaySelect()}<button class="btn primary" data-act="applyDay">Remplacer ce jour</button>
+      <button class="btn" data-act="applyDayNew">Ajouter comme nouveau jour</button></div>`;
+  }
+  return `${r.map((p, i) => `<article class="day"><div class="day-head"><span class="day-name static">${DAY_NAMES[i]}</span><span class="muted small">≈ ${kc(p)} kcal par jour</span></div>${dayHtml(p, i)}</article>`).join("")}
+    <div class="apply"><button class="btn primary" data-act="applyWeekNew">Créer une nouvelle semaine avec ces menus</button>
+    <span>ou remplacer</span><select id="toWk">${S.weeks.map((x, i) => `<option value="${i}">${esc(x.name)}</option>`).join("")}</select>
+    <button class="btn" data-act="applyWeek">Remplacer</button></div>`;
+}
+function inspDayObj(di){ return di < 0 ? INSP.result : INSP.result[di]; }
+A.inspReroll = ds => { const i = +ds.i, avoid = new Set(INSP.result.map(m => m.name)); const m = oneProposal(INSP, avoid); if (m) INSP.result[i] = m; $("#inspResult").innerHTML = inspResult(); };
+A.inspRerollDay = ds => { const p = inspDayObj(+ds.di); const avoid = new Set(); (INSP.scope === "week" ? INSP.result : [INSP.result]).forEach(x => ["l","d"].forEach(k => avoid.add(x[k].name)));
+  const m = oneProposal(INSP, avoid); if (m) p[ds.s] = m; $("#inspResult").innerHTML = inspResult(); };
+A.inspView = ds => viewTemp(INSP.result[+ds.i]);
+A.inspViewDay = ds => viewTemp(inspDayObj(+ds.di)[ds.s]);
+A.inspSave = ds => saveTempToBook(INSP.result[+ds.i]);
+A.inspPlace = ds => placeTemp(INSP.result[+ds.i]);
+function readTo(){ const w = +($("#toW") || {}).value || 0, d = +($("#toD") || {}).value || 0; INSP.to = { ...INSP.to, w, d }; return { w, d }; }
+document.addEventListener("change", e => { if (e.target.id === "toW") { INSP.to.w = +e.target.value; INSP.to.d = 0; $("#inspResult").innerHTML = inspResult(); }
+  if (e.target.id === "placeW") { const wk = S.weeks[+e.target.value]; $("#placeD").innerHTML = wk.days.map((d, i) => `<option value="${i}">${esc(d.name)}</option>`).join(""); } });
+A.applyDay = () => { if (!S.weeks.length) return toast("Crée d'abord une semaine."); const { w, d } = readTo(); snapshot(); const day = S.weeks[w].days[d];
+  if (!day) return toast("Cette semaine n'a pas encore de jour."); day.meals = copyDayMeals(INSP.result); save(); toast(`${S.weeks[w].name}, ${day.name} : journée remplacée`, true); };
+A.applyDayNew = () => { if (!S.weeks.length) return toast("Crée d'abord une semaine."); const { w } = readTo(); snapshot(); const wk = S.weeks[w];
+  const day = emptyDay(DAY_NAMES[wk.days.length % 7]); day.meals = copyDayMeals(INSP.result); wk.days.push(day); save(); toast(`Jour ajouté à ${wk.name}`, true); };
+A.applyWeekNew = () => { snapshot(); const n = "Semaine " + (S.weeks.length + 1);
+  S.weeks.push({ id: uid(), name: n, days: INSP.result.map((p, i) => ({ id: uid(), name: DAY_NAMES[i], meals: copyDayMeals(p) })) });
+  S.ui.week = S.weeks.length - 1; save(); toast(n + " créée avec ces menus", true); };
+A.applyWeek = () => { const i = +$("#toWk").value, wk = S.weeks[i]; if (!confirm(`Remplacer tous les repas de « ${wk.name} » ?`)) return; snapshot();
+  wk.days = INSP.result.map((p, k) => ({ id: uid(), name: DAY_NAMES[k], meals: copyDayMeals(p) })); save(); toast(wk.name + " remplacée", true); };
+
+/* recette temporaire : aperçu, placement, enregistrement */
+let TEMP = null;
+A.editSteps = () => {
+  const wrap = $("#stepsEditWrap"), read = $("#stepsRead"), btn = $("#stepsBtn");
+  if (wrap.hidden) { wrap.hidden = false; read.hidden = true; btn.textContent = "Voir la recette"; $("#stepsEdit").focus(); }
+  else { read.innerHTML = stepsHTML(edObj().steps); wrap.hidden = true; read.hidden = false; btn.textContent = "Modifier la préparation"; }
+};
+function viewTemp(m){ TEMP = clone(m); TEMP.ing.forEach(i => i.id = i.id || uid()); openEditor("temp", TEMP); }
+A.tempPlace = () => placeTemp(TEMP);
+A.tempSave = () => saveTempToBook(TEMP);
+function saveTempToBook(m){
+  if (S.recipes.some(r => r.n === m.name)) return toast("Cette recette est déjà dans le carnet");
+  S.recipes.unshift({ id: "r-" + uid(), n: m.name, cat: m.cat || "Tofu", st: m.st || "Cocon & purées", base: m.base || "Aucun", t: m.t || "", d: m.d || 1,
+    ing: m.ing.map(i => ({ id: uid(), n: i.n, q: i.q, u: i.u })), steps: [...m.steps], tip: m.tip || "", own: true });
+  save(); toast("Ajouté au carnet : " + m.name);
+}
+function placeTemp(m){
+  if (!S.weeks.length) return toast("Crée d'abord une semaine dans le planning.");
+  TEMP = m; MODAL = { kind: "place" };
+  const w0 = S.ui.week;
+  openModal(`<h2 class="display-s">Ajouter au planning</h2><p class="dish-name">${esc(m.name)}</p>
+    <div class="fields">
+      <label class="field"><span>Semaine</span><select id="placeW">${S.weeks.map((w, i) => `<option value="${i}" ${i === w0 ? "selected" : ""}>${esc(w.name)}</option>`).join("")}</select></label>
+      <label class="field"><span>Jour</span><select id="placeD">${S.weeks[w0].days.map((d, i) => `<option value="${i}">${esc(d.name)}</option>`).join("")}</select></label>
+      <label class="field"><span>Repas</span><select id="placeS">${SLOTS.map(s => `<option value="${s.k}">${s.label}</option>`).join("")}</select></label>
+    </div><p class="muted small">Le repas existant à cet endroit sera remplacé (annulable).</p>
+    <div class="sheet-foot"><button class="btn ghost" data-act="close">Annuler</button><button class="btn primary push" data-act="placeGo">Ajouter</button></div>`);
+}
+A.placeGo = () => { const t = { w: +$("#placeW").value, d: +$("#placeD").value, s: $("#placeS").value };
+  if (!S.weeks[t.w].days[t.d]) return toast("Cette semaine n'a pas encore de jour.");
+  snapshot(); setMeal(t, copyMeal(TEMP)); save(); closeModal(); toast(`Ajouté : ${S.weeks[t.w].name}, ${S.weeks[t.w].days[t.d].name}, ${slotLabel(t.s).toLowerCase()}`, true); };
+
+/* ---------- CARNET ---------- */
+let BOOK = { q: "", cat: "", st: "", base: "" };
+function viewBook(){
+  const opt = (arr, cur, all) => `<option value="">${all}</option>` + arr.map(x => `<option ${x === cur ? "selected" : ""}>${esc(x)}</option>`).join("");
+  return `<header class="pagehead"><div><h1 class="display">Carnet de recettes</h1><p class="muted" id="bookCount"></p></div>
+      <button class="btn primary" data-act="newRecipe">＋ Nouvelle recette</button></header>
+    <div class="book-filters">
+      <input class="search" data-bind="bookSearch" value="${esc(BOOK.q)}" placeholder="Rechercher : poulet, riz, carotte…" aria-label="Rechercher">
+      <select data-bind="bookCat" aria-label="Catégorie">${opt(CATS, BOOK.cat, "Toutes les catégories")}</select>
+      <select data-bind="bookSt" aria-label="Style">${opt(STYLES, BOOK.st, "Tous les styles")}</select>
+      <select data-bind="bookBase" aria-label="Féculent">${opt(BASES, BOOK.base, "Tous les féculents")}</select>
+    </div><div id="bookList"></div>`;
+}
+function renderBookList(){
+  const el = $("#bookList"); if (!el) return;
+  const list = S.recipes.filter(r => (!BOOK.cat || r.cat === BOOK.cat) && (!BOOK.st || r.st === BOOK.st) && (!BOOK.base || r.base === BOOK.base) && recipeMatches(r, BOOK.q));
+  $("#bookCount").textContent = `${list.length} recette${list.length > 1 ? "s" : ""} sur ${S.recipes.length}`;
+  const groups = [...CATS, ...new Set(list.map(r => r.cat).filter(c => !CATS.includes(c)))];
+  el.innerHTML = groups.map(g => { const rs = list.filter(r => r.cat === g); if (!rs.length) return "";
+    return `<section class="book-group" ${catSt(g)}><h2 class="group-title">${esc(g)}</h2><ul class="book-list">${rs.map(r => `<li><button class="book-item" data-act="openRecipe" data-id="${r.id}">
+      <span class="dish-name">${esc(r.n)}</span><span class="dish-meta">${esc(r.st)}${r.base && r.base !== "Aucun" ? ", " + esc(r.base.toLowerCase()) : ""}${r.t ? ", " + esc(r.t) + " min" : ""}, ≈ ${fmtK(kcalOf(r))} kcal${r.own ? ", ma recette" : ""}</span></button></li>`).join("")}</ul></section>`; }).join("")
+    || `<p class="muted center">Aucune recette ne correspond à ces filtres.</p>`;
+}
+A.openRecipe = ds => openEditor("recipe", ds.id);
+A.newRecipe = () => openEditor("draft", { id: "r-" + uid(), n: "", cat: "Œufs", st: "Cocon & purées", base: "Riz", t: "", d: 1, ing: [{ id: uid(), n: "", q: "", u: "g" }], steps: [], tip: "", own: true });
+A.saveDraft = () => {
+  const o = MODAL.obj; if (!o.n.trim()) { toast("Donne un nom à la recette pour l'enregistrer."); $(".ed-title").focus(); return; }
+  o.ing = o.ing.filter(i => i.n.trim()); S.recipes.unshift(o); save();
+  MODAL = null; BOOK = { q: "", cat: "", st: "", base: "" }; S.ui.view = "book"; closeModal(); toast("Recette enregistrée : " + o.n);
+};
+A.delRecipe = ds => { const r = recipeById(ds.id); if (!confirm(`Supprimer « ${r.n} » du carnet ? Les repas déjà planifiés sont conservés.`)) return;
+  snapshot(); S.recipes.splice(S.recipes.indexOf(r), 1); save(); MODAL = null; closeModal(); toast("Recette supprimée", true); };
+A.recipeToPlan = ds => { const r = recipeById(ds.id); placeTemp(mealFromRecipe(r)); };
+
+/* ---------- COURSES (déjeuner et dîner) ---------- */
+let SHOP = { w: null, days: null, b: true };
+function shopDays(){ const w = S.weeks[SHOP.w]; if (!SHOP.days || SHOP.days.length !== w.days.length) SHOP.days = w.days.map(() => true); return SHOP.days; }
+function buildShop(){
+  const w = S.weeks[SHOP.w], sel = shopDays(), map = new Map();
+  w.days.forEach((d, i) => { if (!sel[i]) return; SLOTS.forEach(sl => { const m = d.meals[sl.k]; if (!m) return;
+    m.ing.forEach(it => { if (!String(it.n).trim()) return; const e = lookup(it.n);
+      const mergeByKey = e && ["Légumes","Volaille","Œufs","Féculents","Tofu & protéines végétales"].includes(e.a);
+      const key = mergeByKey ? "k:" + e.k : "n:" + norm(it.n);
+      if (!map.has(key)) map.set(key, { key, name: it.n, aisle: e ? e.a : "Divers", parts: {}, names: {} });
+      const g = map.get(key); g.names[it.n] = (g.names[it.n] || 0) + 1;
+      const q = parseFloat(String(it.q).replace(",", ".")); const uk = unitKind(it.u);
+      if (!q || isNaN(q) || uk === "z") { g.parts.z = g.parts.z || { q: 0, u: it.u || "au goût" }; return; }
+      const pk = uk === "p" ? "p:" + norm(it.u) : uk;
+      g.parts[pk] = g.parts[pk] || { q: 0, u: uk === "c" ? "c. à café" : uk === "s" ? "c. à soupe" : uk === "g" ? (norm(it.u) === "ml" ? "ml" : "g") : it.u };
+      g.parts[pk].q += q; }); }); });
+  const items = [...map.values()].map(g => { g.name = Object.entries(g.names).sort((a, b) => b[1] - a[1])[0][0];
+    const parts = Object.entries(g.parts).filter(([k]) => k !== "z").map(([, p]) => { const q = Math.round(p.q * 10) / 10;
+      if (norm(p.u) === "piece" || norm(p.u) === "pieces") return "× " + fmtN(q);
+      const pl = q > 1 && ["tranche","feuille","pot","tasse","pincee"].includes(norm(p.u)) ? "s" : ""; return fmtN(q) + " " + p.u + pl; });
+    g.qty = parts.length ? parts.join(" + ") : "selon le goût"; return g; });
+  return items;
+}
+function viewShop(){
+  if (!S.weeks.length) return `<div class="empty-state"><p class="display-s">Aucune semaine à analyser.</p><button class="btn" data-nav="plan">Aller au planning</button></div>`;
+  if (SHOP.w == null || !S.weeks[SHOP.w]) SHOP.w = Math.min(S.ui.week, S.weeks.length - 1);
+  const w = S.weeks[SHOP.w], sel = shopDays(), items = buildShop(), chk = S.checked[w.id] || {};
+  const groups = AISLE_ORDER.map(a => ({ a, list: items.filter(i => i.aisle === a).sort((x, y) => x.name.localeCompare(y.name, "fr")) })).filter(g => g.list.length);
+  return `<header class="pagehead"><div><h1 class="display">Liste de courses</h1><p class="muted">${items.length} articles regroupés, quantités cumulées pour les déjeuners et dîners. Féculents indiqués cuits : compter environ 60 g de riz ou de pâtes crus pour 150 g cuits.</p></div>
+      <div class="actions"><button class="btn" data-act="copyShop">Copier la liste</button><button class="btn ghost" data-act="uncheckShop">Tout décocher</button></div></header>
+    <div class="shop-controls">
+      <label class="field"><span>Semaine</span><select data-bind="shopWeek">${S.weeks.map((x, i) => `<option value="${i}" ${i === SHOP.w ? "selected" : ""}>${esc(x.name)}</option>`).join("")}</select></label>
+      <div class="field"><span>Jours inclus</span><div class="checks">${w.days.map((d, i) => `<label class="check"><input type="checkbox" data-bind="shopDay" data-i="${i}" ${sel[i] ? "checked" : ""}>${esc(d.name)}</label>`).join("")}</div></div>
+    </div>
+    <div class="shop-cols">${groups.map(g => `<section class="shop-group"><h2 class="group-title">${esc(g.a)}</h2><ul class="shop-list">${g.list.map(i =>
+      `<li class="${chk[i.key] ? "done" : ""}"><label><input type="checkbox" data-bind="shopItem" data-key="${esc(i.key)}" ${chk[i.key] ? "checked" : ""}><span class="si-name">${esc(i.name)}</span><span class="si-q">${esc(i.qty)}</span></label></li>`).join("")}</ul></section>`).join("")}</div>`;
+}
+A.copyShop = () => { const items = buildShop(); const txt = AISLE_ORDER.map(a => { const l = items.filter(i => i.aisle === a); return l.length ? a.toUpperCase() + "\n" + l.map(i => `- ${i.name} : ${i.qty}`).join("\n") : ""; }).filter(Boolean).join("\n\n");
+  (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(() => toast("Liste copiée"), () => { openModal(`<h2 class="display-s">Liste de courses</h2><textarea rows="20" readonly>${esc(txt)}</textarea>`); }); };
+A.uncheckShop = () => { const w = S.weeks[SHOP.w]; S.checked[w.id] = {}; save(); render(); };
+
+/* ---------- POIDS ---------- */
+function viewWeight(){
+  const ws = [...S.weights].sort((a, b) => a.date.localeCompare(b.date));
+  const first = ws[0], last = ws[ws.length - 1];
+  const today = new Date().toISOString().slice(0, 10);
+  const stat = (v, l) => `<div class="stat"><span class="stat-v">${v}</span><span class="stat-l">${l}</span></div>`;
+  return `<header class="pagehead"><div><h1 class="display">Suivi du poids</h1><p class="muted">Une pesée par semaine, le même jour et à la même heure, suffit pour suivre la tendance.</p></div></header>
+    <div class="stats">${stat(first ? fmtN(first.kg) + " kg" : "—", "Départ")}${stat(last ? fmtN(last.kg) + " kg" : "—", "Actuel")}
+      ${stat(first && last ? (last.kg - first.kg > 0 ? "+" : "") + fmtN(last.kg - first.kg) + " kg" : "—", "Évolution")}
+      <div class="stat"><span class="stat-v"><input class="goal" data-bind="goal" value="${fmtN(S.goal)}" inputmode="decimal" aria-label="Objectif en kg"> kg</span><span class="stat-l">Objectif</span></div></div>
+    <form class="weight-form" onsubmit="return false"><label class="field"><span>Date</span><input type="date" id="wDate" value="${today}"></label>
+      <label class="field"><span>Poids (kg)</span><input id="wKg" inputmode="decimal" placeholder="78,0"></label><button class="btn primary" data-act="addWeight">Enregistrer la pesée</button></form>
+    <div class="chart">${chartSvg(ws)}</div>
+    ${ws.length ? `<ul class="wlist">${[...ws].reverse().map((x, i, arr) => { const prev = arr[i + 1]; const d = prev ? x.kg - prev.kg : null;
+      return `<li><span>${new Date(x.date + "T12:00").toLocaleDateString("fr-FR", { weekday: "short", day: "numeric", month: "long", year: "numeric" })}</span><strong>${fmtN(x.kg)} kg</strong>
+      <span class="muted">${d == null ? "" : (d > 0 ? "+" : "") + fmtN(d) + " kg"}</span><button class="icon del" data-act="delWeight" data-date="${x.date}" aria-label="Supprimer">×</button></li>`; }).join("")}</ul>` : ""}`;
+}
+function chartSvg(ws){
+  if (ws.length < 2) return `<p class="muted center">La courbe apparaîtra à partir de deux pesées.</p>`;
+  const W = 640, Hh = 220, p = 36, vals = ws.map(x => x.kg).concat([S.goal]);
+  const min = Math.floor(Math.min(...vals) - 0.5), max = Math.ceil(Math.max(...vals) + 0.5);
+  const t0 = new Date(ws[0].date).getTime(), t1 = new Date(ws[ws.length - 1].date).getTime() || t0 + 1;
+  const X = d => p + (W - 2 * p) * ((new Date(d).getTime() - t0) / Math.max(1, t1 - t0));
+  const Y = v => Hh - p + -(Hh - 2 * p) * (v - min) / Math.max(0.1, max - min);
+  const pts = ws.map(x => `${X(x.date).toFixed(1)},${Y(x.kg).toFixed(1)}`).join(" ");
+  const ticks = []; for (let v = min; v <= max; v++) ticks.push(v);
+  return `<svg viewBox="0 0 ${W} ${Hh}" role="img" aria-label="Courbe de poids">
+    ${ticks.map(v => `<line x1="${p}" x2="${W - p}" y1="${Y(v)}" y2="${Y(v)}" class="grid"/><text x="${p - 8}" y="${Y(v) + 4}" class="axis" text-anchor="end">${v}</text>`).join("")}
+    <line x1="${p}" x2="${W - p}" y1="${Y(S.goal)}" y2="${Y(S.goal)}" class="goal-line"/><text x="${W - p}" y="${Y(S.goal) - 6}" class="axis" text-anchor="end">objectif ${fmtN(S.goal)} kg</text>
+    <polyline points="${pts}" class="curve"/>${ws.map(x => `<circle cx="${X(x.date)}" cy="${Y(x.kg)}" r="3.5" class="dot"/>`).join("")}</svg>`;
+}
+A.addWeight = () => { const d = $("#wDate").value, kg = parseFloat($("#wKg").value.replace(",", "."));
+  if (!d || !kg || kg < 30 || kg > 250) return toast("Indique une date et un poids valides (ex. 77,4).");
+  S.weights = S.weights.filter(x => x.date !== d); S.weights.push({ date: d, kg }); save(); render(); toast("Pesée enregistrée"); };
+A.delWeight = ds => { snapshot(); S.weights = S.weights.filter(x => x.date !== ds.date); save(); render(); toast("Pesée supprimée", true); };
+
+/* ---------- DONNÉES ---------- */
+const FONTS = [
+  { k: "editorial", n: "Éditoriale", d: "Cormorant Garamond & Jost", serif: "'Cormorant Garamond',serif", sans: "Jost,sans-serif", w: 500 },
+  { k: "modern", n: "Contemporaine", d: "Jost, lignes pures", serif: "Jost,sans-serif", sans: "Jost,sans-serif", w: 300 },
+  { k: "classic", n: "Classique", d: "Playfair Display & Karla", serif: "'Playfair Display',serif", sans: "Karla,sans-serif", w: 400 }
+];
+function applyFont(){ document.documentElement.dataset.font = S.font || "editorial"; }
+A.setFont = ds => { S.font = ds.k; applyFont(); save(); render(); };
+function viewData(){
+  return `<header class="pagehead"><div><h1 class="display">Réglages</h1><p class="muted">Typographie de l'application et sauvegarde de tes données.</p></div></header>
+    <h2 class="group-title">Typographie</h2>
+    <div class="font-list">${FONTS.map(f => `<button class="font-opt" data-act="setFont" data-k="${f.k}" aria-pressed="${(S.font || "editorial") === f.k}">
+      <span class="fo-n">${f.n}</span><span class="fo-t" style="font-family:${f.serif};font-weight:${f.w}">Poulet effiloché Bamboo</span>
+      <span class="fo-s" style="font-family:${f.sans}">${f.d}</span></button>`).join("")}</div>
+    <h2 class="group-title">Sauvegarde</h2>
+    <p class="muted">Tout est enregistré automatiquement dans ce navigateur. Exporte régulièrement un fichier de sauvegarde pour ne rien perdre, ou pour retrouver tes données sur un autre appareil.</p>
+    <div class="data-grid">
+      <section><h2 class="group-title">Exporter</h2><p class="muted">${S.weeks.length} semaines, ${S.recipes.length} recettes, ${S.weights.length} pesées.</p><button class="btn primary" data-act="export">Télécharger la sauvegarde</button></section>
+      <section><h2 class="group-title">Importer</h2><p class="muted">Remplace les données actuelles par celles d'un fichier exporté.</p><label class="btn file">Choisir un fichier<input type="file" accept="application/json,.json" data-bind="importFile" hidden></label></section>
+      <section><h2 class="group-title">Repartir de zéro</h2><p class="muted">Recharge le mois de départ et le carnet d'origine. Tes données actuelles seront effacées.</p><button class="btn ghost danger" data-act="reset">Réinitialiser</button></section>
+    </div>
+    <p class="muted small">État du stockage : ${STORAGE_OK ? "actif, les modifications sont conservées après rechargement." : "indisponible dans ce contexte, pense à exporter."}</p>`;
+}
+A.export = () => { const blob = new Blob([JSON.stringify(S, null, 1)], { type: "application/json" }); const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = "la-table-sauvegarde-" + new Date().toISOString().slice(0, 10) + ".json"; document.body.appendChild(a); a.click(); a.remove(); toast("Sauvegarde téléchargée"); };
+function importFile(f){ if (!f) return; const rd = new FileReader(); rd.onload = () => { try { const d = JSON.parse(rd.result); if (!d.weeks || !d.recipes) throw 0;
+  snapshot(); S = d; S.ui = S.ui || { view: "plan", week: 0 }; S.checked = S.checked || {}; S.weights = S.weights || []; S.v = S.v || 1; applyFont(); save(); render(); toast("Données importées", true); }
+  catch (e) { toast("Ce fichier n'est pas une sauvegarde valide de La Table."); } }; rd.readAsText(f); }
+A.reset = () => { if (!confirm("Effacer toutes tes données et recharger le mois de départ ?")) return; snapshot(); const f = S.font; S = defaultState(); S.font = f; S.ui.view = "data"; save(); render(); toast("Données réinitialisées", true); };
+
+/* ---------- démarrage ---------- */
+load(); render();
+
+</script>
+</body>
+</html>

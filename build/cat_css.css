@@ -1,0 +1,38 @@
+
+/* ===== protocole de Cat : contrôle des aliments, réintroduction, leviers ===== */
+.pc{margin:12px 0;padding:12px 14px;border-radius:14px;border:1px solid var(--line);background:var(--card);font-size:14px}
+.pc .pc-h{margin:0 0 6px;display:flex;align-items:center;gap:8px;font-weight:600}
+.pc ul{margin:0;padding-left:18px}.pc li{margin:3px 0;color:var(--ink-2)}
+.pc.bad{border-color:var(--danger);background:color-mix(in srgb,var(--danger) 8%,var(--card))}.pc.bad .pc-h{color:var(--danger)}
+.pc.warn{border-color:#C8963E;background:color-mix(in srgb,#C8963E 10%,var(--card))}.pc.warn .pc-h{color:color-mix(in srgb,#C8963E 70%,var(--ink))}
+.pc.warn-s{border-color:#C8963E;background:color-mix(in srgb,#C8963E 10%,var(--card))}
+.mb.bad{background:color-mix(in srgb,var(--danger) 14%,var(--card));color:var(--danger);border-color:var(--danger)}
+.mb.warn{background:color-mix(in srgb,#C8963E 16%,var(--card));color:color-mix(in srgb,#C8963E 60%,var(--ink));border-color:#C8963E}
+.goalrow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:10px 0 14px}
+.goalrow .field input{width:100%;min-height:44px;font-size:16px}
+@media(max-width:560px){.goalrow{grid-template-columns:1fr}}
+.lev{margin:26px 0}
+.ri-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px 18px 16px;margin:14px 0}
+.ri-card.now{border-color:var(--celadon);box-shadow:0 6px 20px color-mix(in srgb,var(--celadon) 14%,transparent)}
+.ri-card h2{margin:4px 0 8px}
+.ri-row{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;margin:12px 0}
+.ri-row .btn{min-height:44px}
+.ri-track{display:block;height:9px;border-radius:9px;background:var(--line);overflow:hidden;margin:10px 0}
+.ri-track i{display:block;height:100%;background:var(--celadon);border-radius:9px}
+.ri-cat{margin-top:22px}
+.ri-h{margin:18px 0 6px;font:500 12px/1.3 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.ri-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.ri-food{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:var(--card);flex-wrap:wrap}
+.ri-food strong{display:block}
+.ri-act{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.ri-st{font-size:12.5px;color:var(--mute);display:inline-flex;align-items:center;gap:5px}
+.ri-st.ok{color:var(--celadon);font-weight:600}.ri-st.lock{color:var(--mute)}
+.ri-log{margin:12px 0 4px;padding-left:18px;color:var(--ink-2);font-size:14px}
+#riNote{width:100%;font-size:16px}
+.kbar.ok .kb-v{color:var(--celadon)}
+.btn.danger{color:var(--danger);border-color:var(--danger)}
+.proto2 .lvl{display:flex;gap:10px;align-items:baseline}
+.proto2 .tbl{width:100%;border-collapse:collapse;font-size:13.5px;margin:8px 0}
+.proto2 .tbl th,.proto2 .tbl td{border:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
+.proto2 .tbl th{background:var(--wash);font-weight:500}
+@media(max-width:560px){.proto2 .tbl{font-size:12.5px}.proto2 .tbl th,.proto2 .tbl td{padding:6px 5px}}
