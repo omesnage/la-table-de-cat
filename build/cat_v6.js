@@ -391,7 +391,7 @@ function viewBanchan(){
     <ul class="book-list">${list.map(r => `<li><button class="book-item" data-act="openRecipe" data-id="${r.id}"><span class="dish-name">${esc(bcShort(r.n))}</span>
     <span class="dish-meta">${esc(bcSub(r.n))}${r.t ? " · " + r.t + " min" : ""} · ≈ ${fmtK(kcalOf(r))} kcal</span></button></li>`).join("")}</ul></section>`;
   return `<header class="pagehead"><div><h1 class="display">Banchan</h1><p class="muted">Petits plats coréens servis avec du riz. Un repas coréen complet : un banchan à protéine et deux banchan de légumes.</p></div>
-      <button class="btn primary" data-act="krOpen">Composer un repas coréen</button></header>
+      <span class="pagehead-act"><button class="btn" data-act="lotOpen">Préparer pour 3 repas</button><button class="btn primary" data-act="krOpen">Composer un repas coréen</button></span></header>
     ${group("À protéine", "Tofu ou œuf : le plat principal du repas (80 à 100 g de protéine).", all.filter(r => r.go === "Protéine"))}
     ${group("De légumes", "Légumes cuits et tièdes, à l'huile de sésame grillé : deux par repas.", all.filter(r => r.go === "Légume"))}
     ${S.sensible ? `<p class="muted small">Phase de sensibilité aiguë : les banchan à la sauce soja sont masqués.</p>` : ""}`;

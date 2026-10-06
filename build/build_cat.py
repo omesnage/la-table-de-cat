@@ -277,6 +277,9 @@ rep('<p class="ed-kcal">${catTag(o.cat)}','<div id="edPc">${protoBanner(o)}</div
 rep('$("#edKcal").textContent = fmtK(kcalOf(o));','$("#edKcal").textContent = fmtK(kcalOf(o)); { const pc = $("#edPc"); if (pc) pc.innerHTML = protoBanner(o); }',2)
 
 rep('<select id="placeS">${SLOTS.map(s => `<option value="${s.k}">${s.label}</option>`).join("")}</select>','<select id="placeS">${SLOTS.map(s => `<option value="${s.k}" ${s.k === (TEMP && TEMP.st === "Petit-déjeuner" ? "b" : TEMP && TEMP.cat === "Collation" ? "c" : "l") ? "selected" : ""}>${s.label}</option>`).join("")}</select>')
+# remplacer un ingrédient par un équivalent (cat_subs.js)
+rep('      <button class="icon" data-act="ingUp" data-i="${k}"','      ${subBtn(o, k)}\n      <button class="icon" data-act="ingUp" data-i="${k}"')
+rep('    </span></li>`).join("");\n}\nfunction refreshIng','    </span></li>${subPanel(o, k)}`).join("");\n}\nfunction refreshIng')
 # --- v3 : petits-déjeuners légers, 80 % végétarien, recette visible, aperçu
 rep('function buildGen(g){','function buildGen0(g){')
 # le sel cité dans les étapes figure dans la liste (une seule ligne), au lieu d'être supprimé
@@ -298,6 +301,8 @@ def arep(old,new,count=1):
     n=app.count(old)
     if n!=count: FAIL.append(f"APP ANCHOR x{n}: {old[:100]!r}"); return
     app=app.replace(old,new)
+arep('aria-label="Retirer ${esc(r.i.n)}">${ic("x")}</button></li>`;','aria-label="Retirer ${esc(r.i.n)}">${ic("x")}</button>${subCookBtn(o, r.idx)}${subCookPanel(o, r.idx)}</li>`;')
+arep('vegChips(o, "vegSwapTo", r.idx, k)}</div>` : ""}</li>`; };','vegChips(o, "vegSwapTo", r.idx, k)}</div>` : ""}${subCookBtn(o, r.idx)}${subCookPanel(o, r.idx)}</li>`; };')
 # retirer l'objectif calorique d'Olivier
 i=app.find('/* ---------- objectif calorique ---------- */'); j=app.find("/* ce qui change entre deux listes d'ingrédients */")
 if i<0 or j<0: FAIL.append("APP calorie block")
@@ -336,7 +341,7 @@ kg_old=app[app.index('const KEY_GROUPS = ['):app.index('const canonKey')]
 app=app.replace(kg_old,'''const KEY_GROUPS = [["riz cuit","riz cru","riz basmati","riz"],["oeuf","oeufs"],["quinoa cuit","quinoa"],["soba cuites","soba"],["tofu ferme","tofu"],
   ["proteine de pois texturee","proteine de pois texturee (seche)"],["proteine de soja texturee","proteine de soja texturee (seche)"],["blanc de poulet","poulet"],["huile d'olive","huile"],["flocons d'avoine","avoine"]];
 ''')
-extra=app+rd('cat_v6.js')+'''
+extra=app+rd('cat_v6.js')+'\n'+rd('cat_subs.js')+'\n'+rd('cat_lot.js')+'''
 function viewInsp(){
   const mode = (S.ui && S.ui.insp) || "compose";
   const seg = `<div class="seg ins-mode" role="tablist">${[["compose","Composer"],["fridge","Avec mon frigo"]].map(([v, l]) => `<button class="seg-b" data-act="inspMode" data-v="${v}" aria-pressed="${mode === v}">${l}</button>`).join("")}</div>`;

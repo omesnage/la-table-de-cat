@@ -669,6 +669,31 @@ button,.btn,.chip,.mt,.dt,.wa,.mini,.mini-add,.qb,.qx,.chk,.dur{touch-action:man
 .bk-tabs{display:flex;width:100%}
 .bk-tabs .seg-b{flex:1;padding:12px 8px;font-size:15px}
 
+/* remplacer un ingrédient par un équivalent */
+.sub-b{font-size:15px}
+.sub-b[aria-expanded="true"]{background:var(--wash);color:var(--ink)}
+.sub-panel{list-style:none;padding:14px 0 16px;border-bottom:1px solid var(--line)}
+.sub-h{margin:0 0 10px;font:italic 400 17px/1.2 var(--serif)}
+.sub-list{display:grid;gap:8px;margin-bottom:10px}
+.sub-it{display:grid;gap:2px;text-align:left;padding:11px 14px;border:1px solid var(--line);border-radius:4px;background:var(--paper);cursor:pointer;font:inherit;color:inherit}
+.sub-it:hover{border-color:var(--ink)}
+.sub-it span{font-size:13.5px;color:var(--muted)}
+.sub-it em{font-size:12.5px;font-style:normal;color:var(--muted)}
+
+/* banchan en lot */
+.pagehead-act{display:flex;gap:10px;flex-wrap:wrap}
+.lot-n{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin:0 0 6px}
+.lot-sum{margin:26px 0 4px;padding:20px 22px;background:var(--wash);border-radius:4px}
+.lot-big{margin:0 0 4px;font:italic 400 24px/1.2 var(--serif)}
+.lot-meals,.lot-order{margin:0;padding:0 0 0 20px;display:grid;gap:10px}
+.lot-meals li{display:flex;justify-content:space-between;gap:14px;align-items:baseline}
+.lot-keep,.lot-shop{list-style:none;margin:0;padding:0}
+.lot-keep li,.lot-shop li{display:flex;justify-content:space-between;gap:14px;padding:8px 0;border-bottom:1px solid var(--line)}
+.lot-keep em{font-style:normal;color:var(--muted)}
+.lot-late{color:#a4562f}
+.lot-warn{margin:12px 0 0;padding:10px 14px;border-left:2px solid #a4562f;background:var(--wash);font-size:14px}
+@media (max-width:640px){.lot-meals li{flex-direction:column;gap:2px}.pagehead-act{width:100%}.pagehead-act .btn{flex:1}}
+
 </style>
 </head>
 <body>
@@ -2631,10 +2656,11 @@ function ingRows(o){
     <input class="ing-u" data-ing="u" value="${esc(i.u)}" list="units" placeholder="unité" aria-label="Unité">
     <input class="ing-n" data-ing="n" value="${esc(i.n)}" placeholder="Ingrédient" aria-label="Ingrédient">
     <span class="ing-tools">
+      ${subBtn(o, k)}
       <button class="icon" data-act="ingUp" data-i="${k}" aria-label="Monter" ${k === 0 ? "disabled" : ""}>↑</button>
       <button class="icon" data-act="ingDown" data-i="${k}" aria-label="Descendre" ${k === o.ing.length - 1 ? "disabled" : ""}>↓</button>
       <button class="icon del" data-act="ingDel" data-i="${k}" aria-label="Supprimer">×</button>
-    </span></li>`).join("");
+    </span></li>${subPanel(o, k)}`).join("");
 }
 function refreshIng(focusLast){
   const o = edObj(); $("#ingList").innerHTML = ingRows(o); $("#edKcal").textContent = fmtK(kcalOf(o)); { const pc = $("#edPc"); if (pc) pc.innerHTML = protoBanner(o); }
@@ -3295,7 +3321,7 @@ function afterSelect(t){
   if (S.autoVeg !== false && t.s !== "b" && t.s !== "c") autoSide(m);
   if (S.autoAdapt !== false) protoAdaptMeal(m, t.s, kT(t.s));
   save(); const d = diffIng(a, ingSig(m)), lines = d.lines.slice(); if (kcalOf(m) !== k0) lines.push("≈ " + fmtK(k0) + " → " + fmtK(kcalOf(m)) + " kcal");
-  closeModal(); CK = { swap: null, addVeg: false, addIng: false };
+  closeModal(); CK = { swap: null, addVeg: false, addIng: false, sub: null };
   COOKMSG = { title: lines.length ? "Recette adaptée à ton planning" : slotLabel(t.s) + " ajouté", lines: lines.length ? lines : [m.name], undo: true };
   FLASH = new Set(d.names); openCook("meal", t);
 }
@@ -3398,7 +3424,7 @@ function cookFooter(kind, ref, o){
     : `<button class="btn primary" data-act="tempPlace">Ajouter au planning</button><button class="btn" data-act="tempSave">Enregistrer dans le carnet</button>${mod}
       <button class="btn ghost push" data-act="close">Fermer</button>`;
 }
-let CK = { swap: null, addVeg: false, addIng: false }, COOKMSG = null, FLASH = new Set();
+let CK = { swap: null, addVeg: false, addIng: false, sub: null }, COOKMSG = null, FLASH = new Set();
 function vegOptions(o, exceptKey){
   const season = seasonVegs(o, 12).filter(k => k !== exceptKey);
   const other = Object.keys(VEGS).filter(k => k !== "oignons" && k !== exceptKey && season.indexOf(k) < 0 && !(o.ing || []).some(i => norm(i.n) === norm(VEGS[k].ing[0][0])));
@@ -3420,11 +3446,11 @@ function cookHTML(o, kind, ref){
   const pill = (icon, label, val) => `<div class="cpill">${ic(icon)}<span class="cp-l">${label}</span><strong>${val}</strong></div>`;
   const flash = r => FLASH.has(norm(r.i.n)) ? " flash" : "";
   const stepper = r => hasQ(r.i) ? `<div class="qs"><button class="qb" data-act="ingQ" data-i="${r.idx}" data-d="-1" aria-label="Moins de ${esc(r.i.n)}">${ic("minus")}</button><span class="qv">${esc(qtyStr(r.i))}</span><button class="qb" data-act="ingQ" data-i="${r.idx}" data-d="1" aria-label="Plus de ${esc(r.i.n)}">${ic("plus")}</button></div>` : `<span class="qs"><span class="qv">${esc(qtyStr(r.i))}</span></span>`;
-  const ingRow = r => `<li class="ci${flash(r)}"><span class="ci-n">${esc(r.i.n)}</span>${stepper(r)}<button class="qx" data-act="ingDelCook" data-i="${r.idx}" aria-label="Retirer ${esc(r.i.n)}">${ic("x")}</button></li>`;
+  const ingRow = r => `<li class="ci${flash(r)}"><span class="ci-n">${esc(r.i.n)}</span>${stepper(r)}<button class="qx" data-act="ingDelCook" data-i="${r.idx}" aria-label="Retirer ${esc(r.i.n)}">${ic("x")}</button>${subCookBtn(o, r.idx)}${subCookPanel(o, r.idx)}</li>`;
   const vegRow = r => { const k = vegKeyOfIng(r.i.n), sea = seasonOf(r.i.n) && seasonOf(r.i.n).indexOf(curMonth()) >= 0;
     return `<li class="ci vg${flash(r)}"><span class="ci-n">${esc(r.i.n)}${sea ? ` <em class="ing-sea" title="de saison">${ic("leaf")}</em>` : ""}</span>${stepper(r)}<button class="qx" data-act="ingDelCook" data-i="${r.idx}" aria-label="Retirer ${esc(r.i.n)}">${ic("x")}</button>
       <button class="mini" data-act="vegSwap" data-i="${r.idx}" aria-expanded="${CK.swap === r.idx}">${ic("swap")} Changer de légume</button>
-      ${CK.swap === r.idx ? `<div class="vg-panel"><p class="muted small">Remplacer ${esc(r.i.n)} par :</p>${vegChips(o, "vegSwapTo", r.idx, k)}</div>` : ""}</li>`; };
+      ${CK.swap === r.idx ? `<div class="vg-panel"><p class="muted small">Remplacer ${esc(r.i.n)} par :</p>${vegChips(o, "vegSwapTo", r.idx, k)}</div>` : ""}${subCookBtn(o, r.idx)}${subCookPanel(o, r.idx)}</li>`; };
   const lis = body.map(({ s, i }, n) => {
     const sp = splitBody(s.body), rc = recallFor(s.raw, named), isD = done.indexOf(i) >= 0;
     const dur = s.mins ? `<button class="dur" data-act="timer" data-i="${i}" data-m="${s.mins}" data-n="${n + 1}" aria-label="Lancer un minuteur">${ic("timer")}<span class="dl">${s.expl ? "" : "≈ "}${fmtMin(s.mins)}${s.par ? " en parallèle" : ""}</span></button>` : "";
@@ -3468,7 +3494,7 @@ function cookHTML(o, kind, ref){
     ${COOKMSG ? `<div class="chg-banner" role="status"><div class="cb-head"><strong>${esc(COOKMSG.title)}</strong><button class="qx" data-act="bannerClose" aria-label="Fermer">${ic("x")}</button></div>${COOKMSG.lines.slice(0, 7).map(l => `<span>${esc(l)}</span>`).join("")}${COOKMSG.undo ? `<button class="link" data-act="cookUndo">Annuler ce changement</button>` : ""}</div>` : ""}
   </div>`;
 }
-function resetCook(){ CK = { swap: null, addVeg: false, addIng: false }; COOKMSG = null; FLASH = new Set(); }
+function resetCook(){ CK = { swap: null, addVeg: false, addIng: false, sub: null }; COOKMSG = null; FLASH = new Set(); }
 function refreshCook(msg, flashNames){
   COOKMSG = msg || null; FLASH = new Set(flashNames || []);
   const sh = document.querySelector("#modal .sheet"), sc = sh ? sh.scrollTop : 0;
@@ -4442,7 +4468,7 @@ function viewBanchan(){
     <ul class="book-list">${list.map(r => `<li><button class="book-item" data-act="openRecipe" data-id="${r.id}"><span class="dish-name">${esc(bcShort(r.n))}</span>
     <span class="dish-meta">${esc(bcSub(r.n))}${r.t ? " · " + r.t + " min" : ""} · ≈ ${fmtK(kcalOf(r))} kcal</span></button></li>`).join("")}</ul></section>`;
   return `<header class="pagehead"><div><h1 class="display">Banchan</h1><p class="muted">Petits plats coréens servis avec du riz. Un repas coréen complet : un banchan à protéine et deux banchan de légumes.</p></div>
-      <button class="btn primary" data-act="krOpen">Composer un repas coréen</button></header>
+      <span class="pagehead-act"><button class="btn" data-act="lotOpen">Préparer pour 3 repas</button><button class="btn primary" data-act="krOpen">Composer un repas coréen</button></span></header>
     ${group("À protéine", "Tofu ou œuf : le plat principal du repas (80 à 100 g de protéine).", all.filter(r => r.go === "Protéine"))}
     ${group("De légumes", "Légumes cuits et tièdes, à l'huile de sésame grillé : deux par repas.", all.filter(r => r.go === "Légume"))}
     ${S.sensible ? `<p class="muted small">Phase de sensibilité aiguë : les banchan à la sauce soja sont masqués.</p>` : ""}`;
@@ -4513,6 +4539,265 @@ function migrate13(){
   })));
   S.v = 13;
 }
+
+/* ============ REMPLACER UN INGRÉDIENT PAR UN ÉQUIVALENT, EN GARDANT LES CALORIES ============
+   Seuls sont proposés des remplacements qui ne changent ni la cuisson ni les gestes de la recette :
+   même famille, même genre grammatical (le texte des étapes est réécrit avec le bon article, sans accord à corriger),
+   protocole de Cat respecté (aliments de niveau 1 ou tolérés, jamais exclus ni non listés).
+   La quantité est recalculée pour garder les calories, dans les bornes de portion du protocole : l'écart restant est affiché. */
+/* k : clé de la base d'ingrédients · ing : nom dans la liste · t : nom dans le texte · g : genre · forms : façons de le nommer dans le texte
+   grp : famille (on ne remplace qu'au sein d'une famille) · x : précaution ajoutée après le remplacement · cook : mode de cuisson (féculents précuits) */
+const SUBT = [
+  /* racines et courges à éplucher, cuisson longue à la vapeur */
+  { grp: "racm", k: "potimarron", ing: "potimarron", t: "potimarron", g: "m", forms: ["potimarron"], x: "retirer aussi les graines" },
+  { grp: "racm", k: "patisson", ing: "pâtisson", t: "pâtisson", g: "m", forms: ["pâtisson", "patisson"], x: "retirer aussi les graines et la partie filandreuse" },
+  { grp: "racm", k: "panais", ing: "panais", t: "panais", g: "m", forms: ["panais"], x: "retirer le cœur ligneux" },
+  { grp: "racm", k: "navet", ing: "navet", t: "navet", g: "m", forms: ["navets?"], x: "l'éplucher généreusement" },
+  { grp: "racm", k: "celeri-rave", ing: "céleri-rave", t: "céleri-rave", g: "m", forms: ["céleri-rave", "celeri-rave"], x: "l'éplucher épais" },
+  { grp: "racm", k: "daikon", ing: "daikon", t: "daikon", g: "m", forms: ["daikon"], x: "l'éplucher généreusement" },
+  { grp: "racf", k: "carotte", ing: "carotte", t: "carotte", g: "f", forms: ["carottes?"] },
+  { grp: "racf", k: "butternut", ing: "butternut", t: "butternut", g: "f", forms: ["butternut"], x: "retirer aussi les graines" },
+  { grp: "racf", k: "patate douce", ing: "patate douce", t: "patate douce", g: "f", forms: ["patates? douces?"], cap: 75 },
+  /* féculents précuits */
+  { grp: "fec", k: "riz", ing: "riz cuit", t: "riz", g: "m", forms: ["riz basmati", "riz cuit", "riz"], nb: "lait de |crème de |farine de |galette de |vermicelles de ", cook: { place: "au Bamboo (programme WHITE, 35 minutes)", lieu: "WHITE" } },
+  { grp: "fec", k: "quinoa", ing: "quinoa cuit", t: "quinoa", g: "m", forms: ["quinoa cuit", "quinoa"], cook: { place: "au Bamboo (programme QUICK COOK, 1 volume de quinoa pour 1 volume d'eau)" } },
+  /* protéines : même cuisson */
+  { grp: "tofu", k: "tofu ferme", ing: "tofu ferme", t: "tofu", g: "m", forms: ["tofu ferme", "tofu"] },
+  { grp: "tofu", k: "tofu fume", ing: "tofu fumé", t: "tofu fumé", g: "m", forms: ["tofu fumé", "tofu"] },
+  /* laits, yaourts, huiles, herbes */
+  { grp: "lait", k: "lait de soja", ing: "lait de soja", t: "lait de soja", g: "m", forms: ["lait de soja"] },
+  { grp: "lait", k: "lait d'avoine", ing: "lait d'avoine", t: "lait d'avoine", g: "m", forms: ["lait d'avoine"] },
+  { grp: "lait", k: "lait de riz", ing: "lait de riz", t: "lait de riz", g: "m", forms: ["lait de riz"] },
+  { grp: "yaourt", k: "yaourt de soja", ing: "yaourt de soja nature", t: "yaourt de soja", g: "m", forms: ["yaourt de soja"] },
+  { grp: "yaourt", k: "skyr de soja", ing: "skyr de soja", t: "skyr de soja", g: "m", forms: ["skyr de soja"] },
+  { grp: "huile", k: "huile d'olive", ing: "huile d'olive", t: "huile d'olive", g: "f", forms: ["huile d'olive"] },
+  { grp: "huile", k: "huile de sesame", ing: "huile de sésame grillé", t: "huile de sésame grillé", g: "f", forms: ["huile de sésame grillé", "huile de sésame"] },
+  { grp: "herbm", k: "persil", ing: "persil", t: "persil", g: "m", forms: ["persil"], herb: true },
+  { grp: "herbm", k: "basilic", ing: "basilic", t: "basilic", g: "m", forms: ["basilic"], herb: true },
+  { grp: "herbm", k: "aneth", ing: "aneth", t: "aneth", g: "m", forms: ["aneth"], herb: true },
+  { grp: "herbm", k: "cerfeuil", ing: "cerfeuil", t: "cerfeuil", g: "m", forms: ["cerfeuil"], herb: true },
+  { grp: "herbm", k: "estragon", ing: "estragon", t: "estragon", g: "m", forms: ["estragon"], herb: true },
+  { grp: "herbm", k: "thym", ing: "thym", t: "thym", g: "m", forms: ["thym"], herb: true },
+  { grp: "herbf", k: "coriandre", ing: "coriandre", t: "coriandre", g: "f", forms: ["coriandre"], herb: true },
+  { grp: "herbf", k: "ciboulette", ing: "ciboulette", t: "ciboulette", g: "f", forms: ["ciboulette"], herb: true },
+  { grp: "herbf", k: "menthe", ing: "menthe", t: "menthe", g: "f", forms: ["menthe"], herb: true }
+];
+const subOf = i => { const e = lookup(i.n); return e ? SUBT.find(s => s.k === e.k) || null : null; };
+const subVow = s => /^[aeiouhéèêâîô]/i.test(s.t);
+const subArt = {
+  def: s => subVow(s) ? "l'" : s.g === "f" ? "la " : "le ",
+  part: s => subVow(s) ? "de l'" : s.g === "f" ? "de la " : "du ",
+  de: s => subVow(s) ? "d'" : "de ",
+  indef: s => s.g === "f" ? "une " : "un ",
+  a: s => subVow(s) ? "à l'" : s.g === "f" ? "à la " : "au "
+};
+const ART_TYPE = { "le": "def", "la": "def", "l'": "def", "les": "def", "du": "part", "de la": "part", "de l'": "part", "des": "part", "de": "de", "d'": "de", "un": "indef", "une": "indef", "au": "a", "à la": "a", "à l'": "a", "aux": "a" };
+const subEsc = x => x.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+/* réécrit un texte : ancien aliment → nouveau, avec l'article qui convient */
+function subText(txt, from, to){
+  if (!txt) return txt;
+  const forms = from.forms.slice().sort((a, b) => b.length - a.length).map(f => f.indexOf("?") >= 0 ? f : subEsc(f) + "s?").join("|");
+  const re = new RegExp("(?<![\\p{L}'’-])(?:(le|la|l['’]|les|du|de la|de l['’]|des|de|d['’]|un|une|au|à la|à l['’]|aux)\\s?)?" + (from.nb ? "(?<!(?:" + from.nb + "))" : "") + "(" + forms + ")(?![\\p{L}-])", "giu");
+  return txt.replace(re, (m, art, w, off, all) => {
+    if (!art) return /^[A-ZÉÈÀ]/.test(w) ? to.t[0].toUpperCase() + to.t.slice(1) : to.t;
+    let a = art.toLowerCase().replace("’", "'"), type = ART_TYPE[a.replace(/\s+$/, "")];
+    if (!type) return m;
+    let rep = subArt[type](to) + to.t; if (/^[A-ZÉÈÀ]/.test(art)) rep = rep[0].toUpperCase() + rep.slice(1);
+    return rep;
+  });
+}
+/* remplace dans les ingrédients et dans tous les textes de l'objet (nom, étapes, astuce) */
+function subApply(o, idx, from, to, q){
+  const it = o.ing[idx];
+  o.ing[idx] = { id: it.id, n: to.ing, q: it.q === "" && to.herb ? "" : q, u: to.herb ? it.u : (it.u || "g") };
+  const tokRe = /\{\{([^}]+)\}\}/g;
+  const fix = t => subText(String(t || "").replace(tokRe, (m, n) => { const e = lookup(n); return e && e.k === from.k ? "{{" + to.ing + "}}" : m; }), from, to);
+  if (o.steps) o.steps = o.steps.map(fix);
+  ["name", "n", "sub", "tip"].forEach(k => { if (o[k]) o[k] = fix(o[k]); });
+  if (from.grp === "fec" && o.steps) {
+    const place = to.cook && to.cook.place;
+    if (place) o.steps = o.steps.map(s => s.replace(/au Bamboo \((?:programme )?(?:WHITE|QUICK COOK)[^)]*\)/, place));
+  }
+  /* précaution propre au nouvel aliment, ajoutée une fois à la première étape qui le cite */
+  if (to.x) {
+    const k = o.steps ? o.steps.findIndex((s, i) => i > 0 && new RegExp("(?<![\\p{L}])" + subEsc(to.t) + "(?![\\p{L}])", "iu").test(s.replace(/\{\{[^}]+\}\}/g, ""))) : -1;
+    if (k >= 0) o.steps[k] = o.steps[k].replace(/(\s*\[[^\]]*\]\s*)?$/, m => " Avec " + subArt.def(to) + to.t + " : " + to.x + "." + (m || ""));
+  }
+  if (o.gen) delete o.gen;   /* le plat n'est plus généré : « Varier ce plat » le recomposerait sans le remplacement */
+  o.subs = (o.subs || []).concat([from.ing + " → " + to.ing]);
+}
+/* quantité qui garde les calories, dans les bornes du protocole */
+function subQty(it, from, to, slot){
+  const e = lookup(to.ing); if (to.herb) return { q: "", kcal: 0, kold: 0, d: 0 };
+  const kold = ingKcal(it), old = num(it.q), R = PORTIONS[slot] || PORTIONS.l, kind = unitKind(it.u);
+  if (kind === "c" || kind === "s") return { q: it.q, kcal: Math.round(ingKcal({ n: to.ing, q: it.q, u: it.u })), kold: Math.round(kold), d: 0 };
+  if (!e || e.g == null || !(old > 0) || !kold) return { q: it.q, kcal: Math.round(kold), kold: Math.round(kold), d: 0 };
+  let q = kold / e.g * 100, lo = old * .7, hi = old * 1.3;
+  if (to.grp === "fec") { lo = R.f[0]; hi = R.f[1]; }
+  else if (to.grp === "tofu") { lo = R.p[0]; hi = R.p[1]; }
+  else if (to.grp === "lait" || to.grp === "yaourt") { lo = old * .8; hi = old * 1.25; }
+  if (to.cap) hi = Math.min(hi, to.cap);
+  if (e.k === "celeri-rave") hi = Math.min(hi, 60);
+  q = Math.round(Math.max(lo, Math.min(hi, q)) / 5) * 5;
+  const kcal = Math.round(ingKcal({ n: to.ing, q, u: it.u }));
+  return { q, kcal, kold: Math.round(kold), d: kcal - Math.round(kold) };
+}
+/* remplacements possibles pour un ingrédient (jamais un aliment déjà présent, jamais hors protocole) */
+function subChoices(o, idx, slot){
+  const it = o.ing[idx]; if (!it) return []; const from = subOf(it); if (!from) return [];
+  const have = new Set(o.ing.map(i => { const e = lookup(i.n); return e ? e.k : norm(i.n); }));
+  return SUBT.filter(s => s.grp === from.grp && s.k !== from.k && !have.has(s.k)).map(to => {
+    const e = lookup(to.ing), ok = e && (e.n === 1 || e.n === "t" || e.n === 2 || (e.n === "p2" || e.n === "p3") && reintOK(e.k));
+    if (!ok) return null;
+    if (S.sensible && /fume|miso|soja/.test(to.k) && to.grp === "tofu") return null;
+    const r = subQty(it, from, to, slot), c = protoCheck({ ing: [{ n: to.ing, q: r.q, u: it.u }] });
+    return { to, r, warn: c.warn.map(w => w.why) };
+  }).filter(Boolean);
+}
+const subSlot = () => MODAL && MODAL.kind === "meal" && MODAL.t ? MODAL.t.s : "l";
+let SUBI = null;
+function subPanel(o, k){
+  if (SUBI !== k) return "";
+  const from = subOf(o.ing[k]), ch = subChoices(o, k, subSlot());
+  const dd = d => d === 0 ? "mêmes calories" : (d > 0 ? "+" : "−") + Math.abs(d) + " kcal";
+  return `<li class="sub-panel"><p class="sub-h">Remplacer ${esc(o.ing[k].n)} par</p>
+    ${ch.length ? `<div class="sub-list">${ch.map(c => `<button class="sub-it" data-act="subDo" data-i="${k}" data-to="${esc(c.to.k)}"><strong>${esc(cap(c.to.ing))}</strong>
+      <span>${c.to.herb ? "sans calories" : (c.r.q !== "" ? esc(String(c.r.q)) + " " + esc(o.ing[k].u || "g") + " · " : "") + "≈ " + c.r.kcal + " kcal · " + dd(c.r.d)}</span>${c.warn.length ? `<em>${esc(c.warn[0])}</em>` : ""}</button>`).join("")}</div>
+      <p class="muted small">La quantité garde les calories dans les limites de portion du protocole ; les étapes de la recette sont réécrites avec le nouvel aliment.</p>`
+      : `<p class="muted small">Aucun équivalent sûr : la cuisson ou la préparation changerait.</p>`}</li>`;
+}
+const subBtn = (o, k) => subOf(o.ing[k]) && subChoices(o, k, subSlot()).length
+  ? `<button class="icon sub-b" data-act="subOpen" data-i="${k}" aria-label="Remplacer par un équivalent" title="Remplacer par un équivalent" aria-expanded="${SUBI === k}">⇄</button>` : "";
+function subRefresh(){
+  const o = edObj(); if (!o) return;
+  $("#ingList").innerHTML = ingRows(o); $("#edKcal").textContent = fmtK(kcalOf(o));
+  const rd = $("#stepsRead"); if (rd) rd.innerHTML = stepsHTML(o.steps || [], o.ing || []);
+  const se = $("#stepsEdit"); if (se) se.value = (o.steps || []).join("\n");
+  const ti = document.querySelector(".ed-title"); if (ti) { ti.value = o.name != null && MODAL.kind !== "recipe" && MODAL.kind !== "draft" ? o.name : o.n; if (typeof fitTitle === "function") fitTitle(); }
+  const tp = document.querySelector('[data-ed="tip"]'); if (tp) tp.value = o.tip || "";
+  const gp = document.querySelector(".gen-panel"); if (gp && !o.gen) gp.remove();
+}
+A.subOpen = ds => { const k = +ds.i; SUBI = SUBI === k ? null : k; const o = edObj(); if (o) $("#ingList").innerHTML = ingRows(o); };
+A.subDo = ds => {
+  const o = edObj(); if (!o) return; const k = +ds.i, it = o.ing[k], from = subOf(it), to = SUBT.find(s => s.k === ds.to);
+  if (!from || !to) return; const r = subQty(it, from, to, subSlot());
+  if (MODAL.kind !== "draft") snapshot();
+  subApply(o, k, from, to, r.q); SUBI = null;
+  if (MODAL.kind !== "draft") save(); subRefresh();
+  toast(`Remplacé : ${from.ing} → ${to.ing}${r.d ? " (" + (r.d > 0 ? "+" : "−") + Math.abs(r.d) + " kcal)" : ", mêmes calories"}`);
+};
+
+/* ---------- dans la fiche de cuisine (mode cuisine) : bouton « Équivalent » sous chaque ingrédient remplaçable ---------- */
+const subCookBtn = (o, idx) => subOf(o.ing[idx]) && subChoices(o, idx, subSlot()).length
+  ? `<button class="mini" data-act="cookSubOpen" data-i="${idx}" aria-expanded="${CK.sub === idx}">⇄ Équivalent, mêmes calories</button>` : "";
+function subCookPanel(o, idx){
+  if (CK.sub !== idx) return "";
+  const ch = subChoices(o, idx, subSlot()), dd = d => d === 0 ? "mêmes calories" : (d > 0 ? "+" : "−") + Math.abs(d) + " kcal";
+  return `<div class="vg-panel sub-cook"><p class="muted small">Remplacer ${esc(o.ing[idx].n)} par :</p><div class="sub-list">${ch.map(c => `<button class="sub-it" data-act="cookSubDo" data-i="${idx}" data-to="${esc(c.to.k)}"><strong>${esc(cap(c.to.ing))}</strong>
+    <span>${c.to.herb ? "sans calories" : (c.r.q !== "" ? esc(String(c.r.q)) + " " + esc(o.ing[idx].u || "g") + " · " : "") + "≈ " + c.r.kcal + " kcal · " + dd(c.r.d)}</span>${c.warn.length ? `<em>${esc(c.warn[0])}</em>` : ""}</button>`).join("")}</div>
+    <p class="muted small">La quantité garde les calories dans les limites de portion du protocole ; les étapes sont réécrites avec le nouvel aliment, la cuisson reste la même.</p></div>`;
+}
+A.cookSubOpen = ds => { const i = +ds.i; CK.sub = CK.sub === i ? null : i; CK.swap = null; CK.addVeg = false; refreshCook(COOKMSG, []); };
+A.cookSubDo = ds => {
+  CK.sub = null;
+  cookOp(o => { const k = +ds.i, it = o.ing[k], from = subOf(it), to = SUBT.find(s => s.k === ds.to); if (!from || !to) return null;
+    const r = subQty(it, from, to, subSlot()); subApply(o, k, from, to, r.q);
+    return { title: "Remplacé : " + from.ing + " → " + to.ing, extra: r.d ? ["Quantité ajustée à " + (r.q !== "" ? r.q + " " + (it.u || "g") : "") + " pour garder les calories au plus près (" + (r.d > 0 ? "+" : "−") + Math.abs(r.d) + " kcal)"] : ["Mêmes calories"] }; });
+};
+
+/* ============ BANCHAN EN LOT : l'équivalent de plusieurs repas préparé en une fois, avec la conservation ============
+   Chaque repas coréen = riz + 1 banchan à protéine + 2 banchan de légumes. On choisit des banchan, l'application répartit les portions,
+   regroupe les quantités et les courses, estime le temps total et donne la durée de conservation au frais de chacun :
+   les plus fragiles sont mangés les premiers. */
+const LOT_KEEP_NOTE = "Refroidir en moins de 2 heures, ranger dans des boîtes en verre fermées, au réfrigérateur (4 °C au plus). Réchauffer doucement à la casserole ou à la vapeur : tiède, jamais brûlant. Ne pas congeler.";
+/* jours de conservation au frais, prudents (digestion sensible) */
+function lotKeep(r){
+  const id = r.id || "";
+  if (/gyeran|sundubu/.test(id)) return 2;          /* œufs, tofu soyeux : fragiles */
+  if (/jorim|dubu-jjim/.test(id)) return 4;          /* braisés dans leur sauce */
+  return 3;                                          /* namul, muchim, tofu assaisonné */
+}
+const LOT_N = [2, 3, 4];
+let LOT = null;
+const lotPool = () => bcRecipes().filter(okSens);
+const lotP = () => lotPool().filter(r => r.go === "Protéine"), lotV = () => lotPool().filter(r => r.go === "Légume");
+const lotAll = ids => ids.map(id => bcRecipes().find(r => r.id === id)).filter(Boolean);
+/* répartit N repas : chaque repas reçoit 1 protéine et 2 légumes différents ; les plus fragiles d'abord */
+function lotPlan(N, pIds, vIds){
+  const P = lotAll(pIds).sort((a, b) => lotKeep(a) - lotKeep(b)), V = lotAll(vIds).sort((a, b) => lotKeep(a) - lotKeep(b));
+  if (!P.length || V.length < 2) return null;
+  const meals = [], uses = {};
+  for (let i = 0; i < N; i++) {
+    const p = P[Math.min(P.length - 1, Math.floor(i * P.length / N))], v1 = V[(2 * i) % V.length], v2 = V[(2 * i + 1) % V.length];
+    meals.push({ day: i + 1, p, v: [v1, v2] });
+    [p, v1, v2].forEach(r => { uses[r.id] = (uses[r.id] || 0) + 1; });
+  }
+  const parts = Object.keys(uses).map(id => ({ r: bcRecipes().find(x => x.id === id), n: uses[id] }));
+  parts.sort((a, b) => (b.r.tc || 0) - (a.r.tc || 0));
+  const late = parts.filter(x => { const lastDay = Math.max(...meals.filter(m => m.p === x.r || m.v.indexOf(x.r) >= 0).map(m => m.day)); return lastDay > lotKeep(x.r); }).map(x => x.r);
+  /* liste de courses : quantités × portions, regroupées par aliment */
+  const ing = [];
+  parts.forEach(({ r, n }) => r.ing.forEach(i => {
+    const q = num(i.q), k = norm(i.n), ex = ing.find(x => norm(x.n) === k && x.u === i.u);
+    if (ex && q > 0 && ex.q !== "") ex.q = Math.round((num(ex.q) + q * n) * 100) / 100;
+    else if (!ex) ing.push({ n: i.n, q: q > 0 ? Math.round(q * n * 100) / 100 : "", u: i.u });
+  }));
+  ing.unshift({ n: "riz cuit", q: KR_RICE * N, u: "g" });
+  /* temps : préparations additionnées (un peu plus longues en grande quantité), cuissons qui se chevauchent */
+  const prep = parts.reduce((s, x) => s + ((x.r.t || 0) - (x.r.tc || 0)) * (1 + .35 * (x.n - 1)), 0), cook = Math.max(...parts.map(x => x.r.tc || 0));
+  const t = Math.round((prep + cook + 10) / 5) * 5;
+  const solo = meals.reduce((s, m) => s + composeKorean(m.p, m.v).t, 0);
+  const kc = meals.map(m => kcalOf(composeKorean(m.p, m.v)));
+  return { N, meals, parts, ing, t, solo, kc, late };
+}
+function lotAuto(N){
+  const P = lotP(), V = lotV(); if (!P.length || V.length < 2) return { p: [], v: [] };
+  const sh = a => a.map(x => [Math.random(), x]).sort((a, b) => a[0] - b[0]).map(x => x[1]);
+  const np = N >= 3 ? 2 : 1, nv = N >= 3 ? 4 : 3;
+  return { p: sh(P).slice(0, np).map(r => r.id), v: sh(V).slice(0, nv).map(r => r.id) };
+}
+const lotDays = d => d + " jour" + (d > 1 ? "s" : "");
+function lotBody(){
+  const P = lotP(), V = lotV(), N = LOT.N;
+  const item = (r, on, act) => `<button class="choice kr-it" data-act="${act}" data-id="${r.id}" aria-pressed="${on}"><strong>${esc(bcShort(r.n))}</strong><span>${esc(bcSub(r.n))} · se garde ${lotDays(lotKeep(r))}</span></button>`;
+  const plan = lotPlan(N, LOT.p, LOT.v);
+  const need = `<p class="muted small kr-sum">Pour ${N} repas : au moins 1 banchan à protéine et 2 banchan de légumes (idéalement ${N >= 3 ? "2 et 4" : "1 et 3"} pour varier).</p>`;
+  const out = !plan ? need : `<section class="lot-sum"><p class="lot-big">${plan.N} repas · ≈ ${plan.t} min en tout</p>
+      <p class="muted small">au lieu de ≈ ${Math.round(plan.solo / 5) * 5} min en les préparant un par un · ≈ ${fmtK(Math.round(plan.kc.reduce((a, b) => a + b, 0) / plan.kc.length / 10) * 10)} kcal par repas, riz compris</p></section>
+    <h3 class="kr-h">Les repas, dans l'ordre</h3>
+    <ol class="lot-meals">${plan.meals.map((m, i) => `<li><div><strong>Jour ${m.day}</strong> · ${esc(bcShort(m.p.n))} + ${m.v.map(v => esc(bcShort(v.n))).join(" + ")} + riz ${KR_RICE} g
+      <span class="muted small"> · ≈ ${fmtK(plan.kc[i])} kcal</span></div><button class="link" data-act="lotMeal" data-i="${i}">Mettre au planning</button></li>`).join("")}</ol>
+    <h3 class="kr-h">Conservation</h3>
+    <ul class="lot-keep">${plan.parts.map(x => `<li><span>${esc(bcShort(x.r.n))} <em>× ${x.n}</em></span><span class="${plan.late.indexOf(x.r) >= 0 ? "lot-late" : ""}">${lotDays(lotKeep(x.r))}${plan.late.indexOf(x.r) >= 0 ? " : à manger plus tôt" : ""}</span></li>`).join("")}</ul>
+    ${plan.late.length ? `<p class="lot-warn">Certains banchan se garderaient moins longtemps que le dernier repas : prends-en d'autres, ou fais ${Math.max(2, N - 1)} repas.</p>` : ""}
+    <p class="muted small">${esc(LOT_KEEP_NOTE)} Jour 1 = le lendemain de la préparation.</p>
+    <h3 class="kr-h">Ordre de préparation</h3>
+    <ol class="lot-order">${plan.parts.map((x, i) => `<li>${i === 0 ? "Lancer d'abord " : i === plan.parts.length - 1 ? "Terminer par " : "Puis "}<strong>${esc(bcShort(x.r.n))}</strong>${x.n > 1 ? ` (×${x.n})` : ""}${x.r.tc ? ` : ${x.r.tc} min de cuisson, à laisser avancer pendant la découpe des autres` : ""}</li>`).join("")}</ol>
+    <h3 class="kr-h">Courses pour le lot</h3>
+    <ul class="lot-shop">${plan.ing.map(i => `<li><span>${esc(cap(i.n))}</span><span>${esc(qtyStr(i) || "")}</span></li>`).join("")}</ul>
+    <p class="muted small">Les étapes de chaque banchan se trouvent dans le Carnet : multiplie les quantités par le nombre de portions indiqué (× ${plan.parts.map(x => x.n).join(", ")}).</p>`;
+  return `<div class="lot-n"><span class="flabel">Nombre de repas</span><div class="chips">${LOT_N.map(n => `<button class="chip" data-act="lotN" data-n="${n}" aria-pressed="${N === n}">${n}</button>`).join("")}</div>
+      <button class="link" data-act="lotAuto">Me proposer une sélection</button></div>
+    <h3 class="kr-h">1 · Les banchan à protéine</h3><div class="choice-list kr-list">${P.map(r => item(r, LOT.p.indexOf(r.id) >= 0, "lotP")).join("")}</div>
+    <h3 class="kr-h">2 · Les banchan de légumes</h3><div class="choice-list kr-list">${V.map(r => item(r, LOT.v.indexOf(r.id) >= 0, "lotV")).join("")}</div>${out}`;
+}
+const lotRefresh = () => { const e = $("#lotBody"); if (e) { const y = e.parentElement ? e.parentElement.scrollTop : 0; e.innerHTML = lotBody(); if (e.parentElement) e.parentElement.scrollTop = y; } };
+A.lotOpen = () => {
+  const a = lotAuto(3); LOT = { N: 3, p: a.p, v: a.v }; MODAL = { kind: "lot" };
+  openModal(`<p class="eyebrow">Carnet de banchan</p><h2 class="display-s">Préparer des banchan pour plusieurs repas</h2>
+    <div id="lotBody">${lotBody()}</div>
+    <div class="sheet-foot"><button class="btn ghost" data-act="close">Fermer</button><button class="btn primary push" data-act="lotShop">Ajouter aux courses</button></div>`, { wide: true });
+};
+A.lotN = ds => { LOT.N = +ds.n; const a = lotAuto(LOT.N); LOT.p = a.p; LOT.v = a.v; lotRefresh(); };
+A.lotAuto = () => { const a = lotAuto(LOT.N); LOT.p = a.p; LOT.v = a.v; lotRefresh(); };
+A.lotP = ds => { const i = LOT.p.indexOf(ds.id); if (i >= 0) LOT.p.splice(i, 1); else LOT.p.push(ds.id); lotRefresh(); };
+A.lotV = ds => { const i = LOT.v.indexOf(ds.id); if (i >= 0) LOT.v.splice(i, 1); else LOT.v.push(ds.id); lotRefresh(); };
+A.lotMeal = ds => { const plan = lotPlan(LOT.N, LOT.p, LOT.v); if (!plan) return; const m = plan.meals[+ds.i]; closeModal(); placeTemp(composeKorean(m.p, m.v)); };
+A.lotShop = () => {
+  const plan = lotPlan(LOT.N, LOT.p, LOT.v); if (!plan) return toast("Choisis au moins 1 banchan à protéine et 2 de légumes");
+  let n = 0; plan.ing.forEach(i => { if (/^(eau)/.test(norm(i.n))) return; S.shopExtra.push({ id: uid(), n: i.n, q: i.q === "" ? "" : String(i.q), u: i.u, r: "Banchan × " + plan.N + " repas" }); n++; });
+  save(); toast(n + " article" + (n > 1 ? "s" : "") + " ajouté" + (n > 1 ? "s" : "") + " à la liste de courses");
+};
 
 function viewInsp(){
   const mode = (S.ui && S.ui.insp) || "compose";

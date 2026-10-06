@@ -213,7 +213,7 @@ function afterSelect(t){
   if (S.autoVeg !== false) autoSide(m);
   if (S.autoAdapt !== false) adaptMeal(m, slotTarget(t));
   save(); const d = diffIng(a, ingSig(m)), lines = d.lines.slice(); if (kcalOf(m) !== k0) lines.push("≈ " + fmtK(k0) + " → " + fmtK(kcalOf(m)) + " kcal");
-  closeModal(); CK = { swap: null, addVeg: false, addIng: false };
+  closeModal(); CK = { swap: null, addVeg: false, addIng: false, sub: null };
   COOKMSG = { title: lines.length ? "Recette adaptée à ton planning" : slotLabel(t.s) + " ajouté", lines: lines.length ? lines : [m.name], undo: true };
   FLASH = new Set(d.names); openCook("meal", t);
 }
@@ -316,7 +316,7 @@ function cookFooter(kind, ref, o){
     : `<button class="btn primary" data-act="tempPlace">Ajouter au planning</button><button class="btn" data-act="tempSave">Enregistrer dans le carnet</button>${mod}
       <button class="btn ghost push" data-act="close">Fermer</button>`;
 }
-let CK = { swap: null, addVeg: false, addIng: false }, COOKMSG = null, FLASH = new Set();
+let CK = { swap: null, addVeg: false, addIng: false, sub: null }, COOKMSG = null, FLASH = new Set();
 function vegOptions(o, exceptKey){
   const season = seasonVegs(o, 12).filter(k => k !== exceptKey);
   const other = Object.keys(VEGS).filter(k => k !== "oignons" && k !== exceptKey && season.indexOf(k) < 0 && !(o.ing || []).some(i => norm(i.n) === norm(VEGS[k].ing[0][0])));
@@ -386,7 +386,7 @@ function cookHTML(o, kind, ref){
     ${COOKMSG ? `<div class="chg-banner" role="status"><div class="cb-head"><strong>${esc(COOKMSG.title)}</strong><button class="qx" data-act="bannerClose" aria-label="Fermer">${ic("x")}</button></div>${COOKMSG.lines.slice(0, 7).map(l => `<span>${esc(l)}</span>`).join("")}${COOKMSG.undo ? `<button class="link" data-act="cookUndo">Annuler ce changement</button>` : ""}</div>` : ""}
   </div>`;
 }
-function resetCook(){ CK = { swap: null, addVeg: false, addIng: false }; COOKMSG = null; FLASH = new Set(); }
+function resetCook(){ CK = { swap: null, addVeg: false, addIng: false, sub: null }; COOKMSG = null; FLASH = new Set(); }
 function refreshCook(msg, flashNames){
   COOKMSG = msg || null; FLASH = new Set(flashNames || []);
   const sh = document.querySelector("#modal .sheet"), sc = sh ? sh.scrollTop : 0;

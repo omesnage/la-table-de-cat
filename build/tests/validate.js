@@ -109,7 +109,7 @@ function loadApp(){
   let store = null;
   Object.assign(global, { window: global, document: noop, location: { hash: "" }, addEventListener(){}, requestAnimationFrame(){}, setTimeout(){},
     matchMedia: () => ({ matches: false, addEventListener(){} }), localStorage: { getItem: () => store, setItem(k, v){ store = v; }, removeItem(){} } });
-  (0, eval)(code + '\n;global.__A = { randomGen, proposeWeek, proposeDay, planIssues, buildDefaultPlan, dayCtx, SLOTS, composeKorean, protoCheck, pdSalty, isSnack, EGG_MAX, migrateAll, defaultState, getS: () => S, setS: x => { S = x; } };');
+  (0, eval)(code + '\n;global.__A = { subChoices, subApply, subOf, subQty, lotPlan, lotKeep, mealFromRecipe, KR_RICE, randomGen, proposeWeek, proposeDay, planIssues, buildDefaultPlan, dayCtx, SLOTS, composeKorean, protoCheck, pdSalty, isSnack, EGG_MAX, migrateAll, defaultState, getS: () => S, setS: x => { S = x; } };');
   return global.__A;
 }
 let A = null;
@@ -223,6 +223,39 @@ if (A) {
   PB.forEach(p => VB.forEach((v, vi) => { const w = VB[(vi + 5) % VB.length]; if (v === w) return; const m = A.composeKorean(p, [v, w]); coherence(m).forEach(q => { (seenK[q] = seenK[q] || []).push(m.name); }); }));
   Object.keys(seenK).forEach(q => fail('repas coréen', q + '  (ex. : ' + seenK[q][0] + ')'));
   if (!Object.keys(seen).length && !Object.keys(seenK).length) out.push('✓ cohérence ingrédients / étapes : plats générés et repas coréens composés');
+}
+
+/* ---------- 5 : remplacement d'un ingrédient (cat_subs.js) et banchan en lot (cat_lot.js) ---------- */
+if (A) {
+  const clone = x => JSON.parse(JSON.stringify(x)), recs = A.getS().recipes.filter(r => !r.own);
+  let nSub = 0, worst = 0, badSub = 0; const badMsgs = [];
+  recs.forEach(r => r.ing.forEach((it, idx) => {
+    const m0 = A.mealFromRecipe(clone(r)); if (!m0.ing[idx]) return;
+    A.subChoices(m0, idx, 'l').forEach(c => {
+      const m = A.mealFromRecipe(clone(r)), from = A.subOf(m.ing[idx]), q = A.subQty(m.ing[idx], from, c.to, 'l');
+      A.subApply(m, idx, from, c.to, q.q); nSub++; worst = Math.max(worst, Math.abs(q.d));
+      const P = coherence(m), txt = m.steps.map(citeClean).join(' | ').replace(/lait de riz|creme de riz|farine de riz/g, '');
+      const left = from.forms.some(f => new RegExp('(^|[^a-z-])' + norm(f.replace('?', '')) + '([^a-z-]|$)').test(txt) && !new RegExp(norm(c.to.t)).test(norm(f)));
+      if (A.protoCheck(m).bad.length) P.push('protocole enfreint');
+      if (left && !(from.grp === 'tofu')) P.push("l'ancien aliment reste cité : " + from.t);
+      if (!m.ing.some(i => norm(i.n) === norm(c.to.ing))) P.push('nouvel ingrédient absent');
+      if (/\{\{[^}]*\}\}/.test(m.steps.join(' ')) && m.steps.some(st => (st.match(/\{\{([^}]+)\}\}/g) || []).some(t => !m.ing.some(i => norm(i.n).includes(norm(t.slice(2, -2))) || norm(t.slice(2, -2)).includes(norm(i.n)))))) P.push('jeton {{ }} sans ingrédient');
+      if (P.length) { badSub++; if (badMsgs.length < 6) badMsgs.push(r.id + ' : ' + from.ing + ' → ' + c.to.ing + ' : ' + P.join(' | ')); }
+    });
+  }));
+  if (!nSub) fail('remplacement', 'aucun remplacement testé');
+  badMsgs.forEach(x => fail('remplacement', x));
+  if (!badSub) out.push('✓ remplacement d\'un ingrédient : ' + nSub + ' remplacements essayés sur le carnet, textes cohérents, protocole respecté (écart maximal ' + worst + ' kcal)');
+  /* banchan en lot : 3 repas, 2 protéines + 4 légumes */
+  const bc = recs.filter(r => r.cat === 'Banchan'), P = bc.filter(r => r.go === 'Protéine').slice(0, 2).map(r => r.id), V = bc.filter(r => r.go === 'Légume').slice(0, 4).map(r => r.id);
+  const L = A.lotPlan(3, P, V);
+  if (!L) fail('lot', 'plan impossible');
+  else {
+    const ok = L.meals.length === 3 && L.meals.every(m => m.v[0] !== m.v[1]) && L.parts.reduce((s, x) => s + x.n, 0) === 9 && L.t > 0 && L.t < L.solo;
+    if (!ok) fail('lot', 'répartition, durée ou portions incorrectes'); else out.push('✓ banchan en lot : 3 repas, ' + L.parts.length + ' banchan, ' + L.t + ' min au lieu de ' + L.solo + ', conservation et courses calculées');
+    if (!L.ing.every(i => i.n)) fail('lot', 'courses incomplètes');
+  }
+  if (A.lotPlan(3, [], V) !== null) fail('lot', 'un lot sans protéine devrait être refusé');
 }
 console.log(out.join('\n'));
 console.log(NEW_RECIPES.length + ' recettes, ' + errors + ' en erreur');
