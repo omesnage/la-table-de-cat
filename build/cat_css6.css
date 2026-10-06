@@ -37,3 +37,28 @@
 .sheet-close .icon{width:44px;height:44px;font-size:24px}
 .bk-tabs{display:flex;width:100%}
 .bk-tabs .seg-b{flex:1;padding:12px 8px;font-size:15px}
+
+/* remplacer un ingrédient par un équivalent */
+.sub-b{font-size:15px}
+.sub-b[aria-expanded="true"]{background:var(--wash);color:var(--ink)}
+.sub-panel{list-style:none;padding:14px 0 16px;border-bottom:1px solid var(--line)}
+.sub-h{margin:0 0 10px;font:italic 400 17px/1.2 var(--serif)}
+.sub-list{display:grid;gap:8px;margin-bottom:10px}
+.sub-it{display:grid;gap:2px;text-align:left;padding:11px 14px;border:1px solid var(--line);border-radius:4px;background:var(--paper);cursor:pointer;font:inherit;color:inherit}
+.sub-it:hover{border-color:var(--ink)}
+.sub-it span{font-size:13.5px;color:var(--muted)}
+.sub-it em{font-size:12.5px;font-style:normal;color:var(--muted)}
+
+/* banchan en lot */
+.pagehead-act{display:flex;gap:10px;flex-wrap:wrap}
+.lot-n{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin:0 0 6px}
+.lot-sum{margin:26px 0 4px;padding:20px 22px;background:var(--wash);border-radius:4px}
+.lot-big{margin:0 0 4px;font:italic 400 24px/1.2 var(--serif)}
+.lot-meals,.lot-order{margin:0;padding:0 0 0 20px;display:grid;gap:10px}
+.lot-meals li{display:flex;justify-content:space-between;gap:14px;align-items:baseline}
+.lot-keep,.lot-shop{list-style:none;margin:0;padding:0}
+.lot-keep li,.lot-shop li{display:flex;justify-content:space-between;gap:14px;padding:8px 0;border-bottom:1px solid var(--line)}
+.lot-keep em{font-style:normal;color:var(--muted)}
+.lot-late{color:#a4562f}
+.lot-warn{margin:12px 0 0;padding:10px 14px;border-left:2px solid #a4562f;background:var(--wash);font-size:14px}
+@media (max-width:640px){.lot-meals li{flex-direction:column;gap:2px}.pagehead-act{width:100%}.pagehead-act .btn{flex:1}}
