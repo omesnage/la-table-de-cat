@@ -51,7 +51,7 @@ const ING_DB = [
   /* produits japonais et coréens doux (sans piment, sans ail, sans oignon) */
   ["miso blanc","Épicerie",{c:20,n:"t",w:"fermenté : petite quantité (1 c. à café), à éviter en phase de sensibilité aiguë"}],
   ["sauce soja","Épicerie",{c:3,n:"t",w:"fermentée et salée : 1 c. à café, à éviter en phase de sensibilité aiguë"}],
-  ["nori","Épicerie",{p:2,n:"t"}],["wakame","Épicerie",{g:45,n:"t"}],["graines de sesame","Épicerie",{c:17,n:"t"}],
+  ["nori","Épicerie",{p:2,n:"t"}],["kombu","Épicerie",{g:5,n:"t",w:"algue : infusée à feu doux dans le bouillon puis retirée, petite quantité"}],["wakame","Épicerie",{g:45,n:"t"}],["graines de sesame","Épicerie",{c:17,n:"t"}],
   ["soba","Féculents",{g:100,n:1,w:"100 % sarrasin uniquement"}],["vermicelles de patate douce","Féculents",{g:110,n:"t"}],
   ["tofu soyeux","Tofu & protéines végétales",{g:55,n:1}],
   ["persil","Herbes & aromates",{g:0,n:"t"}],["ciboulette","Herbes & aromates",{g:0,n:"t",w:"pointes vertes uniquement"}],["thym","Herbes & aromates",{g:0,n:"t"}],["romarin","Herbes & aromates",{g:0,n:"t"}],

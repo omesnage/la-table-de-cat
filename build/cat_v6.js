@@ -6,7 +6,7 @@
 const NONVEG = ["Poulet", "Sardines"];
 const isVegCat = c => NONVEG.indexOf(c) < 0;
 const vegRatio = () => S.vegRatio > 0 ? S.vegRatio : 80;
-const EGG_PREPS = [/oeufs? (?:durs?|mollets?|poches?|au plat|brouilles?|cocotte)/, /omelette/, /chawan/, /\boeufs? mollets?\b/];
+const EGG_PREPS = [/oeufs? (?:durs?|mollets?|poches?|au plat|brouilles?|cocotte)/, /omelette/, /chawan/];
 function eggsOK(m){
   const t = norm((m.name || m.n || "") + " " + (m.steps || []).join(" ").replace(/\{\{[^}]*\}\}/g, " ")); let n = 0;
   EGG_PREPS.forEach(re => { if (re.test(t)) n++; }); return n <= 1;
@@ -318,4 +318,23 @@ function migrate9(){
     });
   }));
   S.v = 9;
+}
+
+/* ---------- version 10 : recettes plus savoureuses (petits-déjeuners, poulet, œufs, tofu) ----------
+   Les recettes fournies sont remplacées. Seuls les repas du planning issus d'une recette qui n'existe plus sont refaits ;
+   les autres repas, les recettes de Cat, ses pesées et ses réglages sont conservés. */
+function migrate10(){
+  const own = S.recipes.filter(r => r.own), oldIds = new Set(S.recipes.filter(r => !r.own).map(r => r.id));
+  S.recipes = DEFAULT_RECIPES.map(recipeToState).concat(own);
+  const have = new Set(S.recipes.map(r => r.id));
+  const fresh = buildDefaultPlan(S.recipes);
+  S.weeks.forEach((w, wi) => w.days.forEach((d, di) => {
+    const src = fresh[wi % fresh.length].days[di % 7].meals;
+    ["b", "l", "d"].forEach(k => {
+      const m = d.meals[k];
+      if (!m || !m.recipeId || have.has(m.recipeId) || !oldIds.has(m.recipeId)) return;
+      const nm = copyMeal(src[k] || src.l); nm.id = m.id; protoAdaptMeal(nm, k, kT(k)); d.meals[k] = nm;
+    });
+  }));
+  S.v = 10;
 }
