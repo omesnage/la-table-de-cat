@@ -106,7 +106,7 @@ RC({id:"n-pdj-brouillade-tofu-sarrasin", n:"Brouillade crémeuse d'œuf et de to
  tip:"Le tofu soyeux prolonge la douceur de l'œuf comme une crème fraîche : retirer du feu avant la fin, la chaleur résiduelle finit la cuisson."}),
 
 RC({id:"n-pdj-galette-sarrasin-tofu-epinards", n:"Galette fine de sarrasin, tofu soyeux & épinards fondus", cat:"Tofu", st:"Petit-déjeuner", base:"Sarrasin", d:1, go:"Salé",
- ing:[["farine de sarrasin",30,"g"],["tofu soyeux",60,"g"],["épinards",40,"g"],["huile d'olive",1,"c. à café"],["sel","","1 pincée"]],
+ ing:[["farine de sarrasin",30,"g"],["tofu soyeux",60,"g"],["épinards",40,"g"],["huile d'olive",1,"c. à café"],["sel","","1 pincée"],["eau",60,"ml"]],
  steps:[
   "Avant de commencer — Ustensiles : un bol, un fouet, une poêle antiadhésive bien sèche, une spatule fine, une assiette tiède.",
   "La pâte — Fouetter la farine de sarrasin ({{farine de sarrasin}}), 60 ml d'eau et le sel jusqu'à une pâte fluide et lisse, comme une crème liquide. [[sortir; delayer]]",

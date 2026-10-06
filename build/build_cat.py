@@ -124,7 +124,7 @@ function buildDefaultPlan(recipes){
 }
 ''')
 rep('return { v: 1, font: "editorial", recipes, weeks: buildDefaultPlan(recipes), weights: [], goal: 60, checked: {}, ui: { view: "plan", week: 0 } };',
-    'return { v: 12, font: "editorial", recipes, weeks: buildDefaultPlan(recipes), weights: [], goal: 60, checked: {}, ui: { view: "plan", week: 0 },\n    kcalT: { b: null, l: null, d: null }, vegRatio: 80, autoAdapt: true, autoVeg: true, sensible: false, pantry: [], shopExtra: [], cooked: {}, reint: { start: null, foods: {}, current: null } };')
+    'return { v: 13, font: "editorial", recipes, weeks: buildDefaultPlan(recipes), weights: [], goal: 60, checked: {}, ui: { view: "plan", week: 0 },\n    kcalT: { b: null, l: null, d: null }, vegRatio: 80, autoAdapt: true, autoVeg: true, sensible: false, pantry: [], shopExtra: [], cooked: {}, reint: { start: null, foods: {}, current: null } };')
 rep('''  S.ui = S.ui || { view: "plan", week: 0 }; S.checked = S.checked || {}; S.weights = S.weights || [];
   if (S.goal == null) S.goal = 73;
   S.v = S.v || 1;''','''  S.v = S.v || 1;
@@ -279,6 +279,8 @@ rep('$("#edKcal").textContent = fmtK(kcalOf(o));','$("#edKcal").textContent = fm
 rep('<select id="placeS">${SLOTS.map(s => `<option value="${s.k}">${s.label}</option>`).join("")}</select>','<select id="placeS">${SLOTS.map(s => `<option value="${s.k}" ${s.k === (TEMP && TEMP.st === "Petit-déjeuner" ? "b" : TEMP && TEMP.cat === "Collation" ? "c" : "l") ? "selected" : ""}>${s.label}</option>`).join("")}</select>')
 # --- v3 : petits-déjeuners légers, 80 % végétarien, recette visible, aperçu
 rep('function buildGen(g){','function buildGen0(g){')
+# le sel cité dans les étapes figure dans la liste (une seule ligne), au lieu d'être supprimé
+rep('if (norm(n) === "sel") return;','if (norm(n) === "sel" && ing.some(i => norm(i.n) === "sel")) return;')
 rep('    ${filterBar("insp")}\n    <div class="insp-go">','    ${slotOf(INSP) === "b" && INSP.scope === "meal" ? bfFilter("insp") : filterBar("insp")}\n    <div class="insp-go">')
 rep('    ${filterBar("prop")}\n','    ${PROP.t.s === "b" ? bfFilter("prop") : filterBar("prop")}\n')
 rep("""      <button class="btn" data-act="inspView" data-i="${i}">Voir et modifier</button>

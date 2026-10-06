@@ -10,7 +10,7 @@ const KR_STEP_MAX = 15;   /* minutes par banchan, étapes comprises */
 const BANCHAN = [
 /* ---------- à protéine ---------- */
 RC({id:"n-bc-dubu-jorim", n:"Dubu-jorim doux : tofu braisé à la sauce soja sucrée", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Protéine",
- ing:[["tofu ferme",90,"g"],["sauce soja",0.5,"c. à café"],["sirop d'érable",0.5,"c. à café"],["huile de sésame grillé",0.5,"c. à café"],["ciboulette",1,"quelques brins"]],
+ ing:[["tofu ferme",90,"g"],["sauce soja",0.5,"c. à café"],["sirop d'érable",0.5,"c. à café"],["huile de sésame grillé",0.5,"c. à café"],["ciboulette","",HERBS],["eau",60,"ml"]],
  steps:[
   "Avant de commencer — Ustensiles : une petite casserole avec son couvercle, une planche et un couteau, du papier absorbant pour éponger le tofu, une cuillère.",
   "Le tofu — Éponger le bloc de tofu ferme ({{tofu ferme}}) dans du papier absorbant, puis le couper en tranches de 1 cm d'épaisseur. [[sortir; presser tofu ferme; couper tofu ferme]]",
@@ -19,7 +19,7 @@ RC({id:"n-bc-dubu-jorim", n:"Dubu-jorim doux : tofu braisé à la sauce soja suc
  tip:"Une cuisson très douce et couverte suffit : la sauce réduit d'elle-même et le tofu garde un cœur tendre."}),
 
 RC({id:"n-bc-dubu-muchim", n:"Dubu-muchim : tofu écrasé à l'huile de sésame & carotte tendre", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Protéine",
- ing:[["tofu ferme",90,"g"],["carotte",30,"g"],["huile de sésame grillé",0.5,"c. à café"],["sel",1,"pincée"],["ciboulette",1,"quelques brins"]],
+ ing:[["tofu ferme",90,"g"],["carotte",30,"g"],["huile de sésame grillé",0.5,"c. à café"],["sel",1,"pincée"],["ciboulette","",HERBS]],
  steps:[
   "Avant de commencer — Ustensiles : une petite casserole avec son couvercle, une râpe, un bol, une fourchette.",
   "La carotte — Éplucher la carotte ({{carotte}}), la râper finement, puis la cuire 3 minutes dans la casserole couverte avec 2 cuillères d'eau, à feu doux : elle est tendre et ne craque plus. [[eplucher carotte; raper carotte; casserole; cuisson 3]]",
@@ -37,7 +37,7 @@ RC({id:"n-bc-sundubu-doux", n:"Sundubu doux : tofu soyeux fondant au bouillon de
  tip:"Un bouillon qui ne bout jamais reste limpide et doux ; le kombu lui donne sa profondeur sans aucun piment."}),
 
 RC({id:"n-bc-gyeran-jjim", n:"Gyeran-jjim : œuf soufflé à la coréenne au bouillon", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Protéine",
- ing:[["oeuf",2,"pièce"],["bouillon",100,"ml"],["huile de sésame grillé",0.5,"c. à café"],["ciboulette",1,"quelques brins"],["sel",1,"pincée"]],
+ ing:[["oeuf",2,"pièce"],["bouillon",100,"ml"],["huile de sésame grillé",0.5,"c. à café"],["ciboulette","",HERBS],["sel",1,"pincée"]],
  steps:[
   "Avant de commencer — Ustensiles : une petite casserole épaisse avec son couvercle, un bol, une fourchette, une cuillère. Un seul œuf préparé de cette façon par plat.",
   "Le mélange — Casser les œufs ({{oeuf}}) dans le bol et les battre à la fourchette avec le bouillon ({{bouillon}}) et le sel jusqu'à un mélange homogène, sans mousse. [[sortir; ecaler x2; battre]]",
@@ -122,7 +122,7 @@ RC({id:"n-bc-brocoli-muchim", n:"Brocoli-muchim : têtes de brocoli fondantes au
  tip:"Un brocoli bien cuit, presque tendre à l'excès, est indispensable avec un intestin sensible."}),
 
 RC({id:"n-bc-potimarron-jorim", n:"Danhobak-jorim : potimarron braisé au sirop d'érable", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Légume",
- ing:[["potimarron",90,"g"],["sirop d'érable",0.5,"c. à café"],["sauce soja",0.5,"c. à café"],["huile de sésame grillé",0.5,"c. à café"]],
+ ing:[["potimarron",90,"g"],["sirop d'érable",0.5,"c. à café"],["sauce soja",0.5,"c. à café"],["huile de sésame grillé",0.5,"c. à café"],["eau",80,"ml"]],
  steps:[
   "Avant de commencer — Ustensiles : une casserole avec son couvercle, un économe, une planche et un couteau.",
   "Le potimarron — Éplucher le potimarron ({{potimarron}}), retirer les graines et le couper en cubes de 2 cm. [[sortir; eplucher potimarron; couper potimarron]]",
@@ -131,7 +131,7 @@ RC({id:"n-bc-potimarron-jorim", n:"Danhobak-jorim : potimarron braisé au sirop 
  tip:"Le potimarron est naturellement sucré : le sirop n'est là que pour le brillant."}),
 
 RC({id:"n-bc-navet-jorim", n:"Navet-jorim : navet braisé tendre à la sauce douce", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Légume",
- ing:[["navet",90,"g"],["sauce soja",0.5,"c. à café"],["huile de sésame grillé",0.5,"c. à café"]],
+ ing:[["navet",90,"g"],["sauce soja",0.5,"c. à café"],["huile de sésame grillé",0.5,"c. à café"],["eau",80,"ml"]],
  steps:[
   "Avant de commencer — Ustensiles : une casserole avec son couvercle, un économe, une planche et un couteau.",
   "Le navet — Éplucher le navet ({{navet}}) et le couper en cubes de 1,5 cm. [[sortir; eplucher navet; couper navet]]",
@@ -141,7 +141,7 @@ RC({id:"n-bc-navet-jorim", n:"Navet-jorim : navet braisé tendre à la sauce dou
 
 /* ---------- à protéine (suite) ---------- */
 RC({id:"n-bc-dubu-jjim", n:"Dubu-jjim : tofu vapeur à la sauce sésame douce", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Protéine",
- ing:[["tofu ferme",90,"g"],["sauce soja",0.5,"c. à café"],["huile de sésame grillé",0.5,"c. à café"],["graines de sésame",1,"c. à café"],["ciboulette",1,"quelques brins"]],
+ ing:[["tofu ferme",90,"g"],["sauce soja",0.5,"c. à café"],["huile de sésame grillé",0.5,"c. à café"],["graines de sésame",1,"c. à café"],["ciboulette","",HERBS]],
  steps:[
   "Avant de commencer — Ustensiles : une casserole avec son couvercle, une planche et un couteau, du papier absorbant, un petit bol.",
   "Le tofu — Éponger le tofu ferme ({{tofu ferme}}) dans du papier absorbant et le couper en tranches de 1 cm. Les ranger dans la casserole avec 4 cuillères d'eau, couvrir et chauffer à feu doux 5 minutes : le tofu est chaud, tendre et gonflé de vapeur. [[sortir; presser tofu ferme; couper tofu ferme; casserole; cuisson 5]]",
@@ -150,7 +150,7 @@ RC({id:"n-bc-dubu-jjim", n:"Dubu-jjim : tofu vapeur à la sauce sésame douce", 
  tip:"Cuit à la vapeur dans la casserole couverte, le tofu reste blanc, tendre et sans aucune matière grasse chaude."}),
 
 RC({id:"n-bc-sundubu-muchim", n:"Sundubu-muchim : tofu soyeux tiède à la sauce soja & sésame", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Protéine",
- ing:[["tofu soyeux",100,"g"],["sauce soja",0.5,"c. à café"],["huile de sésame grillé",0.5,"c. à café"],["ciboulette",1,"quelques brins"]],
+ ing:[["tofu soyeux",100,"g"],["sauce soja",0.5,"c. à café"],["huile de sésame grillé",0.5,"c. à café"],["ciboulette","",HERBS]],
  steps:[
   "Avant de commencer — Ustensiles : une petite casserole, une cuillère, un petit bol creux.",
   "Le tofu — Chauffer le tofu soyeux ({{tofu soyeux}}) en gros morceaux 3 minutes dans la casserole avec 2 cuillères d'eau, à feu très doux et sans remuer : il se réchauffe sans se défaire. [[sortir; casserole; cuisson 3]]",
@@ -158,7 +158,7 @@ RC({id:"n-bc-sundubu-muchim", n:"Sundubu-muchim : tofu soyeux tiède à la sauce
  tip:"Servi tiède, le tofu soyeux est presque une crème : la sauce n'est là que pour lui donner du relief."}),
 
 RC({id:"n-bc-gyeran-guk", n:"Gyeran-guk : soupe d'œuf en rubans au bouillon de kombu", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Protéine",
- ing:[["oeuf",2,"pièce"],["bouillon",250,"ml"],["kombu",3,"g"],["huile de sésame grillé",0.5,"c. à café"],["ciboulette",1,"quelques brins"]],
+ ing:[["oeuf",2,"pièce"],["bouillon",250,"ml"],["kombu",3,"g"],["huile de sésame grillé",0.5,"c. à café"],["ciboulette","",HERBS]],
  steps:[
   "Avant de commencer — Ustensiles : une petite casserole, une fourchette, un bol, une cuillère, un bol à soupe. Un seul œuf préparé de cette façon par plat.",
   "Le bouillon — Chauffer le bouillon ({{bouillon}}) avec le kombu ({{kombu}}) à feu très doux 5 minutes, sans bouillir, puis retirer le kombu. [[sortir; casserole; cuisson 5]]",
@@ -168,7 +168,7 @@ RC({id:"n-bc-gyeran-guk", n:"Gyeran-guk : soupe d'œuf en rubans au bouillon de 
 
 /* ---------- de légumes (suite) ---------- */
 RC({id:"n-bc-goguma-jorim", n:"Goguma-jorim : patate douce braisée au sirop d'érable", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Légume",
- ing:[["patate douce",60,"g"],["sirop d'érable",0.5,"c. à café"],["sauce soja",0.5,"c. à café"],["huile de sésame grillé",0.5,"c. à café"]],
+ ing:[["patate douce",60,"g"],["sirop d'érable",0.5,"c. à café"],["sauce soja",0.5,"c. à café"],["huile de sésame grillé",0.5,"c. à café"],["eau",60,"ml"]],
  steps:[
   "Avant de commencer — Ustensiles : une casserole avec son couvercle, un économe, une planche et un couteau. La patate douce est limitée à une petite portion (FODMAP).",
   "La patate douce — Éplucher la patate douce ({{patate douce}}) et la couper en cubes de 1,5 cm. [[sortir; eplucher patate douce; couper patate douce]]",
@@ -193,7 +193,7 @@ RC({id:"n-bc-chou-fleur-muchim", n:"Chou-fleur-muchim : fleurettes très tendres
  tip:"Étuvé longtemps, le chou-fleur devient presque crémeux : c'est ce qui le rend digeste."}),
 
 RC({id:"n-bc-fenouil-jorim", n:"Fenouil braisé doux à la sauce soja", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Légume",
- ing:[["fenouil",70,"g"],["sauce soja",0.5,"c. à café"],["huile de sésame grillé",0.5,"c. à café"]],
+ ing:[["fenouil",70,"g"],["sauce soja",0.5,"c. à café"],["huile de sésame grillé",0.5,"c. à café"],["eau",60,"ml"]],
  steps:[
   "Avant de commencer — Ustensiles : une casserole avec son couvercle, une planche et un couteau. Le fenouil est limité à une petite portion (FODMAP).",
   "Le fenouil — Retirer les parties dures du fenouil ({{fenouil}}) et le couper en fines lamelles de 3 mm. [[sortir; couper fenouil]]",
@@ -202,7 +202,7 @@ RC({id:"n-bc-fenouil-jorim", n:"Fenouil braisé doux à la sauce soja", cat:"Ban
  tip:"Cuit à couvert, le fenouil perd son anis et devient sucré et fondant."}),
 
 RC({id:"n-bc-panais-jorim", n:"Panais braisé au sirop d'érable", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Légume",
- ing:[["panais",80,"g"],["sirop d'érable",0.5,"c. à café"],["sauce soja",0.5,"c. à café"],["huile de sésame grillé",0.5,"c. à café"]],
+ ing:[["panais",80,"g"],["sirop d'érable",0.5,"c. à café"],["sauce soja",0.5,"c. à café"],["huile de sésame grillé",0.5,"c. à café"],["eau",70,"ml"]],
  steps:[
   "Avant de commencer — Ustensiles : une casserole avec son couvercle, un économe, une planche et un couteau.",
   "Le panais — Éplucher le panais ({{panais}}) et le couper en bâtonnets de 1 cm. [[sortir; eplucher panais; couper panais]]",
