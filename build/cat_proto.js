@@ -225,6 +225,7 @@ defineCookActions(); defineCookEdit(); defineWeekActions(); defineFridgeActions(
 function ensureDefaults(){
   S.ui = S.ui || { view: "plan", week: 0 }; S.checked = S.checked || {}; S.weights = S.weights || [];
   if (S.goal == null) S.goal = 60;
+  if (S.ui.view === "weight") S.ui.view = "plan";   /* l'onglet Poids n'existe plus */
   if (!S.kcalT || typeof S.kcalT !== "object") S.kcalT = { b: null, l: null, d: null };
   if (S.autoAdapt == null) S.autoAdapt = true;
   if (S.autoVeg == null) S.autoVeg = true;
@@ -237,7 +238,7 @@ function ensureDefaults(){
   S.weeks.forEach(w => w.days.forEach(d => { d.meals = d.meals || {}; if (!("b" in d.meals)) d.meals.b = null; if (!("c" in d.meals)) d.meals.c = null; }));
   const ks = Object.keys(S.cooked); if (ks.length > 80) ks.slice(0, ks.length - 80).forEach(k => delete S.cooked[k]);
 }
-function migrateAll(){ if (!S.v || S.v < 2) migrateProto(); if (S.v < 3) migrate3(); if (S.v < 4) migrate4(); if (S.v < 5) migrate5(); if (S.v < 6) migrate6(); if (S.v < 7) migrate7(); if (S.v < 8) migrate8(); if (S.v < 9) migrate9(); if (S.v < 10) migrate10(); if (S.v < 11) migrate11(); }
+function migrateAll(){ if (!S.v || S.v < 2) migrateProto(); if (S.v < 3) migrate3(); if (S.v < 4) migrate4(); if (S.v < 5) migrate5(); if (S.v < 6) migrate6(); if (S.v < 7) migrate7(); if (S.v < 8) migrate8(); if (S.v < 9) migrate9(); if (S.v < 10) migrate10(); if (S.v < 11) migrate11(); if (S.v < 12) migrate12(); }
 /* v2 : nouveau protocole. Le carnet fourni est remplacé par la version mise à jour ; les recettes créées par Cat sont conservées.
    Les repas du planning qui venaient de l'ancien carnet sont renouvelés, et un petit-déjeuner est ajouté là où il manque. */
 function migrateProto(){

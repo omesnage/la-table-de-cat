@@ -425,3 +425,21 @@ A.krGo = () => {
   const meal = composeKorean(p, vs), t = KR.t; KR = null;
   if (t) { snapshot(); setMeal(t, meal); afterSelect(t); } else { closeModal(); placeTemp(meal); }
 };
+
+/* ---------- version 12 : 20 recettes tofu / protéines végétales / sardines simplifiées, 10 banchan en plus ----------
+   Les recettes fournies sont renouvelées. Les repas du planning tirés d'une des 20 recettes réécrites reprennent la version simple ;
+   le reste (repas faits main, recettes de Cat, pesées, réglages) ne bouge pas. */
+const V12_REWRITTEN = ["t-bol-tofu-sesame-daikon", "t-risotto-quinoa-potimarron", "t-miso-tofu-soyeux-navet", "t-quinoa-blettes-patisson", "t-donburi-tofu-soyeux",
+  "l-tofu-soyeux-pakchoi", "l-tofu-fume-brocoli", "l-papillote-tofu-basilic", "l-quinoa-tofu-soyeux-blettes", "l-vermicelles-bouillon-tofu",
+  "l-hachis-pois-panais", "l-bol-pois-butternut", "l-soja-miso-soba", "l-soja-donburi-aubergine", "l-galettes-okara-pois", "l-minestrone-pois",
+  "x-boulettes-pois-brocoli", "x-bol-pois-potimarron", "s-sardines-pdt-haricots"];
+function migrate12(){
+  const own = S.recipes.filter(r => r.own);
+  S.recipes = DEFAULT_RECIPES.map(recipeToState).concat(own);
+  const byId = id => S.recipes.find(r => r.id === id);
+  S.weeks.forEach(w => w.days.forEach(d => ["l", "d"].forEach(k => {
+    const m = d.meals[k]; if (!m || !m.recipeId || V12_REWRITTEN.indexOf(m.recipeId) < 0 || !byId(m.recipeId)) return;
+    const nm = mealFromRecipe(byId(m.recipeId)); nm.id = m.id; protoAdaptMeal(nm, k, kT(k)); d.meals[k] = nm;
+  })));
+  S.v = 12;
+}

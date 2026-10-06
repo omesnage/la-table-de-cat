@@ -29,6 +29,11 @@ def rep_block(start,end,new,text=None,keep_end=True):
 
 # 1. meta + css
 rep('function viewBook(){','function viewBookRecipes(){')
+rep('  ${protocolPanel()}<div class="days">${days}</div>','  <div class="days">${days}</div>')
+import re as _re
+_n=len(_re.findall(r'  <button data-nav="weight"[^\n]*</button>\n',s))
+if _n!=1: FAIL.append("NAV weight x%d"%_n)
+s=_re.sub(r'  <button data-nav="weight"[^\n]*</button>\n','',s)
 rep('<div class="sheet-close"><button class="icon" data-act="close" aria-label="Fermer">×</button></div>','<div class="sheet-close"><button class="back" data-act="close" aria-label="Retour">← Retour</button><button class="icon" data-act="close" aria-label="Fermer">×</button></div>')
 rep('      <button class="choice" data-act="proposeMeal"','      ${t.s === "l" || t.s === "d" ? `<button class="choice" data-act="krOpen" data-w="${t.w}" data-d="${t.d}" data-s="${t.s}"><strong>Composer un repas coréen</strong><span>Du riz, un banchan à protéine et deux banchan de légumes.</span></button>` : ""}\n      <button class="choice" data-act="proposeMeal"')
 rep('const el = $("#bookList"); if (!el) return;\n  const list = S.recipes.filter(r => (!BOOK.cat || r.cat === BOOK.cat)','const el = $("#bookList"); if (!el) return;\n  const list = S.recipes.filter(r => r.cat !== "Banchan" && (!BOOK.cat || r.cat === BOOK.cat)')
@@ -119,7 +124,7 @@ function buildDefaultPlan(recipes){
 }
 ''')
 rep('return { v: 1, font: "editorial", recipes, weeks: buildDefaultPlan(recipes), weights: [], goal: 60, checked: {}, ui: { view: "plan", week: 0 } };',
-    'return { v: 11, font: "editorial", recipes, weeks: buildDefaultPlan(recipes), weights: [], goal: 60, checked: {}, ui: { view: "plan", week: 0 },\n    kcalT: { b: null, l: null, d: null }, vegRatio: 80, autoAdapt: true, autoVeg: true, sensible: false, pantry: [], shopExtra: [], cooked: {}, reint: { start: null, foods: {}, current: null } };')
+    'return { v: 12, font: "editorial", recipes, weeks: buildDefaultPlan(recipes), weights: [], goal: 60, checked: {}, ui: { view: "plan", week: 0 },\n    kcalT: { b: null, l: null, d: null }, vegRatio: 80, autoAdapt: true, autoVeg: true, sensible: false, pantry: [], shopExtra: [], cooked: {}, reint: { start: null, foods: {}, current: null } };')
 rep('''  S.ui = S.ui || { view: "plan", week: 0 }; S.checked = S.checked || {}; S.weights = S.weights || [];
   if (S.goal == null) S.goal = 73;
   S.v = S.v || 1;''','''  S.v = S.v || 1;
@@ -127,7 +132,7 @@ rep('''  S.ui = S.ui || { view: "plan", week: 0 }; S.checked = S.checked || {}; 
   migrateAll();''')
 rep('function weekAvg(week){ const ds = week.days.filter(d => d.meals.l || d.meals.d);','function weekAvg(week){ const ds = week.days.filter(d => d.meals.b || d.meals.l || d.meals.d);')
 rep('<p class="muted">${w.days.length} jour${w.days.length > 1 ? "s" : ""}, environ ${fmtK(weekAvg(w))} kcal par jour, déjeuner et dîner</p>',
-    '<p class="muted">${w.days.length} jour${w.days.length > 1 ? "s" : ""}, trois repas et une collation par jour, environ ${fmtK(weekAvg(w))} kcal par jour (indicatif, sans objectif de régime)</p>')
+    '<p class="muted">${w.days.length} jour${w.days.length > 1 ? "s" : ""}, trois repas et une collation par jour, environ ${fmtK(weekAvg(w))} kcal par jour</p>')
 rep('<span class="muted small">${dayKcal(d) ? "≈ " + fmtK(dayKcal(d)) + " kcal par jour" : ""}</span>','${kcalBar(d)}')
 rep('7 jours, chacun avec un déjeuner et un dîner.','7 jours, chacun avec un petit-déjeuner, un déjeuner, une collation et un dîner.')
 rep('quantités cumulées pour les déjeuners et dîners','quantités cumulées pour tous les repas')

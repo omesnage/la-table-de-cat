@@ -680,7 +680,6 @@ button,.btn,.chip,.mt,.dt,.wa,.mini,.mini-add,.qb,.qx,.chk,.dur{touch-action:man
   <button data-nav="insp" style="--nc:var(--c-poulet);--nf:var(--ink)"><i class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M18.5 16.5l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></svg></i><span>Inspirations</span></button>
   <button data-nav="book" style="--nc:var(--c-poisson)"><i class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4.5A1.5 1.5 0 0 1 6.5 3H19v15H6.5A1.5 1.5 0 0 0 5 19.5z"/><path d="M5 19.5A1.5 1.5 0 0 0 6.5 21H19v-3M9 7.5h6"/></svg></i><span>Carnet</span></button>
   <button data-nav="shop" style="--nc:var(--c-veg)"><i class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1.2 11.2a1.5 1.5 0 0 1-1.5 1.3H7.7a1.5 1.5 0 0 1-1.5-1.3z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg></i><span>Courses</span></button>
-  <button data-nav="weight" style="--nc:var(--c-boeuf)"><i class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18a8 8 0 1 1 16 0"/><path d="M12 18l3.5-5.5"/><circle cx="12" cy="18" r="1"/></svg></i><span>Poids</span></button>
   <button data-nav="reint" style="--nc:var(--c-veg)"><i class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21v-8"/><path d="M12 13c0-3.5-2.5-5.5-6-5.5 0 3.5 2.5 5.5 6 5.5z"/><path d="M12 11c0-3 2-5 5.5-5 0 3-2 5-5.5 5z"/></svg></i><span>Réintro</span></button>
   <button data-nav="data" style="--nc:var(--c-jambon)"><i class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg></i><span>Réglages</span></button>
 </nav>
@@ -998,115 +997,104 @@ RC({id:"n-e-veloute-carotte-miso", n:"Velouté de carotte au miso doux, œufs mo
 /* ============ DÉJEUNERS ET DÎNERS : TOFU (ferme, soyeux, fumé) ============
    Le tofu ferme est seulement égoutté et épongé (pas de pressage de 10 minutes : il cuit à la vapeur et n'a pas besoin de rendre son eau). */
 LUNCH.push(
-RC({id:"t-bol-tofu-sesame-daikon", n:"Bol de riz tiède, tofu ferme au sésame, épinards & daikon fondants", cat:"Tofu", st:"Vapeur Bamboo", base:"Riz", d:1,
+RC({id:"t-bol-tofu-sesame-daikon", n:"Bol de riz tiède, tofu en croûte de sésame, épinards & daikon fondants", cat:"Tofu", st:"Vapeur Bamboo", base:"Riz", d:1,
  ing:[["tofu ferme",90,"g"],["riz cuit",140,"g"],["daikon",100,"g"],["épinards",70,"g"],["graines de sésame",1,"c. à café"],["sauce soja",1,"c. à café"],["huile de sésame grillé",1,"c. à café"]],
  steps:[
-  intro("du papier absorbant, une planche et un couteau, un économe, un petit bol, un bol pour le riz, un bol large tiède"),
-  "Mise en place — Éplucher le daikon ({{daikon}}) et le couper en demi-rondelles de 5 mm. Laver les épinards ({{épinards}}). Éponger le tofu ({{tofu ferme}}) et le couper en tranches de 1 cm. [[sortir; eplucher daikon; couper daikon; laver epinards; presser tofu; couper tofu]]",
-  c1(20, "le daikon", "Il devient translucide et perd tout piquant."),
-  c2(15, "le tofu, les épinards et le riz ({{riz cuit}}) mouillé d'une cuillère d'eau " + bol, "Les épinards s'affaissent (15 minutes, guide du fabricant)."),
-  "La sauce — Mélanger la sauce soja ({{sauce soja}}), l'huile de sésame grillé ({{huile de sésame grillé}}) et 2 cuillères d'eau tiède. [[delayer]]",
-  "Dressage — Riz dans le bol, tranches de tofu en éventail, épinards pressés et daikon de chaque côté, sauce sur le tofu et sésame ({{graines de sésame}}) en pluie. [[presser epinards; dresser x4]]"],
- tip:"Le daikon bien cuit devient doux comme un navet et boit la sauce au sésame."}),
+  intro("une planche et un couteau, un économe, du papier absorbant, une assiette, un petit bol, un bol large tiède"),
+  "Mise en place — Éplucher le daikon ({{daikon}}) et le couper en demi-rondelles de 5 mm. Laver les épinards ({{épinards}}). Éponger le tofu ({{tofu ferme}}), le couper en 4 tranches, puis presser chaque face dans les graines de sésame ({{graines de sésame}}) étalées sur l'assiette : elles collent comme une croûte. [[sortir; eplucher daikon; couper daikon; laver epinards; presser tofu; couper tofu]]",
+  c1(20, "le daikon, les tranches de tofu, les épinards et le riz ({{riz cuit}}) mouillé d'une cuillère d'eau " + bol, "Le daikon devient translucide et perd tout piquant."),
+  "La sauce — Mélanger la sauce soja ({{sauce soja}}) et l'huile de sésame grillé ({{huile de sésame grillé}}) avec 2 cuillères d'eau tiède dans le petit bol. [[delayer]]",
+  "Dressage — Riz dans le bol large tiède, tofu au sésame dessus, épinards pressés et daikon autour, sauce en filet. [[presser epinards; dresser x4]]"],
+ tip:"Les graines de sésame collées sur le tofu prennent un parfum de noisette à la vapeur, sans aucune matière grasse chaude."}),
 
-RC({id:"t-risotto-quinoa-potimarron", n:"Quinoa crémeux au potimarron, dés de tofu & blettes fondantes", cat:"Tofu", st:"Cocon & purées", base:"Quinoa", d:1,
- ing:[["tofu ferme",90,"g"],["quinoa cuit",140,"g"],["potimarron",100,"g"],["blettes",70,"g"],["bouillon",150,"ml"],["huile d'olive",1,"c. à café"],["persil","",HERBS],["sel","","1 pincée"]],
+RC({id:"t-risotto-quinoa-potimarron", n:"Quinoa crémeux au potimarron écrasé, dés de tofu & blettes fondantes", cat:"Tofu", st:"Cocon & purées", base:"Quinoa", d:1,
+ ing:[["tofu ferme",90,"g"],["quinoa cuit",140,"g"],["potimarron",110,"g"],["blettes",70,"g"],["crème de soja",1,"c. à soupe"],["huile d'olive",1,"c. à café"],["thym","",HERBS]],
  steps:[
-  intro("une planche et un couteau, un économe, une cuillère, du papier absorbant, une casserole, une cuillère en bois, une assiette creuse tiède"),
-  "Mise en place — Couper le potimarron ({{potimarron}}) en quartiers, retirer les graines, l'éplucher et le couper en cubes de 2 cm. Laver les blettes ({{blettes}}), éplucher les fils des côtes, couper les côtes en tronçons et les feuilles en rubans. Éponger le tofu ({{tofu ferme}}) et le couper en dés. [[sortir; eplucher potimarron; couper potimarron; laver blettes; eplucher blettes; couper blettes; presser tofu; couper tofu]]",
-  c1(20, "le potimarron et les côtes de blettes", "Le potimarron s'écrase à la fourchette."),
-  c2(10, "les feuilles de blettes et le tofu", "Les feuilles fondent."),
-  "Le quinoa crémeux — Chauffer le quinoa ({{quinoa cuit}}) avec le bouillon ({{bouillon}}) dans la casserole, en y écrasant la moitié du potimarron, 5 minutes à feu doux : une texture de risotto. [[casserole; ecraser; cuisson 5]]",
-  "Dressage — Quinoa crémeux dans l'assiette creuse tiède, tofu, blettes et cubes de potimarron dessus, persil ciselé ({{persil}}) et huile d'olive crue ({{huile d'olive}}). [[ciseler; dresser x3]]"],
- tip:"Le potimarron écrasé lie le quinoa comme un risotto, sans fromage."}),
+  intro("une planche et un couteau, un économe, du papier absorbant, une fourchette, un bol large tiède"),
+  "Mise en place — Éplucher le potimarron ({{potimarron}}), retirer les graines et le couper en cubes de 2 cm. Laver les blettes ({{blettes}}), retirer les côtes et couper les feuilles en lanières. Éponger le tofu ({{tofu ferme}}) et le couper en dés de 1,5 cm. [[sortir; eplucher potimarron; couper potimarron; laver blettes; couper blettes; presser tofu; couper tofu]]",
+  c1(20, "le potimarron, les blettes, les dés de tofu et le quinoa ({{quinoa cuit}}) mouillé d'une cuillère d'eau " + bol, "Le potimarron s'écrase sous la pointe d'un couteau."),
+  "Le quinoa crémeux — Écraser le potimarron ({{potimarron}}) à la fourchette avec la crème de soja ({{crème de soja}}), puis le mêler au quinoa tiède : il devient crémeux comme un risotto. [[ecraser potimarron]]",
+  "Dressage — Quinoa crémeux dans le bol tiède, blettes pressées et dés de tofu dessus, huile d'olive crue ({{huile d'olive}}) et thym effeuillé ({{thym}}). [[presser blettes; dresser x3]]"],
+ tip:"Le potimarron écrasé remplace le fromage et la crème : il donne au quinoa une texture de risotto."}),
 
 RC({id:"t-miso-tofu-soyeux-navet", n:"Soupe-repas au miso doux, tofu soyeux, navet & épinards, riz", cat:"Tofu", st:"Cocon & purées", base:"Riz", d:1,
- ing:[["tofu soyeux",100,"g"],["riz cuit",140,"g"],["navet",100,"g"],["épinards",60,"g"],["miso blanc",1,"c. à café"],["eau",350,"ml"],["huile de sésame grillé",1,"c. à café"]],
+ ing:[["tofu soyeux",100,"g"],["riz cuit",140,"g"],["navet",100,"g"],["épinards",60,"g"],["bouillon",300,"ml"],["miso blanc",1,"c. à café"],["huile de sésame grillé",1,"c. à café"]],
  steps:[
-  introPoele("un économe, une planche et un couteau, une casserole, une louche, un petit bol, un bol profond tiède"),
-  "Mise en place — Éplucher généreusement le navet ({{navet}}) et le couper en fines demi-rondelles. Laver les épinards ({{épinards}}). Couper le tofu soyeux ({{tofu soyeux}}) en cubes de 2 cm à la cuillère. [[sortir; eplucher navet; couper navet; laver epinards; couper tofu soyeux]]",
-  "Le bouillon — Porter l'eau ({{eau}}) à frémissement avec le navet et cuire 12 minutes : il s'écrase à la fourchette. [[casserole; cuisson 12]]",
-  "Le tofu et les épinards — Ajouter le riz ({{riz cuit}}), les épinards et le tofu soyeux, 3 minutes à feu très doux. [[cuisson 3]]",
-  "Le miso — Éteindre, délayer le miso ({{miso blanc}}) dans une louche de bouillon et le remettre dans la casserole. Ne jamais faire bouillir. [[delayer]]",
-  "Dressage — Servir à la louche dans le bol profond tiède, quelques gouttes d'huile de sésame grillé ({{huile de sésame grillé}}). [[dresser x1]]"],
- tip:"Le tofu soyeux fond dans la soupe : chaque cuillerée est douce et crémeuse."}),
+  introPoele("une casserole, une planche et un couteau, un économe, une louche, un petit bol, un grand bol à soupe tiède"),
+  "Mise en place — Éplucher le navet ({{navet}}) et le couper en dés de 1 cm. Laver les épinards ({{épinards}}). [[sortir; eplucher navet; couper navet; laver epinards]]",
+  "Le bouillon — Porter le bouillon ({{bouillon}}) à frémissement avec le navet et cuire 8 minutes à petit frémissement, jusqu'à ce que les dés soient translucides. Ajouter le riz ({{riz cuit}}) et les épinards pour les 3 dernières minutes. [[casserole; cuisson 11]]",
+  "Le miso et le tofu — Éteindre le feu. Délayer le miso ({{miso blanc}}) dans une louche de bouillon tiède dans le petit bol, le verser dans la casserole (il ne doit jamais bouillir) et déposer le tofu soyeux ({{tofu soyeux}}) en gros morceaux à la cuillère : il se réchauffe sans se défaire. [[delayer; verser; cuisson 1]]",
+  "Dressage — Servir dans le bol à soupe tiède, avec l'huile de sésame grillé ({{huile de sésame grillé}}) en filet. [[dresser x2]]"],
+ tip:"Le miso se délaye toujours hors du feu : bouilli, il perd son parfum et sa douceur."}),
 
-RC({id:"t-quinoa-blettes-patisson", n:"Quinoa tiède, tofu ferme, blettes & pâtisson, huile au persil", cat:"Tofu", st:"Vapeur Bamboo", base:"Quinoa", d:1,
- ing:[["tofu ferme",90,"g"],["quinoa cuit",140,"g"],["patisson",100,"g"],["blettes",75,"g"],["huile d'olive",1,"c. à café"],["persil","",HERBS],["sel","","1 pincée"]],
+RC({id:"t-quinoa-blettes-patisson", n:"Quinoa tiède, tofu vapeur, blettes & pâtisson, huile verte au persil", cat:"Tofu", st:"Vapeur Bamboo", base:"Quinoa", d:1,
+ ing:[["tofu ferme",90,"g"],["quinoa cuit",140,"g"],["pâtisson",100,"g"],["blettes",70,"g"],["huile d'olive",1,"c. à café"],["persil","",HERBS],["sel","","1 pincée"]],
  steps:[
-  intro("une planche et un couteau solide, un économe, une cuillère, du papier absorbant, un petit bol, un bol pour le quinoa, un bol large tiède"),
-  "Mise en place — Éplucher le pâtisson ({{patisson}}), retirer les graines et la partie filandreuse, le couper en cubes de 2 cm. Laver les blettes ({{blettes}}), éplucher les fils des côtes, couper les côtes en tronçons et les feuilles en rubans. Éponger le tofu ({{tofu ferme}}) et le couper en cubes. [[sortir; eplucher patisson; couper patisson; laver blettes; eplucher blettes; couper blettes; presser tofu; couper tofu]]",
-  c1(20, "le pâtisson et les côtes de blettes", "Ils s'écrasent à la fourchette."),
-  c2(10, "les feuilles de blettes, le tofu et le quinoa ({{quinoa cuit}}) mouillé d'une cuillère d'eau " + bol, "Les feuilles fondent."),
-  "L'huile au persil — Ciseler le persil ({{persil}}), le mélanger à l'huile d'olive crue ({{huile d'olive}}), une cuillère d'eau tiède et le sel. [[ciseler; delayer]]",
-  "Dressage — Quinoa au fond du bol tiède, légumes et tofu en quartiers, huile au persil en filet. [[dresser x3]]"],
- tip:"Le pâtisson cuit à la vapeur a un goût d'artichaut très doux."}),
+  intro("une planche et un couteau, un économe, du papier absorbant, un petit bol, un bol large tiède"),
+  "Mise en place — Éplucher le pâtisson ({{pâtisson}}), retirer les graines et le couper en cubes de 2 cm. Laver les blettes ({{blettes}}), retirer les côtes et couper les feuilles en lanières. Éponger le tofu ({{tofu ferme}}) et le couper en tranches de 1 cm. [[sortir; eplucher patisson; couper patisson; laver blettes; couper blettes; presser tofu; couper tofu]]",
+  c1(20, "le pâtisson, les blettes, le tofu et le quinoa ({{quinoa cuit}}) mouillé d'une cuillère d'eau " + bol, "Le pâtisson est fondant et les blettes tombées."),
+  "L'huile verte — Dans le petit bol, mêler le persil ciselé ({{persil}}), l'huile d'olive crue ({{huile d'olive}}), 2 cuillères d'eau tiède et le sel. [[ciseler; delayer]]",
+  "Dressage — Quinoa au fond du bol large tiède, tofu, pâtisson et blettes pressées dessus, huile verte en filet. [[presser blettes; dresser x4]]"],
+ tip:"L'huile verte au persil, ajoutée à la fin, remplace toute sauce : fraîche, parfumée, sans aucun piquant."}),
 
 RC({id:"t-donburi-tofu-soyeux", n:"Donburi de tofu soyeux, riz tiède, épinards & carotte, sauce soja douce", cat:"Tofu", st:"Cocon & purées", base:"Riz", d:1,
- ing:[["tofu soyeux",100,"g"],["riz cuit",140,"g"],["carotte",100,"g"],["épinards",70,"g"],["sauce soja",1,"c. à café"],["huile de sésame grillé",1,"c. à café"],["nori",1,"pièce"]],
+ ing:[["tofu soyeux",100,"g"],["riz cuit",140,"g"],["épinards",70,"g"],["carotte",100,"g"],["sauce soja",1,"c. à café"],["sirop d'érable",1,"c. à café"],["huile de sésame grillé",1,"c. à café"]],
  steps:[
-  intro("un économe, une planche et un couteau, une assiette creuse qui tient dans le panier, un petit bol, des ciseaux, un bol pour le riz, un bol profond tiède"),
-  "Mise en place — Éplucher la carotte ({{carotte}}) et la couper en fines rondelles. Laver les épinards ({{épinards}}). Poser le tofu soyeux ({{tofu soyeux}}) entier dans l'assiette creuse. [[sortir; eplucher carotte; couper carotte; laver epinards]]",
-  c1(20, "la carotte", "Elle s'écrase entre deux doigts (20 minutes, guide du fabricant)."),
-  c2(15, "les épinards, l'assiette de tofu et le riz ({{riz cuit}}) mouillé d'une cuillère d'eau " + bol, "Les épinards s'affaissent, le tofu est chaud à cœur."),
-  "La sauce — Mélanger la sauce soja ({{sauce soja}}), l'huile de sésame grillé ({{huile de sésame grillé}}) et 2 cuillères d'eau tiède ; ciseler le nori ({{nori}}). [[delayer; ciseler]]",
-  "Dressage — Riz dans le bol profond, tofu soyeux posé entier au centre, carotte et épinards pressés autour, sauce sur le tofu et nori en pluie. [[presser epinards; dresser x4]]"],
- tip:"Le tofu soyeux entier, nappé de sauce, se partage à la cuillère avec le riz."}),
+  intro("une planche et un couteau, un économe, un petit bol, un bol large tiède"),
+  "Mise en place — Éplucher la carotte ({{carotte}}) et la couper en bâtonnets de 3 mm. Laver les épinards ({{épinards}}). [[sortir; eplucher carotte; couper carotte; laver epinards]]",
+  c1(20, "les carottes, les épinards, le riz ({{riz cuit}}) mouillé d'une cuillère d'eau et le tofu soyeux ({{tofu soyeux}}) en gros morceaux, " + bol, "Le tofu soyeux est chaud et tremblotant, il ne faut pas le remuer."),
+  "La sauce — Mélanger la sauce soja ({{sauce soja}}), le sirop d'érable ({{sirop d'érable}}) et 2 cuillères d'eau tiède. [[delayer]]",
+  "Dressage — Riz dans le bol large tiède, tofu soyeux au centre à la cuillère, carottes et épinards pressés autour, sauce en filet, huile de sésame grillé ({{huile de sésame grillé}}) à la fin. [[presser epinards; dresser x4]]"],
+ tip:"Le tofu soyeux se pose à la cuillère sans le remuer : il garde sa texture de flan, c'est tout le plaisir de ce bol."}),
 
-RC({id:"l-tofu-soyeux-pakchoi", n:"Tofu soyeux vapeur, sauce soja-sésame, riz tiède, pak choï, courgette & potimarron", cat:"Tofu", st:"Vapeur Bamboo", base:"Riz", d:1,
- ing:[["tofu soyeux",100,"g"],["riz cuit",140,"g"],["pak choï",75,"g"],["courgette épluchée",55,"g"],["potimarron",50,"g"],["sauce soja",1,"c. à café"],["huile de sésame grillé",1,"c. à café"],["ciboulette","",HERBS]],
+RC({id:"l-tofu-soyeux-pakchoi", n:"Tofu soyeux vapeur, sauce soja-sésame, riz tiède, pak choï & potimarron", cat:"Tofu", st:"Vapeur Bamboo", base:"Riz", d:1,
+ ing:[["tofu soyeux",100,"g"],["riz cuit",140,"g"],["pak choï",75,"g"],["potimarron",90,"g"],["sauce soja",1,"c. à café"],["huile de sésame grillé",1,"c. à café"],["ciboulette","",HERBS]],
  steps:[
-  intro("une planche et un couteau, un économe, une cuillère, une assiette creuse qui tient dans le panier, un petit bol, un bol pour le riz, un bol large tiède"),
-  "Mise en place — Couper le potimarron ({{potimarron}}) en quartiers, retirer les graines, l'éplucher et le couper en cubes de 2 cm. Éplucher entièrement la courgette ({{courgette épluchée}}), retirer le cœur et la couper en dés de 1 cm. Rincer le pak choï ({{pak choï}}), séparer les feuilles et couper les tiges en tronçons de 2 cm. Égoutter le tofu soyeux ({{tofu soyeux}}) sans le casser et le poser entier dans l'assiette creuse. [[sortir; eplucher potimarron; couper potimarron; eplucher courgette; couper courgette; laver pak choi; couper pak choi]]",
-  c1(20, "le potimarron et les tiges de pak choï", "Le potimarron s'écrase à la fourchette (20 minutes, guide du fabricant)."),
-  c2(10, "la courgette, les feuilles de pak choï, l'assiette de tofu soyeux et le riz cuit ({{riz cuit}}) mouillé d'une cuillère d'eau " + bol, "Le tofu soyeux est chaud à cœur et tremble comme un flan."),
-  "La sauce — Mélanger la sauce soja ({{sauce soja}}) avec 2 cuillères d'eau tiède, l'huile de sésame grillé ({{huile de sésame grillé}}) et la ciboulette ciselée ({{ciboulette}}, pointes vertes). [[ciseler; delayer]]",
-  "Dressage — Riz en dôme dans le bol large tiède. Faire glisser le tofu soyeux à côté avec une grande cuillère, le couper en quatre à la cuillère, le napper de sauce. Légumes en éventail autour. [[couper tofu soyeux; dresser x3]]"],
- tip:"Le tofu soyeux se cuit entier dans son assiette : il garde sa texture de flan et ne se brise pas."}),
+  intro("une planche et un couteau, un économe, un petit bol, un bol large tiède"),
+  "Mise en place — Éplucher le potimarron ({{potimarron}}), retirer les graines et le couper en cubes de 2 cm. Laver le pak choï ({{pak choï}}) et le couper en lanières de 2 cm. [[sortir; eplucher potimarron; couper potimarron; laver pak choi; couper pak choi]]",
+  c1(20, "le potimarron, le pak choï, le riz ({{riz cuit}}) mouillé d'une cuillère d'eau et le tofu soyeux ({{tofu soyeux}}) en gros morceaux, " + bol, "Le potimarron s'écrase sous un couteau, le tofu est chaud."),
+  "La sauce — Mélanger la sauce soja ({{sauce soja}}), l'huile de sésame grillé ({{huile de sésame grillé}}) et 2 cuillères d'eau tiède, puis la ciboulette ciselée ({{ciboulette}}), pointes vertes seulement. [[ciseler; delayer]]",
+  "Dressage — Riz dans le bol large tiède, tofu soyeux, potimarron et pak choï pressé dessus, sauce en filet. [[presser pak choi; dresser x4]]"],
+ tip:"Un seul cycle vapeur : le tofu soyeux se réchauffe avec les légumes et reste fondant."}),
 
-RC({id:"l-tofu-fume-brocoli", n:"Tofu fumé tiède, écrasé de pommes de terre à la ciboulette, brocoli & pâtisson fondants", cat:"Tofu", st:"Cocon & purées", base:"Pommes de terre", d:1,
- ing:[["tofu fumé",80,"g"],["pommes de terre",140,"g"],["brocoli",90,"g"],["patisson",80,"g"],["huile d'olive",1,"c. à café"],["ciboulette","",HERBS],["sel","","1 pincée"]],
+RC({id:"l-tofu-fume-brocoli", n:"Tofu fumé tiède, écrasé de pommes de terre à la ciboulette, brocoli & pâtisson", cat:"Tofu", st:"Vapeur Bamboo", base:"Pommes de terre", d:1,
+ ing:[["tofu fumé",80,"g"],["pommes de terre",140,"g"],["brocoli",90,"g"],["pâtisson",80,"g"],["huile d'olive",1,"c. à café"],["ciboulette","",HERBS],["sel","","1 pincée"]],
  steps:[
-  intro("une planche et un couteau, un économe, une cuillère, une fourchette, une assiette creuse tiède"),
-  "Mise en place — Éplucher les pommes de terre ({{pommes de terre}}) et les couper en cubes de 2 cm. Éplucher le pâtisson ({{patisson}}), retirer les graines et la partie filandreuse, le couper en cubes de 2 cm. Détailler les têtes de brocoli ({{brocoli}}) en petits bouquets. Couper le tofu fumé ({{tofu fumé}}) en tranches de 1 cm. [[sortir; eplucher pommes de terre; couper pommes de terre; eplucher patisson; couper patisson; couper brocoli; couper tofu fume]]",
-  c1(20, "les pommes de terre et le pâtisson", "Ils s'écrasent à la fourchette."),
-  c2(15, "le brocoli et les tranches de tofu fumé", "Le brocoli est très tendre (15 minutes, guide du fabricant), le tofu chaud à cœur."),
-  "L'écrasé — Écraser grossièrement les pommes de terre à la fourchette avec l'huile d'olive crue ({{huile d'olive}}), la ciboulette ciselée ({{ciboulette}}, pointes vertes), une cuillère d'eau de la cuve et une pincée de sel. [[ecraser; ciseler]]",
-  "Dressage — Écrasé de pommes de terre au centre de l'assiette creuse tiède, tranches de tofu fumé en éventail dessus, brocoli et pâtisson autour. [[dresser x3]]"],
- tip:"Le tofu fumé parfume tout le plat : une petite portion, une fois par semaine au plus."}),
+  intro("une planche et un couteau, un économe, une fourchette, un bol large tiède"),
+  "Mise en place — Éplucher les pommes de terre ({{pommes de terre}}) et les couper en cubes de 2 cm. Éplucher le pâtisson ({{pâtisson}}), retirer les graines et le couper en cubes. Détacher les têtes du brocoli ({{brocoli}}) en petits bouquets, sans les tiges. Couper le tofu fumé ({{tofu fumé}}) en fines tranches. [[sortir; eplucher pommes de terre; couper pommes de terre; eplucher patisson; couper patisson; couper brocoli; couper tofu]]",
+  c1(25, "les pommes de terre, le pâtisson, le brocoli et les tranches de tofu fumé", "Les pommes de terre s'écrasent à la fourchette et le brocoli est très tendre."),
+  "L'écrasé — Écraser les pommes de terre ({{pommes de terre}}) à la fourchette avec l'huile d'olive crue ({{huile d'olive}}), le sel et la ciboulette ciselée ({{ciboulette}}), pointes vertes seulement. [[ecraser pommes de terre; ciseler]]",
+  "Dressage — Écrasé au fond du bol large tiède, brocoli et pâtisson autour, tofu fumé posé en éventail. [[dresser x3]]"],
+ tip:"Le tofu fumé est parfumé : il donne du goût à tout le bol sans rien ajouter. À limiter à une fois par semaine."}),
 
-RC({id:"l-papillote-tofu-basilic", n:"Papillote de tofu ferme au basilic, courgette, fenouil & carotte, quinoa tiède", cat:"Tofu", st:"Vapeur Bamboo", base:"Quinoa", d:1,
- ing:[["tofu ferme",90,"g"],["quinoa cuit",140,"g"],["courgette épluchée",55,"g"],["fenouil",60,"g"],["carotte",60,"g"],["huile d'olive",1,"c. à café"],["basilic","",HERBS],["sel","","1 pincée"]],
+RC({id:"l-papillote-tofu-basilic", n:"Papillote de tofu au basilic, courgette & carotte, quinoa tiède", cat:"Tofu", st:"Vapeur Bamboo", base:"Quinoa", d:1,
+ ing:[["tofu ferme",90,"g"],["quinoa cuit",140,"g"],["courgette épluchée",60,"g"],["carotte",90,"g"],["huile d'olive",1,"c. à café"],["basilic","",HERBS],["sel","","1 pincée"]],
  steps:[
   intro("une feuille de papier sulfurisé de 35 cm, de la ficelle de cuisine, une planche et un couteau, un économe, du papier absorbant, un bol pour le quinoa, une assiette creuse tiède"),
-  "Mise en place — Éplucher la carotte ({{carotte}}) et la couper en fins bâtonnets. Retirer les parties dures du fenouil ({{fenouil}}) et le couper en fines lamelles. Éplucher entièrement la courgette ({{courgette épluchée}}), retirer le cœur et la couper en dés de 1 cm. Éponger le tofu ({{tofu ferme}}) et le couper en tranches de 1 cm. [[sortir; eplucher carotte; couper carotte; couper fenouil; eplucher courgette; couper courgette; presser tofu; couper tofu]]",
-  "La papillote — Sur la feuille de papier sulfurisé, poser la carotte et le fenouil, puis la courgette, les tranches de tofu et quelques feuilles de basilic ({{basilic}}). Saler très légèrement, refermer en plissant les bords et attacher d'un tour de ficelle. Elle doit rester plate, moins de 3,5 cm d'épaisseur. [[former x1]]",
-  c1(20, "la papillote", "Le fenouil et la carotte sont fondants."),
-  c2(10, "le quinoa cuit ({{quinoa cuit}}) mouillé d'une cuillère d'eau " + bol, "Il redevient moelleux."),
-  "Dressage — Ouvrir la papillote au-dessus de l'assiette creuse tiède (attention à la vapeur), quinoa à côté, arrosé du jus de la papillote, filet d'huile d'olive crue ({{huile d'olive}}) et basilic frais ciselé. [[ciseler; dresser x2]]"],
+  "Mise en place — Éplucher la carotte ({{carotte}}) et la couper en fins bâtonnets. Éplucher entièrement la courgette ({{courgette épluchée}}) et la couper en dés de 1 cm. Éponger le tofu ({{tofu ferme}}) et le couper en tranches de 1 cm. [[sortir; eplucher carotte; couper carotte; eplucher courgette; couper courgette; presser tofu; couper tofu]]",
+  "La papillote — Sur la feuille de papier sulfurisé, poser la carotte, la courgette, les tranches de tofu et quelques feuilles de basilic ({{basilic}}). Saler très légèrement, refermer en plissant les bords et attacher d'un tour de ficelle, bien plate (moins de 3,5 cm d'épaisseur). [[former x1]]",
+  c1(20, "la papillote et le quinoa ({{quinoa cuit}}) mouillé d'une cuillère d'eau " + bol, "La carotte est fondante et le quinoa moelleux."),
+  "Dressage — Ouvrir la papillote au-dessus de l'assiette creuse tiède (attention à la vapeur), quinoa à côté, jus de la papillote en arrosage, filet d'huile d'olive crue ({{huile d'olive}}) et basilic frais ciselé. [[ciseler; dresser x2]]"],
  tip:"Le basilic cuit dans la papillote parfume le tofu ; un peu de basilic frais au service ravive le tout."}),
 
-RC({id:"l-quinoa-tofu-soyeux-blettes", n:"Quinoa tiède, blettes & potimarron fondants, tofu soyeux et crème de soja à la ciboulette", cat:"Tofu", st:"Fraîcheur tiède", base:"Quinoa", d:1,
- ing:[["tofu soyeux",100,"g"],["quinoa cuit",140,"g"],["blettes",75,"g"],["potimarron",100,"g"],["crème de soja",1,"c. à soupe"],["huile d'olive",1,"c. à café"],["ciboulette","",HERBS],["sel","","1 pincée"]],
+RC({id:"l-quinoa-tofu-soyeux-blettes", n:"Quinoa tiède, tofu soyeux, blettes & potimarron fondants, crème de soja à la ciboulette", cat:"Tofu", st:"Vapeur Bamboo", base:"Quinoa", d:1,
+ ing:[["tofu soyeux",100,"g"],["quinoa cuit",140,"g"],["blettes",70,"g"],["potimarron",90,"g"],["crème de soja",1,"c. à soupe"],["huile d'olive",1,"c. à café"],["ciboulette","",HERBS]],
  steps:[
-  intro("une planche et un couteau, un économe, une cuillère, une assiette creuse qui tient dans le panier, un petit bol, un bol pour le quinoa, une assiette creuse tiède"),
-  "Mise en place — Couper le potimarron ({{potimarron}}) en quartiers, retirer les graines, l'éplucher et le couper en cubes de 2 cm. Laver les blettes ({{blettes}}), éplucher les fils des côtes et les couper en tronçons de 2 cm, couper les feuilles en rubans. Égoutter le tofu soyeux ({{tofu soyeux}}) et le poser entier dans l'assiette creuse. [[sortir; eplucher potimarron; couper potimarron; laver blettes; eplucher blettes; couper blettes]]",
-  c1(20, "le potimarron et les côtes de blettes", "Le potimarron s'écrase à la fourchette."),
-  c2(10, "les feuilles de blettes, l'assiette de tofu soyeux et le quinoa ({{quinoa cuit}}) mouillé d'une cuillère d'eau " + bol, "Les feuilles fondent, le tofu est chaud à cœur."),
-  "La crème — Mélanger la crème de soja ({{crème de soja}}) avec la ciboulette ciselée ({{ciboulette}}, pointes vertes), une cuillère d'eau tiède et une pincée de sel. [[ciseler; delayer]]",
-  "Dressage — Quinoa en couronne dans l'assiette creuse tiède, potimarron et blettes au centre, tofu soyeux coupé à la cuillère par-dessus, crème à la ciboulette en filet puis huile d'olive crue ({{huile d'olive}}). [[dresser x4]]"],
- tip:"Le tofu soyeux, chaud et tremblant, joue le rôle d'une sauce : on le mélange au quinoa à la fourchette."}),
+  intro("une planche et un couteau, un économe, un petit bol, un bol large tiède"),
+  "Mise en place — Éplucher le potimarron ({{potimarron}}), retirer les graines et le couper en cubes de 2 cm. Laver les blettes ({{blettes}}), retirer les côtes et couper les feuilles en lanières. [[sortir; eplucher potimarron; couper potimarron; laver blettes; couper blettes]]",
+  c1(20, "le potimarron, les blettes, le quinoa ({{quinoa cuit}}) mouillé d'une cuillère d'eau et le tofu soyeux ({{tofu soyeux}}) en gros morceaux, " + bol, "Le potimarron est fondant, le tofu soyeux chaud."),
+  "La crème — Mélanger la crème de soja ({{crème de soja}}), l'huile d'olive crue ({{huile d'olive}}) et la ciboulette ciselée ({{ciboulette}}), pointes vertes seulement. [[ciseler; delayer]]",
+  "Dressage — Quinoa au fond du bol large tiède, tofu soyeux à la cuillère, potimarron et blettes pressées autour, crème en filet. [[presser blettes; dresser x4]]"],
+ tip:"La crème de soja à la ciboulette apporte de l'onctuosité sans aucun produit laitier."}),
 
-RC({id:"l-vermicelles-bouillon-tofu", n:"Bouillon clair de vermicelles de patate douce, tofu ferme, pak choï & carotte", cat:"Tofu", st:"Cocon & purées", base:"Vermicelles", d:1,
+RC({id:"l-vermicelles-bouillon-tofu", n:"Bouillon clair de vermicelles de patate douce, tofu, pak choï & carotte", cat:"Tofu", st:"Cocon & purées", base:"Vermicelles", d:1,
  ing:[["vermicelles de patate douce cuits",140,"g"],["tofu ferme",90,"g"],["pak choï",75,"g"],["carotte",90,"g"],["bouillon",400,"ml"],["sauce soja",1,"c. à café"],["huile de sésame grillé",1,"c. à café"],["coriandre","",HERBS]],
  steps:[
-  introPoele("une planche et un couteau, un économe, du papier absorbant, deux casseroles, une passoire, des ciseaux, une louche, un grand bol tiède"),
-  "Mise en place — Éplucher la carotte ({{carotte}}) et la couper en fines rondelles de 3 mm. Rincer le pak choï ({{pak choï}}), couper les tiges en tronçons de 2 cm et garder les feuilles entières. Éponger le tofu ({{tofu ferme}}) et le couper en dés de 1,5 cm. [[sortir; eplucher carotte; couper carotte; laver pak choi; couper pak choi; presser tofu; couper tofu]]",
-  "Le bouillon — Porter le bouillon ({{bouillon}}) à frémissement avec la carotte et les tiges de pak choï, et cuire 12 minutes à petit frémissement : la carotte s'écrase entre deux doigts. [[casserole; cuisson 12]]",
-  "Les vermicelles — Pendant ce temps, cuire les vermicelles 8 minutes dans la seconde casserole d'eau frémissante, les égoutter et les couper aux ciseaux en tronçons de 10 cm. [[// casserole; cuisson 8; egoutter; couper vermicelles]]",
-  "Le tofu — Ajouter le tofu et les feuilles de pak choï dans le bouillon, 3 minutes à feu très doux, puis la sauce soja ({{sauce soja}}). [[cuisson 3]]",
-  "Dressage — Vermicelles ({{vermicelles de patate douce cuits}}) au fond du grand bol tiède, légumes et tofu dessus, bouillon versé à la louche, quelques gouttes d'huile de sésame grillé ({{huile de sésame grillé}}) et la coriandre ciselée ({{coriandre}}). [[ciseler; dresser x3]]"],
- tip:"Les vermicelles se cuisent à part pour que le bouillon reste clair."}),
+  introPoele("une planche et un couteau, un économe, du papier absorbant, une casserole, des ciseaux, une louche, un grand bol tiède. Les vermicelles sont cuits d'avance (6 minutes à l'eau frémissante), comme le riz"),
+  "Mise en place — Éplucher la carotte ({{carotte}}) et la couper en fines rondelles de 3 mm. Laver le pak choï ({{pak choï}}), couper les tiges en tronçons de 2 cm et garder les feuilles entières. Éponger le tofu ({{tofu ferme}}) et le couper en dés de 1,5 cm. [[sortir; eplucher carotte; couper carotte; laver pak choi; couper pak choi; presser tofu; couper tofu]]",
+  "Le bouillon — Porter le bouillon ({{bouillon}}) à frémissement avec la carotte et les tiges de pak choï et cuire 8 minutes à petit frémissement. Ajouter les vermicelles ({{vermicelles de patate douce cuits}}), le tofu et les feuilles de pak choï pour les 3 dernières minutes. [[casserole; cuisson 11]]",
+  "Dressage — Hors du feu, ajouter la sauce soja ({{sauce soja}}) et l'huile de sésame grillé ({{huile de sésame grillé}}), verser dans le grand bol tiède et finir de coriandre ciselée ({{coriandre}}). [[ciseler; dresser x3]]"],
+ tip:"Un bouillon qui frémit à peine reste limpide ; les vermicelles déjà cuits n'ont qu'à se réchauffer."}),
 
 RC({id:"n-t-agedashi-dashi", n:"Tofu tendre dans son dashi ambré façon agedashi, sans huile chaude, carotte & épinards fondants, riz tiède", cat:"Tofu", st:"Vapeur Bamboo", base:"Riz", d:2,
  ing:[["tofu ferme",90,"g"],["farine de sarrasin",5,"g"],["riz cuit",140,"g"],["carotte",100,"g"],["épinards",70,"g"],["eau",250,"ml"],["kombu",2,"g"],["sauce soja",1,"c. à café"],["sirop d'érable",1,"c. à café"],["huile de sésame grillé",1,"c. à café"],["ciboulette","",HERBS]],
@@ -1261,110 +1249,105 @@ RC({id:"s-quinoa-tofu-blettes-persil", n:"Quinoa tiède, tofu vapeur, blettes & 
    Protéine de pois texturée ou de soja texturée : 30 g secs par repas (comptés 90 g une fois réhydratés), dans quelques plats seulement.
    La réhydratation (10 minutes dans du bouillon chaud) est comptée dans la durée ; la mise en place se fait pendant ce temps. */
 const REHYD = (nom, ref) => "Réhydratation — Chauffer le bouillon ({{bouillon}}) dans une petite casserole jusqu'au frémissement, le verser sur la " + nom + " ({{" + ref + "}}) dans un bol, mélanger et laisser gonfler 10 minutes : elle triple de volume et devient tendre. Presser ensuite légèrement à la cuillère pour retirer le bouillon en trop. [[sortir; casserole; attente 3; verser; attente 10; presser]]";
+/* même réhydratation, faite pendant que le cycle vapeur tourne : le temps compte en parallèle */
+const REHYD2 = (nom, ref) => "Pendant le cycle — Chauffer le bouillon ({{bouillon}}) dans une petite casserole jusqu'au frémissement, le verser sur la " + nom + " ({{" + ref + "}}) dans un bol, mélanger et laisser gonfler 10 minutes : elle triple de volume et devient tendre. Presser ensuite légèrement à la cuillère pour retirer le bouillon en trop. [[// sortir; casserole; attente 3; verser; attente 10; presser]]";
 LUNCH.push(
-RC({id:"l-hachis-pois-panais", n:"Hachis de protéine de pois texturée au thym, purée pomme de terre–panais & haricots verts", cat:"Protéines végétales", st:"Cocon & purées", base:"Pommes de terre", d:1,
+RC({id:"l-hachis-pois-panais", n:"Hachis de protéine de pois au thym, purée pomme de terre–panais & haricots verts", cat:"Protéines végétales", st:"Cocon & purées", base:"Pommes de terre", d:1,
  ing:[["protéine de pois texturée (sèche)",30,"g"],["bouillon",100,"ml"],["pommes de terre",140,"g"],["panais",80,"g"],["haricots verts",70,"g"],["crème de soja",1,"c. à soupe"],["huile d'olive",1,"c. à café"],["thym","",HERBS],["persil","",HERBS],["sel","","1 pincée"]],
  steps:[
-  intro("une petite casserole, un bol, une cuillère, une balance, un économe, une planche et un couteau, un presse-purée, un cercle de 10 cm (ou un bol), une assiette creuse tiède"),
-  REHYD("protéine de pois texturée", "protéine de pois texturée (sèche)"),
-  "Mise en place — Pendant que la protéine gonfle : éplucher les pommes de terre ({{pommes de terre}}) et le panais ({{panais}}) et les couper en cubes de 2 cm. Peser 70 g de haricots verts ({{haricots verts}}), les équeuter et les couper en tronçons de 3 cm. [[// eplucher pommes de terre; couper pommes de terre; eplucher panais; couper panais; peser haricots verts; couper haricots verts]]",
-  c1(25, "les pommes de terre, le panais et les haricots verts", "Les haricots doivent être mous, les cubes s'écrasent à la fourchette."),
-  c2(10, "la protéine de pois mêlée au thym effeuillé ({{thym}}) " + bol, "Elle est chaude à cœur et moelleuse."),
-  "La purée — Écraser les pommes de terre et le panais au presse-purée avec la crème de soja ({{crème de soja}}), une cuillère d'eau de la cuve et une pincée de sel. [[ecraser]]",
-  "Dressage — Dans le cercle posé sur l'assiette tiède, tasser la protéine au thym, couvrir de purée lissée à la cuillère, retirer le cercle. Haricots verts autour, huile d'olive crue ({{huile d'olive}}) et persil ciselé ({{persil}}). Pas de gratin : le plat se sert tiède. [[ciseler; dresser x3]]"],
- tip:"Réhydratée dans le bouillon, la protéine de pois prend son goût : pas besoin de la faire revenir."}),
+  intro("une petite casserole, un bol, une cuillère, un économe, une planche et un couteau, un presse-purée, un cercle de 10 cm (ou un bol), une assiette creuse tiède"),
+  "Mise en place — Éplucher les pommes de terre ({{pommes de terre}}) et le panais ({{panais}}) et les couper en cubes de 2 cm. Peser 70 g de haricots verts ({{haricots verts}}), les équeuter et les couper en tronçons de 3 cm. [[sortir; eplucher pommes de terre; couper pommes de terre; eplucher panais; couper panais; peser haricots verts; couper haricots verts]]",
+  c1(25, "les pommes de terre, le panais et les haricots verts", "Les haricots sont mous, les cubes s'écrasent à la fourchette."),
+  REHYD2("protéine de pois texturée", "protéine de pois texturée (sèche)"),
+  "Le hachis et la purée — Mêler la protéine de pois au thym effeuillé ({{thym}}). Écraser les pommes de terre et le panais au presse-purée avec la crème de soja ({{crème de soja}}), une cuillère d'eau de la cuve et le sel. [[ecraser]]",
+  "Dressage — Dans le cercle posé sur l'assiette tiède, tasser le hachis, couvrir de purée lissée à la cuillère, retirer le cercle. Haricots verts autour, huile d'olive crue ({{huile d'olive}}) et persil ciselé ({{persil}}). [[ciseler; dresser x3]]"],
+ tip:"Réhydratée dans le bouillon pendant que les légumes cuisent, la protéine de pois est prête sans une minute de plus."}),
 
-RC({id:"l-bol-pois-butternut", n:"Bol de quinoa tiède, protéine de pois texturée au bouillon, butternut & brocoli, sauce persillée", cat:"Protéines végétales", st:"Vapeur Bamboo", base:"Quinoa", d:1,
+RC({id:"l-bol-pois-butternut", n:"Bol de quinoa tiède, protéine de pois au bouillon, butternut & brocoli, sauce persillée", cat:"Protéines végétales", st:"Vapeur Bamboo", base:"Quinoa", d:1,
  ing:[["protéine de pois texturée (sèche)",30,"g"],["bouillon",100,"ml"],["quinoa cuit",140,"g"],["butternut",100,"g"],["brocoli",80,"g"],["huile d'olive",1,"c. à café"],["persil","",HERBS],["sel","","1 pincée"]],
  steps:[
-  intro("une petite casserole, deux bols, une cuillère, un économe, une planche et un couteau, un petit bol, un bol large tiède"),
-  REHYD("protéine de pois texturée", "protéine de pois texturée (sèche)"),
-  "Mise en place — Pendant que la protéine gonfle : éplucher la butternut ({{butternut}}), retirer les graines et la couper en cubes de 2 cm. Détailler les têtes de brocoli ({{brocoli}}) en petits bouquets. [[// eplucher butternut; couper butternut; couper brocoli]]",
-  c1(20, "la butternut", "Elle s'écrase à la fourchette."),
-  c2(15, "le brocoli, la protéine de pois " + bol + " et le quinoa ({{quinoa cuit}}) mouillé d'une cuillère d'eau dans un second bol", "Le brocoli est très tendre (15 minutes, guide du fabricant)."),
-  "La sauce persillée — Mélanger le persil ciselé ({{persil}}), l'huile d'olive crue ({{huile d'olive}}), 2 cuillères d'eau tiède et une pincée de sel. [[ciseler; delayer]]",
-  "Dressage — Quinoa au fond du bol large tiède, protéine de pois au centre, butternut et brocoli en quartiers, sauce persillée en filet. [[dresser x4]]"],
+  intro("une petite casserole, un bol, une cuillère, un économe, une planche et un couteau, un petit bol, un bol large tiède"),
+  "Mise en place — Éplucher la butternut ({{butternut}}), retirer les graines et la couper en cubes de 2 cm. Détailler les têtes de brocoli ({{brocoli}}) en petits bouquets. [[sortir; eplucher butternut; couper butternut; couper brocoli]]",
+  c1(20, "la butternut, le brocoli et le quinoa ({{quinoa cuit}}) mouillé d'une cuillère d'eau " + bol, "La butternut s'écrase à la fourchette et le brocoli est très tendre."),
+  REHYD2("protéine de pois texturée", "protéine de pois texturée (sèche)"),
+  "La sauce persillée — Mélanger le persil ciselé ({{persil}}), l'huile d'olive crue ({{huile d'olive}}), 2 cuillères d'eau tiède et le sel. [[ciseler; delayer]]",
+  "Dressage — Quinoa au fond du bol large tiède, protéine de pois au centre, butternut et brocoli autour, sauce persillée en filet. [[dresser x4]]"],
  tip:"Le bouillon de réhydratation parfume la protéine : choisir un bouillon de légumes doux, sans oignon."}),
 
 RC({id:"l-soja-miso-soba", n:"Soja texturé au miso doux, soba tièdes, épinards & daikon fondants", cat:"Protéines végétales", st:"Fraîcheur tiède", base:"Sarrasin", d:1,
  ing:[["protéine de soja texturée (sèche)",30,"g"],["bouillon",100,"ml"],["soba cuites",140,"g"],["épinards",80,"g"],["daikon",90,"g"],["miso blanc",1,"c. à café"],["huile de sésame grillé",1,"c. à café"],["graines de sésame",1,"c. à café"]],
  steps:[
   intro("une petite casserole, un bol, une cuillère, un économe, une planche et un couteau, une casserole pour les soba, une passoire, un petit bol, un bol large tiède"),
-  REHYD("protéine de soja texturée", "protéine de soja texturée (sèche)"),
-  "Mise en place — Pendant que le soja gonfle : éplucher le daikon ({{daikon}}) et le couper en demi-rondelles de 5 mm, laver les épinards ({{épinards}}). Vérifier que les soba sont 100 % sarrasin. [[// eplucher daikon; couper daikon; laver epinards]]",
-  c1(20, "le daikon", "Il devient translucide et perd tout piquant."),
-  c2(15, "les épinards et le soja " + bol, "Les épinards s'affaissent (15 minutes, guide du fabricant)."),
-  "Les soba — Pendant le second cycle, plonger les soba ({{soba cuites}}) 6 minutes dans l'eau frémissante non salée, les rincer à l'eau tiède et bien les égoutter. [[// casserole; cuisson 6; rincer; egoutter]]",
+  "Mise en place — Éplucher le daikon ({{daikon}}) et le couper en demi-rondelles de 5 mm, laver les épinards ({{épinards}}). Vérifier que les soba sont 100 % sarrasin. [[sortir; eplucher daikon; couper daikon; laver epinards]]",
+  c1(20, "le daikon et les épinards", "Le daikon devient translucide et perd tout piquant."),
+  REHYD2("protéine de soja texturée", "protéine de soja texturée (sèche)"),
+  "Les soba — Pendant le cycle, plonger les soba ({{soba cuites}}) 6 minutes dans l'eau frémissante non salée, les rincer à l'eau tiède et bien les égoutter. [[// casserole; cuisson 6; rincer; egoutter]]",
   "La sauce miso — Délayer le miso ({{miso blanc}}) dans 3 cuillères d'eau tiède, ajouter l'huile de sésame grillé ({{huile de sésame grillé}}) et y mêler le soja. Ne jamais chauffer le miso. [[presser epinards; delayer]]",
   "Dressage — Soba en nid dans le bol large tiède, soja au miso au centre, épinards pressés et daikon autour, graines de sésame ({{graines de sésame}}) en pluie. [[dresser x4]]"],
  tip:"Le soja texturé se garde en petite quantité : 30 g secs suffisent pour un repas complet."}),
 
 RC({id:"l-soja-donburi-aubergine", n:"Donburi doux de soja texturé, aubergine pelée & courgette fondantes sur riz", cat:"Protéines végétales", st:"Vapeur Bamboo", base:"Riz", d:1,
- ing:[["protéine de soja texturée (sèche)",30,"g"],["bouillon",100,"ml"],["riz cuit",140,"g"],["aubergine épluchée",100,"g"],["courgette épluchée",55,"g"],["sauce soja",1,"c. à café"],["huile de sésame grillé",1,"c. à café"],["ciboulette","",HERBS]],
+ ing:[["protéine de soja texturée (sèche)",30,"g"],["bouillon",100,"ml"],["riz cuit",140,"g"],["aubergine",90,"g"],["courgette épluchée",60,"g"],["sauce soja",1,"c. à café"],["sirop d'érable",1,"c. à café"],["huile de sésame grillé",1,"c. à café"]],
  steps:[
-  intro("une petite casserole, deux bols, une cuillère, un économe, une planche et un couteau, un petit bol, un bol profond tiède"),
-  REHYD("protéine de soja texturée", "protéine de soja texturée (sèche)"),
-  "Mise en place — Pendant que le soja gonfle : éplucher entièrement l'aubergine ({{aubergine épluchée}}) et la couper en dés de 2 cm. Éplucher entièrement la courgette ({{courgette épluchée}}), retirer le cœur et la couper en dés de 1 cm. [[// eplucher aubergine; couper aubergine; eplucher courgette; couper courgette]]",
-  c1(20, "l'aubergine", "Elle doit s'écraser comme une crème."),
-  c2(10, "la courgette, le soja mêlé à la sauce soja ({{sauce soja}}) " + bol + " et le riz ({{riz cuit}}) mouillé d'une cuillère d'eau dans un second bol", "Tout est chaud et fondant."),
-  "Dressage — Riz dans le bol profond tiède, soja par-dessus d'un côté, aubergine et courgette de l'autre, huile de sésame grillé ({{huile de sésame grillé}}) en filet et ciboulette ciselée ({{ciboulette}}, pointes vertes). [[ciseler; dresser x3]]"],
- tip:"L'aubergine sans peau, très cuite, enrobe le riz comme une sauce."}),
+  intro("une petite casserole, un bol, une cuillère, un économe, une planche et un couteau, un petit bol, un bol large tiède"),
+  "Mise en place — Éplucher entièrement l'aubergine ({{aubergine}}) et la couper en dés de 1,5 cm. Éplucher la courgette ({{courgette épluchée}}), retirer le cœur et la couper en dés. [[sortir; eplucher aubergine; couper aubergine; eplucher courgette; couper courgette]]",
+  c1(25, "l'aubergine, la courgette et le riz ({{riz cuit}}) mouillé d'une cuillère d'eau " + bol, "L'aubergine est presque en purée : toujours très cuite."),
+  REHYD2("protéine de soja texturée", "protéine de soja texturée (sèche)"),
+  "La sauce — Mélanger la sauce soja ({{sauce soja}}), le sirop d'érable ({{sirop d'érable}}) et 2 cuillères d'eau tiède, puis y mêler le soja pressé. [[delayer]]",
+  "Dressage — Riz dans le bol large tiède, soja laqué au centre, aubergine et courgette autour, huile de sésame grillé ({{huile de sésame grillé}}) à la fin. [[dresser x4]]"],
+ tip:"L'aubergine pelée et très cuite devient fondante : c'est elle qui donne la douceur du donburi."}),
 
-RC({id:"l-galettes-okara-pois", n:"Galettes vapeur d'okara d'amande & de pois texturé, riz tiède, carotte & haricots verts", cat:"Protéines végétales", st:"Vapeur Bamboo", base:"Riz", d:2,
- ing:[["protéine de pois texturée (sèche)",30,"g"],["bouillon",100,"ml"],["okara d'amande",25,"g"],["riz cuit",140,"g"],["carotte",100,"g"],["haricots verts",70,"g"],["huile d'olive",1,"c. à café"],["persil","",HERBS],["sel","","1 pincée"]],
+RC({id:"l-galettes-okara-pois", n:"Galettes vapeur d'okara & de pois texturé, riz tiède, carotte & haricots verts", cat:"Protéines végétales", st:"Vapeur Bamboo", base:"Riz", d:1,
+ ing:[["protéine de pois texturée (sèche)",30,"g"],["bouillon",100,"ml"],["okara d'amande",50,"g"],["riz cuit",140,"g"],["carotte",100,"g"],["haricots verts",60,"g"],["crème de soja",1,"c. à soupe"],["huile d'olive",1,"c. à café"],["thym","",HERBS],["sel","","1 pincée"]],
  steps:[
-  intro("une petite casserole, un bol, une fourchette, une balance, un économe, une planche et un couteau, un bol pour le riz, une assiette creuse tiède"),
+  intro("une petite casserole, un bol, une cuillère, un économe, une planche et un couteau, un bol pour le mélange"),
   REHYD("protéine de pois texturée", "protéine de pois texturée (sèche)"),
-  "Mise en place — Pendant que la protéine gonfle : peser 70 g de haricots verts ({{haricots verts}}), les équeuter et les couper en tronçons de 3 cm. Éplucher la carotte ({{carotte}}) et la couper en rondelles de 5 mm. [[// peser haricots verts; couper haricots verts; eplucher carotte; couper carotte]]",
-  c1(25, "les haricots verts et la carotte", "Les haricots doivent être mous."),
-  "Les galettes — Pendant le premier cycle, écraser la protéine de pois à la fourchette avec l'okara d'amande ({{okara d'amande}}), le persil ciselé ({{persil}}) et une pincée de sel, puis former 3 galettes de 2 cm d'épaisseur en les serrant bien entre les mains. [[// ecraser; ciseler; former x3]]",
-  c2(10, "les galettes sur le papier et le riz ({{riz cuit}}) mouillé d'une cuillère d'eau " + bol, "Les galettes sont chaudes à cœur et se tiennent."),
-  "Dressage — Riz en dôme dans l'assiette creuse tiède, galettes posées en appui, carottes et haricots verts autour, huile d'olive crue ({{huile d'olive}}) en filet. [[dresser x3]]"],
- tip:"L'okara d'amande lie la protéine de pois : bien serrer les galettes pour qu'elles se tiennent à la vapeur."}),
+  "Mise en place — Pendant que la protéine gonfle : éplucher la carotte ({{carotte}}) et la couper en rondelles. Peser 60 g de haricots verts ({{haricots verts}}), les équeuter et les couper en tronçons. [[// eplucher carotte; couper carotte; peser haricots verts; couper haricots verts]]",
+  "Les galettes — Mélanger la protéine pressée, l'okara ({{okara d'amande}}), la crème de soja ({{crème de soja}}), le thym effeuillé ({{thym}}) et le sel, puis former 4 galettes plates de 1 cm d'épaisseur, posées sur du papier sulfurisé percé. [[delayer; former x4]]",
+  c1(15, "les galettes, la carotte, les haricots verts et le riz ({{riz cuit}}) mouillé d'une cuillère d'eau " + bol, "Les galettes sont fermes au toucher, les haricots très tendres."),
+  "Dressage — Riz dans l'assiette, galettes en ligne, légumes autour, huile d'olive crue ({{huile d'olive}}) en filet. [[dresser x4]]"],
+ tip:"L'okara lie la protéine : les galettes tiennent sans œuf et sans friture, cuites à la vapeur."}),
 
-RC({id:"l-minestrone-pois", n:"Minestrone doux sans tomate : quinoa, protéine de pois texturée, carotte, courgette & haricots verts au basilic", cat:"Protéines végétales", st:"Cocon & purées", base:"Quinoa", d:1,
- ing:[["protéine de pois texturée (sèche)",30,"g"],["quinoa cuit",140,"g"],["carotte",70,"g"],["courgette épluchée",55,"g"],["haricots verts",50,"g"],["bouillon",450,"ml"],["huile d'olive",1,"c. à café"],["basilic","",HERBS],["sel","","1 pincée"]],
+RC({id:"l-minestrone-pois", n:"Minestrone doux sans tomate : quinoa, protéine de pois, carotte, courgette & haricots verts", cat:"Protéines végétales", st:"Cocon & purées", base:"Quinoa", d:1,
+ ing:[["protéine de pois texturée (sèche)",30,"g"],["bouillon",400,"ml"],["quinoa cuit",140,"g"],["carotte",80,"g"],["courgette épluchée",55,"g"],["haricots verts",40,"g"],["huile d'olive",1,"c. à café"],["basilic","",HERBS]],
  steps:[
-  introPoele("une balance, un économe, une planche et un couteau, une casserole avec couvercle, une louche, une assiette creuse tiède"),
-  "Mise en place — Éplucher la carotte ({{carotte}}) et la couper en petits dés de 1 cm. Peser 50 g de haricots verts ({{haricots verts}}), les équeuter et les couper en tronçons de 1 cm. Éplucher entièrement la courgette ({{courgette épluchée}}), retirer le cœur et la couper en dés de 1 cm. [[sortir; eplucher carotte; couper carotte; peser haricots verts; couper haricots verts; eplucher courgette; couper courgette]]",
-  "Le bouillon — Porter le bouillon ({{bouillon}}) à frémissement avec la carotte et les haricots verts, couvrir et cuire 15 minutes à petit frémissement : les haricots deviennent mous. [[casserole; cuisson 15]]",
-  "La protéine et la courgette — Verser la protéine de pois texturée ({{protéine de pois texturée (sèche)}}) et la courgette dans le bouillon frémissant et laisser 10 minutes à feu doux : la protéine se réhydrate dans la soupe et la courgette fond. [[cuisson 10]]",
-  "Le quinoa — Ajouter le quinoa cuit ({{quinoa cuit}}) et laisser 2 minutes pour le réchauffer. [[cuisson 2]]",
-  "Dressage — Servir à la louche dans l'assiette creuse tiède, laisser tiédir 2 minutes, puis finir d'huile d'olive crue ({{huile d'olive}}) et de basilic ciselé ({{basilic}}). [[attente 2; ciseler; dresser x1]]"],
- tip:"La protéine de pois se réhydrate directement dans la soupe : rien à préparer à part."}),
+  introPoele("une casserole, une planche et un couteau, un économe, une louche, un grand bol tiède"),
+  "Mise en place — Éplucher la carotte ({{carotte}}) et la couper en petits dés. Éplucher la courgette ({{courgette épluchée}}) et la couper en dés de 1 cm. Peser 40 g de haricots verts ({{haricots verts}}), les équeuter et les couper en petits tronçons. [[sortir; eplucher carotte; couper carotte; eplucher courgette; couper courgette; peser haricots verts; couper haricots verts]]",
+  "Le bouillon — Porter le bouillon ({{bouillon}}) à frémissement avec la protéine de pois ({{protéine de pois texturée (sèche)}}), la carotte et les haricots verts, et cuire 12 minutes à petit frémissement : la protéine gonfle et tout devient tendre. [[casserole; cuisson 12]]",
+  "Le quinoa et la courgette — Ajouter la courgette et le quinoa ({{quinoa cuit}}) pour les 3 dernières minutes. [[cuisson 3]]",
+  "Dressage — Servir dans le grand bol tiède, avec l'huile d'olive crue ({{huile d'olive}}) et le basilic ciselé ({{basilic}}). [[ciseler; dresser x2]]"],
+ tip:"Sans tomate ni oignon, le minestrone tient par le basilic frais et le bouillon : une soupe-repas complète dans une seule casserole."}),
 
-RC({id:"x-boulettes-pois-brocoli", n:"Boulettes vapeur de protéine de pois et pomme de terre, brocoli & carotte, crème de soja persillée", cat:"Protéines végétales", st:"Vapeur Bamboo", base:"Pommes de terre", d:2,
- ing:[["protéine de pois texturée (sèche)",30,"g"],["bouillon",100,"ml"],["pommes de terre",140,"g"],["brocoli",90,"g"],["carotte",80,"g"],["crème de soja",1,"c. à soupe"],["huile d'olive",1,"c. à café"],["persil","",HERBS],["sel","","1 pincée"]],
+RC({id:"x-boulettes-pois-brocoli", n:"Boulettes de protéine de pois et pomme de terre, brocoli & carotte, crème de soja persillée", cat:"Protéines végétales", st:"Vapeur Bamboo", base:"Pommes de terre", d:1,
+ ing:[["protéine de pois texturée (sèche)",30,"g"],["bouillon",100,"ml"],["pommes de terre",140,"g"],["brocoli",90,"g"],["carotte",70,"g"],["crème de soja",1,"c. à soupe"],["huile d'olive",1,"c. à café"],["persil","",HERBS],["sel","","1 pincée"]],
  steps:[
-  intro("une petite casserole, un bol, une cuillère, une fourchette, un économe, une planche et un couteau, un petit bol, une assiette creuse tiède"),
-  REHYD("protéine de pois texturée", "protéine de pois texturée (sèche)"),
-  "Mise en place — Pendant que la protéine gonfle : éplucher les pommes de terre ({{pommes de terre}}) et les couper en cubes de 2 cm, éplucher la carotte ({{carotte}}) et la couper en rondelles, détailler les têtes de brocoli ({{brocoli}}). [[// eplucher pommes de terre; couper pommes de terre; eplucher carotte; couper carotte; couper brocoli]]",
-  c1(25, "les pommes de terre et la carotte", "Elles s'écrasent à la fourchette."),
-  "Les boulettes — Écraser un tiers des pommes de terre avec la protéine de pois, la moitié du persil ciselé ({{persil}}) et le sel, puis former 6 boulettes bien serrées. [[ecraser; ciseler; delayer; former x6]]",
-  c2(15, "les boulettes et le brocoli", "Le brocoli est très tendre (15 minutes, guide du fabricant), les boulettes se tiennent."),
-  "Dressage — Mélanger la crème de soja ({{crème de soja}}) avec le reste du persil et une cuillère d'eau. Boulettes au centre, pommes de terre, carotte et brocoli autour, crème persillée et huile d'olive crue ({{huile d'olive}}). [[delayer; dresser x4]]"],
- tip:"La pomme de terre écrasée lie la protéine de pois : des boulettes moelleuses, sans œuf."}),
+  intro("une petite casserole, un bol, une cuillère, un économe, une planche et un couteau, une fourchette, un petit bol, une assiette creuse tiède"),
+  "Mise en place — Éplucher les pommes de terre ({{pommes de terre}}) et les couper en cubes de 2 cm. Éplucher la carotte ({{carotte}}) et la couper en rondelles. Détacher les têtes du brocoli ({{brocoli}}) en petits bouquets. [[sortir; eplucher pommes de terre; couper pommes de terre; eplucher carotte; couper carotte; couper brocoli]]",
+  c1(25, "les pommes de terre, la carotte et le brocoli", "Les pommes de terre s'écrasent à la fourchette."),
+  REHYD2("protéine de pois texturée", "protéine de pois texturée (sèche)"),
+  "Les boulettes — Écraser les pommes de terre ({{pommes de terre}}) à la fourchette avec la protéine pressée et le sel, puis former 6 boulettes de la taille d'une noix. Elles sont tièdes et tendres, sans autre cuisson. [[ecraser pommes de terre; former x6]]",
+  "La crème persillée — Mélanger la crème de soja ({{crème de soja}}), le persil ciselé ({{persil}}) et l'huile d'olive crue ({{huile d'olive}}). [[ciseler; delayer]]",
+  "Dressage — Boulettes dans l'assiette creuse tiède, brocoli et carotte autour, crème persillée en filet. [[dresser x3]]"],
+ tip:"La pomme de terre écrasée lie la protéine sans œuf ni friture : les boulettes sont tendres et gardent leur forme."}),
 
 RC({id:"x-bol-pois-potimarron", n:"Bol de riz tiède, protéine de pois au thym, potimarron & épinards", cat:"Protéines végétales", st:"Vapeur Bamboo", base:"Riz", d:1,
- ing:[["protéine de pois texturée (sèche)",30,"g"],["bouillon",100,"ml"],["riz cuit",140,"g"],["potimarron",100,"g"],["épinards",70,"g"],["huile d'olive",1,"c. à café"],["thym","",HERBS],["sel","","1 pincée"]],
+ ing:[["protéine de pois texturée (sèche)",30,"g"],["bouillon",100,"ml"],["riz cuit",140,"g"],["potimarron",100,"g"],["épinards",60,"g"],["huile d'olive",1,"c. à café"],["thym","",HERBS],["sel","","1 pincée"]],
  steps:[
-  intro("une petite casserole, deux bols, une cuillère, une planche et un couteau, un économe, un bol large tiède"),
-  REHYD("protéine de pois texturée", "protéine de pois texturée (sèche)"),
-  "Mise en place — Pendant que la protéine gonfle : couper le potimarron ({{potimarron}}) en quartiers, retirer les graines, l'éplucher et le couper en cubes de 2 cm ; laver les épinards ({{épinards}}). [[// eplucher potimarron; couper potimarron; laver epinards]]",
-  c1(20, "le potimarron", "Il s'écrase à la fourchette (20 minutes, guide du fabricant)."),
-  c2(15, "les épinards, la protéine de pois mêlée au thym ({{thym}}) " + bol + " et le riz ({{riz cuit}}) mouillé d'une cuillère d'eau dans un second bol", "Tout est chaud ; les épinards s'affaissent."),
-  "Dressage — Riz au fond du bol tiède, protéine au thym au centre, potimarron et épinards pressés autour, huile d'olive crue ({{huile d'olive}}) et une pincée de sel. [[presser epinards; dresser x4]]"],
- tip:"Le thym parfume la protéine de pois pendant qu'elle se réchauffe à la vapeur."}),
+  intro("une petite casserole, un bol, une cuillère, un économe, une planche et un couteau, un bol large tiède"),
+  "Mise en place — Éplucher le potimarron ({{potimarron}}), retirer les graines et le couper en cubes de 2 cm. Laver les épinards ({{épinards}}). [[sortir; eplucher potimarron; couper potimarron; laver epinards]]",
+  c1(20, "le potimarron, les épinards et le riz ({{riz cuit}}) mouillé d'une cuillère d'eau " + bol, "Le potimarron s'écrase sous la pointe d'un couteau."),
+  REHYD2("protéine de pois texturée", "protéine de pois texturée (sèche)"),
+  "Dressage — Riz dans le bol large tiède, protéine mêlée au thym effeuillé ({{thym}}) au centre, potimarron et épinards pressés autour, huile d'olive crue ({{huile d'olive}}) et sel. [[presser epinards; dresser x4]]"],
+ tip:"Le thym parfume la protéine de pois, le potimarron lui apporte sa douceur sucrée."}),
 
 RC({id:"s-sardines-pdt-haricots", n:"Salade tiède de pommes de terre, sardines au naturel, haricots verts & carotte, sauce persillée", cat:"Sardines", st:"Fraîcheur tiède", base:"Pommes de terre", d:1,
  ing:[["sardines au naturel",90,"g"],["pommes de terre",140,"g"],["haricots verts",75,"g"],["carotte",90,"g"],["huile d'olive",1,"c. à café"],["persil","",HERBS],["sel","","1 pincée"]],
  steps:[
   intro("une balance, du papier absorbant, une planche et un couteau, un économe, un petit bol, une assiette creuse"),
-  "Mise en place — Éplucher les pommes de terre ({{pommes de terre}}) et les couper en cubes de 2 cm. Peser 75 g de haricots verts ({{haricots verts}}) au maximum, les équeuter et les couper en tronçons. Éplucher la carotte ({{carotte}}) et la couper en rondelles. Égoutter longuement les sardines au naturel ({{sardines au naturel}}) sur du papier absorbant et retirer l'arête centrale. Plat du midi, hors phase sensible. [[sortir; eplucher pommes de terre; couper pommes de terre; peser haricots verts; couper haricots verts; eplucher carotte; couper carotte; egoutter; presser sardines]]",
-  c1(30, "les pommes de terre, les haricots verts et la carotte", "Les haricots doivent être mous."),
-  "Tiédir et assaisonner — Laisser tiédir les légumes 5 minutes dans l'assiette ; mélanger le persil ciselé ({{persil}}), l'huile d'olive crue ({{huile d'olive}}), 2 cuillères d'eau tiède et le sel. [[attente 5; ciseler; delayer]]",
-  "Dressage — Légumes en couronne, sardines émiettées au centre, sauce persillée sur l'ensemble. [[dresser x2]]"],
- tip:"Les sardines au naturel, bien égouttées, restent légères."}),
+  "Mise en place — Éplucher les pommes de terre ({{pommes de terre}}) et les couper en cubes de 2 cm. Peser 75 g de haricots verts ({{haricots verts}}), les équeuter et les couper en tronçons. Éplucher la carotte ({{carotte}}) et la couper en rondelles. Égoutter les sardines au naturel ({{sardines au naturel}}) sur du papier absorbant et retirer l'arête centrale. Plat du midi, hors phase sensible. [[sortir; eplucher pommes de terre; couper pommes de terre; peser haricots verts; couper haricots verts; eplucher carotte; couper carotte; egoutter; presser sardines]]",
+  c1(25, "les pommes de terre, les haricots verts et la carotte", "Les haricots sont mous, les pommes de terre tendres."),
+  "Sauce et dressage — Mélanger le persil ciselé ({{persil}}), l'huile d'olive crue ({{huile d'olive}}), 2 cuillères d'eau tiède et le sel. Dresser les légumes tièdes en couronne dans l'assiette, sardines émiettées au centre, sauce persillée sur l'ensemble. [[ciseler; delayer; dresser x2]]"],
+ tip:"Les sardines au naturel, bien égouttées, restent légères ; la sauce persillée les rafraîchit."}),
 
 RC({id:"s-sardines-vapeur-fenouil", n:"Filets de sardines vapeur, riz tiède, fenouil & courgette fondants", cat:"Sardines", st:"Vapeur Bamboo", base:"Riz", d:2,
  ing:[["sardines fraîches",90,"g"],["riz cuit",140,"g"],["fenouil",60,"g"],["courgette épluchée",55,"g"],["carotte",50,"g"],["huile d'olive",1,"c. à café"],["aneth","",HERBS],["sel","","1 pincée"]],
@@ -1472,7 +1455,7 @@ RC({id:"n-col-soupe-miso-wakame", n:"Petite soupe miso, tofu soyeux & wakame", c
 
 /* ============ BANCHAN : petits plats coréens servis avec du riz ============
    Un banchan est un petit accompagnement. Ici ils sont traités à part (rubrique « Banchan » du Carnet) :
-   5 banchan à protéine (tofu ou œuf, 80 à 100 g de protéine) et 10 banchan de légumes (60 à 90 g de légumes cuits).
+   8 banchan à protéine (tofu ou œuf, 80 à 100 g de protéine) et 17 banchan de légumes (60 à 90 g de légumes cuits).
    Un REPAS CORÉEN complet = riz cuit 140 g + 1 banchan à protéine + 2 banchan de légumes (voir composeKorean).
    Version douce du protocole : ni ail, ni piment, ni oignon, ni vinaigre, ni graines crues ; sauce soja et miso en toute petite quantité
    (les banchan avec sauce soja disparaissent en phase de sensibilité aiguë) ; légumes toujours cuits, tièdes ; huile de sésame grillé ajoutée à la fin.
@@ -1609,7 +1592,95 @@ RC({id:"n-bc-navet-jorim", n:"Navet-jorim : navet braisé tendre à la sauce dou
   "Le navet — Éplucher le navet ({{navet}}) et le couper en cubes de 1,5 cm. [[sortir; eplucher navet; couper navet]]",
   "La braise — Mettre les cubes dans la casserole avec 80 ml d'eau et 1/2 c. à café de sauce soja, couvrir et laisser frémir à feu doux 10 minutes, jusqu'à ce qu'ils soient translucides et fondants. [[casserole; cuisson 10]]",
   "Dressage — Verser dans un petit bol et finir de 1/2 c. à café d'huile de sésame grillé. [[dresser x2]]"],
- tip:"Le navet cuit longtemps à l'eau perd toute son amertume et devient sucré."})
+ tip:"Le navet cuit longtemps à l'eau perd toute son amertume et devient sucré."}),
+
+/* ---------- à protéine (suite) ---------- */
+RC({id:"n-bc-dubu-jjim", n:"Dubu-jjim : tofu vapeur à la sauce sésame douce", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Protéine",
+ ing:[["tofu ferme",90,"g"],["sauce soja",0.5,"c. à café"],["huile de sésame grillé",0.5,"c. à café"],["graines de sésame",1,"c. à café"],["ciboulette",1,"quelques brins"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une casserole avec son couvercle, une planche et un couteau, du papier absorbant, un petit bol.",
+  "Le tofu — Éponger le tofu ferme ({{tofu ferme}}) dans du papier absorbant et le couper en tranches de 1 cm. Les ranger dans la casserole avec 4 cuillères d'eau, couvrir et chauffer à feu doux 5 minutes : le tofu est chaud, tendre et gonflé de vapeur. [[sortir; presser tofu ferme; couper tofu ferme; casserole; cuisson 5]]",
+  "La sauce — Dans le petit bol, mélanger 1/2 c. à café de sauce soja, 1/2 c. à café d'huile de sésame grillé, une cuillère d'eau et les graines de sésame ({{graines de sésame}}). [[delayer]]",
+  "Dressage — Égoutter le tofu, le ranger en rosace dans une petite assiette, napper de sauce et parsemer de la ciboulette ({{ciboulette}}) ciselée, pointes vertes seulement. [[egoutter; ciseler; dresser x3]]"],
+ tip:"Cuit à la vapeur dans la casserole couverte, le tofu reste blanc, tendre et sans aucune matière grasse chaude."}),
+
+RC({id:"n-bc-sundubu-muchim", n:"Sundubu-muchim : tofu soyeux tiède à la sauce soja & sésame", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Protéine",
+ ing:[["tofu soyeux",100,"g"],["sauce soja",0.5,"c. à café"],["huile de sésame grillé",0.5,"c. à café"],["ciboulette",1,"quelques brins"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une petite casserole, une cuillère, un petit bol creux.",
+  "Le tofu — Chauffer le tofu soyeux ({{tofu soyeux}}) en gros morceaux 3 minutes dans la casserole avec 2 cuillères d'eau, à feu très doux et sans remuer : il se réchauffe sans se défaire. [[sortir; casserole; cuisson 3]]",
+  "Dressage — Déposer délicatement le tofu dans le bol creux à la cuillère, verser 1/2 c. à café de sauce soja et 1/2 c. à café d'huile de sésame grillé, puis parsemer de la ciboulette ({{ciboulette}}) ciselée, pointes vertes seulement. [[ciseler; dresser x3]]"],
+ tip:"Servi tiède, le tofu soyeux est presque une crème : la sauce n'est là que pour lui donner du relief."}),
+
+RC({id:"n-bc-gyeran-guk", n:"Gyeran-guk : soupe d'œuf en rubans au bouillon de kombu", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Protéine",
+ ing:[["oeuf",2,"pièce"],["bouillon",250,"ml"],["kombu",3,"g"],["huile de sésame grillé",0.5,"c. à café"],["ciboulette",1,"quelques brins"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une petite casserole, une fourchette, un bol, une cuillère, un bol à soupe. Un seul œuf préparé de cette façon par plat.",
+  "Le bouillon — Chauffer le bouillon ({{bouillon}}) avec le kombu ({{kombu}}) à feu très doux 5 minutes, sans bouillir, puis retirer le kombu. [[sortir; casserole; cuisson 5]]",
+  "Les œufs — Casser les œufs ({{oeuf}}) dans le bol et les battre à la fourchette. Verser en mince filet dans le bouillon frémissant en remuant doucement une fois : l'œuf se fige en longs rubans soyeux. Éteindre aussitôt. [[ecaler x2; battre; verser; cuisson 1]]",
+  "Dressage — Servir dans le bol à soupe, avec 1/2 c. à café d'huile de sésame grillé et la ciboulette ({{ciboulette}}) ciselée, pointes vertes seulement. [[ciseler; dresser x2]]"],
+ tip:"Verser l'œuf en filet fin dans un bouillon qui frémit à peine : les rubans restent soyeux et ne se brisent pas."}),
+
+/* ---------- de légumes (suite) ---------- */
+RC({id:"n-bc-goguma-jorim", n:"Goguma-jorim : patate douce braisée au sirop d'érable", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Légume",
+ ing:[["patate douce",60,"g"],["sirop d'érable",0.5,"c. à café"],["sauce soja",0.5,"c. à café"],["huile de sésame grillé",0.5,"c. à café"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une casserole avec son couvercle, un économe, une planche et un couteau. La patate douce est limitée à une petite portion (FODMAP).",
+  "La patate douce — Éplucher la patate douce ({{patate douce}}) et la couper en cubes de 1,5 cm. [[sortir; eplucher patate douce; couper patate douce]]",
+  "La braise — Mettre les cubes dans la casserole avec 60 ml d'eau, 1/2 c. à café de sauce soja et 1/2 c. à café de sirop d'érable, couvrir et laisser frémir à feu doux 10 minutes, jusqu'à ce que la patate douce soit fondante. [[casserole; cuisson 10]]",
+  "Dressage — Verser dans un petit bol et finir de 1/2 c. à café d'huile de sésame grillé. [[dresser x2]]"],
+ tip:"La patate douce est naturellement sucrée : la cuisson couverte la rend fondante, presque confite."}),
+
+RC({id:"n-bc-celeri-rave-namul", n:"Celeri-namul : céleri-rave étuvé au sésame", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Légume",
+ ing:[["celeri-rave",70,"g"],["huile de sésame grillé",0.5,"c. à café"],["sel",1,"pincée"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une casserole avec son couvercle, un économe, une planche et un couteau. Le céleri-rave est limité à une petite portion (FODMAP).",
+  "Le céleri-rave — Éplucher largement le céleri-rave ({{celeri-rave}}), le couper en fins bâtonnets de 3 mm, puis l'étuver dans la casserole couverte avec 3 cuillères d'eau à feu doux 9 minutes, jusqu'à ce qu'il soit fondant. [[sortir; eplucher celeri-rave; couper celeri-rave; casserole; cuisson 9]]",
+  "Dressage — Égoutter, ajouter 1/2 c. à café d'huile de sésame grillé et une pincée de sel, servir tiède. [[egoutter; dresser x2]]"],
+ tip:"Le céleri-rave étuvé perd son amertume et prend un parfum de noisette avec l'huile de sésame."}),
+
+RC({id:"n-bc-chou-fleur-muchim", n:"Chou-fleur-muchim : fleurettes très tendres au sésame", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Légume",
+ ing:[["chou-fleur",70,"g"],["huile de sésame grillé",0.5,"c. à café"],["sel",1,"pincée"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une casserole avec son couvercle, une planche et un couteau, une fourchette. Le chou-fleur est limité à une petite portion (FODMAP).",
+  "Le chou-fleur — Détacher les fleurettes du chou-fleur ({{chou-fleur}}), les couper en petits bouquets de 2 cm, puis les étuver dans la casserole couverte avec 3 cuillères d'eau à feu doux 9 minutes, jusqu'à ce qu'elles soient très tendres. [[sortir; couper chou-fleur; casserole; cuisson 9]]",
+  "Dressage — Égoutter, écraser légèrement quelques fleurettes à la fourchette, ajouter 1/2 c. à café d'huile de sésame grillé et une pincée de sel, servir tiède. [[egoutter; ecraser chou-fleur; dresser x2]]"],
+ tip:"Étuvé longtemps, le chou-fleur devient presque crémeux : c'est ce qui le rend digeste."}),
+
+RC({id:"n-bc-fenouil-jorim", n:"Fenouil braisé doux à la sauce soja", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Légume",
+ ing:[["fenouil",70,"g"],["sauce soja",0.5,"c. à café"],["huile de sésame grillé",0.5,"c. à café"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une casserole avec son couvercle, une planche et un couteau. Le fenouil est limité à une petite portion (FODMAP).",
+  "Le fenouil — Retirer les parties dures du fenouil ({{fenouil}}) et le couper en fines lamelles de 3 mm. [[sortir; couper fenouil]]",
+  "La braise — Mettre les lamelles dans la casserole avec 60 ml d'eau et 1/2 c. à café de sauce soja, couvrir et laisser frémir à feu doux 9 minutes, jusqu'à ce qu'elles soient translucides et fondantes. [[casserole; cuisson 9]]",
+  "Dressage — Verser dans un petit bol et finir de 1/2 c. à café d'huile de sésame grillé. [[dresser x2]]"],
+ tip:"Cuit à couvert, le fenouil perd son anis et devient sucré et fondant."}),
+
+RC({id:"n-bc-panais-jorim", n:"Panais braisé au sirop d'érable", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Légume",
+ ing:[["panais",80,"g"],["sirop d'érable",0.5,"c. à café"],["sauce soja",0.5,"c. à café"],["huile de sésame grillé",0.5,"c. à café"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une casserole avec son couvercle, un économe, une planche et un couteau.",
+  "Le panais — Éplucher le panais ({{panais}}) et le couper en bâtonnets de 1 cm. [[sortir; eplucher panais; couper panais]]",
+  "La braise — Mettre les bâtonnets dans la casserole avec 70 ml d'eau, 1/2 c. à café de sauce soja et 1/2 c. à café de sirop d'érable, couvrir et laisser frémir à feu doux 10 minutes, jusqu'à ce qu'ils soient fondants. [[casserole; cuisson 10]]",
+  "Dressage — Verser dans un petit bol et finir de 1/2 c. à café d'huile de sésame grillé. [[dresser x2]]"],
+ tip:"Le panais est naturellement très sucré : il se caramélise doucement dans sa sauce, sans jamais colorer."}),
+
+RC({id:"n-bc-poireau-namul", n:"Poireau-namul : vert de poireau fondant à l'huile de sésame", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Légume",
+ ing:[["poireau",70,"g"],["huile de sésame grillé",0.5,"c. à café"],["sel",1,"pincée"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une casserole avec son couvercle, une planche et un couteau. Seulement le vert tendre du poireau (FODMAP), jamais le blanc.",
+  "Le poireau — Laver le vert du poireau ({{poireau}}), le couper en rondelles de 1 cm, puis l'étuver dans la casserole couverte avec 3 cuillères d'eau à feu doux 8 minutes, jusqu'à ce qu'il soit fondant. [[sortir; laver poireau; couper poireau; casserole; cuisson 8]]",
+  "Dressage — Égoutter, ajouter 1/2 c. à café d'huile de sésame grillé et une pincée de sel, servir tiède. [[egoutter; dresser x2]]"],
+ tip:"Seul le vert du poireau est toléré : il est plus doux et plus digeste que le blanc."}),
+
+RC({id:"n-bc-blettes-namul", n:"Blettes-namul : blettes tendres au sésame", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Légume",
+ ing:[["blettes",70,"g"],["huile de sésame grillé",0.5,"c. à café"],["sauce soja",0.5,"c. à café"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une casserole avec son couvercle, une passoire, une planche et un couteau. Les blettes sont limitées à 75 g cuites par repas.",
+  "Les blettes — Laver les blettes ({{blettes}}), retirer les côtes, couper les feuilles en lanières de 3 cm, puis les cuire dans la casserole couverte avec 2 cuillères d'eau à feu doux 5 minutes, jusqu'à ce qu'elles soient tombées. [[sortir; laver blettes; couper blettes; casserole; cuisson 5]]",
+  "Dressage — Égoutter et presser doucement, mélanger avec 1/2 c. à café d'huile de sésame grillé et 1/2 c. à café de sauce soja, servir tiède. [[egoutter; presser blettes; dresser x2]]"],
+ tip:"Sans leurs côtes, les blettes sont aussi douces que des épinards."})
+
 ];
 
 /* composer un repas coréen complet : riz + 1 banchan à protéine + 2 banchan de légumes (utilisé par l'application) */
@@ -2310,7 +2381,7 @@ function buildDefaultPlan(recipes){
 }
 function defaultState(){
   const recipes = DEFAULT_RECIPES.map(recipeToState);
-  return { v: 11, font: "editorial", recipes, weeks: buildDefaultPlan(recipes), weights: [], goal: 60, checked: {}, ui: { view: "plan", week: 0 },
+  return { v: 12, font: "editorial", recipes, weeks: buildDefaultPlan(recipes), weights: [], goal: 60, checked: {}, ui: { view: "plan", week: 0 },
     kcalT: { b: null, l: null, d: null }, vegRatio: 80, autoAdapt: true, autoVeg: true, sensible: false, pantry: [], shopExtra: [], cooked: {}, reint: { start: null, foods: {}, current: null } };
 }
 
@@ -2432,11 +2503,11 @@ function viewPlan(){
   <header class="weekhead">
     <div>
       <input class="title-input" data-bind="weekName" value="${esc(w.name)}" aria-label="Nom de la semaine">
-      <p class="muted">${w.days.length} jour${w.days.length > 1 ? "s" : ""}, trois repas et une collation par jour, environ ${fmtK(weekAvg(w))} kcal par jour (indicatif, sans objectif de régime)</p>
+      <p class="muted">${w.days.length} jour${w.days.length > 1 ? "s" : ""}, trois repas et une collation par jour, environ ${fmtK(weekAvg(w))} kcal par jour</p>
     </div>
     ${weekActions(w)}
   </header>
-  ${protocolPanel()}<div class="days">${days}</div>
+  <div class="days">${days}</div>
   <div class="add-day"><button class="btn" data-act="newDay">＋ Créer un nouveau jour</button></div>`;
 }
 function dayBlock(d, di){
@@ -3903,6 +3974,7 @@ defineCookActions(); defineCookEdit(); defineWeekActions(); defineFridgeActions(
 function ensureDefaults(){
   S.ui = S.ui || { view: "plan", week: 0 }; S.checked = S.checked || {}; S.weights = S.weights || [];
   if (S.goal == null) S.goal = 60;
+  if (S.ui.view === "weight") S.ui.view = "plan";   /* l'onglet Poids n'existe plus */
   if (!S.kcalT || typeof S.kcalT !== "object") S.kcalT = { b: null, l: null, d: null };
   if (S.autoAdapt == null) S.autoAdapt = true;
   if (S.autoVeg == null) S.autoVeg = true;
@@ -3915,7 +3987,7 @@ function ensureDefaults(){
   S.weeks.forEach(w => w.days.forEach(d => { d.meals = d.meals || {}; if (!("b" in d.meals)) d.meals.b = null; if (!("c" in d.meals)) d.meals.c = null; }));
   const ks = Object.keys(S.cooked); if (ks.length > 80) ks.slice(0, ks.length - 80).forEach(k => delete S.cooked[k]);
 }
-function migrateAll(){ if (!S.v || S.v < 2) migrateProto(); if (S.v < 3) migrate3(); if (S.v < 4) migrate4(); if (S.v < 5) migrate5(); if (S.v < 6) migrate6(); if (S.v < 7) migrate7(); if (S.v < 8) migrate8(); if (S.v < 9) migrate9(); if (S.v < 10) migrate10(); if (S.v < 11) migrate11(); }
+function migrateAll(){ if (!S.v || S.v < 2) migrateProto(); if (S.v < 3) migrate3(); if (S.v < 4) migrate4(); if (S.v < 5) migrate5(); if (S.v < 6) migrate6(); if (S.v < 7) migrate7(); if (S.v < 8) migrate8(); if (S.v < 9) migrate9(); if (S.v < 10) migrate10(); if (S.v < 11) migrate11(); if (S.v < 12) migrate12(); }
 /* v2 : nouveau protocole. Le carnet fourni est remplacé par la version mise à jour ; les recettes créées par Cat sont conservées.
    Les repas du planning qui venaient de l'ancien carnet sont renouvelés, et un petit-déjeuner est ajouté là où il manque. */
 function migrateProto(){
@@ -4403,6 +4475,24 @@ A.krGo = () => {
   const meal = composeKorean(p, vs), t = KR.t; KR = null;
   if (t) { snapshot(); setMeal(t, meal); afterSelect(t); } else { closeModal(); placeTemp(meal); }
 };
+
+/* ---------- version 12 : 20 recettes tofu / protéines végétales / sardines simplifiées, 10 banchan en plus ----------
+   Les recettes fournies sont renouvelées. Les repas du planning tirés d'une des 20 recettes réécrites reprennent la version simple ;
+   le reste (repas faits main, recettes de Cat, pesées, réglages) ne bouge pas. */
+const V12_REWRITTEN = ["t-bol-tofu-sesame-daikon", "t-risotto-quinoa-potimarron", "t-miso-tofu-soyeux-navet", "t-quinoa-blettes-patisson", "t-donburi-tofu-soyeux",
+  "l-tofu-soyeux-pakchoi", "l-tofu-fume-brocoli", "l-papillote-tofu-basilic", "l-quinoa-tofu-soyeux-blettes", "l-vermicelles-bouillon-tofu",
+  "l-hachis-pois-panais", "l-bol-pois-butternut", "l-soja-miso-soba", "l-soja-donburi-aubergine", "l-galettes-okara-pois", "l-minestrone-pois",
+  "x-boulettes-pois-brocoli", "x-bol-pois-potimarron", "s-sardines-pdt-haricots"];
+function migrate12(){
+  const own = S.recipes.filter(r => r.own);
+  S.recipes = DEFAULT_RECIPES.map(recipeToState).concat(own);
+  const byId = id => S.recipes.find(r => r.id === id);
+  S.weeks.forEach(w => w.days.forEach(d => ["l", "d"].forEach(k => {
+    const m = d.meals[k]; if (!m || !m.recipeId || V12_REWRITTEN.indexOf(m.recipeId) < 0 || !byId(m.recipeId)) return;
+    const nm = mealFromRecipe(byId(m.recipeId)); nm.id = m.id; protoAdaptMeal(nm, k, kT(k)); d.meals[k] = nm;
+  })));
+  S.v = 12;
+}
 
 function viewInsp(){
   const mode = (S.ui && S.ui.insp) || "compose";

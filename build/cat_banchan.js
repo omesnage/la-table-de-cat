@@ -1,6 +1,6 @@
 /* ============ BANCHAN : petits plats coréens servis avec du riz ============
    Un banchan est un petit accompagnement. Ici ils sont traités à part (rubrique « Banchan » du Carnet) :
-   5 banchan à protéine (tofu ou œuf, 80 à 100 g de protéine) et 10 banchan de légumes (60 à 90 g de légumes cuits).
+   8 banchan à protéine (tofu ou œuf, 80 à 100 g de protéine) et 17 banchan de légumes (60 à 90 g de légumes cuits).
    Un REPAS CORÉEN complet = riz cuit 140 g + 1 banchan à protéine + 2 banchan de légumes (voir composeKorean).
    Version douce du protocole : ni ail, ni piment, ni oignon, ni vinaigre, ni graines crues ; sauce soja et miso en toute petite quantité
    (les banchan avec sauce soja disparaissent en phase de sensibilité aiguë) ; légumes toujours cuits, tièdes ; huile de sésame grillé ajoutée à la fin.
@@ -137,7 +137,95 @@ RC({id:"n-bc-navet-jorim", n:"Navet-jorim : navet braisé tendre à la sauce dou
   "Le navet — Éplucher le navet ({{navet}}) et le couper en cubes de 1,5 cm. [[sortir; eplucher navet; couper navet]]",
   "La braise — Mettre les cubes dans la casserole avec 80 ml d'eau et 1/2 c. à café de sauce soja, couvrir et laisser frémir à feu doux 10 minutes, jusqu'à ce qu'ils soient translucides et fondants. [[casserole; cuisson 10]]",
   "Dressage — Verser dans un petit bol et finir de 1/2 c. à café d'huile de sésame grillé. [[dresser x2]]"],
- tip:"Le navet cuit longtemps à l'eau perd toute son amertume et devient sucré."})
+ tip:"Le navet cuit longtemps à l'eau perd toute son amertume et devient sucré."}),
+
+/* ---------- à protéine (suite) ---------- */
+RC({id:"n-bc-dubu-jjim", n:"Dubu-jjim : tofu vapeur à la sauce sésame douce", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Protéine",
+ ing:[["tofu ferme",90,"g"],["sauce soja",0.5,"c. à café"],["huile de sésame grillé",0.5,"c. à café"],["graines de sésame",1,"c. à café"],["ciboulette",1,"quelques brins"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une casserole avec son couvercle, une planche et un couteau, du papier absorbant, un petit bol.",
+  "Le tofu — Éponger le tofu ferme ({{tofu ferme}}) dans du papier absorbant et le couper en tranches de 1 cm. Les ranger dans la casserole avec 4 cuillères d'eau, couvrir et chauffer à feu doux 5 minutes : le tofu est chaud, tendre et gonflé de vapeur. [[sortir; presser tofu ferme; couper tofu ferme; casserole; cuisson 5]]",
+  "La sauce — Dans le petit bol, mélanger 1/2 c. à café de sauce soja, 1/2 c. à café d'huile de sésame grillé, une cuillère d'eau et les graines de sésame ({{graines de sésame}}). [[delayer]]",
+  "Dressage — Égoutter le tofu, le ranger en rosace dans une petite assiette, napper de sauce et parsemer de la ciboulette ({{ciboulette}}) ciselée, pointes vertes seulement. [[egoutter; ciseler; dresser x3]]"],
+ tip:"Cuit à la vapeur dans la casserole couverte, le tofu reste blanc, tendre et sans aucune matière grasse chaude."}),
+
+RC({id:"n-bc-sundubu-muchim", n:"Sundubu-muchim : tofu soyeux tiède à la sauce soja & sésame", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Protéine",
+ ing:[["tofu soyeux",100,"g"],["sauce soja",0.5,"c. à café"],["huile de sésame grillé",0.5,"c. à café"],["ciboulette",1,"quelques brins"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une petite casserole, une cuillère, un petit bol creux.",
+  "Le tofu — Chauffer le tofu soyeux ({{tofu soyeux}}) en gros morceaux 3 minutes dans la casserole avec 2 cuillères d'eau, à feu très doux et sans remuer : il se réchauffe sans se défaire. [[sortir; casserole; cuisson 3]]",
+  "Dressage — Déposer délicatement le tofu dans le bol creux à la cuillère, verser 1/2 c. à café de sauce soja et 1/2 c. à café d'huile de sésame grillé, puis parsemer de la ciboulette ({{ciboulette}}) ciselée, pointes vertes seulement. [[ciseler; dresser x3]]"],
+ tip:"Servi tiède, le tofu soyeux est presque une crème : la sauce n'est là que pour lui donner du relief."}),
+
+RC({id:"n-bc-gyeran-guk", n:"Gyeran-guk : soupe d'œuf en rubans au bouillon de kombu", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Protéine",
+ ing:[["oeuf",2,"pièce"],["bouillon",250,"ml"],["kombu",3,"g"],["huile de sésame grillé",0.5,"c. à café"],["ciboulette",1,"quelques brins"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une petite casserole, une fourchette, un bol, une cuillère, un bol à soupe. Un seul œuf préparé de cette façon par plat.",
+  "Le bouillon — Chauffer le bouillon ({{bouillon}}) avec le kombu ({{kombu}}) à feu très doux 5 minutes, sans bouillir, puis retirer le kombu. [[sortir; casserole; cuisson 5]]",
+  "Les œufs — Casser les œufs ({{oeuf}}) dans le bol et les battre à la fourchette. Verser en mince filet dans le bouillon frémissant en remuant doucement une fois : l'œuf se fige en longs rubans soyeux. Éteindre aussitôt. [[ecaler x2; battre; verser; cuisson 1]]",
+  "Dressage — Servir dans le bol à soupe, avec 1/2 c. à café d'huile de sésame grillé et la ciboulette ({{ciboulette}}) ciselée, pointes vertes seulement. [[ciseler; dresser x2]]"],
+ tip:"Verser l'œuf en filet fin dans un bouillon qui frémit à peine : les rubans restent soyeux et ne se brisent pas."}),
+
+/* ---------- de légumes (suite) ---------- */
+RC({id:"n-bc-goguma-jorim", n:"Goguma-jorim : patate douce braisée au sirop d'érable", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Légume",
+ ing:[["patate douce",60,"g"],["sirop d'érable",0.5,"c. à café"],["sauce soja",0.5,"c. à café"],["huile de sésame grillé",0.5,"c. à café"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une casserole avec son couvercle, un économe, une planche et un couteau. La patate douce est limitée à une petite portion (FODMAP).",
+  "La patate douce — Éplucher la patate douce ({{patate douce}}) et la couper en cubes de 1,5 cm. [[sortir; eplucher patate douce; couper patate douce]]",
+  "La braise — Mettre les cubes dans la casserole avec 60 ml d'eau, 1/2 c. à café de sauce soja et 1/2 c. à café de sirop d'érable, couvrir et laisser frémir à feu doux 10 minutes, jusqu'à ce que la patate douce soit fondante. [[casserole; cuisson 10]]",
+  "Dressage — Verser dans un petit bol et finir de 1/2 c. à café d'huile de sésame grillé. [[dresser x2]]"],
+ tip:"La patate douce est naturellement sucrée : la cuisson couverte la rend fondante, presque confite."}),
+
+RC({id:"n-bc-celeri-rave-namul", n:"Celeri-namul : céleri-rave étuvé au sésame", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Légume",
+ ing:[["celeri-rave",70,"g"],["huile de sésame grillé",0.5,"c. à café"],["sel",1,"pincée"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une casserole avec son couvercle, un économe, une planche et un couteau. Le céleri-rave est limité à une petite portion (FODMAP).",
+  "Le céleri-rave — Éplucher largement le céleri-rave ({{celeri-rave}}), le couper en fins bâtonnets de 3 mm, puis l'étuver dans la casserole couverte avec 3 cuillères d'eau à feu doux 9 minutes, jusqu'à ce qu'il soit fondant. [[sortir; eplucher celeri-rave; couper celeri-rave; casserole; cuisson 9]]",
+  "Dressage — Égoutter, ajouter 1/2 c. à café d'huile de sésame grillé et une pincée de sel, servir tiède. [[egoutter; dresser x2]]"],
+ tip:"Le céleri-rave étuvé perd son amertume et prend un parfum de noisette avec l'huile de sésame."}),
+
+RC({id:"n-bc-chou-fleur-muchim", n:"Chou-fleur-muchim : fleurettes très tendres au sésame", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Légume",
+ ing:[["chou-fleur",70,"g"],["huile de sésame grillé",0.5,"c. à café"],["sel",1,"pincée"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une casserole avec son couvercle, une planche et un couteau, une fourchette. Le chou-fleur est limité à une petite portion (FODMAP).",
+  "Le chou-fleur — Détacher les fleurettes du chou-fleur ({{chou-fleur}}), les couper en petits bouquets de 2 cm, puis les étuver dans la casserole couverte avec 3 cuillères d'eau à feu doux 9 minutes, jusqu'à ce qu'elles soient très tendres. [[sortir; couper chou-fleur; casserole; cuisson 9]]",
+  "Dressage — Égoutter, écraser légèrement quelques fleurettes à la fourchette, ajouter 1/2 c. à café d'huile de sésame grillé et une pincée de sel, servir tiède. [[egoutter; ecraser chou-fleur; dresser x2]]"],
+ tip:"Étuvé longtemps, le chou-fleur devient presque crémeux : c'est ce qui le rend digeste."}),
+
+RC({id:"n-bc-fenouil-jorim", n:"Fenouil braisé doux à la sauce soja", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Légume",
+ ing:[["fenouil",70,"g"],["sauce soja",0.5,"c. à café"],["huile de sésame grillé",0.5,"c. à café"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une casserole avec son couvercle, une planche et un couteau. Le fenouil est limité à une petite portion (FODMAP).",
+  "Le fenouil — Retirer les parties dures du fenouil ({{fenouil}}) et le couper en fines lamelles de 3 mm. [[sortir; couper fenouil]]",
+  "La braise — Mettre les lamelles dans la casserole avec 60 ml d'eau et 1/2 c. à café de sauce soja, couvrir et laisser frémir à feu doux 9 minutes, jusqu'à ce qu'elles soient translucides et fondantes. [[casserole; cuisson 9]]",
+  "Dressage — Verser dans un petit bol et finir de 1/2 c. à café d'huile de sésame grillé. [[dresser x2]]"],
+ tip:"Cuit à couvert, le fenouil perd son anis et devient sucré et fondant."}),
+
+RC({id:"n-bc-panais-jorim", n:"Panais braisé au sirop d'érable", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Légume",
+ ing:[["panais",80,"g"],["sirop d'érable",0.5,"c. à café"],["sauce soja",0.5,"c. à café"],["huile de sésame grillé",0.5,"c. à café"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une casserole avec son couvercle, un économe, une planche et un couteau.",
+  "Le panais — Éplucher le panais ({{panais}}) et le couper en bâtonnets de 1 cm. [[sortir; eplucher panais; couper panais]]",
+  "La braise — Mettre les bâtonnets dans la casserole avec 70 ml d'eau, 1/2 c. à café de sauce soja et 1/2 c. à café de sirop d'érable, couvrir et laisser frémir à feu doux 10 minutes, jusqu'à ce qu'ils soient fondants. [[casserole; cuisson 10]]",
+  "Dressage — Verser dans un petit bol et finir de 1/2 c. à café d'huile de sésame grillé. [[dresser x2]]"],
+ tip:"Le panais est naturellement très sucré : il se caramélise doucement dans sa sauce, sans jamais colorer."}),
+
+RC({id:"n-bc-poireau-namul", n:"Poireau-namul : vert de poireau fondant à l'huile de sésame", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Légume",
+ ing:[["poireau",70,"g"],["huile de sésame grillé",0.5,"c. à café"],["sel",1,"pincée"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une casserole avec son couvercle, une planche et un couteau. Seulement le vert tendre du poireau (FODMAP), jamais le blanc.",
+  "Le poireau — Laver le vert du poireau ({{poireau}}), le couper en rondelles de 1 cm, puis l'étuver dans la casserole couverte avec 3 cuillères d'eau à feu doux 8 minutes, jusqu'à ce qu'il soit fondant. [[sortir; laver poireau; couper poireau; casserole; cuisson 8]]",
+  "Dressage — Égoutter, ajouter 1/2 c. à café d'huile de sésame grillé et une pincée de sel, servir tiède. [[egoutter; dresser x2]]"],
+ tip:"Seul le vert du poireau est toléré : il est plus doux et plus digeste que le blanc."}),
+
+RC({id:"n-bc-blettes-namul", n:"Blettes-namul : blettes tendres au sésame", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Légume",
+ ing:[["blettes",70,"g"],["huile de sésame grillé",0.5,"c. à café"],["sauce soja",0.5,"c. à café"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une casserole avec son couvercle, une passoire, une planche et un couteau. Les blettes sont limitées à 75 g cuites par repas.",
+  "Les blettes — Laver les blettes ({{blettes}}), retirer les côtes, couper les feuilles en lanières de 3 cm, puis les cuire dans la casserole couverte avec 2 cuillères d'eau à feu doux 5 minutes, jusqu'à ce qu'elles soient tombées. [[sortir; laver blettes; couper blettes; casserole; cuisson 5]]",
+  "Dressage — Égoutter et presser doucement, mélanger avec 1/2 c. à café d'huile de sésame grillé et 1/2 c. à café de sauce soja, servir tiède. [[egoutter; presser blettes; dresser x2]]"],
+ tip:"Sans leurs côtes, les blettes sont aussi douces que des épinards."})
+
 ];
 
 /* composer un repas coréen complet : riz + 1 banchan à protéine + 2 banchan de légumes (utilisé par l'application) */
