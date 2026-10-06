@@ -3798,7 +3798,7 @@ function proposeDay(f, avoid, ctx){
 function proposeWeek(f){
   f = f || {}; const off = Math.random() < .5 ? 0 : 1, limit = f.cats && f.cats.length ? 99 : 5;
   let best = null, bestN = 1e9;
-  for (let a = 0; a < 8; a++){
+  for (let a = 0; a < 40; a++){
     const days = [], avoid = new Set(), count = {}; let prev = null, eggs = 0;
     for (let i = 0; i < 7; i++){
       const ok = (m, k) => k === "b" || (count[m.cat] || 0) < (limit > 50 ? limit : isVegCat(m.cat) ? 7 : 3);
