@@ -35,3 +35,5 @@
 .sheet-close{justify-content:space-between;align-items:center}
 .sheet-close .back{font-size:15px;color:var(--celadon);padding:10px 14px 10px 0;min-height:44px;letter-spacing:.02em}
 .sheet-close .icon{width:44px;height:44px;font-size:24px}
+.bk-tabs{display:flex;width:100%}
+.bk-tabs .seg-b{flex:1;padding:12px 8px;font-size:15px}

@@ -382,7 +382,7 @@ const bcShort = n => String(n).split(":")[0].trim();
 const bcSub = n => String(n).indexOf(":") >= 0 ? String(n).split(":").slice(1).join(":").trim() : "";
 function viewBook(){
   const tab = BOOK.tab === "banchan" ? "banchan" : "recettes";
-  const seg = `<div class="seg bk-tabs" role="tablist">${[["recettes", "Recettes"], ["banchan", "Banchan"]].map(([v, l]) => `<button class="seg-b" data-act="bookTab" data-v="${v}" aria-pressed="${tab === v}">${l}</button>`).join("")}</div>`;
+  const seg = `<div class="seg bk-tabs" role="tablist">${[["recettes", "Recettes (" + S.recipes.filter(r => r.cat !== "Banchan").length + ")"], ["banchan", "Banchan coréens (" + bcRecipes().length + ")"]].map(([v, l]) => `<button class="seg-b" data-act="bookTab" data-v="${v}" aria-pressed="${tab === v}">${l}</button>`).join("")}</div>`;
   return seg + (tab === "banchan" ? viewBanchan() : viewBookRecipes());
 }
 A.bookTab = ds => { BOOK.tab = ds.v; render(); window.scrollTo(0, 0); };
