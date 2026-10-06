@@ -119,11 +119,22 @@ if (A) {
   gone.forEach(id => S0.recipes.push({ id, n: "ancienne recette " + id, ing: [], steps: [] }));
   A.setS(S0); A.migrateAll(); const S1 = A.getS();
   const left = S1.weeks.flatMap(w => w.days.flatMap(d => A.SLOTS.map(s => d.meals[s.k]))).filter(m => m && gone.indexOf(m.recipeId) >= 0);
-  if (S1.v !== 9) fail('migration', 'version ' + S1.v + ' au lieu de 9');
+  if (S1.v !== 10) fail('migration', 'version ' + S1.v + ' au lieu de 10');
   if (left.length || S1.recipes.some(r => gone.indexOf(r.id) >= 0)) fail('migration', 'des recettes supprimées restent dans les données');
   const wk = S1.weeks.slice(0, 4).flatMap(w => w.days.flatMap(d => A.SLOTS.map(s => d.meals[s.k]))), is = A.planIssues(wk);
   if (is.length) fail('migration', 'planning refait non conforme : ' + is.slice(0, 2).join(' ; '));
-  if (!left.length && S1.v === 9 && !is.length) out.push('✓ migration 9 : anciennes recettes remplacées, planning refait et conforme, version 9');
+  if (!left.length && S1.v === 10 && !is.length) out.push('✓ migration 10 : anciennes recettes remplacées, planning refait et conforme, version 10');
+  /* migration 9 → 10 : seuls les repas issus d'une recette disparue sont refaits, le reste de Cat est conservé */
+  const S9 = A.defaultState(); S9.v = 9; const gone9 = ['b-porridge-avoine-myrtilles', 't-salade-riz-basilic'];
+  const keepId = S9.weeks[0].days[3].meals.l.recipeId, keepName = S9.weeks[0].days[3].meals.l.name;
+  S9.weeks[0].days[0].meals.b.recipeId = gone9[0]; S9.weeks[0].days[1].meals.l.recipeId = gone9[1];
+  gone9.forEach(id => S9.recipes.push({ id, n: 'ancienne recette ' + id, ing: [], steps: [] }));
+  S9.recipes.push({ id: 'perso-1', n: 'Recette de Cat', own: true, ing: [], steps: [] }); S9.weights.push({ date: '2026-10-01', kg: 59.3 });
+  A.setS(S9); A.migrateAll(); const T1 = A.getS(), mm = T1.weeks.flatMap(w => w.days.flatMap(d => A.SLOTS.map(s => d.meals[s.k])));
+  const ok10 = T1.v === 10 && !mm.some(m => m && gone9.indexOf(m.recipeId) >= 0) && T1.recipes.some(r => r.id === 'perso-1') && T1.weights.length === 1
+    && T1.weeks[0].days[3].meals.l.name === keepName && !T1.recipes.some(r => gone9.indexOf(r.id) >= 0);
+  if (!ok10) fail('migration 10', 'repas refaits, recette perso, pesées ou repas conservés incorrects');
+  else out.push('✓ migration 9 → 10 : repas des recettes disparues refaits, recettes de Cat, pesées et autres repas conservés');
 }
 console.log(out.join('\n'));
 console.log(NEW_RECIPES.length + ' recettes, ' + errors + ' en erreur');

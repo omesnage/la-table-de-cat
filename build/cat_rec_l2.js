@@ -12,17 +12,6 @@ RC({id:"t-bol-tofu-sesame-daikon", n:"Bol de riz tiède, tofu ferme au sésame, 
   "Dressage — Riz dans le bol, tranches de tofu en éventail, épinards pressés et daikon de chaque côté, sauce sur le tofu et sésame ({{graines de sésame}}) en pluie. [[presser epinards; dresser x4]]"],
  tip:"Le daikon bien cuit devient doux comme un navet et boit la sauce au sésame."}),
 
-RC({id:"t-puree-panais-tofu-thym", n:"Purée de panais et pomme de terre, tofu vapeur au thym, haricots verts", cat:"Tofu", st:"Cocon & purées", base:"Pommes de terre", d:1,
- ing:[["tofu ferme",90,"g"],["pommes de terre",130,"g"],["panais",90,"g"],["haricots verts",70,"g"],["lait de riz",30,"ml"],["huile d'olive",1,"c. à café"],["thym","",HERBS],["sel","","1 pincée"]],
- steps:[
-  intro("une balance, un économe, une planche et un couteau, du papier absorbant, un presse-purée, une assiette creuse tiède"),
-  "Mise en place — Éplucher les pommes de terre ({{pommes de terre}}) et le panais ({{panais}}) et les couper en cubes de 2 cm. Peser 70 g de haricots verts ({{haricots verts}}), les équeuter et les couper en tronçons. Éponger le tofu ({{tofu ferme}}) et le couper en cubes de 2 cm. [[sortir; eplucher pommes de terre; couper pommes de terre; eplucher panais; couper panais; peser haricots verts; couper haricots verts; presser tofu; couper tofu]]",
-  c1(25, "les pommes de terre, le panais et les haricots verts", "Les haricots sont mous, les cubes s'écrasent."),
-  c2(10, "le tofu parsemé de thym effeuillé ({{thym}})", "Il est chaud à cœur et parfumé."),
-  "La purée — Écraser les pommes de terre et le panais avec le lait de riz ({{lait de riz}}) tiédi et le sel : une purée douce et un peu sucrée. [[ecraser]]",
-  "Dressage — Purée en nid, tofu au thym au centre, haricots verts autour, filet d'huile d'olive crue ({{huile d'olive}}). [[dresser x3]]"],
- tip:"Le panais donne à la purée une douceur de noisette."}),
-
 RC({id:"t-risotto-quinoa-potimarron", n:"Quinoa crémeux au potimarron, dés de tofu & blettes fondantes", cat:"Tofu", st:"Cocon & purées", base:"Quinoa", d:1,
  ing:[["tofu ferme",90,"g"],["quinoa cuit",140,"g"],["potimarron",100,"g"],["blettes",70,"g"],["bouillon",150,"ml"],["huile d'olive",1,"c. à café"],["persil","",HERBS],["sel","","1 pincée"]],
  steps:[
@@ -33,18 +22,6 @@ RC({id:"t-risotto-quinoa-potimarron", n:"Quinoa crémeux au potimarron, dés de 
   "Le quinoa crémeux — Chauffer le quinoa ({{quinoa cuit}}) avec le bouillon ({{bouillon}}) dans la casserole, en y écrasant la moitié du potimarron, 5 minutes à feu doux : une texture de risotto. [[casserole; ecraser; cuisson 5]]",
   "Dressage — Quinoa crémeux dans l'assiette creuse tiède, tofu, blettes et cubes de potimarron dessus, persil ciselé ({{persil}}) et huile d'olive crue ({{huile d'olive}}). [[ciseler; dresser x3]]"],
  tip:"Le potimarron écrasé lie le quinoa comme un risotto, sans fromage."}),
-
-RC({id:"t-soba-rubans-miso", n:"Soba tièdes, tofu ferme, rubans de courgette & de carotte, sauce miso douce", cat:"Tofu", st:"Fraîcheur tiède", base:"Sarrasin", d:1,
- ing:[["tofu ferme",90,"g"],["soba cuites",140,"g"],["carotte",100,"g"],["courgette épluchée",55,"g"],["miso blanc",1,"c. à café"],["huile de sésame grillé",1,"c. à café"],["ciboulette","",HERBS]],
- steps:[
-  intro("un économe, du papier absorbant, une planche et un couteau, une casserole, une passoire, un petit bol, un bol large tiède"),
-  "Mise en place — Éplucher la carotte ({{carotte}}) et la tailler en rubans à l'économe. Éplucher entièrement la courgette ({{courgette épluchée}}) et la tailler en rubans jusqu'au cœur. Éponger le tofu ({{tofu ferme}}) et le couper en bâtonnets. [[sortir; eplucher carotte; rubans carotte; eplucher courgette; rubans courgette; presser tofu; couper tofu]]",
-  c1(20, "les rubans de carotte", "Ils sont souples et fondants."),
-  "Les soba — Pendant le premier cycle, cuire les soba ({{soba cuites}}) 6 minutes dans l'eau frémissante, les rincer à l'eau tiède et les égoutter. [[// casserole; cuisson 6; rincer; egoutter]]",
-  c2(10, "les rubans de courgette et le tofu", "Tout est chaud et tendre."),
-  "La sauce miso — Délayer le miso ({{miso blanc}}) dans 3 cuillères d'eau tiède, ajouter l'huile de sésame grillé ({{huile de sésame grillé}}). Ne jamais chauffer le miso. [[delayer]]",
-  "Dressage — Mêler soba et rubans dans le bol tiède, tofu dessus, sauce miso en filet et ciboulette ciselée ({{ciboulette}}). [[ciseler; dresser x3]]"],
- tip:"Les rubans de légumes se mêlent aux soba comme des nouilles."}),
 
 RC({id:"t-miso-tofu-soyeux-navet", n:"Soupe-repas au miso doux, tofu soyeux, navet & épinards, riz", cat:"Tofu", st:"Cocon & purées", base:"Riz", d:1,
  ing:[["tofu soyeux",100,"g"],["riz cuit",140,"g"],["navet",100,"g"],["épinards",60,"g"],["miso blanc",1,"c. à café"],["eau",350,"ml"],["huile de sésame grillé",1,"c. à café"]],
@@ -57,71 +34,6 @@ RC({id:"t-miso-tofu-soyeux-navet", n:"Soupe-repas au miso doux, tofu soyeux, nav
   "Dressage — Servir à la louche dans le bol profond tiède, quelques gouttes d'huile de sésame grillé ({{huile de sésame grillé}}). [[dresser x1]]"],
  tip:"Le tofu soyeux fond dans la soupe : chaque cuillerée est douce et crémeuse."}),
 
-RC({id:"t-veloute-brocoli-tofu", n:"Velouté de brocoli et pomme de terre, dés de tofu ferme & crème de soja", cat:"Tofu", st:"Cocon & purées", base:"Pommes de terre", d:1,
- ing:[["tofu ferme",90,"g"],["pommes de terre",140,"g"],["brocoli",130,"g"],["courgette épluchée",40,"g"],["bouillon",250,"ml"],["crème de soja",1,"c. à soupe"],["huile d'olive",1,"c. à café"],["persil","",HERBS],["sel","","1 pincée"]],
- steps:[
-  intro("un économe, une planche et un couteau, du papier absorbant, une petite casserole, un mixeur plongeant avec son verre, une assiette creuse tiède"),
-  "Mise en place — Éplucher les pommes de terre ({{pommes de terre}}) et les couper en cubes de 2 cm. Détailler les têtes de brocoli ({{brocoli}}). Éplucher entièrement la courgette ({{courgette épluchée}}) et la couper en dés. Éponger le tofu ({{tofu ferme}}) et le couper en dés de 1 cm. [[sortir; eplucher pommes de terre; couper pommes de terre; couper brocoli; eplucher courgette; couper courgette; presser tofu; couper tofu]]",
-  c1(15, "les pommes de terre", "Elles commencent à s'attendrir."),
-  c2(15, "le brocoli, la courgette et le tofu", "Le brocoli est très tendre (15 minutes, guide du fabricant). Pendant ce cycle, chauffer le bouillon ({{bouillon}}) dans la petite casserole sans le faire bouillir.", "casserole"),
-  "Le velouté — Mixer les pommes de terre, le brocoli et la courgette avec le bouillon chaud, la crème de soja ({{crème de soja}}) et le sel : un velouté vert, lisse et épais. [[mixer]]",
-  "Dressage — Velouté dans l'assiette creuse tiède, dés de tofu au centre, huile d'olive crue ({{huile d'olive}}) et persil ciselé ({{persil}}). [[ciseler; dresser x2]]"],
- tip:"Le brocoli bien cuit donne un velouté d'un beau vert, très doux."}),
-
-RC({id:"t-salade-riz-basilic", n:"Salade tiède de riz, tofu ferme, haricots verts & courgette, huile au basilic", cat:"Tofu", st:"Fraîcheur tiède", base:"Riz", d:1,
- ing:[["tofu ferme",90,"g"],["riz cuit",140,"g"],["haricots verts",75,"g"],["courgette épluchée",55,"g"],["carotte",40,"g"],["huile d'olive",1,"c. à café"],["basilic","",HERBS],["sel","","1 pincée"]],
- steps:[
-  intro("une balance, une planche et un couteau, un économe, du papier absorbant, un petit bol, un bol pour le riz, une assiette creuse"),
-  "Mise en place — Peser 75 g de haricots verts ({{haricots verts}}) au maximum, les équeuter et les couper en tronçons de 2 cm. Éplucher la carotte ({{carotte}}) et la couper en petits dés. Éplucher entièrement la courgette ({{courgette épluchée}}), retirer le cœur et la couper en dés. Éponger le tofu ({{tofu ferme}}) et le couper en dés. [[sortir; peser haricots verts; couper haricots verts; eplucher carotte; couper carotte; eplucher courgette; couper courgette; presser tofu; couper tofu]]",
-  c1(25, "les haricots verts et la carotte", "Les haricots doivent être mous."),
-  c2(10, "la courgette, le tofu et le riz ({{riz cuit}}) mouillé d'une cuillère d'eau " + bol, "Tout est chaud et tendre."),
-  "L'huile au basilic — Ciseler le basilic ({{basilic}}), le mélanger à l'huile d'olive crue ({{huile d'olive}}), une cuillère d'eau tiède et le sel. [[ciseler; delayer]]",
-  "Dressage — Mélanger riz, légumes et tofu, laisser tiédir 3 minutes, arroser d'huile au basilic. [[delayer; attente 3; dresser x1]]"],
- tip:"Le riz tiède boit l'huile au basilic : une salade d'été, cuite de bout en bout."}),
-
-RC({id:"t-boulettes-tofu-quinoa", n:"Boulettes vapeur de tofu et quinoa, carotte & navet fondants, crème de soja persillée", cat:"Tofu", st:"Vapeur Bamboo", base:"Quinoa", d:2,
- ing:[["tofu ferme",90,"g"],["quinoa cuit",140,"g"],["carotte",90,"g"],["navet",80,"g"],["crème de soja",1,"c. à soupe"],["huile d'olive",1,"c. à café"],["persil","",HERBS],["sel","","1 pincée"]],
- steps:[
-  intro("du papier absorbant, une fourchette, un saladier, une planche et un couteau, un économe, un petit bol, une assiette creuse tiède"),
-  "La farce — Éponger le tofu ({{tofu ferme}}) et l'écraser finement à la fourchette avec la moitié du quinoa ({{quinoa cuit}}), la moitié du persil ciselé ({{persil}}) et le sel. Pétrir et former 6 boulettes de la taille d'une noix. [[sortir; presser tofu; ecraser; ciseler; delayer; former x6]]",
-  "Les légumes — Éplucher la carotte ({{carotte}}) et le navet ({{navet}}) et les couper en cubes de 2 cm. [[eplucher carotte; couper carotte; eplucher navet; couper navet]]",
-  c1(20, "la carotte et le navet", "Ils s'écrasent à la fourchette."),
-  c2(10, "les boulettes et le reste du quinoa " + bol, "Les boulettes sont fermes et chaudes à cœur."),
-  "Dressage — Mélanger la crème de soja ({{crème de soja}}) avec le reste du persil et une cuillère d'eau. Quinoa dans l'assiette, boulettes dessus, légumes autour, crème persillée et huile d'olive crue ({{huile d'olive}}). [[delayer; dresser x4]]"],
- tip:"Le quinoa dans la farce rend les boulettes moelleuses et les aide à se tenir."}),
-
-RC({id:"t-vermicelles-tofu-soyeux", n:"Vermicelles tièdes au sésame, tofu soyeux, courgette & potimarron", cat:"Tofu", st:"Fraîcheur tiède", base:"Vermicelles", d:1,
- ing:[["tofu soyeux",100,"g"],["vermicelles de patate douce cuits",140,"g"],["potimarron",100,"g"],["courgette épluchée",55,"g"],["sauce soja",1,"c. à café"],["huile de sésame grillé",1,"c. à café"],["graines de sésame",1,"c. à café"]],
- steps:[
-  intro("une planche et un couteau, un économe, une cuillère, une casserole, une passoire, des ciseaux, une assiette creuse qui tient dans le panier, un saladier"),
-  "Mise en place — Couper le potimarron ({{potimarron}}) en quartiers, retirer les graines, l'éplucher et le couper en cubes de 2 cm. Éplucher entièrement la courgette ({{courgette épluchée}}), retirer le cœur et la couper en bâtonnets. Poser le tofu soyeux ({{tofu soyeux}}) entier dans l'assiette creuse. [[sortir; eplucher potimarron; couper potimarron; eplucher courgette; couper courgette]]",
-  c1(20, "le potimarron", "Il est fondant."),
-  "Les vermicelles — Pendant le premier cycle, cuire les vermicelles 8 minutes dans l'eau frémissante, les égoutter et les couper aux ciseaux. [[// casserole; cuisson 8; egoutter; couper vermicelles]]",
-  c2(10, "la courgette et l'assiette de tofu soyeux", "Le tofu est chaud et tremble."),
-  "Dressage — Mêler les vermicelles ({{vermicelles de patate douce cuits}}) avec la sauce soja ({{sauce soja}}) et l'huile de sésame grillé ({{huile de sésame grillé}}), ajouter les légumes, poser le tofu soyeux en cuillerées, parsemer de sésame ({{graines de sésame}}). [[delayer; dresser x3]]"],
- tip:"Le tofu soyeux posé à la cuillère fond doucement dans les vermicelles."}),
-
-RC({id:"t-riz-petits-pois-tofu", n:"Riz tiède aux petits dés de tofu, carotte, petits pois & ciboulette", cat:"Tofu", st:"Vapeur Bamboo", base:"Riz", d:1,
- ing:[["tofu ferme",90,"g"],["riz cuit",140,"g"],["carotte",100,"g"],["petits pois",50,"g"],["sauce soja",1,"c. à café"],["huile de sésame grillé",1,"c. à café"],["ciboulette","",HERBS]],
- steps:[
-  intro("une planche et un couteau, un économe, du papier absorbant, deux bols, un saladier, une assiette creuse tiède"),
-  "Mise en place — Éplucher la carotte ({{carotte}}) et la couper en petits dés de 5 mm. Éponger le tofu ({{tofu ferme}}) et le couper en dés de 1 cm. [[sortir; eplucher carotte; couper carotte; presser tofu; couper tofu]]",
-  c1(20, "les dés de carotte et les petits pois ({{petits pois}})", "Ils sont tendres et s'écrasent."),
-  c2(10, "le tofu et le riz ({{riz cuit}}) mouillé d'une cuillère d'eau " + bol, "Tout est bien chaud."),
-  "Dressage — Dans le saladier, mêler le riz, les légumes et le tofu avec la sauce soja ({{sauce soja}}) et l'huile de sésame grillé ({{huile de sésame grillé}}), servir dans l'assiette tiède avec la ciboulette ciselée ({{ciboulette}}). [[delayer; ciseler; dresser x1]]"],
- tip:"Un riz « cantonais » tout en douceur : rien n'est saisi, tout est cuit à la vapeur. Petits pois en petite portion (FODMAP)."}),
-
-RC({id:"t-courge-spaghetti-tofu-soyeux", n:"Courge spaghetti tiède, tofu soyeux au basilic, pommes de terre & épinards", cat:"Tofu", st:"Cocon & purées", base:"Pommes de terre", d:2,
- ing:[["tofu soyeux",100,"g"],["courge spaghetti",75,"g"],["pommes de terre",140,"g"],["épinards",80,"g"],["huile d'olive",1,"c. à café"],["basilic","",HERBS],["sel","","1 pincée"]],
- steps:[
-  intro("un grand couteau et une planche, une cuillère, un économe, une fourchette, une assiette creuse qui tient dans le panier, une assiette creuse tiède"),
-  "Mise en place — Couper le morceau de courge spaghetti ({{courge spaghetti}}) en deux et retirer les graines. Éplucher les pommes de terre ({{pommes de terre}}) et les couper en cubes de 2 cm. Laver les épinards ({{épinards}}). Poser le tofu soyeux ({{tofu soyeux}}) entier dans l'assiette creuse. [[sortir; couper courge spaghetti; eplucher pommes de terre; couper pommes de terre; laver epinards]]",
-  c1(25, "la courge (face coupée vers le haut) et les pommes de terre", "La chair de la courge se défait en filaments."),
-  c2(15, "les épinards et l'assiette de tofu soyeux", "Les épinards s'affaissent (15 minutes, guide du fabricant)."),
-  "Les filaments et le basilic — Effilocher la courge à la fourchette. Mélanger le basilic ciselé ({{basilic}}), l'huile d'olive crue ({{huile d'olive}}) et le sel. [[effilocher; ciseler; delayer]]",
-  "Dressage — Nid de courge et pommes de terre dans l'assiette tiède, épinards pressés, tofu soyeux posé à la cuillère, huile au basilic sur l'ensemble. [[presser epinards; dresser x4]]"],
- tip:"Le tofu soyeux tiède nappe les filaments de courge comme une sauce."}),
-
 RC({id:"t-quinoa-blettes-patisson", n:"Quinoa tiède, tofu ferme, blettes & pâtisson, huile au persil", cat:"Tofu", st:"Vapeur Bamboo", base:"Quinoa", d:1,
  ing:[["tofu ferme",90,"g"],["quinoa cuit",140,"g"],["patisson",100,"g"],["blettes",75,"g"],["huile d'olive",1,"c. à café"],["persil","",HERBS],["sel","","1 pincée"]],
  steps:[
@@ -133,17 +45,6 @@ RC({id:"t-quinoa-blettes-patisson", n:"Quinoa tiède, tofu ferme, blettes & pât
   "Dressage — Quinoa au fond du bol tiède, légumes et tofu en quartiers, huile au persil en filet. [[dresser x3]]"],
  tip:"Le pâtisson cuit à la vapeur a un goût d'artichaut très doux."}),
 
-RC({id:"t-ecrase-aubergine-basilic", n:"Écrasé de pommes de terre, tofu ferme au basilic, aubergine pelée & courgette fondantes", cat:"Tofu", st:"Cocon & purées", base:"Pommes de terre", d:1,
- ing:[["tofu ferme",90,"g"],["pommes de terre",140,"g"],["aubergine épluchée",100,"g"],["courgette épluchée",55,"g"],["huile d'olive",1,"c. à café"],["basilic","",HERBS],["sel","","1 pincée"]],
- steps:[
-  intro("un économe, une planche et un couteau, du papier absorbant, une fourchette, une assiette creuse tiède"),
-  "Mise en place — Éplucher les pommes de terre ({{pommes de terre}}) et les couper en cubes de 2 cm. Éplucher entièrement l'aubergine ({{aubergine épluchée}}) et la couper en dés de 2 cm. Éplucher entièrement la courgette ({{courgette épluchée}}), retirer le cœur et la couper en dés. Éponger le tofu ({{tofu ferme}}) et le couper en tranches. [[sortir; eplucher pommes de terre; couper pommes de terre; eplucher aubergine; couper aubergine; eplucher courgette; couper courgette; presser tofu; couper tofu]]",
-  c1(25, "les pommes de terre et l'aubergine", "L'aubergine s'écrase comme une crème."),
-  c2(10, "la courgette et le tofu couvert de feuilles de basilic ({{basilic}})", "Le tofu est chaud et parfumé."),
-  "L'écrasé — Écraser les pommes de terre à la fourchette avec l'huile d'olive crue ({{huile d'olive}}) et le sel. [[ecraser]]",
-  "Dressage — Écrasé au centre, aubergine et courgette autour, tranches de tofu au basilic par-dessus. [[dresser x3]]"],
- tip:"L'aubergine sans peau et très cuite fond en crème : elle fait la sauce."}),
-
 RC({id:"t-donburi-tofu-soyeux", n:"Donburi de tofu soyeux, riz tiède, épinards & carotte, sauce soja douce", cat:"Tofu", st:"Cocon & purées", base:"Riz", d:1,
  ing:[["tofu soyeux",100,"g"],["riz cuit",140,"g"],["carotte",100,"g"],["épinards",70,"g"],["sauce soja",1,"c. à café"],["huile de sésame grillé",1,"c. à café"],["nori",1,"pièce"]],
  steps:[
@@ -154,28 +55,6 @@ RC({id:"t-donburi-tofu-soyeux", n:"Donburi de tofu soyeux, riz tiède, épinards
   "La sauce — Mélanger la sauce soja ({{sauce soja}}), l'huile de sésame grillé ({{huile de sésame grillé}}) et 2 cuillères d'eau tiède ; ciseler le nori ({{nori}}). [[delayer; ciseler]]",
   "Dressage — Riz dans le bol profond, tofu soyeux posé entier au centre, carotte et épinards pressés autour, sauce sur le tofu et nori en pluie. [[presser epinards; dresser x4]]"],
  tip:"Le tofu soyeux entier, nappé de sauce, se partage à la cuillère avec le riz."}),
-
-RC({id:"t-vapeur-aneth-fenouil", n:"Pommes de terre vapeur, tofu ferme à la crème de soja et à l'aneth, fenouil & carotte", cat:"Tofu", st:"Vapeur Bamboo", base:"Pommes de terre", d:1,
- ing:[["tofu ferme",90,"g"],["pommes de terre",140,"g"],["fenouil",60,"g"],["carotte",100,"g"],["crème de soja",1,"c. à soupe"],["huile d'olive",1,"c. à café"],["aneth","",HERBS],["sel","","1 pincée"]],
- steps:[
-  intro("un économe, une planche et un couteau, du papier absorbant, un petit bol, une assiette creuse tiède"),
-  "Mise en place — Éplucher les pommes de terre ({{pommes de terre}}) et les couper en cubes de 2 cm. Retirer les parties dures du fenouil ({{fenouil}}) et l'émincer finement. Éplucher la carotte ({{carotte}}) et la couper en rondelles. Éponger le tofu ({{tofu ferme}}) et le couper en cubes. [[sortir; eplucher pommes de terre; couper pommes de terre; emincer fenouil; eplucher carotte; couper carotte; presser tofu; couper tofu]]",
-  c1(25, "les pommes de terre, le fenouil et la carotte", "Tout s'écrase à la fourchette."),
-  c2(10, "le tofu", "Il est chaud à cœur."),
-  "La crème à l'aneth — Mélanger la crème de soja ({{crème de soja}}), l'aneth ciselé ({{aneth}}), une cuillère d'eau tiède et le sel ; y enrober le tofu. [[ciseler; delayer]]",
-  "Dressage — Pommes de terre, fenouil et carotte dans l'assiette tiède, tofu à l'aneth au centre, filet d'huile d'olive crue ({{huile d'olive}}). [[dresser x3]]"],
- tip:"Fenouil et aneth, deux parfums anisés qui s'accordent avec douceur."}),
-
-RC({id:"t-quinoa-panais-pakchoi", n:"Quinoa tiède, tofu ferme, panais & pak choï, sauce sésame", cat:"Tofu", st:"Fraîcheur tiède", base:"Quinoa", d:1,
- ing:[["tofu ferme",90,"g"],["quinoa cuit",140,"g"],["panais",90,"g"],["pak choï",75,"g"],["sauce soja",1,"c. à café"],["huile de sésame grillé",1,"c. à café"],["graines de sésame",1,"c. à café"]],
- steps:[
-  intro("un économe, une planche et un couteau, du papier absorbant, un petit bol, un bol pour le quinoa, une assiette creuse"),
-  "Mise en place — Éplucher le panais ({{panais}}), retirer le cœur s'il est dur, et le couper en bâtonnets. Rincer le pak choï ({{pak choï}}), couper les tiges en tronçons et garder les feuilles. Éponger le tofu ({{tofu ferme}}) et le couper en dés. [[sortir; eplucher panais; couper panais; laver pak choi; couper pak choi; presser tofu; couper tofu]]",
-  c1(20, "le panais et les tiges de pak choï", "Le panais est fondant."),
-  c2(10, "les feuilles de pak choï, le tofu et le quinoa ({{quinoa cuit}}) mouillé d'une cuillère d'eau " + bol, "Les feuilles s'affaissent."),
-  "La sauce — Mélanger la sauce soja ({{sauce soja}}), l'huile de sésame grillé ({{huile de sésame grillé}}) et 2 cuillères d'eau tiède. [[delayer]]",
-  "Dressage — Laisser tiédir 3 minutes. Quinoa en couronne, panais et pak choï au centre, tofu autour, sauce en filet et sésame ({{graines de sésame}}). [[attente 3; dresser x4]]"],
- tip:"Le panais bien cuit, légèrement sucré, s'accorde avec la note grillée du sésame."}),
 
 RC({id:"l-tofu-soyeux-pakchoi", n:"Tofu soyeux vapeur, sauce soja-sésame, riz tiède, pak choï, courgette & potimarron", cat:"Tofu", st:"Vapeur Bamboo", base:"Riz", d:1,
  ing:[["tofu soyeux",100,"g"],["riz cuit",140,"g"],["pak choï",75,"g"],["courgette épluchée",55,"g"],["potimarron",50,"g"],["sauce soja",1,"c. à café"],["huile de sésame grillé",1,"c. à café"],["ciboulette","",HERBS]],
@@ -198,27 +77,6 @@ RC({id:"l-tofu-fume-brocoli", n:"Tofu fumé tiède, écrasé de pommes de terre 
   "L'écrasé — Écraser grossièrement les pommes de terre à la fourchette avec l'huile d'olive crue ({{huile d'olive}}), la ciboulette ciselée ({{ciboulette}}, pointes vertes), une cuillère d'eau de la cuve et une pincée de sel. [[ecraser; ciseler]]",
   "Dressage — Écrasé de pommes de terre au centre de l'assiette creuse tiède, tranches de tofu fumé en éventail dessus, brocoli et pâtisson autour. [[dresser x3]]"],
  tip:"Le tofu fumé parfume tout le plat : une petite portion, une fois par semaine au plus."}),
-
-RC({id:"l-veloute-celeri-tofu-soyeux", n:"Velouté de céleri-rave et pomme de terre, tofu soyeux & carottes fondantes", cat:"Tofu", st:"Cocon & purées", base:"Pommes de terre", d:1,
- ing:[["tofu soyeux",100,"g"],["pommes de terre",140,"g"],["céleri-rave",60,"g"],["carotte",100,"g"],["bouillon",200,"ml"],["huile d'olive",1,"c. à café"],["persil","",HERBS],["sel","","1 pincée"]],
- steps:[
-  intro("un économe, une planche et un couteau, une petite casserole, un mixeur plongeant avec son verre, une assiette creuse tiède"),
-  "Mise en place — Éplucher épais le céleri-rave ({{céleri-rave}}) et le couper en cubes de 2 cm. Éplucher les pommes de terre ({{pommes de terre}}) et la carotte ({{carotte}}) et les couper en cubes de 2 cm. Égoutter le tofu soyeux ({{tofu soyeux}}) et le couper en cubes de 2 cm à la cuillère. [[sortir; eplucher celeri-rave; couper celeri-rave; eplucher pommes de terre; couper pommes de terre; eplucher carotte; couper carotte; couper tofu soyeux]]",
-  c1(30, "le céleri-rave, les pommes de terre et la carotte", "Tout s'écrase entre deux doigts."),
-  "Le bouillon — Pendant le cycle, chauffer le bouillon ({{bouillon}}) dans la petite casserole sans le faire bouillir. [[// casserole; cuisson 4]]",
-  "Le velouté — Mixer le céleri-rave, les pommes de terre et la moitié de la carotte avec le bouillon chaud et une pincée de sel jusqu'à un velouté épais et lisse. Y glisser les cubes de tofu soyeux 2 minutes pour qu'ils tiédissent. [[mixer; attente 2]]",
-  "Dressage — Velouté dans l'assiette creuse tiède, cubes de tofu soyeux au centre, rondelles de carotte restantes autour, huile d'olive crue ({{huile d'olive}}) et persil ciselé ({{persil}}). [[ciseler; dresser x3]]"],
- tip:"Le tofu soyeux se réchauffe dans le velouté chaud : il reste fondant, sans jamais cuire."}),
-
-RC({id:"l-pot-au-feu-tofu", n:"Pot-au-feu doux au bouillon de thym : tofu ferme, navet, panais & pommes de terre", cat:"Tofu", st:"Cocon & purées", base:"Pommes de terre", d:1,
- ing:[["tofu ferme",90,"g"],["pommes de terre",140,"g"],["navet",90,"g"],["panais",80,"g"],["bouillon",400,"ml"],["huile d'olive",1,"c. à café"],["thym","",HERBS],["persil","",HERBS],["sel","","1 pincée"]],
- steps:[
-  introPoele("une planche et un couteau, un économe, du papier absorbant, une casserole avec couvercle, une louche, une assiette creuse tiède"),
-  "Mise en place — Éplucher généreusement le navet ({{navet}}) et le couper en quartiers de 2 cm. Éplucher le panais ({{panais}}), retirer le cœur s'il est dur, et le couper en tronçons de 2 cm. Éplucher les pommes de terre ({{pommes de terre}}) et les couper en cubes de 2 cm. Éponger le tofu ({{tofu ferme}}) et le couper en gros cubes de 3 cm. [[sortir; eplucher navet; couper navet; eplucher panais; couper panais; eplucher pommes de terre; couper pommes de terre; presser tofu; couper tofu]]",
-  "Le bouillon — Mettre les légumes dans la casserole avec le bouillon ({{bouillon}}) et une branche de thym ({{thym}}), porter à frémissement, couvrir et cuire 20 minutes à petit frémissement, jusqu'à ce que tout s'écrase à la fourchette. [[casserole; cuisson 20]]",
-  "Le tofu — Ajouter le tofu dans le bouillon et laisser 5 minutes à feu très doux, sans bouillir. [[cuisson 5]]",
-  "Dressage — À la louche, disposer légumes et tofu dans l'assiette creuse tiède, verser deux louches de bouillon, finir d'huile d'olive crue ({{huile d'olive}}), de persil ciselé ({{persil}}) et d'une pincée de sel. [[ciseler; dresser x3]]"],
- tip:"Les racines bien cuites dans le bouillon deviennent fondantes et sucrées : un plat réconfortant pour les soirs d'hiver."}),
 
 RC({id:"l-papillote-tofu-basilic", n:"Papillote de tofu ferme au basilic, courgette, fenouil & carotte, quinoa tiède", cat:"Tofu", st:"Vapeur Bamboo", base:"Quinoa", d:1,
  ing:[["tofu ferme",90,"g"],["quinoa cuit",140,"g"],["courgette épluchée",55,"g"],["fenouil",60,"g"],["carotte",60,"g"],["huile d'olive",1,"c. à café"],["basilic","",HERBS],["sel","","1 pincée"]],
@@ -253,14 +111,151 @@ RC({id:"l-vermicelles-bouillon-tofu", n:"Bouillon clair de vermicelles de patate
   "Dressage — Vermicelles ({{vermicelles de patate douce cuits}}) au fond du grand bol tiède, légumes et tofu dessus, bouillon versé à la louche, quelques gouttes d'huile de sésame grillé ({{huile de sésame grillé}}) et la coriandre ciselée ({{coriandre}}). [[ciseler; dresser x3]]"],
  tip:"Les vermicelles se cuisent à part pour que le bouillon reste clair."}),
 
-RC({id:"l-gateau-pdt-tofu", n:"Gâteau vapeur de pomme de terre râpée au tofu & à l'aneth, haricots verts & courgette", cat:"Tofu", st:"Vapeur Bamboo", base:"Pommes de terre", d:2,
- ing:[["pommes de terre",140,"g"],["tofu ferme",90,"g"],["haricots verts",75,"g"],["courgette épluchée",55,"g"],["carotte",40,"g"],["huile d'olive",1,"c. à café"],["aneth","",HERBS],["sel","","1 pincée"]],
+RC({id:"n-t-agedashi-dashi", n:"Tofu tendre dans son dashi ambré façon agedashi, sans huile chaude, carotte & épinards fondants, riz tiède", cat:"Tofu", st:"Vapeur Bamboo", base:"Riz", d:2,
+ ing:[["tofu ferme",90,"g"],["farine de sarrasin",5,"g"],["riz cuit",140,"g"],["carotte",100,"g"],["épinards",70,"g"],["eau",250,"ml"],["kombu",2,"g"],["sauce soja",1,"c. à café"],["sirop d'érable",1,"c. à café"],["huile de sésame grillé",1,"c. à café"],["ciboulette","",HERBS]],
  steps:[
-  intro("une balance, un économe, une râpe à gros trous, un torchon propre, une fourchette, du papier absorbant, un saladier, un ramequin de 12 cm garni de papier sulfurisé, une planche et un couteau, une assiette tiède"),
-  "Mise en place — Peser 75 g de haricots verts ({{haricots verts}}) au maximum, les équeuter et les couper en tronçons de 3 cm. Éplucher la carotte ({{carotte}}) et la couper en rondelles de 5 mm. Éplucher entièrement la courgette ({{courgette épluchée}}), retirer le cœur et la couper en dés de 1 cm. [[sortir; peser haricots verts; couper haricots verts; eplucher carotte; couper carotte; eplucher courgette; couper courgette]]",
-  "Le gâteau — Éplucher les pommes de terre ({{pommes de terre}}), les râper à gros trous et les presser fort dans le torchon pour retirer l'eau. Éponger le tofu ({{tofu ferme}}), l'écraser à la fourchette et le mélanger aux pommes de terre avec l'aneth ciselé ({{aneth}}) et une pincée de sel. Tasser dans le ramequin : 3 cm d'épaisseur au plus. [[eplucher pommes de terre; raper pommes de terre; presser pommes de terre; presser tofu; ecraser; ciseler; delayer; former x1]]",
-  c1(25, "le ramequin, les haricots verts et la carotte", "Les haricots doivent être mous."),
-  c2(10, "la courgette", "Le gâteau est pris et ferme au toucher, sans aucune coloration."),
-  "Dressage — Démouler le gâteau tiède, le couper en deux, légumes autour, filet d'huile d'olive crue ({{huile d'olive}}) et aneth frais. [[couper; dresser x2]]"],
- tip:"Bien presser les pommes de terre râpées : l'amidon qui reste lie le gâteau sans œuf."})
+  intro("une casserole, un petit bol, une planche et un couteau, du papier absorbant, un bol creux tiède"),
+  "Mise en place — Éplucher la carotte ({{carotte}}) et la couper en bâtonnets de 5 cm. Laver les épinards ({{épinards}}). Éponger le tofu ({{tofu ferme}}) et le couper en 4 cubes de 3 cm. [[sortir; eplucher carotte; couper carotte; laver epinards; presser tofu; couper tofu]]",
+  c1(20, "les bâtonnets de carotte", "Ils s'écrasent sous la pointe d'un couteau."),
+  "Le dashi — Pendant ce temps, verser l'eau ({{eau}}) dans la casserole avec le kombu ({{kombu}}) essuyé d'un linge humide et chauffer à feu doux 8 minutes, jusqu'aux premiers frémissements. Retirer le kombu avant l'ébullition (il devient amer), ajouter la sauce soja ({{sauce soja}}) et le sirop d'érable ({{sirop d'érable}}), puis garder tiède hors du feu. Repère : un bouillon ambré, à l'odeur de mer douce. [[// casserole; cuisson 8]]",
+  "La peau veloutée — Rouler les cubes de tofu dans la farine de sarrasin ({{farine de sarrasin}}) en secouant l'excédent : elle forme une pellicule très fine qui accrochera le dashi. [[// former x4]]",
+  c2(15, "le tofu fariné, les épinards et le riz ({{riz cuit}}) mouillé d'une cuillère d'eau " + bol, "Le tofu est chaud à cœur, sa pellicule est devenue veloutée ; les épinards s'affaissent."),
+  "Dressage — Dans un bol creux tiède, poser les cubes de tofu, verser le dashi tiède autour sans les noyer, ajouter les carottes et les épinards pressés, un filet d'huile de sésame grillé ({{huile de sésame grillé}}) et les pointes vertes de ciboulette ({{ciboulette}}) ciselées ; servir le riz à côté. [[presser epinards; ciseler; verser; dresser x4]]"],
+ tip:"Le tofu fariné puis cuit à la vapeur prend une peau veloutée qui accroche le dashi : on retrouve le contraste d'un tofu croustillant, sans huile chaude."}),
+
+RC({id:"n-t-tofu-laque-potimarron", n:"Tofu laqué soja-érable à la vapeur, purée soyeuse de potimarron & épinards au sésame", cat:"Tofu", st:"Vapeur Bamboo", base:"Pommes de terre", d:2,
+ ing:[["tofu ferme",90,"g"],["pommes de terre",130,"g"],["potimarron",120,"g"],["épinards",60,"g"],["sauce soja",1,"c. à café"],["sirop d'érable",1,"c. à café"],["lait de riz",30,"ml"],["huile d'olive",1,"c. à café"],["graines de sésame",1,"c. à café"]],
+ steps:[
+  intro("une petite casserole, un petit bol, une planche et un couteau, un économe, du papier absorbant, un presse-purée, une assiette creuse tiède"),
+  "Mise en place — Éplucher les pommes de terre ({{pommes de terre}}), les couper en cubes de 3 cm. Éplucher le potimarron ({{potimarron}}), retirer les graines et le couper en cubes de 2 cm. Laver les épinards ({{épinards}}). Éponger le tofu ({{tofu ferme}}) et le couper en 4 tranches de 1,5 cm. [[sortir; eplucher pommes de terre; couper pommes de terre; eplucher potimarron; couper potimarron; laver epinards; presser tofu; couper tofu]]",
+  c1(25, "les pommes de terre et le potimarron", "Les cubes s'écrasent sans résistance."),
+  "La marinade — Pendant ce temps, mélanger la sauce soja ({{sauce soja}}), le sirop d'érable ({{sirop d'érable}}) et 2 cuillères à soupe d'eau dans le petit bol, y poser les tranches de tofu et les laisser 10 minutes en les retournant une fois : un tofu éponge boit la marinade. [[// delayer; attente 10]]",
+  c2(10, "les tranches de tofu égouttées et les épinards", "Le tofu est chaud, les épinards s'affaissent."),
+  "La laque — Chauffer la marinade restante 2 minutes à feu doux dans la petite casserole jusqu'à un sirop léger, y rouler le tofu 30 secondes, hors du feu. [[casserole; cuisson 2]]",
+  "La purée — Écraser pommes de terre et potimarron au presse-purée avec le lait de riz ({{lait de riz}}) tiédi et l'huile d'olive crue ({{huile d'olive}}) : une purée orange, soyeuse et brillante. [[ecraser]]",
+  "Dressage — Purée en nid dans l'assiette creuse tiède, tranches de tofu laqué en éventail, épinards pressés à côté et sésame ({{graines de sésame}}) en pluie. [[presser epinards; dresser x3]]"],
+ tip:"Mariner le tofu éponge avant de le laquer : il boit le soja et l'érable au lieu de les laisser couler."}),
+
+RC({id:"n-t-tofu-miso-courgette", n:"Tofu mijoté au miso doux, courgette & carotte fondantes, riz tiède au sésame", cat:"Tofu", st:"Cocon & purées", base:"Riz", d:1,
+ ing:[["tofu ferme",90,"g"],["courgette",60,"g"],["carotte",100,"g"],["riz cuit",140,"g"],["eau",150,"ml"],["farine de sarrasin",5,"g"],["miso blanc",1,"c. à café"],["sirop d'érable",0.5,"c. à café"],["huile de sésame grillé",1,"c. à café"],["graines de sésame",1,"c. à café"]],
+ steps:[
+  introPoele("une casserole à couvercle, un fouet, une planche et un couteau, un économe, du papier absorbant, un bol large tiède"),
+  "Mise en place — Éplucher la carotte ({{carotte}}) et la courgette ({{courgette}}), couper la carotte en demi-rondelles de 5 mm et la courgette en petits dés. Éponger le tofu ({{tofu ferme}}) et le couper en dés de 2 cm. [[sortir; eplucher carotte; couper carotte; eplucher courgette; couper courgette; presser tofu; couper tofu]]",
+  "Le mijotage — Porter l'eau ({{eau}}) à frémissement dans la casserole, ajouter la carotte et cuire 6 minutes couvert, puis le tofu et la courgette 4 minutes. Repère : le bouillon fume à peine, il ne bout jamais. Contrôle : la carotte s'écrase sous la cuillère. [[casserole; cuisson 10]]",
+  "Le riz — Pendant ce temps, réchauffer le riz cuit ({{riz cuit}}) avec une cuillère d'eau 3 minutes dans une petite casserole couverte. [[// rechauffer; cuisson 3]]",
+  "La sauce — Délayer la farine de sarrasin ({{farine de sarrasin}}) dans une louche de bouillon froid, la verser dans la casserole et laisser épaissir 2 minutes à feu très doux. Hors du feu, délayer le miso ({{miso blanc}}) avec le sirop d'érable ({{sirop d'érable}}) dans une louche de sauce tiède, puis remettre : le miso ne doit jamais bouillir. Une sauce brune et nappante, comme une béchamel. [[delayer; cuisson 2]]",
+  "Dressage — Riz dans le bol tiède, tofu et légumes avec leur sauce par-dessus, un filet d'huile de sésame grillé ({{huile de sésame grillé}}) et du sésame ({{graines de sésame}}). [[dresser x3]]"],
+ tip:"Le miso délayé hors du feu garde tout son parfum ; la farine de sarrasin donne à la sauce un corps de béchamel sans beurre."}),
+
+RC({id:"n-t-galette-courgette-tofu", n:"Galette moelleuse façon okonomiyaki à la vapeur : tofu, courgette, carotte & épinards, laque soja-érable", cat:"Tofu", st:"Vapeur Bamboo", base:"Sarrasin", d:2,
+ ing:[["tofu ferme",90,"g"],["pommes de terre",130,"g"],["farine de sarrasin",15,"g"],["eau",40,"ml"],["courgette",60,"g"],["carotte",60,"g"],["épinards",40,"g"],["sauce soja",1,"c. à café"],["sirop d'érable",1,"c. à café"],["huile de sésame grillé",1,"c. à café"],["ciboulette","",HERBS]],
+ steps:[
+  intro("un grand bol, un fouet, une râpe fine, un bol creux ou un ramequin de 14 cm résistant à la vapeur, une petite casserole, du papier absorbant, une assiette tiède"),
+  "Mise en place — Éplucher les pommes de terre ({{pommes de terre}}), la courgette ({{courgette}}) et la carotte ({{carotte}}), puis les râper finement et presser le tout dans un linge propre pour chasser l'eau. Laver les épinards ({{épinards}}) et les couper en rubans. Éponger le tofu ({{tofu ferme}}) et l'écraser à la fourchette. [[sortir; eplucher pommes de terre; eplucher courgette; eplucher carotte; raper pommes de terre; raper courgette; raper carotte; presser pommes de terre; laver epinards; couper epinards; presser tofu; ecraser]]",
+  "La pâte — Fouetter la farine de sarrasin ({{farine de sarrasin}}) et l'eau ({{eau}}) en une pâte lisse, ajouter le tofu écrasé, les pommes de terre et les légumes râpés et la ciboulette ({{ciboulette}}) ciselée. Elle doit être épaisse et se tenir à la cuillère. Chemiser le bol de papier sulfurisé, y tasser la pâte sur 2 cm et couvrir d'un papier sulfurisé. [[delayer; ciseler; former]]",
+  c1(25, "le bol de pâte", "Une lame plantée au centre ressort propre et le dessus est ferme au toucher."),
+  "La laque — Pendant ce temps, chauffer la sauce soja ({{sauce soja}}), le sirop d'érable ({{sirop d'érable}}) et 2 cuillères à soupe d'eau 2 minutes à feu doux, jusqu'à un sirop léger. [[// casserole; cuisson 2]]",
+  "Dressage — Laisser reposer la galette 5 minutes, la démouler, la couper en quartiers, napper de laque et finir d'un filet d'huile de sésame grillé ({{huile de sésame grillé}}). [[attente 5; couper; trancher; dresser x2]]"],
+ tip:"La vapeur remplace la plaque : la galette reste moelleuse comme un flan et la laque lui donne l'éclat que la dorure lui donnerait."}),
+
+RC({id:"n-t-ragout-potimarron-tofu", n:"Ragoût fondant de potimarron, tofu & épinards au thym, quinoa tiède", cat:"Tofu", st:"Cocon & purées", base:"Quinoa", d:1,
+ ing:[["tofu ferme",90,"g"],["potimarron",120,"g"],["épinards",60,"g"],["quinoa cuit",140,"g"],["bouillon",150,"ml"],["thym","",HERBS],["huile d'olive",1,"c. à café"],["sel","","1 pincée"]],
+ steps:[
+  introPoele("une casserole à couvercle, une cuillère en bois, une planche et un couteau, un économe, du papier absorbant, une assiette creuse tiède"),
+  "Mise en place — Couper le potimarron ({{potimarron}}) en quartiers, retirer les graines, l'éplucher et le couper en cubes de 2 cm. Laver les épinards ({{épinards}}). Éponger le tofu ({{tofu ferme}}) et le couper en dés de 2 cm. [[sortir; eplucher potimarron; couper potimarron; laver epinards; presser tofu; couper tofu]]",
+  "Le mijotage — Verser le bouillon ({{bouillon}}) dans la casserole avec le thym ({{thym}}) effeuillé et le potimarron, couvrir et cuire à feu doux 15 minutes. Repère : une odeur sucrée de courge monte, le bouillon frémit à peine. Contrôle : les cubes s'écrasent à la cuillère. [[casserole; cuisson 15]]",
+  "Le fondant — Écraser la moitié du potimarron contre la paroi : le jus épaissit en une sauce orange et soyeuse. Ajouter le tofu 5 minutes, puis les épinards 3 minutes, à feu doux et couvert. [[ecraser; cuisson 8]]",
+  "Le quinoa — Réchauffer le quinoa cuit ({{quinoa cuit}}) avec une cuillère d'eau 3 minutes dans une petite casserole couverte. [[rechauffer; cuisson 3]]",
+  "Dressage — Quinoa au fond de l'assiette creuse tiède, ragoût dessus, un filet d'huile d'olive crue ({{huile d'olive}}) et une pincée de sel. [[assaisonner; dresser x3]]"],
+ tip:"Le potimarron mijote dans son jus jusqu'à devenir sa propre sauce : aucune crème nécessaire, tout est dans la douceur de la cuisson."}),
+
+RC({id:"n-t-croquettes-okara-aneth", n:"Croquettes tendres d'okara & de pommes de terre à la vapeur, crème d'aneth, carotte & épinards fondants", cat:"Okara & douceurs", st:"Vapeur Bamboo", base:"Pommes de terre", d:2,
+ ing:[["pommes de terre",130,"g"],["tofu ferme",90,"g"],["okara d'amande",40,"g"],["farine de sarrasin",5,"g"],["carotte",100,"g"],["épinards",60,"g"],["crème de soja",30,"g"],["aneth","",HERBS],["huile d'olive",1,"c. à café"],["sel","","1 pincée"]],
+ steps:[
+  intro("un presse-purée, un bol, une assiette, une planche et un couteau, un économe, du papier absorbant, une assiette creuse tiède"),
+  "Mise en place — Éplucher les pommes de terre ({{pommes de terre}}) et les couper en cubes de 3 cm. Éplucher la carotte ({{carotte}}) et la couper en bâtonnets. Laver les épinards ({{épinards}}). Éponger le tofu ({{tofu ferme}}). [[sortir; eplucher pommes de terre; couper pommes de terre; eplucher carotte; couper carotte; laver epinards; presser tofu]]",
+  c1(25, "les pommes de terre et les carottes", "Les cubes s'écrasent sans résistance."),
+  "La pâte — Écraser les pommes de terre cuites avec le tofu émietté, l'okara ({{okara d'amande}}) et une pincée de sel. Façonner 6 petites croquettes de 40 g et les rouler dans la farine de sarrasin ({{farine de sarrasin}}) étalée sur une assiette. [[ecraser; former x6]]",
+  c2(12, "les croquettes sur papier sulfurisé percé et les épinards", "La surface devient mate et veloutée, la croquette se tient : ni huile chaude ni panure."),
+  "La crème d'aneth — Mélanger la crème de soja ({{crème de soja}}), l'aneth ({{aneth}}) ciselé et l'huile d'olive crue ({{huile d'olive}}) dans un petit bol. [[delayer; ciseler]]",
+  "Dressage — Croquettes en ligne dans l'assiette creuse tiède, carottes et épinards pressés à côté, crème d'aneth en filet. [[presser epinards; dresser x4]]"],
+ tip:"La farine de sarrasin donne à la croquette une surface fine et veloutée : on garde le contraste extérieur-intérieur sans une goutte d'huile chaude."}),
+
+RC({id:"s-bol-tofu-laque-carotte", n:"Bol de riz, tofu laqué soja-érable, carotte & épinards fondants", cat:"Tofu", st:"Vapeur Bamboo", base:"Riz", d:1,
+ ing:[["tofu ferme",90,"g"],["riz cuit",140,"g"],["carotte",100,"g"],["épinards",70,"g"],["sauce soja",1,"c. à café"],["sirop d'érable",1,"c. à café"],["huile de sésame grillé",1,"c. à café"],["graines de sésame",1,"c. à café"]],
+ steps:[
+  intro("une planche et un couteau, un économe, du papier absorbant, un petit bol, un bol large tiède"),
+  "Mise en place — Éplucher la carotte ({{carotte}}) et la couper en bâtonnets. Laver les épinards ({{épinards}}). Éponger le tofu ({{tofu ferme}}) et le couper en 4 tranches. Dans le petit bol, mélanger la sauce soja ({{sauce soja}}), le sirop d'érable ({{sirop d'érable}}) et 2 cuillères d'eau, puis y poser le tofu. [[sortir; eplucher carotte; couper carotte; laver epinards; presser tofu; couper tofu; delayer]]",
+  c1(20, "les carottes, le tofu égoutté, les épinards et le riz ({{riz cuit}}) mouillé d'une cuillère d'eau " + bol, "Tout est tendre et tiède."),
+  "Dressage — Riz dans le bol, tofu et légumes dessus, marinade restante en filet, huile de sésame grillé ({{huile de sésame grillé}}) et sésame ({{graines de sésame}}). [[presser epinards; dresser x4]]"],
+ tip:"Un seul cycle vapeur pour tout le repas : le tofu mariné prend le goût de la laque pendant que le reste cuit."}),
+
+RC({id:"s-bol-tofu-potimarron-miso", n:"Bol de riz, tofu vapeur, potimarron fondant & sauce miso-sésame", cat:"Tofu", st:"Vapeur Bamboo", base:"Riz", d:1,
+ ing:[["tofu ferme",90,"g"],["riz cuit",140,"g"],["potimarron",130,"g"],["épinards",50,"g"],["miso blanc",1,"c. à café"],["huile de sésame grillé",1,"c. à café"],["graines de sésame",1,"c. à café"]],
+ steps:[
+  intro("une planche et un couteau, un économe, du papier absorbant, un petit bol, un bol large tiède"),
+  "Mise en place — Éplucher le potimarron ({{potimarron}}), retirer les graines et le couper en cubes de 2 cm. Laver les épinards ({{épinards}}). Éponger le tofu ({{tofu ferme}}) et le couper en dés. [[sortir; eplucher potimarron; couper potimarron; laver epinards; presser tofu; couper tofu]]",
+  c1(20, "le potimarron, le tofu, les épinards et le riz ({{riz cuit}}) mouillé d'une cuillère d'eau " + bol, "Le potimarron s'écrase sous la pointe d'un couteau."),
+  "La sauce — Hors du feu, délayer le miso ({{miso blanc}}) dans 2 cuillères d'eau tiède, puis ajouter l'huile de sésame grillé ({{huile de sésame grillé}}). Le miso ne doit jamais bouillir. [[delayer]]",
+  "Dressage — Riz dans le bol, tofu, potimarron et épinards pressés dessus, sauce en filet et sésame ({{graines de sésame}}). [[presser epinards; dresser x4]]"],
+ tip:"Le potimarron cuit à la vapeur devient sucré et se marie au miso comme une sauce toute faite."}),
+
+RC({id:"s-quinoa-tofu-basilic", n:"Quinoa tiède, tofu vapeur, carotte & courgette fondantes, huile verte au basilic", cat:"Tofu", st:"Vapeur Bamboo", base:"Quinoa", d:1,
+ ing:[["tofu ferme",90,"g"],["quinoa cuit",140,"g"],["carotte",100,"g"],["courgette",60,"g"],["basilic","",HERBS],["huile d'olive",1,"c. à café"],["sel","","1 pincée"]],
+ steps:[
+  intro("une planche et un couteau, un économe, du papier absorbant, un petit bol, une assiette creuse tiède"),
+  "Mise en place — Éplucher la carotte ({{carotte}}) et la courgette ({{courgette}}), couper la carotte en bâtonnets et la courgette en demi-rondelles. Éponger le tofu ({{tofu ferme}}) et le couper en dés. [[sortir; eplucher carotte; couper carotte; eplucher courgette; couper courgette; presser tofu; couper tofu]]",
+  c1(20, "les carottes, la courgette, le tofu et le quinoa ({{quinoa cuit}}) mouillé d'une cuillère d'eau " + bol, "Les légumes sont tendres, le tofu est chaud."),
+  "L'huile verte — Ciseler le basilic ({{basilic}}) très finement et le mélanger dans le petit bol à l'huile d'olive crue ({{huile d'olive}}) et une pincée de sel. [[ciseler; delayer]]",
+  "Dressage — Quinoa dans l'assiette, tofu et légumes dessus, huile au basilic en filet. [[dresser x3]]"],
+ tip:"Le basilic ne cuit jamais : mélangé à l'huile crue, il garde tout son parfum."}),
+
+RC({id:"s-soupe-riz-tofu-nori", n:"Soupe-repas express : riz, tofu, épinards & carotte, nori et huile de sésame", cat:"Tofu", st:"Cocon & purées", base:"Riz", d:1,
+ ing:[["tofu ferme",90,"g"],["riz cuit",140,"g"],["épinards",100,"g"],["carotte",70,"g"],["bouillon",300,"ml"],["nori",1,"pièce"],["sauce soja",0.5,"c. à café"],["huile de sésame grillé",1,"c. à café"]],
+ steps:[
+  introPoele("une casserole à couvercle, une planche et un couteau, un économe, du papier absorbant, un bol profond tiède"),
+  "Mise en place — Éplucher la carotte ({{carotte}}) et la couper en fines demi-rondelles. Laver les épinards ({{épinards}}). Éponger le tofu ({{tofu ferme}}) et le couper en dés. [[sortir; eplucher carotte; couper carotte; laver epinards; presser tofu; couper tofu]]",
+  "La soupe — Porter le bouillon ({{bouillon}}) à frémissement dans la casserole, cuire la carotte 6 minutes, puis ajouter le tofu et le riz ({{riz cuit}}) 4 minutes, et les épinards pour les 2 dernières minutes. Le bouillon fume à peine, il ne bout jamais. [[casserole; cuisson 12]]",
+  "Dressage — Verser dans le bol profond tiède, émietter le nori ({{nori}}) dessus, ajouter la sauce soja ({{sauce soja}}) et un filet d'huile de sésame grillé ({{huile de sésame grillé}}). [[assaisonner; dresser x3]]"],
+ tip:"Le nori, émietté au dernier moment, parfume tout le bol : il remplace le sel."}),
+
+RC({id:"s-quinoa-tofu-thym-potimarron", n:"Quinoa tiède, tofu au thym, potimarron écrasé à l'huile d'olive & épinards", cat:"Tofu", st:"Vapeur Bamboo", base:"Quinoa", d:1,
+ ing:[["tofu ferme",90,"g"],["quinoa cuit",140,"g"],["potimarron",130,"g"],["épinards",50,"g"],["thym","",HERBS],["huile d'olive",1,"c. à café"],["sel","","1 pincée"]],
+ steps:[
+  intro("une planche et un couteau, un économe, du papier absorbant, une fourchette, une assiette creuse tiède"),
+  "Mise en place — Éplucher le potimarron ({{potimarron}}), retirer les graines et le couper en cubes de 2 cm. Laver les épinards ({{épinards}}). Éponger le tofu ({{tofu ferme}}) et le couper en dés. [[sortir; eplucher potimarron; couper potimarron; laver epinards; presser tofu; couper tofu]]",
+  c1(20, "le potimarron, le tofu parsemé de thym ({{thym}}) effeuillé, les épinards et le quinoa ({{quinoa cuit}}) mouillé d'une cuillère d'eau " + bol, "Le potimarron s'écrase sans résistance."),
+  "Le potimarron écrasé — Écraser la moitié du potimarron à la fourchette avec l'huile d'olive crue ({{huile d'olive}}) et une pincée de sel : une purée rustique et brillante. [[ecraser; assaisonner]]",
+  "Dressage — Quinoa dans l'assiette, potimarron écrasé et cubes entiers, tofu au thym et épinards pressés. [[presser epinards; dresser x4]]"],
+ tip:"Garder la moitié du potimarron en cubes : on a à la fois le fondant de la purée et la tenue du morceau."}),
+
+RC({id:"s-riz-tofu-pakchoi-sesame", n:"Riz tiède, tofu vapeur, pak choï & carotte, sauce soja-sésame à la ciboulette", cat:"Tofu", st:"Vapeur Bamboo", base:"Riz", d:1,
+ ing:[["tofu ferme",90,"g"],["riz cuit",140,"g"],["pak choï",70,"g"],["carotte",100,"g"],["sauce soja",1,"c. à café"],["huile de sésame grillé",1,"c. à café"],["graines de sésame",1,"c. à café"],["ciboulette","",HERBS]],
+ steps:[
+  intro("une planche et un couteau, un économe, du papier absorbant, un petit bol, un bol large tiède"),
+  "Mise en place — Éplucher la carotte ({{carotte}}) et la couper en bâtonnets. Laver le pak choï ({{pak choï}}) et le couper en tronçons de 3 cm. Éponger le tofu ({{tofu ferme}}) et le couper en dés. [[sortir; eplucher carotte; couper carotte; laver pak choi; couper pak choi; presser tofu; couper tofu]]",
+  c1(20, "les carottes, le pak choï, le tofu et le riz ({{riz cuit}}) mouillé d'une cuillère d'eau " + bol, "Les tiges du pak choï sont tendres."),
+  "La sauce — Dans le petit bol, mélanger la sauce soja ({{sauce soja}}), l'huile de sésame grillé ({{huile de sésame grillé}}), 2 cuillères d'eau tiède et les pointes vertes de ciboulette ({{ciboulette}}) ciselées. [[delayer; ciseler]]",
+  "Dressage — Riz dans le bol, tofu et légumes dessus, sauce en filet et sésame ({{graines de sésame}}). [[dresser x4]]"],
+ tip:"Un bol complet en un seul cycle de vapeur : il n'y a qu'une sauce à préparer pendant la cuisson."}),
+
+RC({id:"s-riz-tofu-brocoli-aneth", n:"Riz tiède, tofu vapeur, brocoli & carotte fondants, crème de soja à l'aneth", cat:"Tofu", st:"Vapeur Bamboo", base:"Riz", d:1,
+ ing:[["tofu ferme",90,"g"],["riz cuit",140,"g"],["brocoli",100,"g"],["carotte",70,"g"],["crème de soja",30,"g"],["aneth","",HERBS],["huile d'olive",1,"c. à café"]],
+ steps:[
+  intro("une planche et un couteau, un économe, du papier absorbant, un petit bol, une assiette creuse tiède"),
+  "Mise en place — Éplucher la carotte ({{carotte}}) et la couper en bâtonnets. Couper uniquement les têtes du brocoli ({{brocoli}}) en petits bouquets. Éponger le tofu ({{tofu ferme}}) et le couper en dés. [[sortir; eplucher carotte; couper carotte; couper brocoli; presser tofu; couper tofu]]",
+  c1(20, "les carottes, les bouquets de brocoli, le tofu et le riz ({{riz cuit}}) mouillé d'une cuillère d'eau " + bol, "Le brocoli est tendre, d'un vert vif."),
+  "La crème — Mélanger dans le petit bol la crème de soja ({{crème de soja}}), l'aneth ({{aneth}}) ciselé et l'huile d'olive crue ({{huile d'olive}}). [[ciseler; delayer]]",
+  "Dressage — Riz dans l'assiette, tofu et légumes dessus, crème d'aneth en filet. [[dresser x3]]"],
+ tip:"Les têtes de brocoli seulement : les tiges sont plus fibreuses et plus dures à digérer."}),
+
+RC({id:"s-quinoa-tofu-blettes-persil", n:"Quinoa tiède, tofu vapeur, blettes & carotte fondantes, huile au persil", cat:"Tofu", st:"Vapeur Bamboo", base:"Quinoa", d:1,
+ ing:[["tofu ferme",90,"g"],["quinoa cuit",140,"g"],["blettes",70,"g"],["carotte",100,"g"],["persil","",HERBS],["huile d'olive",1,"c. à café"],["sel","","1 pincée"]],
+ steps:[
+  intro("une planche et un couteau, un économe, du papier absorbant, un petit bol, une assiette creuse tiède"),
+  "Mise en place — Éplucher la carotte ({{carotte}}) et la couper en bâtonnets. Laver les blettes ({{blettes}}), éplucher les fils des côtes et couper côtes et feuilles en tronçons de 3 cm. Éponger le tofu ({{tofu ferme}}) et le couper en dés. [[sortir; eplucher carotte; couper carotte; laver blettes; eplucher blettes; couper blettes; presser tofu; couper tofu]]",
+  c1(20, "les carottes, les blettes, le tofu et le quinoa ({{quinoa cuit}}) mouillé d'une cuillère d'eau " + bol, "Les côtes de blettes sont tendres."),
+  "L'huile au persil — Ciseler le persil ({{persil}}) et le mélanger dans le petit bol à l'huile d'olive crue ({{huile d'olive}}) et une pincée de sel. [[ciseler; delayer]]",
+  "Dressage — Quinoa dans l'assiette, tofu et légumes dessus, huile au persil en filet. [[dresser x3]]"],
+ tip:"Éplucher les fils des côtes de blettes avant la cuisson : elles deviennent aussi fondantes que les feuilles."})
 );
