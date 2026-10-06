@@ -443,3 +443,22 @@ function migrate12(){
   })));
   S.v = 12;
 }
+
+/* ---------- migration 13 : cohérence ingrédients / étapes ----------
+   Les recettes fournies sont renouvelées ; les repas du planning tirés d'une recette corrigée, et les plats générés
+   (leurs textes citaient du sel, de la crème, des pommes de terre… absents de la liste), sont reconstruits.
+   Repas faits main, recettes de Cat, pesées et réglages ne bougent pas. */
+const V13_CHANGED = ["n-pdj-galette-sarrasin-tofu-epinards", "n-c-poulet-hainanais", "l-vermicelles-bouillon-tofu", "n-col-avoine-minute-banane",
+  "n-col-tofu-soyeux-sesame", "n-col-tartine-tofu-soyeux"];
+function migrate13(){
+  const own = S.recipes.filter(r => r.own);
+  S.recipes = DEFAULT_RECIPES.map(recipeToState).concat(own);
+  const byId = id => S.recipes.find(r => r.id === id);
+  S.weeks.forEach(w => w.days.forEach(d => SLOTS.forEach(sl => {
+    const k = sl.k, m = d.meals[k]; if (!m) return; let nm = null;
+    if (m.recipeId && V13_CHANGED.indexOf(m.recipeId) >= 0 && byId(m.recipeId)) nm = mealFromRecipe(byId(m.recipeId));
+    else if (m.gen && !m.recipeId) { try { nm = mealFromGen(buildGen({ ...m.gen })); } catch (e) { nm = null; } }
+    if (nm) { nm.id = m.id; protoAdaptMeal(nm, k, kT(k)); d.meals[k] = nm; }
+  })));
+  S.v = 13;
+}

@@ -83,6 +83,24 @@ if (nChicken !== 4) fail('catalogue', nChicken + ' recettes de poulet au lieu de
 if (nPST > 8) fail('catalogue', nPST + ' recettes à la protéine texturée : quelques plats seulement (8 au plus)');
 const ids = NEW_RECIPES.map(r => r.id); ids.forEach((id, i) => { if (ids.indexOf(id) !== i) fail(id, 'identifiant en double'); });
 
+/* ---------- cohérence : outils (voir la section 4) ---------- */
+const CITE_SKIP = new Set(['pates', 'lasagne', 'sucre', 'eau', 'pst', 'riz cru', 'oeuf']);
+const CITE_EXTRA = ['sel', 'sauce soja', 'miso', 'wakame', 'nori', 'kombu', 'graines de sesame', "sirop d'erable", 'ciboulette', 'gingembre', 'bouillon', 'thym', 'persil', 'basilic', 'aneth', 'cerfeuil', 'estragon', 'coriandre', 'vanille', 'cannelle', 'creme de soja'];
+const CITE_STOP = new Set(['cuit', 'cuite', 'cuits', 'cuites', 'epluchee', 'grille', 'naturel', 'naturelle', 'blanc', 'nature', 'sec', 'seche', 'fume', 'chaude', 'tiede', 'vert', 'verts']);
+const citeTerms = [...new Set(ING_DB.map(e => e.k).concat(CITE_EXTRA))].filter(t => t.length >= 3 && !CITE_SKIP.has(t));
+const citeClean = st => norm(st.replace(/\[\[.*?\]\]/g, '').replace(/\{\{([^}]+)\}\}/g, '$1').replace(/\s*\[[^\]]*min\]\s*$/, ''));
+const esc = t => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+function coherence(r){
+  const txt = r.steps.map(citeClean).join(' | '), names = r.ing.map(i => norm(i.n)), P = [];
+  const inIng = t => names.some(n => n.includes(t) || t.includes(n) || n.includes(t.replace(/s$/, '')));
+  let miss = citeTerms.filter(t => new RegExp('(^|[^a-z])' + esc(t.replace(/s$/, '')) + 's?([^a-z]|$)').test(txt) && !inIng(t));
+  if (names.some(n => /^(eau|miso|kombu)/.test(n))) miss = miss.filter(t => t !== 'bouillon');
+  miss = miss.filter(t => !miss.some(o => o !== t && o.includes(t)));
+  if (miss.length) P.push('cité dans les étapes mais absent de la liste : ' + miss.join(', '));
+  r.ing.forEach(i => { const ws = norm(i.n).replace(/\(.*?\)/g, '').split(/[ ']/).filter(w => w.length > 2 && !CITE_STOP.has(w) && !/^(de|du|des|la|le|les|au|aux|et|en)$/.test(w));
+    if (ws[0] && !txt.includes(ws[0].replace(/s$/, ''))) P.push('dans la liste mais jamais cité : ' + i.n); });
+  return P;
+}
 /* ---------- 3 : planning, avec le code de l'application ---------- */
 function loadApp(){
   const html = fs.readFileSync(path.join(__dirname, '..', '..', 'index.html'), 'utf8');
@@ -91,7 +109,7 @@ function loadApp(){
   let store = null;
   Object.assign(global, { window: global, document: noop, location: { hash: "" }, addEventListener(){}, requestAnimationFrame(){}, setTimeout(){},
     matchMedia: () => ({ matches: false, addEventListener(){} }), localStorage: { getItem: () => store, setItem(k, v){ store = v; }, removeItem(){} } });
-  (0, eval)(code + '\n;global.__A = { proposeWeek, proposeDay, planIssues, buildDefaultPlan, dayCtx, SLOTS, composeKorean, protoCheck, pdSalty, isSnack, EGG_MAX, migrateAll, defaultState, getS: () => S, setS: x => { S = x; } };');
+  (0, eval)(code + '\n;global.__A = { randomGen, proposeWeek, proposeDay, planIssues, buildDefaultPlan, dayCtx, SLOTS, composeKorean, protoCheck, pdSalty, isSnack, EGG_MAX, migrateAll, defaultState, getS: () => S, setS: x => { S = x; } };');
   return global.__A;
 }
 let A = null;
@@ -123,11 +141,11 @@ if (A) {
   gone.forEach(id => S0.recipes.push({ id, n: "ancienne recette " + id, ing: [], steps: [] }));
   A.setS(S0); A.migrateAll(); const S1 = A.getS();
   const left = S1.weeks.flatMap(w => w.days.flatMap(d => A.SLOTS.map(s => d.meals[s.k]))).filter(m => m && gone.indexOf(m.recipeId) >= 0);
-  if (S1.v !== 12) fail('migration', 'version ' + S1.v + ' au lieu de 12');
+  if (S1.v !== 13) fail('migration', 'version ' + S1.v + ' au lieu de 13');
   if (left.length || S1.recipes.some(r => gone.indexOf(r.id) >= 0)) fail('migration', 'des recettes supprimées restent dans les données');
   const wk = S1.weeks.slice(0, 4).flatMap(w => w.days.flatMap(d => A.SLOTS.map(s => d.meals[s.k]))), is = A.planIssues(wk);
   if (is.length) fail('migration', 'planning refait non conforme : ' + is.slice(0, 2).join(' ; '));
-  if (!left.length && S1.v === 12 && !is.length) out.push('✓ migration depuis une ancienne version : anciennes recettes remplacées, planning conforme, version 12');
+  if (!left.length && S1.v === 13 && !is.length) out.push('✓ migration depuis une ancienne version : anciennes recettes remplacées, planning conforme, version 13');
   /* migration 9 → 10 : seuls les repas issus d'une recette disparue sont refaits, le reste de Cat est conservé */
   const S9 = A.defaultState(); S9.v = 9; const gone9 = ['b-porridge-avoine-myrtilles', 't-salade-riz-basilic'];
   const keepId = S9.weeks[0].days[3].meals.l.recipeId, keepName = S9.weeks[0].days[3].meals.l.name;
@@ -135,7 +153,7 @@ if (A) {
   gone9.forEach(id => S9.recipes.push({ id, n: 'ancienne recette ' + id, ing: [], steps: [] }));
   S9.recipes.push({ id: 'perso-1', n: 'Recette de Cat', own: true, ing: [], steps: [] }); S9.weights.push({ date: '2026-10-01', kg: 59.3 });
   A.setS(S9); A.migrateAll(); const T1 = A.getS(), mm = T1.weeks.flatMap(w => w.days.flatMap(d => A.SLOTS.map(s => d.meals[s.k])));
-  const ok10 = T1.v === 12 && !mm.some(m => m && gone9.indexOf(m.recipeId) >= 0) && T1.recipes.some(r => r.id === 'perso-1') && T1.weights.length === 1
+  const ok10 = T1.v === 13 && !mm.some(m => m && gone9.indexOf(m.recipeId) >= 0) && T1.recipes.some(r => r.id === 'perso-1') && T1.weights.length === 1
     && T1.weeks[0].days[3].meals.l.name === keepName && !T1.recipes.some(r => gone9.indexOf(r.id) >= 0);
   if (!ok10) fail('migration 10', 'repas refaits, recette perso, pesées ou repas conservés incorrects');
   else out.push('✓ migration 9 → 10 : repas des recettes disparues refaits, recettes de Cat, pesées et autres repas conservés');
@@ -173,7 +191,7 @@ if (A) {
     const seq10 = S => S.weeks.flatMap(w => w.days.flatMap(d => A.SLOTS.map(s => d.meals[s.k]))), before10 = A.planIssues(seq10(S10)).length;
     A.setS(S10); A.migrateAll(); const T = A.getS(), w0 = T.weeks[0];
     const salN = w0.days.filter(d => d.meals.b && d.meals.b.go === 'Salé').length, allC = T.weeks.every(w => w.days.every(d => d.meals.c && A.isSnack(d.meals.c)));
-    const ok = T.v === 12 && allC && salN <= 2 && T.weights.length === 1 && T.recipes.some(r => r.id === 'perso-2') && w0.days[4].meals.l.name === 'Plat fait main'
+    const ok = T.v === 13 && allC && salN <= 2 && T.weights.length === 1 && T.recipes.some(r => r.id === 'perso-2') && w0.days[4].meals.l.name === 'Plat fait main'
       && T.recipes.filter(r => r.cat === 'Banchan').length === 25 && A.planIssues(seq10(T)).length <= before10;
     if (!ok) fail('migration 11', 'version ' + T.v + ', collations partout : ' + allC + ', salés semaine 1 : ' + salN + ', pesées ' + T.weights.length + ', perso ' + T.recipes.some(r => r.id === 'perso-2') + ', fait main ' + (w0.days[4].meals.l && w0.days[4].meals.l.name) + ', banchan ' + T.recipes.filter(r => r.cat === 'Banchan').length + ', règles : ' + A.planIssues(T.weeks.flatMap(w => w.days.flatMap(d => A.SLOTS.map(s => d.meals[s.k])))).slice(0, 2).join(' ; '));
     else out.push('✓ migration 10 → 11 : collations ajoutées, salés ramenés à ' + salN + ' sur 7, repas faits main, recettes de Cat et pesées conservés'); }
@@ -182,8 +200,29 @@ if (A) {
     const m = S11.weeks[0].days[1].meals.l; m.recipeId = old; m.steps = ['ancienne étape trop longue']; S11.weights.push({ date: '2026-10-03', kg: 59 });
     const keep = S11.weeks[0].days[2].meals.d.name;
     A.setS(S11); A.migrateAll(); const U = A.getS(), mm = U.weeks[0].days[1].meals.l;
-    const ok = U.v === 12 && mm.steps.length > 3 && !mm.steps.some(x => /ancienne étape/.test(x)) && U.weights.length === 1 && U.weeks[0].days[2].meals.d.name === keep;
+    const ok = U.v === 13 && mm.steps.length > 3 && !mm.steps.some(x => /ancienne étape/.test(x)) && U.weights.length === 1 && U.weeks[0].days[2].meals.d.name === keep;
     if (!ok) fail('migration 12', 'repas réécrit non remplacé ou données non conservées'); else out.push('✓ migration 11 → 12 : repas des recettes réécrites remplacés par la version simple, le reste conservé'); }
+  /* migration 12 → 13 : les plats générés et les repas des recettes corrigées sont reconstruits, le reste est conservé */
+  { const S12 = A.defaultState(); S12.v = 12; const g = A.randomGen({}), gm = Object.assign({}, g, { id: 'm-gen', steps: ['ancienne étape'], ing: [] });
+    S12.weeks[0].days[1].meals.l = gm; S12.weights.push({ date: '2026-10-04', kg: 59 }); S12.recipes.push({ id: 'perso-3', n: 'Recette de Cat', own: true, ing: [], steps: [] });
+    S12.weeks[0].days[2].meals.d = { id: 'm-main2', name: 'Plat fait main', recipeId: null, cat: '', st: '', base: '', ing: [], steps: [], tip: '' };
+    A.setS(S12); A.migrateAll(); const V = A.getS(), mg = V.weeks[0].days[1].meals.l, errs = coherence(mg);
+    const ok = V.v === 13 && mg.steps.length > 3 && !errs.length && V.weights.length === 1 && V.recipes.some(r => r.id === 'perso-3') && V.weeks[0].days[2].meals.d.name === 'Plat fait main';
+    if (!ok) fail('migration 13', 'plat généré non reconstruit ou données non conservées : ' + errs.join(' ; ')); else out.push('✓ migration 12 → 13 : plat généré reconstruit et cohérent, repas faits main, recettes de Cat et pesées conservés'); }
+}
+
+/* ---------- 4 : cohérence entre la liste d'ingrédients et le texte des étapes ----------
+   Un aliment cité dans une étape doit figurer dans la liste ; un ingrédient de la liste doit être cité dans une étape.
+   Contrôlé sur les recettes du carnet, sur des plats générés par l'application et sur des repas coréens composés. */
+NEW_RECIPES.forEach(r => { const P = coherence(r); if (P.length) fail(r.id, P.join(' | ')); });
+if (A) {
+  const seen = {};
+  for (let i = 0; i < 400; i++){ const m = A.randomGen({}); if (!m) continue; const P = coherence(m); P.forEach(p => { (seen[p] = seen[p] || []).push(m.name); }); }
+  Object.keys(seen).forEach(p => fail('plat généré', p + '  (ex. : ' + seen[p][0] + ', ' + seen[p].length + ' plats)'));
+  const PB = NEW_RECIPES.filter(r => r.go === 'Protéine' && r.st === 'Banchan'), VB = NEW_RECIPES.filter(r => r.go === 'Légume' && r.st === 'Banchan'); const seenK = {};
+  PB.forEach(p => VB.forEach((v, vi) => { const w = VB[(vi + 5) % VB.length]; if (v === w) return; const m = A.composeKorean(p, [v, w]); coherence(m).forEach(q => { (seenK[q] = seenK[q] || []).push(m.name); }); }));
+  Object.keys(seenK).forEach(q => fail('repas coréen', q + '  (ex. : ' + seenK[q][0] + ')'));
+  if (!Object.keys(seen).length && !Object.keys(seenK).length) out.push('✓ cohérence ingrédients / étapes : plats générés et repas coréens composés');
 }
 console.log(out.join('\n'));
 console.log(NEW_RECIPES.length + ' recettes, ' + errors + ' en erreur');

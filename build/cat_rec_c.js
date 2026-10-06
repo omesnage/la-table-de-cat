@@ -39,7 +39,7 @@ RC({id:"n-col-riz-lait-vanille", n:"Petit riz au lait de riz vanillé", cat:"Col
  tip:"Un reste de riz suffit : le même riz que celui des repas, réchauffé dans du lait de riz, devient un dessert."}),
 
 RC({id:"n-col-avoine-minute-banane", n:"Avoine minute au lait d'avoine & rondelles de banane", cat:"Collation", st:"Collation", base:"Avoine", d:1, go:"Sucré",
- ing:[["flocons d'avoine",20,"g"],["lait d'avoine",100,"ml"],["banane",30,"g"],["vanille naturelle",1,"pincée"]],
+ ing:[["flocons d'avoine",20,"g"],["lait d'avoine",100,"ml"],["banane",30,"g"],["vanille naturelle",1,"pincée"],["eau",80,"ml"]],
  steps:[
   "Avant de commencer — Ustensiles : une petite casserole, une cuillère en bois, une planche et un couteau, un bol.",
   "L'avoine — Cuire les flocons d'avoine ({{flocons d'avoine}}) dans 80 ml d'eau à feu doux 2 minutes en remuant (l'avoine cuit à l'eau), puis ajouter le lait d'avoine ({{lait d'avoine}}) chaud et la vanille, et laisser épaissir 1 minute. [[sortir; casserole; cuisson 3]]",
@@ -57,7 +57,7 @@ RC({id:"n-col-creme-tofu-soyeux-vanille", n:"Crème de tofu soyeux à la vanille
 
 /* ---------- salées ---------- */
 RC({id:"n-col-tofu-soyeux-sesame", n:"Tofu soyeux tiède, huile de sésame grillé & ciboulette", cat:"Collation", st:"Collation", base:"Aucun", d:1, go:"Salé",
- ing:[["tofu soyeux",120,"g"],["sauce soja",0.5,"c. à café"],["huile de sésame grillé",0.5,"c. à café"],["ciboulette",1,"quelques brins"]],
+ ing:[["tofu soyeux",120,"g"],["sauce soja",0.5,"c. à café"],["huile de sésame grillé",0.5,"c. à café"],["ciboulette","",HERBS]],
  steps:[
   "Avant de commencer — Ustensiles : une petite casserole, une cuillère, un petit bol.",
   "Le tofu — Réchauffer le tofu soyeux ({{tofu soyeux}}) en gros morceaux 2 minutes dans la casserole avec une cuillère d'eau, à feu très doux, sans remuer : il se réchauffe sans se défaire. [[sortir; casserole; cuisson 2]]",
@@ -74,7 +74,7 @@ RC({id:"n-col-onigiri-nori", n:"Onigiri tiède de riz au nori & sésame grillé"
  tip:"Mouiller les mains avant de façonner : le riz ne colle plus aux doigts."}),
 
 RC({id:"n-col-tartine-tofu-soyeux", n:"Tartine de sarrasin, tofu soyeux écrasé & ciboulette", cat:"Collation", st:"Collation", base:"Sarrasin", d:1, go:"Salé",
- ing:[["pain de sarrasin",35,"g"],["tofu soyeux",60,"g"],["huile d'olive",0.5,"c. à café"],["ciboulette",1,"quelques brins"],["sel",1,"pincée"]],
+ ing:[["pain de sarrasin",35,"g"],["tofu soyeux",60,"g"],["huile d'olive",0.5,"c. à café"],["ciboulette","",HERBS],["sel",1,"pincée"]],
  steps:[
   "Avant de commencer — Ustensiles : une casserole avec son couvercle, une fourchette, une assiette.",
   "Le pain — Réchauffer le pain de sarrasin ({{pain de sarrasin}}) 2 minutes dans la casserole couverte hors du feu, juste assez pour qu'il soit tiède et souple. [[// cuisson 2]]",
