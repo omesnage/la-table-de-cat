@@ -29,6 +29,7 @@ def rep_block(start,end,new,text=None,keep_end=True):
 
 # 1. meta + css
 rep('function viewBook(){','function viewBookRecipes(){')
+rep('<div class="sheet-close"><button class="icon" data-act="close" aria-label="Fermer">×</button></div>','<div class="sheet-close"><button class="back" data-act="close" aria-label="Retour">← Retour</button><button class="icon" data-act="close" aria-label="Fermer">×</button></div>')
 rep('      <button class="choice" data-act="proposeMeal"','      ${t.s === "l" || t.s === "d" ? `<button class="choice" data-act="krOpen" data-w="${t.w}" data-d="${t.d}" data-s="${t.s}"><strong>Composer un repas coréen</strong><span>Du riz, un banchan à protéine et deux banchan de légumes.</span></button>` : ""}\n      <button class="choice" data-act="proposeMeal"')
 rep('const el = $("#bookList"); if (!el) return;\n  const list = S.recipes.filter(r => (!BOOK.cat || r.cat === BOOK.cat)','const el = $("#bookList"); if (!el) return;\n  const list = S.recipes.filter(r => r.cat !== "Banchan" && (!BOOK.cat || r.cat === BOOK.cat)')
 rep('$("#bookCount").textContent = `${list.length} recette${list.length > 1 ? "s" : ""} sur ${S.recipes.length}`;','$("#bookCount").textContent = `${list.length} recette${list.length > 1 ? "s" : ""} sur ${S.recipes.filter(r => r.cat !== "Banchan").length}`;')

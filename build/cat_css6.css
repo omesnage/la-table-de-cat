@@ -30,3 +30,8 @@
 .kr-it[aria-pressed="true"]{border-color:var(--celadon);background:color-mix(in srgb,var(--celadon) 10%,var(--paper))}
 .kr-it[aria-pressed="true"]::after{content:"✓";position:absolute;right:16px;top:14px;color:var(--celadon);font-size:15px}
 .kr-sum{margin-top:18px;line-height:1.5}
+
+/* ---------- retour visible en haut de chaque fiche ---------- */
+.sheet-close{justify-content:space-between;align-items:center}
+.sheet-close .back{font-size:15px;color:var(--celadon);padding:10px 14px 10px 0;min-height:44px;letter-spacing:.02em}
+.sheet-close .icon{width:44px;height:44px;font-size:24px}

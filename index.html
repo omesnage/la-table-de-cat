@@ -662,6 +662,11 @@ button,.btn,.chip,.mt,.dt,.wa,.mini,.mini-add,.qb,.qx,.chk,.dur{touch-action:man
 .kr-it[aria-pressed="true"]::after{content:"✓";position:absolute;right:16px;top:14px;color:var(--celadon);font-size:15px}
 .kr-sum{margin-top:18px;line-height:1.5}
 
+/* ---------- retour visible en haut de chaque fiche ---------- */
+.sheet-close{justify-content:space-between;align-items:center}
+.sheet-close .back{font-size:15px;color:var(--celadon);padding:10px 14px 10px 0;min-height:44px;letter-spacing:.02em}
+.sheet-close .icon{width:44px;height:44px;font-size:24px}
+
 </style>
 </head>
 <body>
@@ -680,7 +685,7 @@ button,.btn,.chip,.mt,.dt,.wa,.mini,.mini-add,.qb,.qx,.chk,.dur{touch-action:man
 <p class="warn" id="storageWarn" hidden>Le stockage du navigateur est indisponible ici : les modifications seront perdues au rechargement. Exporte une sauvegarde depuis « Réglages ».</p>
 <main id="main"></main>
 <div class="modal" id="modal" hidden><div class="sheet" role="dialog" aria-modal="true">
-  <div class="sheet-close"><button class="icon" data-act="close" aria-label="Fermer">×</button></div>
+  <div class="sheet-close"><button class="back" data-act="close" aria-label="Retour">← Retour</button><button class="icon" data-act="close" aria-label="Fermer">×</button></div>
   <div class="sheet-body"></div>
 </div></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
