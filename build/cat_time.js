@@ -80,5 +80,5 @@ function timeRecipe(r){
     return x.txt; });
   r.t = t; r.tc = tc; r.timeErr = err; return r;
 }
-const NEW_RECIPES = BREAKFAST.concat(LUNCH);
+const NEW_RECIPES = BREAKFAST.concat(LUNCH, COLLATIONS, BANCHAN);
 NEW_RECIPES.forEach(timeRecipe);

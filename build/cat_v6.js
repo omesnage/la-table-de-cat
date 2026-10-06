@@ -17,14 +17,19 @@ function eggsOK(m){
    ce qui interdit aussi le même ingrédient principal midi et soir. Œufs : EGG_MAX repas par semaine au plus, jamais à la suite. */
 const EGG_MAX = 3;
 const MAIN_RE = [["œufs", /\boeufs?\b/], ["poulet", /poulet/], ["tofu", /\btofu\b/], ["protéine de pois", /pois texturee/], ["protéine de soja", /soja texturee/], ["sardines", /sardine/], ["okara", /okara/]];
+const isSnack = m => !!m && m.cat === "Collation";
+const MAIN_SLOTS = () => SLOTS.filter(sl => sl.k !== "c");
+/* petits-déjeuners : 70 % sucrés, 30 % salés (3 salés tous les 10 jours) */
+const pdSalty = i => Math.floor((i + 1) * 3 / 10) > Math.floor(i * 3 / 10);
 function mainKeys(m){
-  if (!m) return []; const t = (m.ing || []).map(i => norm(i.n)).join(" | ");
+  if (!m || isSnack(m)) return []; const t = (m.ing || []).map(i => norm(i.n)).join(" | ");
   const k = MAIN_RE.filter(x => x[1].test(t)).map(x => x[0]); if (m.base) k.push("féculent : " + String(m.base).toLowerCase()); return k;
 }
 function isEgg(m){ return mainKeys(m).indexOf("œufs") >= 0; }
 function clash(a, b){ if (!a || !b) return null; const kb = mainKeys(b); return mainKeys(a).find(k => kb.indexOf(k) >= 0) || null; }
 /* repas dans l'ordre de la semaine (b, l, d, b, l, d…) : liste des règles non respectées */
 function planIssues(seq){
+  seq = seq.filter(m => !isSnack(m));   /* les collations ne comptent pas : elles ne contiennent ni œuf ni protéine principale */
   const out = []; let eggs = 0;
   seq.forEach((m, i) => { if (!m) return; if (isEgg(m)) eggs++; const c = clash(seq[i - 1], m); if (c) out.push("repas " + (i + 1) + " : " + c + " deux repas de suite"); });
   if (eggs > EGG_MAX * Math.max(1, Math.ceil(seq.length / 21))) out.push(eggs + " repas aux œufs (maximum " + EGG_MAX + " par semaine)");
@@ -76,11 +81,11 @@ function catalogFor(f){
     (!bk || !f.pd || r.go === f.pd) && (wv === null || isVegCat(r.cat) === wv) &&
     (!f.cats || !f.cats.length || f.cats.includes(r.cat)) && (!f.bases || !f.bases.length || f.bases.includes(r.base)) && (!f.styles || !f.styles.length || f.styles.includes(r.st)));
 }
-/* petits-déjeuners : une fois sur deux sucré, une fois sur deux salé */
+/* petits-déjeuners : 70 % sucrés, 30 % salés */
 function proposeMeals(n, f){
-  const out = [], seen = new Set(), bk = slotOf(f) === "b", off = Math.random() < .5 ? 0 : 1;
+  const out = [], seen = new Set(), bk = slotOf(f) === "b", off = Math.floor(Math.random() * 10);
   for (let i = 0; i < n * 3 && out.length < n; i++){
-    const ff = bk && !f.pd ? { ...f, pd: (out.length + off) % 2 === 0 ? "Sucré" : "Salé" } : f;
+    const ff = bk && !f.pd ? { ...f, pd: pdSalty(out.length + off) ? "Salé" : "Sucré" } : f;
     const m = oneProposal(ff, seen); if (m && !seen.has(m.name)) { seen.add(m.name); out.push(m); }
   }
   return out;
@@ -90,9 +95,10 @@ function proposeMeals(n, f){
 function proposeDay(f, avoid, ctx){
   avoid = new Set(avoid || []); ctx = ctx || {}; f = f || {};
   const out = {}, eggMax = ctx.eggMax != null ? ctx.eggMax : EGG_MAX; let prev = ctx.prev || null, eggs = ctx.eggs || 0;
-  SLOTS.forEach((sl, si) => {
-    const bk = sl.k === "b", last = si === SLOTS.length - 1; let best = null, bestBad = 1e9;
-    for (let t = 0; t < 60; t++){
+  const MAINS = MAIN_SLOTS();
+  MAINS.forEach((sl, si) => {
+    const bk = sl.k === "b", last = si === MAINS.length - 1; let best = null, bestBad = 1e9;
+    for (let t = 0; t < 150; t++){
       const m = oneProposal({ ...f, slot: sl.k }, avoid) || oneProposal({ src: bk ? "book" : "gen", slot: sl.k }, avoid); if (!m) continue;
       const bad = (clash(prev, m) ? 2 : 0) + (last && clash(m, ctx.next) ? 2 : 0) + (isEgg(m) && eggs >= eggMax ? 3 : 0) + (ctx.ok && !ctx.ok(m, sl.k) ? 1 : 0);
       if (bad < bestBad) { best = m; bestBad = bad; } if (!bad) break;
@@ -100,18 +106,19 @@ function proposeDay(f, avoid, ctx){
     if (!best) best = oneProposal({ src: "mix", slot: sl.k }, new Set());
     out[sl.k] = best; if (best) { avoid.add(best.name); if (isEgg(best)) eggs++; prev = best; }
   });
+  if (ctx.snack !== false) { const c = oneProposal({ slot: "c" }, avoid) || oneProposal({ slot: "c" }, new Set()); if (c) { out.c = c; avoid.add(c.name); } }
   return out;
 }
 /* une semaine : mêmes règles d'un jour à l'autre, œufs limités, poulet limité (80 % végétarien) */
 function proposeWeek(f){
-  f = f || {}; const off = Math.random() < .5 ? 0 : 1, limit = f.cats && f.cats.length ? 99 : 5;
+  f = f || {}; const off = Math.floor(Math.random() * 10), limit = f.cats && f.cats.length ? 99 : 5;
   let best = null, bestN = 1e9;
   for (let a = 0; a < 40; a++){
     const days = [], avoid = new Set(), count = {}; let prev = null, eggs = 0;
     for (let i = 0; i < 7; i++){
       const ok = (m, k) => k === "b" || (count[m.cat] || 0) < (limit > 50 ? limit : isVegCat(m.cat) ? 7 : 3);
-      const p = proposeDay({ ...f, pd: f.pd || ((i + off) % 2 === 0 ? "Sucré" : "Salé") }, avoid, { prev, eggs, ok });
-      SLOTS.forEach(sl => { const m = p[sl.k]; if (!m) return; avoid.add(m.name); if (isEgg(m)) eggs++; if (sl.k !== "b") count[m.cat] = (count[m.cat] || 0) + 1; prev = m; });
+      const p = proposeDay({ ...f, pd: f.pd || (pdSalty(i + off) ? "Salé" : "Sucré") }, avoid, { prev, eggs, ok });
+      SLOTS.forEach(sl => { const m = p[sl.k]; if (!m) return; avoid.add(m.name); if (sl.k === "c") return; if (isEgg(m)) eggs++; if (sl.k !== "b") count[m.cat] = (count[m.cat] || 0) + 1; prev = m; });
       days.push(p);
     }
     const n = planIssues(days.flatMap(p => SLOTS.map(sl => p[sl.k]))).length;
@@ -129,7 +136,7 @@ function bfFilter(ns){
   const st = ns === "prop" ? PROP : INSP;
   return `<div class="filters"><div class="frow"><span class="flabel">Petit-déjeuner</span><div class="chips">
     ${[["", "Sucré et salé"], ["Sucré", "Sucré"], ["Salé", "Salé"]].map(([v, l]) => `<button class="chip" data-act="pdKind" data-ns="${ns}" data-v="${v}" aria-pressed="${(st.pd || "") === v}">${l}</button>`).join("")}</div></div>
-    <p class="muted small">Légers : 10 minutes au plus, une moitié sucrée, une moitié salée.</p></div>`;
+    <p class="muted small">Légers : 10 minutes au plus, 70 % sucrés et 30 % salés.</p></div>`;
 }
 A.pdKind = ds => { const st = ds.ns === "prop" ? PROP : INSP; st.pd = ds.v;
   if (ds.ns === "prop") { PROP.items = proposeMeals(6, PROP); renderPropModal(); } else { INSP.result = null; render(); } };
@@ -337,4 +344,102 @@ function migrate10(){
     });
   }));
   S.v = 10;
+}
+
+/* ---------- version 11 : collations, petits-déjeuners 70 % sucrés / 30 % salés, banchan ----------
+   Les recettes fournies sont renouvelées (nouvelles collations et nouveaux banchan). Chaque jour reçoit une collation s'il n'en a pas.
+   Dans chaque semaine, les petits-déjeuners salés issus du carnet au-delà de 30 % (2 sur 7) deviennent des sucrés, sans casser les règles de variété.
+   Les repas faits à la main, les recettes de Cat, ses pesées et ses réglages ne bougent pas. */
+function migrate11(){
+  const own = S.recipes.filter(r => r.own);
+  S.recipes = DEFAULT_RECIPES.map(recipeToState).concat(own);
+  const have = new Set(S.recipes.map(r => r.id));
+  const sweet = S.recipes.filter(r => r.st === "Petit-déjeuner" && r.go === "Sucré" && !r.own), snacks = S.recipes.filter(r => r.cat === "Collation" && !r.own);
+  const fresh = buildDefaultPlan(S.recipes);
+  S.weeks.forEach((w, wi) => {
+    const names = new Set(); w.days.forEach(d => SLOTS.forEach(sl => d.meals[sl.k] && names.add(d.meals[sl.k].name)));
+    let salty = w.days.filter(d => d.meals.b && d.meals.b.go === "Salé").length; const maxSalty = Math.round(w.days.length * .3);
+    w.days.forEach((d, di) => {
+      d.meals = d.meals || {};
+      const b = d.meals.b;
+      if (b && b.go === "Salé" && b.recipeId && have.has(b.recipeId) && salty > maxSalty) {
+        const prev = di > 0 ? w.days[di - 1].meals.d : null, next = d.meals.l;
+        const ok = sweet.filter(r => !names.has(r.n)).map(r => mealFromRecipe(r)).find(m => !clash(prev, m) && !clash(m, next));
+        if (ok) { ok.id = b.id; protoAdaptMeal(ok, "b", kT("b")); d.meals.b = ok; names.add(ok.name); salty--; }
+      }
+      if (!d.meals.c) {
+        const src = fresh[wi % fresh.length].days[di % 7].meals.c, pick1 = src && !names.has(src.name) ? src : mealFromRecipe(snacks.find(r => !names.has(r.n)) || snacks[0]);
+        d.meals.c = copyMeal(pick1); names.add(d.meals.c.name);
+      }
+    });
+  });
+  S.v = 11;
+}
+
+/* ---------- Carnet : onglet Banchan (traités à part) ---------- */
+const bcRecipes = () => S.recipes.filter(r => r.cat === "Banchan");
+const bcShort = n => String(n).split(":")[0].trim();
+const bcSub = n => String(n).indexOf(":") >= 0 ? String(n).split(":").slice(1).join(":").trim() : "";
+function viewBook(){
+  const tab = BOOK.tab === "banchan" ? "banchan" : "recettes";
+  const seg = `<div class="seg bk-tabs" role="tablist">${[["recettes", "Recettes (" + S.recipes.filter(r => r.cat !== "Banchan").length + ")"], ["banchan", "Banchan coréens (" + bcRecipes().length + ")"]].map(([v, l]) => `<button class="seg-b" data-act="bookTab" data-v="${v}" aria-pressed="${tab === v}">${l}</button>`).join("")}</div>`;
+  return seg + (tab === "banchan" ? viewBanchan() : viewBookRecipes());
+}
+A.bookTab = ds => { BOOK.tab = ds.v; render(); window.scrollTo(0, 0); };
+function viewBanchan(){
+  const all = bcRecipes().filter(okSens), group = (title, note, list) => `<section class="book-group" style="--cc:var(--c-veg)"><h2 class="group-title">${esc(title)}</h2><p class="muted small">${esc(note)}</p>
+    <ul class="book-list">${list.map(r => `<li><button class="book-item" data-act="openRecipe" data-id="${r.id}"><span class="dish-name">${esc(bcShort(r.n))}</span>
+    <span class="dish-meta">${esc(bcSub(r.n))}${r.t ? " · " + r.t + " min" : ""} · ≈ ${fmtK(kcalOf(r))} kcal</span></button></li>`).join("")}</ul></section>`;
+  return `<header class="pagehead"><div><h1 class="display">Banchan</h1><p class="muted">Petits plats coréens servis avec du riz. Un repas coréen complet : un banchan à protéine et deux banchan de légumes.</p></div>
+      <button class="btn primary" data-act="krOpen">Composer un repas coréen</button></header>
+    ${group("À protéine", "Tofu ou œuf : le plat principal du repas (80 à 100 g de protéine).", all.filter(r => r.go === "Protéine"))}
+    ${group("De légumes", "Légumes cuits et tièdes, à l'huile de sésame grillé : deux par repas.", all.filter(r => r.go === "Légume"))}
+    ${S.sensible ? `<p class="muted small">Phase de sensibilité aiguë : les banchan à la sauce soja sont masqués.</p>` : ""}`;
+}
+
+/* ---------- repas coréen : riz + 1 banchan à protéine + 2 banchan de légumes ---------- */
+let KR = null;
+function krBody(){
+  const all = bcRecipes().filter(okSens), P = all.filter(r => r.go === "Protéine"), V = all.filter(r => r.go === "Légume");
+  const item = (r, on, act) => `<button class="choice kr-it" data-act="${act}" data-id="${r.id}" aria-pressed="${on}"><strong>${esc(bcShort(r.n))}</strong><span>${esc(bcSub(r.n))} · ${r.t} min · ≈ ${fmtK(kcalOf(r))} kcal</span></button>`;
+  const p = KR.p && P.find(r => r.id === KR.p), vs = KR.v.map(id => V.find(r => r.id === id)).filter(Boolean);
+  const veg = vs.reduce((s, r) => s + r.ing.reduce((t, i) => (lookup(i.n) || {}).a === "Légumes" ? t + num(i.q) : t, 0), 0);
+  const ready = p && vs.length === 2, meal = ready ? composeKorean(p, vs) : null;
+  return `<h3 class="kr-h">1 · Le plat principal</h3><div class="choice-list kr-list">${P.map(r => item(r, KR.p === r.id, "krP")).join("")}</div>
+    <h3 class="kr-h">2 · Deux banchan de légumes</h3><div class="choice-list kr-list">${V.map(r => item(r, KR.v.indexOf(r.id) >= 0, "krV")).join("")}</div>
+    <p class="muted small kr-sum">${ready ? `Riz ${KR_RICE} g + ${esc(bcShort(p.n))} + ${vs.map(r => esc(bcShort(r.n))).join(" + ")} · ≈ ${fmtK(kcalOf(meal))} kcal · légumes ${Math.round(veg)} g${veg < 150 ? " (un légume de saison sera ajouté pour atteindre 150 g)" : ""}`
+      : "Choisis un banchan à protéine et deux banchan de légumes."}</p>`;
+}
+A.krOpen = ds => {
+  const t = ds && ds.d != null ? T(ds) : null; KR = { t, p: null, v: [] }; MODAL = { kind: "kr", t };
+  openModal(`<p class="eyebrow">${t ? esc(S.weeks[t.w].name) + ", " + esc(S.weeks[t.w].days[t.d].name) + ", " + slotLabel(t.s).toLowerCase() : "Carnet de banchan"}</p><h2 class="display-s">Composer un repas coréen</h2>
+    <div id="krBody">${krBody()}</div>
+    <div class="sheet-foot"><button class="btn ghost" data-act="close">Annuler</button><button class="btn primary push" data-act="krGo">${t ? "Mettre au planning" : "Choisir où l'ajouter"}</button></div>`, { wide: true });
+};
+const krRefresh = () => { const e = $("#krBody"); if (e) e.innerHTML = krBody(); };
+A.krP = ds => { KR.p = KR.p === ds.id ? null : ds.id; krRefresh(); };
+A.krV = ds => { const i = KR.v.indexOf(ds.id); if (i >= 0) KR.v.splice(i, 1); else { KR.v.push(ds.id); if (KR.v.length > 2) KR.v.shift(); } krRefresh(); };
+A.krGo = () => {
+  const p = bcRecipes().find(r => r.id === KR.p), vs = KR.v.map(id => bcRecipes().find(r => r.id === id)).filter(Boolean);
+  if (!p || vs.length < 2) return toast("Choisis un banchan à protéine et deux banchan de légumes");
+  const meal = composeKorean(p, vs), t = KR.t; KR = null;
+  if (t) { snapshot(); setMeal(t, meal); afterSelect(t); } else { closeModal(); placeTemp(meal); }
+};
+
+/* ---------- version 12 : 20 recettes tofu / protéines végétales / sardines simplifiées, 10 banchan en plus ----------
+   Les recettes fournies sont renouvelées. Les repas du planning tirés d'une des 20 recettes réécrites reprennent la version simple ;
+   le reste (repas faits main, recettes de Cat, pesées, réglages) ne bouge pas. */
+const V12_REWRITTEN = ["t-bol-tofu-sesame-daikon", "t-risotto-quinoa-potimarron", "t-miso-tofu-soyeux-navet", "t-quinoa-blettes-patisson", "t-donburi-tofu-soyeux",
+  "l-tofu-soyeux-pakchoi", "l-tofu-fume-brocoli", "l-papillote-tofu-basilic", "l-quinoa-tofu-soyeux-blettes", "l-vermicelles-bouillon-tofu",
+  "l-hachis-pois-panais", "l-bol-pois-butternut", "l-soja-miso-soba", "l-soja-donburi-aubergine", "l-galettes-okara-pois", "l-minestrone-pois",
+  "x-boulettes-pois-brocoli", "x-bol-pois-potimarron", "s-sardines-pdt-haricots"];
+function migrate12(){
+  const own = S.recipes.filter(r => r.own);
+  S.recipes = DEFAULT_RECIPES.map(recipeToState).concat(own);
+  const byId = id => S.recipes.find(r => r.id === id);
+  S.weeks.forEach(w => w.days.forEach(d => ["l", "d"].forEach(k => {
+    const m = d.meals[k]; if (!m || !m.recipeId || V12_REWRITTEN.indexOf(m.recipeId) < 0 || !byId(m.recipeId)) return;
+    const nm = mealFromRecipe(byId(m.recipeId)); nm.id = m.id; protoAdaptMeal(nm, k, kT(k)); d.meals[k] = nm;
+  })));
+  S.v = 12;
 }
