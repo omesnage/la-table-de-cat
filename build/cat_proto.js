@@ -29,7 +29,7 @@ const lvlF = m => (m.lf || 0);   /* grammes de féculents ajoutés par le levier
 /* met un repas aux portions du protocole, puis le rapproche de sa cible de calories si elle existe.
    Les protéines ne descendent jamais sous le minimum du repas. */
 function protoAdaptMeal(m, k, target){
-  if (!m || !m.ing) return false; const R = PORTIONS[k] || PORTIONS.l; let changed = false;
+  if (!m || !m.ing || k === "c") return false; const R = PORTIONS[k] || PORTIONS.l;   /* collation : portions de la recette, jamais adaptées */ let changed = false;
   const sp = starchSplit(m), raw = sp.c === 0 && sp.r > 0, cur = raw ? sp.r : sp.c;
   if (cur > 0) {
     const lo = raw ? R.fr[0] : R.f[0], hi = (raw ? R.fr[1] : R.f[1]) + lvlF(m);
@@ -48,9 +48,9 @@ function slotTarget(t){ return kT(t.s); }
 const adaptHint = d => SLOTS.some(sl => { const m = d.meals[sl.k]; if (!m) return false; const c = clone(m); return protoAdaptMeal(c, sl.k, kT(sl.k)); });
 function kcalBar(d){
   const k = dayKcal(d); if (!k) return "";
-  const ts = SLOTS.map(sl => kT(sl.k)); const all = ts.every(x => x);
-  const tg = all ? ts.reduce((a, b) => a + b, 0) : 0;
-  const diff = k - tg, cls = !all ? "" : Math.abs(diff) <= tg * .08 ? "ok" : diff > 0 ? "hi" : "lo";
+  const ts = SLOTS.filter(sl => sl.k !== "c").map(sl => kT(sl.k)); const all = ts.every(x => x);
+  const tg = all ? ts.reduce((a, b) => a + b, 0) : 0, kMain = k - (d.meals.c ? kcalOf(d.meals.c) : 0);
+  const diff = kMain - tg, cls = !all ? "" : Math.abs(diff) <= tg * .08 ? "ok" : diff > 0 ? "hi" : "lo";
   return `<div class="kbar ${cls}"><div class="kb-top"><span class="kb-v">≈ ${fmtK(k)} kcal par jour</span>${all ? `<span class="kb-t">cible ${fmtK(tg)}</span>` : ""}</div>${all ? `<span class="kb-d">${Math.abs(diff) <= tg * .08 ? "dans la cible" : (diff > 0 ? "+" : "−") + Math.abs(diff) + " kcal"}</span>` : ""}</div>`;
 }
 const dayTarget = () => SLOTS.reduce((s, sl) => s + (kT(sl.k) || 0), 0);
@@ -234,10 +234,10 @@ function ensureDefaults(){
   if (!Array.isArray(S.shopExtra)) S.shopExtra = [];
   if (!S.cooked || typeof S.cooked !== "object") S.cooked = {};
   if (!S.reint || typeof S.reint !== "object") S.reint = { start: null, foods: {}, current: null };
-  S.weeks.forEach(w => w.days.forEach(d => { d.meals = d.meals || {}; if (!("b" in d.meals)) d.meals.b = null; }));
+  S.weeks.forEach(w => w.days.forEach(d => { d.meals = d.meals || {}; if (!("b" in d.meals)) d.meals.b = null; if (!("c" in d.meals)) d.meals.c = null; }));
   const ks = Object.keys(S.cooked); if (ks.length > 80) ks.slice(0, ks.length - 80).forEach(k => delete S.cooked[k]);
 }
-function migrateAll(){ if (!S.v || S.v < 2) migrateProto(); if (S.v < 3) migrate3(); if (S.v < 4) migrate4(); if (S.v < 5) migrate5(); if (S.v < 6) migrate6(); if (S.v < 7) migrate7(); if (S.v < 8) migrate8(); if (S.v < 9) migrate9(); if (S.v < 10) migrate10(); }
+function migrateAll(){ if (!S.v || S.v < 2) migrateProto(); if (S.v < 3) migrate3(); if (S.v < 4) migrate4(); if (S.v < 5) migrate5(); if (S.v < 6) migrate6(); if (S.v < 7) migrate7(); if (S.v < 8) migrate8(); if (S.v < 9) migrate9(); if (S.v < 10) migrate10(); if (S.v < 11) migrate11(); }
 /* v2 : nouveau protocole. Le carnet fourni est remplacé par la version mise à jour ; les recettes créées par Cat sont conservées.
    Les repas du planning qui venaient de l'ancien carnet sont renouvelés, et un petit-déjeuner est ajouté là où il manque. */
 function migrateProto(){

@@ -10,9 +10,9 @@ const fs = require('fs'), path = require('path');
 const norm = s => String(s || "").toLowerCase().replace(/œ/g, "oe").replace(/æ/g, "ae").replace(/[’`]/g, "'").normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/\s+/g, " ").trim();
 global.norm = norm; global.HERBS = "quelques brins";
 const load = f => fs.readFileSync(path.join(__dirname, '..', f), 'utf8');
-const FILES = ['cat_db.js', 'cat_rec_lib.js', 'cat_rec_b.js', 'cat_rec_l1.js', 'cat_rec_l2.js', 'cat_rec_l3.js', 'cat_time.js', 'cat_gen.js'];
-(0, eval)(FILES.map(load).join('\n') + '\n;global.__R = { NEW_RECIPES, ING_DB, BK_MAX };');
-const { NEW_RECIPES, ING_DB, BK_MAX } = global.__R;
+const FILES = ['cat_db.js', 'cat_rec_lib.js', 'cat_rec_b.js', 'cat_rec_l1.js', 'cat_rec_l2.js', 'cat_rec_l3.js', 'cat_rec_c.js', 'cat_banchan.js', 'cat_time.js', 'cat_gen.js'];
+(0, eval)(FILES.map(load).join('\n') + '\n;global.__R = { NEW_RECIPES, ING_DB, BK_MAX, SNACK_MAX, KR_STEP_MAX };');
+const { NEW_RECIPES, ING_DB, BK_MAX, SNACK_MAX, KR_STEP_MAX } = global.__R;
 let errors = 0;
 const out = [], fail = (where, msg) => { errors++; out.push('✗ ' + where + '  ' + msg); };
 
@@ -27,7 +27,7 @@ const TEXT = ['proteine de pois texturee', 'proteine de soja texturee'];
 const BRACKET = /\s*\[(en parall[eè]le\s+)?(?:(\d+)\s*min\s*\+\s*)?(cuisson\s+)?(\d+)\s*min\]\s*$/i;
 let nPST = 0, nChicken = 0;
 NEW_RECIPES.forEach(r => {
-  const b = r.st === 'Petit-déjeuner', P = [];
+  const b = r.st === 'Petit-déjeuner', sn = r.st === 'Collation', bn = r.st === 'Banchan', P = [];
   let fec = 0, sol = 0, pst = 0, veg = 0, oil = 0, egg = 0, kc = 0;
   r.ing.forEach(i => {
     const e = lookup(i.n), q = parseFloat(String(i.q).replace(',', '.')) || 0; kc += ingKcal(i);
@@ -48,6 +48,8 @@ NEW_RECIPES.forEach(r => {
   if (pst) nPST++; if (r.cat === 'Poulet') nChicken++;
   const solT = sol + egg * 50 + pst * 3;
   if (b) { if (fec < 25 || fec > 100) P.push('fec b ' + fec); if (kc > 270) P.push('kcal b ' + Math.round(kc)); }
+  else if (sn) { if (fec > 100) P.push('fec collation ' + fec); if (kc > 200) P.push('kcal collation ' + Math.round(kc)); if (!/^(Sucré|Salé)$/.test(r.go || '')) P.push('collation sans go'); }
+  else if (bn) { if (fec > 0) P.push('féculent dans un banchan'); if (r.go === 'Protéine' && (solT < 80 || solT > 100)) P.push('protéine ' + solT); if (r.go === 'Légume' && (veg < 60 || veg > 100)) P.push('légumes ' + veg); if (r.go !== 'Protéine' && r.go !== 'Légume') P.push('banchan sans go'); if (kc > 200) P.push('kcal banchan ' + Math.round(kc)); }
   else { if (fec < 120 || fec > 150) P.push('fec ' + fec); if (solT < 80 || solT > 100) P.push('protéine ' + solT); if (veg < 150 || veg > 200) P.push('veg ' + veg); if (oil !== 1) P.push('huile ' + oil); }
   if (!r.steps.length) P.push('nosteps');
   /* durées */
@@ -64,6 +66,8 @@ NEW_RECIPES.forEach(r => {
   if (tot !== +r.t) P.push('t=' + r.t + ' ≠ somme des étapes ' + tot);
   if (cook !== +r.tc) P.push('tc=' + r.tc + ' ≠ cuissons ' + cook);
   if (b && tot > BK_MAX) P.push('durée ' + tot + ' min > ' + BK_MAX);
+  if (sn && tot > SNACK_MAX) P.push('durée ' + tot + ' min > ' + SNACK_MAX);
+  if (bn && tot > KR_STEP_MAX) P.push('durée ' + tot + ' min > ' + KR_STEP_MAX);
   if (b && /la veille/i.test(r.steps.join(' ')) && !/(riz|quinoa)[^.]*la veille/i.test(r.steps.join(' '))) P.push('préparation de la veille');
   /* {{ingrédient}} et mots interdits */
   r.steps.forEach(s => {
@@ -74,7 +78,7 @@ NEW_RECIPES.forEach(r => {
   if (P.length) fail(r.id, P.join(' | '));
   else out.push('✓ ' + r.id + '  ' + r.t + ' min (cuisson ' + r.tc + '), ' + Math.round(kc) + ' kcal' + (b ? '' : ', protéine ' + solT + ' g, légumes ' + veg + ' g'));
 });
-if (NEW_RECIPES.length !== 60) fail('catalogue', NEW_RECIPES.length + ' recettes au lieu de 60');
+if (NEW_RECIPES.length !== 85) fail('catalogue', NEW_RECIPES.length + ' recettes au lieu de 85 (60 repas, 10 collations, 15 banchan)');
 if (nChicken !== 4) fail('catalogue', nChicken + ' recettes de poulet au lieu de 4');
 if (nPST > 8) fail('catalogue', nPST + ' recettes à la protéine texturée : quelques plats seulement (8 au plus)');
 const ids = NEW_RECIPES.map(r => r.id); ids.forEach((id, i) => { if (ids.indexOf(id) !== i) fail(id, 'identifiant en double'); });
@@ -87,7 +91,7 @@ function loadApp(){
   let store = null;
   Object.assign(global, { window: global, document: noop, location: { hash: "" }, addEventListener(){}, requestAnimationFrame(){}, setTimeout(){},
     matchMedia: () => ({ matches: false, addEventListener(){} }), localStorage: { getItem: () => store, setItem(k, v){ store = v; }, removeItem(){} } });
-  (0, eval)(code + '\n;global.__A = { proposeWeek, proposeDay, planIssues, buildDefaultPlan, dayCtx, SLOTS, EGG_MAX, migrateAll, defaultState, getS: () => S, setS: x => { S = x; } };');
+  (0, eval)(code + '\n;global.__A = { proposeWeek, proposeDay, planIssues, buildDefaultPlan, dayCtx, SLOTS, composeKorean, protoCheck, pdSalty, isSnack, EGG_MAX, migrateAll, defaultState, getS: () => S, setS: x => { S = x; } };');
   return global.__A;
 }
 let A = null;
@@ -119,11 +123,11 @@ if (A) {
   gone.forEach(id => S0.recipes.push({ id, n: "ancienne recette " + id, ing: [], steps: [] }));
   A.setS(S0); A.migrateAll(); const S1 = A.getS();
   const left = S1.weeks.flatMap(w => w.days.flatMap(d => A.SLOTS.map(s => d.meals[s.k]))).filter(m => m && gone.indexOf(m.recipeId) >= 0);
-  if (S1.v !== 10) fail('migration', 'version ' + S1.v + ' au lieu de 10');
+  if (S1.v !== 11) fail('migration', 'version ' + S1.v + ' au lieu de 11');
   if (left.length || S1.recipes.some(r => gone.indexOf(r.id) >= 0)) fail('migration', 'des recettes supprimées restent dans les données');
   const wk = S1.weeks.slice(0, 4).flatMap(w => w.days.flatMap(d => A.SLOTS.map(s => d.meals[s.k]))), is = A.planIssues(wk);
   if (is.length) fail('migration', 'planning refait non conforme : ' + is.slice(0, 2).join(' ; '));
-  if (!left.length && S1.v === 10 && !is.length) out.push('✓ migration 10 : anciennes recettes remplacées, planning refait et conforme, version 10');
+  if (!left.length && S1.v === 11 && !is.length) out.push('✓ migration depuis une ancienne version : anciennes recettes remplacées, planning conforme, version 11');
   /* migration 9 → 10 : seuls les repas issus d'une recette disparue sont refaits, le reste de Cat est conservé */
   const S9 = A.defaultState(); S9.v = 9; const gone9 = ['b-porridge-avoine-myrtilles', 't-salade-riz-basilic'];
   const keepId = S9.weeks[0].days[3].meals.l.recipeId, keepName = S9.weeks[0].days[3].meals.l.name;
@@ -131,10 +135,48 @@ if (A) {
   gone9.forEach(id => S9.recipes.push({ id, n: 'ancienne recette ' + id, ing: [], steps: [] }));
   S9.recipes.push({ id: 'perso-1', n: 'Recette de Cat', own: true, ing: [], steps: [] }); S9.weights.push({ date: '2026-10-01', kg: 59.3 });
   A.setS(S9); A.migrateAll(); const T1 = A.getS(), mm = T1.weeks.flatMap(w => w.days.flatMap(d => A.SLOTS.map(s => d.meals[s.k])));
-  const ok10 = T1.v === 10 && !mm.some(m => m && gone9.indexOf(m.recipeId) >= 0) && T1.recipes.some(r => r.id === 'perso-1') && T1.weights.length === 1
+  const ok10 = T1.v === 11 && !mm.some(m => m && gone9.indexOf(m.recipeId) >= 0) && T1.recipes.some(r => r.id === 'perso-1') && T1.weights.length === 1
     && T1.weeks[0].days[3].meals.l.name === keepName && !T1.recipes.some(r => gone9.indexOf(r.id) >= 0);
   if (!ok10) fail('migration 10', 'repas refaits, recette perso, pesées ou repas conservés incorrects');
   else out.push('✓ migration 9 → 10 : repas des recettes disparues refaits, recettes de Cat, pesées et autres repas conservés');
+  /* collations : chaque jour du planning de départ en a une, et les règles de variété ne les comptent pas */
+  const dp = A.buildDefaultPlan(A.getS().recipes);
+  if (!dp.every(w => w.days.every(d => d.meals.c && A.isSnack(d.meals.c)))) fail('collations', 'un jour du planning de départ n\'a pas de collation');
+  else out.push('✓ collations : une par jour dans le planning de départ');
+  /* petits-déjeuners 70 % sucrés / 30 % salés */
+  { const all = dp.flatMap(w => w.days.map(d => d.meals.b)), sal = all.filter(m => m.go === 'Salé').length, share = sal / all.length;
+    if (share < .25 || share > .35) fail('petits-déjeuners', 'planning de départ : ' + Math.round(share * 100) + ' % de salés (30 % attendus)');
+    let sal2 = 0, tot2 = 0; for (let i = 0; i < 100; i++) A.proposeWeek({}).forEach(p => { tot2++; if (p.b.go === 'Salé') sal2++; });
+    const sh2 = sal2 / tot2; if (sh2 < .22 || sh2 > .38) fail('petits-déjeuners', 'propositions : ' + Math.round(sh2 * 100) + ' % de salés (30 % attendus)');
+    else out.push('✓ petits-déjeuners : ' + Math.round(share * 100) + ' % de salés dans le planning de départ, ' + Math.round(sh2 * 100) + ' % dans les propositions');
+    const withSn = A.proposeWeek({}); if (!withSn.every(p => p.c && A.isSnack(p.c))) fail('collations', 'une semaine proposée sans collation');
+    for (let i = 0; i < 100; i++) A.proposeDay({}).c || fail('collations', 'journée proposée sans collation'); }
+  /* repas coréens : riz + 1 banchan à protéine + 2 banchan de légumes */
+  { const R = A.getS().recipes, P = R.filter(r => r.cat === 'Banchan' && r.go === 'Protéine'), V = R.filter(r => r.cat === 'Banchan' && r.go === 'Légume'); let n = 0, bad = 0;
+    if (P.length !== 5 || V.length !== 10) fail('banchan', P.length + ' à protéine et ' + V.length + ' de légumes (5 et 10 attendus)');
+    P.forEach(p => { for (let i = 0; i < V.length; i++) for (let j = i + 1; j < V.length; j++) {
+      const m = A.composeKorean(p, [V[i], V[j]]); n++; const why = [];
+      const chk = A.protoCheck(m); if (chk.bad.length) why.push('protocole : ' + chk.bad.map(x => x.n).join(','));
+      const rice = m.ing.find(x => /^riz/i.test(x.n)); if (!rice || +rice.q !== 140) why.push('riz');
+      (m.steps.join(' ').match(/\{\{([^}]+)\}\}/g) || []).forEach(t => { const k = t.slice(2, -2).toLowerCase(); if (!m.ing.some(x => x.n.toLowerCase().includes(k) || k.includes(x.n.toLowerCase()))) why.push('token ' + k); });
+      if (m.steps.some(s => /\{\{[^}]*\}\}/.test(s) && !/\{\{[^}]*\}\}/.test(s))) why.push('?');
+      if (!(m.t > 0 && m.t <= 35)) why.push('durée ' + m.t);
+      if (why.length) { bad++; if (bad < 4) fail('repas coréen', P.indexOf(p) + '/' + i + '/' + j + ' : ' + why.join(' ; ')); } } });
+    if (!bad) out.push('✓ repas coréens : ' + n + ' combinaisons composées, protocole respecté'); }
+  /* migration 10 → 11 : collations ajoutées, petits-déjeuners salés ramenés à 30 %, le reste de Cat conservé */
+  { const S10 = A.defaultState(); S10.v = 10;
+    S10.weeks.forEach(w => w.days.forEach(d => { delete d.meals.c; }));
+    const salty = A.getS().recipes.filter(r => r.st === 'Petit-déjeuner' && r.go === 'Salé');
+    S10.weeks[0].days.forEach((d, i) => { const r = salty[i % salty.length], keep = d.meals.b; d.meals.b = Object.assign({}, keep, { name: r.n, recipeId: r.id, go: 'Salé', ing: r.ing.map(x => Object.assign({ id: x.id }, x)) }); });
+    S10.weeks[0].days[4].meals.l = { id: 'm-main', name: 'Plat fait main', recipeId: null, cat: '', st: '', base: '', ing: [], steps: [], tip: '' };
+    S10.recipes.push({ id: 'perso-2', n: 'Recette de Cat', own: true, ing: [], steps: [] }); S10.weights.push({ date: '2026-10-02', kg: 59.1 });
+    const seq10 = S => S.weeks.flatMap(w => w.days.flatMap(d => A.SLOTS.map(s => d.meals[s.k]))), before10 = A.planIssues(seq10(S10)).length;
+    A.setS(S10); A.migrateAll(); const T = A.getS(), w0 = T.weeks[0];
+    const salN = w0.days.filter(d => d.meals.b && d.meals.b.go === 'Salé').length, allC = T.weeks.every(w => w.days.every(d => d.meals.c && A.isSnack(d.meals.c)));
+    const ok = T.v === 11 && allC && salN <= 2 && T.weights.length === 1 && T.recipes.some(r => r.id === 'perso-2') && w0.days[4].meals.l.name === 'Plat fait main'
+      && T.recipes.filter(r => r.cat === 'Banchan').length === 15 && A.planIssues(seq10(T)).length <= before10;
+    if (!ok) fail('migration 11', 'version ' + T.v + ', collations partout : ' + allC + ', salés semaine 1 : ' + salN + ', pesées ' + T.weights.length + ', perso ' + T.recipes.some(r => r.id === 'perso-2') + ', fait main ' + (w0.days[4].meals.l && w0.days[4].meals.l.name) + ', banchan ' + T.recipes.filter(r => r.cat === 'Banchan').length + ', règles : ' + A.planIssues(T.weeks.flatMap(w => w.days.flatMap(d => A.SLOTS.map(s => d.meals[s.k])))).slice(0, 2).join(' ; '));
+    else out.push('✓ migration 10 → 11 : collations ajoutées, salés ramenés à ' + salN + ' sur 7, repas faits main, recettes de Cat et pesées conservés'); }
 }
 console.log(out.join('\n'));
 console.log(NEW_RECIPES.length + ' recettes, ' + errors + ' en erreur');

@@ -653,6 +653,15 @@ button,.btn,.chip,.mt,.dt,.wa,.mini,.mini-add,.qb,.qx,.chk,.dur{touch-action:man
 .pv-k{font-size:13px;color:var(--mute);white-space:nowrap;align-self:end}
 @media (max-width:720px){.peek-ing{grid-template-columns:1fr}.pv-meal{flex-direction:column}.pv-meal .mini{align-self:flex-start}}
 
+/* ---------- banchan et repas coréen ---------- */
+.bk-tabs{margin:0 0 24px}
+.kr-h{font-family:var(--serif,inherit);font-weight:500;font-size:15px;letter-spacing:.04em;margin:26px 0 10px;color:var(--mute)}
+.kr-list{margin-top:0;gap:8px}
+.kr-it{position:relative}
+.kr-it[aria-pressed="true"]{border-color:var(--celadon);background:color-mix(in srgb,var(--celadon) 10%,var(--paper))}
+.kr-it[aria-pressed="true"]::after{content:"✓";position:absolute;right:16px;top:14px;color:var(--celadon);font-size:15px}
+.kr-sum{margin-top:18px;line-height:1.5}
+
 </style>
 </head>
 <body>
@@ -1360,6 +1369,263 @@ RC({id:"s-sardines-vapeur-fenouil", n:"Filets de sardines vapeur, riz tiède, fe
  tip:"Un seul cycle vapeur pour tout le plat : poisson et légumes cuisent ensemble."})
 );
 
+/* ============ COLLATIONS (environ 80 à 160 kcal) : 6 sucrées, 4 salées ============
+   Une petite chose tiède, prête en 6 minutes au plus, entre le déjeuner et le dîner (ou quand la faim vient).
+   Même protocole que les repas : tout est cuit ou très doux, tiède, sans friture ni coloration, sans ail, oignon, citron ni vinaigre.
+   Les collations ne comptent pas dans les règles de variété des repas (ingrédient principal, œufs) : elles n'en contiennent pas. */
+const SNACK_MAX = 6;   /* minutes, étapes comprises */
+const COLLATIONS = [
+/* ---------- sucrées ---------- */
+RC({id:"n-col-banane-yaourt-vanille", n:"Banane tiède écrasée, yaourt de soja & vanille", cat:"Collation", st:"Collation", base:"Aucun", d:1, go:"Sucré",
+ ing:[["banane",60,"g"],["yaourt de soja nature",70,"g"],["vanille naturelle",1,"pincée"],["sirop d'érable",0.5,"c. à café"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une petite casserole, une fourchette, un petit bol.",
+  "La banane tiède — Écraser la banane ({{banane}}) à la fourchette dans la casserole avec une cuillère d'eau et la vanille, puis la chauffer 1 minute à feu très doux en remuant : elle devient tiède et crémeuse comme une compote. [[ecraser banane; casserole; cuisson 1]]",
+  "Dressage — Verser dans le bol, déposer le yaourt de soja ({{yaourt de soja nature}}) par-dessus et finir d'un demi-filet de sirop d'érable ({{sirop d'érable}}). [[dresser x3]]"],
+ tip:"La banane bien mûre est déjà très sucrée : plus elle est tachetée de brun, moins il faut de sirop."}),
+
+RC({id:"n-col-compote-myrtilles", n:"Compote tiède de myrtilles & yaourt de soja", cat:"Collation", st:"Collation", base:"Aucun", d:1, go:"Sucré",
+ ing:[["myrtilles",60,"g"],["yaourt de soja nature",70,"g"],["sirop d'érable",0.5,"c. à café"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une petite casserole, une fourchette, un petit bol.",
+  "Les myrtilles — Chauffer les myrtilles ({{myrtilles}}) avec une cuillère d'eau et le sirop d'érable ({{sirop d'érable}}) à feu doux 3 minutes, jusqu'à ce qu'elles éclatent et rendent un jus brillant ; en écraser quelques-unes à la fourchette. [[casserole; ecraser myrtilles; cuisson 3]]",
+  "Dressage — Verser le yaourt de soja ({{yaourt de soja nature}}) dans le bol, recouvrir de compote tiède et de son jus. [[dresser x2]]"],
+ tip:"Le contraste chaud et frais est ce qui rend cette collation gourmande : verser la compote au dernier moment."}),
+
+RC({id:"n-col-tartine-sarrasin-banane", n:"Tartine de pain de sarrasin tiède, banane écrasée & vanille", cat:"Collation", st:"Collation", base:"Sarrasin", d:1, go:"Sucré",
+ ing:[["pain de sarrasin",35,"g"],["banane",50,"g"],["vanille naturelle",1,"pincée"],["sirop d'érable",0.5,"c. à café"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une casserole avec son couvercle, une fourchette, une assiette.",
+  "Le pain — Réchauffer le pain de sarrasin ({{pain de sarrasin}}) 2 minutes dans la casserole couverte hors du feu, juste assez pour qu'il soit tiède et souple. [[// cuisson 2]]",
+  "La banane — Écraser la banane ({{banane}}) à la fourchette avec la vanille jusqu'à obtenir une crème épaisse. [[ecraser banane]]",
+  "Dressage — Poser le pain tiède sur l'assiette, étaler la banane écrasée, finir d'un petit filet de sirop d'érable ({{sirop d'érable}}). [[sortir; dresser x3]]"],
+ tip:"Le pain de sarrasin reste tendre s'il est seulement tiédi : ne jamais le faire griller, il durcit."}),
+
+RC({id:"n-col-riz-lait-vanille", n:"Petit riz au lait de riz vanillé", cat:"Collation", st:"Collation", base:"Riz", d:1, go:"Sucré",
+ ing:[["riz cuit",50,"g"],["lait de riz",80,"ml"],["vanille naturelle",1,"pincée"],["sirop d'érable",0.5,"c. à café"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une petite casserole, une cuillère en bois, un petit bol. Le riz est celui cuit la veille au Bamboo.",
+  "Le riz au lait — Chauffer le riz cuit ({{riz cuit}}) avec le lait de riz ({{lait de riz}}) et la vanille à feu doux 4 minutes en remuant : le riz boit le lait et devient crémeux. [[sortir; casserole; cuisson 4]]",
+  "Dressage — Verser dans le bol et finir d'un demi-filet de sirop d'érable ({{sirop d'érable}}). [[dresser x2]]"],
+ tip:"Un reste de riz suffit : le même riz que celui des repas, réchauffé dans du lait de riz, devient un dessert."}),
+
+RC({id:"n-col-avoine-minute-banane", n:"Avoine minute au lait d'avoine & rondelles de banane", cat:"Collation", st:"Collation", base:"Avoine", d:1, go:"Sucré",
+ ing:[["flocons d'avoine",20,"g"],["lait d'avoine",100,"ml"],["banane",30,"g"],["vanille naturelle",1,"pincée"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une petite casserole, une cuillère en bois, une planche et un couteau, un bol.",
+  "L'avoine — Cuire les flocons d'avoine ({{flocons d'avoine}}) dans 80 ml d'eau à feu doux 2 minutes en remuant (l'avoine cuit à l'eau), puis ajouter le lait d'avoine ({{lait d'avoine}}) chaud et la vanille, et laisser épaissir 1 minute. [[sortir; casserole; cuisson 3]]",
+  "La banane — Couper la banane ({{banane}}) en fines rondelles et les poser dans le bol, verser l'avoine tiède dessus : elles ramollissent. [[couper banane; dresser x2]]"],
+ tip:"Jamais de lait pour cuire l'avoine : il déborde. L'eau d'abord, le lait chaud ensuite."}),
+
+RC({id:"n-col-creme-tofu-soyeux-vanille", n:"Crème de tofu soyeux à la vanille & myrtilles tièdes", cat:"Collation", st:"Collation", base:"Aucun", d:1, go:"Sucré",
+ ing:[["tofu soyeux",100,"g"],["myrtilles",30,"g"],["vanille naturelle",1,"pincée"],["sirop d'érable",1,"c. à café"]],
+ steps:[
+  "Avant de commencer — Ustensiles : un petit mixeur plongeant (ou une fourchette), un petit bol, une petite casserole.",
+  "La crème — Mixer le tofu soyeux ({{tofu soyeux}}) avec la vanille et le sirop d'érable ({{sirop d'érable}}) jusqu'à une crème lisse et brillante, comme une crème dessert. [[sortir; mixer; verser]]",
+  "Les myrtilles — Chauffer les myrtilles ({{myrtilles}}) 2 minutes avec une cuillère d'eau à feu doux, jusqu'à ce qu'elles éclatent. [[casserole; cuisson 2]]",
+  "Dressage — Verser la crème dans le bol et déposer les myrtilles tièdes et leur jus par-dessus. [[dresser x2]]"],
+ tip:"Le tofu soyeux bien mixé n'a aucun goût de soja : c'est la vanille et le sirop qui parlent."}),
+
+/* ---------- salées ---------- */
+RC({id:"n-col-tofu-soyeux-sesame", n:"Tofu soyeux tiède, huile de sésame grillé & ciboulette", cat:"Collation", st:"Collation", base:"Aucun", d:1, go:"Salé",
+ ing:[["tofu soyeux",120,"g"],["sauce soja",0.5,"c. à café"],["huile de sésame grillé",0.5,"c. à café"],["ciboulette",1,"quelques brins"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une petite casserole, une cuillère, un petit bol.",
+  "Le tofu — Réchauffer le tofu soyeux ({{tofu soyeux}}) en gros morceaux 2 minutes dans la casserole avec une cuillère d'eau, à feu très doux, sans remuer : il se réchauffe sans se défaire. [[sortir; casserole; cuisson 2]]",
+  "Dressage — Déposer délicatement le tofu dans le bol, verser la sauce soja ({{sauce soja}}) et l'huile de sésame ({{huile de sésame grillé}}), puis parsemer de la ciboulette ({{ciboulette}}) finement coupée, pointes vertes seulement. [[ciseler; dresser x3]]"],
+ tip:"Chauffé à peine, le tofu soyeux garde sa texture de flan : le servir tiède, jamais bouillant."}),
+
+RC({id:"n-col-onigiri-nori", n:"Onigiri tiède de riz au nori & sésame grillé", cat:"Collation", st:"Collation", base:"Riz", d:1, go:"Salé",
+ ing:[["riz cuit",80,"g"],["nori",1,"pièce"],["huile de sésame grillé",0.5,"c. à café"],["sel",1,"pincée"]],
+ steps:[
+  "Avant de commencer — Ustensiles : un bol, une petite casserole, une assiette. Le riz est celui cuit la veille au Bamboo.",
+  "Le riz tiède — Réchauffer le riz cuit ({{riz cuit}}) 2 minutes avec une cuillère d'eau dans la casserole couverte, à feu doux, puis le mélanger avec l'huile de sésame ({{huile de sésame grillé}}) et le sel. [[sortir; casserole; cuisson 2; delayer]]",
+  "Les boules — Avec les mains légèrement mouillées, former deux petites boules de riz tiède, puis les envelopper chacune dans une demi-feuille de nori ({{nori}}). [[former x2]]",
+  "Dressage — Poser les deux onigiri sur l'assiette. [[dresser x2]]"],
+ tip:"Mouiller les mains avant de façonner : le riz ne colle plus aux doigts."}),
+
+RC({id:"n-col-tartine-tofu-soyeux", n:"Tartine de sarrasin, tofu soyeux écrasé & ciboulette", cat:"Collation", st:"Collation", base:"Sarrasin", d:1, go:"Salé",
+ ing:[["pain de sarrasin",35,"g"],["tofu soyeux",60,"g"],["huile d'olive",0.5,"c. à café"],["ciboulette",1,"quelques brins"],["sel",1,"pincée"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une casserole avec son couvercle, une fourchette, une assiette.",
+  "Le pain — Réchauffer le pain de sarrasin ({{pain de sarrasin}}) 2 minutes dans la casserole couverte hors du feu, juste assez pour qu'il soit tiède et souple. [[// cuisson 2]]",
+  "La crème de tofu — Écraser le tofu soyeux ({{tofu soyeux}}) à la fourchette avec le sel et l'huile d'olive ({{huile d'olive}}) jusqu'à une crème épaisse, puis ciseler la ciboulette ({{ciboulette}}), pointes vertes seulement, et la mêler. [[sortir; ecraser tofu soyeux; ciseler]]",
+  "Dressage — Étaler la crème sur le pain tiède, sur l'assiette. [[dresser x2]]"],
+ tip:"Le tofu soyeux écrasé fait une crème douce qui remplace le fromage frais."}),
+
+RC({id:"n-col-soupe-miso-wakame", n:"Petite soupe miso, tofu soyeux & wakame", cat:"Collation", st:"Collation", base:"Aucun", d:1, go:"Salé",
+ ing:[["bouillon",200,"ml"],["tofu soyeux",50,"g"],["wakame",5,"g"],["miso blanc",0.5,"c. à café"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une petite casserole, une cuillère, un bol à soupe.",
+  "Le bouillon — Chauffer le bouillon ({{bouillon}}) à feu doux avec le wakame ({{wakame}}) 3 minutes, jusqu'à ce que l'algue se déploie. Éteindre le feu. [[sortir; casserole; cuisson 3]]",
+  "Le miso — Délayer le miso blanc ({{miso blanc}}) dans une louche de bouillon tiède, puis le verser dans la casserole : le miso ne doit jamais bouillir. Ajouter le tofu soyeux ({{tofu soyeux}}) en petits dés à la cuillère. [[delayer; verser]]",
+  "Dressage — Servir tiède dans le bol à soupe. [[dresser x1]]"],
+ tip:"Le miso se délaye hors du feu : bouilli, il perd son parfum. À éviter pendant une phase de sensibilité aiguë."})
+];
+
+/* ============ BANCHAN : petits plats coréens servis avec du riz ============
+   Un banchan est un petit accompagnement. Ici ils sont traités à part (rubrique « Banchan » du Carnet) :
+   5 banchan à protéine (tofu ou œuf, 80 à 100 g de protéine) et 10 banchan de légumes (60 à 90 g de légumes cuits).
+   Un REPAS CORÉEN complet = riz cuit 140 g + 1 banchan à protéine + 2 banchan de légumes (voir composeKorean).
+   Version douce du protocole : ni ail, ni piment, ni oignon, ni vinaigre, ni graines crues ; sauce soja et miso en toute petite quantité
+   (les banchan avec sauce soja disparaissent en phase de sensibilité aiguë) ; légumes toujours cuits, tièdes ; huile de sésame grillé ajoutée à la fin.
+   Dans les étapes, les assaisonnements sont écrits en toutes lettres (pas de {{ }}) : deux banchan réunis dans un même repas ne partagent aucune quantité.
+   go = "Protéine" ou "Légume" ; cat et st = "Banchan". */
+const KR_STEP_MAX = 15;   /* minutes par banchan, étapes comprises */
+const BANCHAN = [
+/* ---------- à protéine ---------- */
+RC({id:"n-bc-dubu-jorim", n:"Dubu-jorim doux : tofu braisé à la sauce soja sucrée", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Protéine",
+ ing:[["tofu ferme",90,"g"],["sauce soja",0.5,"c. à café"],["sirop d'érable",0.5,"c. à café"],["huile de sésame grillé",0.5,"c. à café"],["ciboulette",1,"quelques brins"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une petite casserole avec son couvercle, une planche et un couteau, du papier absorbant pour éponger le tofu, une cuillère.",
+  "Le tofu — Éponger le bloc de tofu ferme ({{tofu ferme}}) dans du papier absorbant, puis le couper en tranches de 1 cm d'épaisseur. [[sortir; presser tofu ferme; couper tofu ferme]]",
+  "La braise — Dans la casserole, mélanger 60 ml d'eau, 1/2 c. à café de sauce soja, 1/2 c. à café de sirop d'érable. Y ranger les tranches de tofu, couvrir et laisser frémir à feu très doux 6 minutes, en arrosant une fois : le tofu boit la sauce et devient brun clair, sans jamais colorer à la poêle. [[delayer; casserole; cuisson 6]]",
+  "Dressage — Disposer les tranches dans un petit bol, verser le reste de sauce, 1/2 c. à café d'huile de sésame grillé et la ciboulette ({{ciboulette}}) ciselée, pointes vertes seulement. [[ciseler; dresser x3]]"],
+ tip:"Une cuisson très douce et couverte suffit : la sauce réduit d'elle-même et le tofu garde un cœur tendre."}),
+
+RC({id:"n-bc-dubu-muchim", n:"Dubu-muchim : tofu écrasé à l'huile de sésame & carotte tendre", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Protéine",
+ ing:[["tofu ferme",90,"g"],["carotte",30,"g"],["huile de sésame grillé",0.5,"c. à café"],["sel",1,"pincée"],["ciboulette",1,"quelques brins"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une petite casserole avec son couvercle, une râpe, un bol, une fourchette.",
+  "La carotte — Éplucher la carotte ({{carotte}}), la râper finement, puis la cuire 3 minutes dans la casserole couverte avec 2 cuillères d'eau, à feu doux : elle est tendre et ne craque plus. [[eplucher carotte; raper carotte; casserole; cuisson 3]]",
+  "Le tofu — Dans le bol, écraser le tofu ferme ({{tofu ferme}}) grossièrement à la fourchette, mêler la carotte tiède, 1/2 c. à café d'huile de sésame grillé et une pincée de sel. [[sortir; ecraser tofu ferme; delayer]]",
+  "Dressage — Servir tiède, parsemé de la ciboulette ({{ciboulette}}) ciselée, pointes vertes seulement. [[ciseler; dresser x2]]"],
+ tip:"Le tofu écrasé à la fourchette garde du relief : le passer au mixeur lui ôterait tout son charme."}),
+
+RC({id:"n-bc-sundubu-doux", n:"Sundubu doux : tofu soyeux fondant au bouillon de kombu", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Protéine",
+ ing:[["tofu soyeux",100,"g"],["bouillon",150,"ml"],["kombu",3,"g"],["sauce soja",0.5,"c. à café"],["huile de sésame grillé",0.5,"c. à café"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une petite casserole, une cuillère, un petit bol creux. Le kombu infuse puis se retire : il ne reste jamais dans la soupe.",
+  "Le bouillon — Chauffer le bouillon ({{bouillon}}) avec le kombu ({{kombu}}) à feu très doux 5 minutes, sans bouillir, puis retirer le kombu. [[sortir; casserole; cuisson 5]]",
+  "Le tofu — Ajouter le tofu soyeux ({{tofu soyeux}}) en gros morceaux à la cuillère et 1/2 c. à café de sauce soja, laisser tiédir 2 minutes sans remuer : le tofu se réchauffe sans se défaire. [[// verser; cuisson 2]]",
+  "Dressage — Verser dans le bol creux avec le bouillon et finir de 1/2 c. à café d'huile de sésame grillé. [[dresser x2]]"],
+ tip:"Un bouillon qui ne bout jamais reste limpide et doux ; le kombu lui donne sa profondeur sans aucun piment."}),
+
+RC({id:"n-bc-gyeran-jjim", n:"Gyeran-jjim : œuf soufflé à la coréenne au bouillon", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Protéine",
+ ing:[["oeuf",2,"pièce"],["bouillon",100,"ml"],["huile de sésame grillé",0.5,"c. à café"],["ciboulette",1,"quelques brins"],["sel",1,"pincée"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une petite casserole épaisse avec son couvercle, un bol, une fourchette, une cuillère. Un seul œuf préparé de cette façon par plat.",
+  "Le mélange — Casser les œufs ({{oeuf}}) dans le bol et les battre à la fourchette avec le bouillon ({{bouillon}}) et le sel jusqu'à un mélange homogène, sans mousse. [[sortir; ecaler x2; battre]]",
+  "La cuisson — Verser dans la casserole, couvrir et cuire à feu très doux 8 minutes, en remuant doucement une fois après 3 minutes avec la cuillère : l'œuf gonfle, devient soufflé et tremblotant, jaune pâle. [[casserole; cuisson 8]]",
+  "Dressage — Servir dans la casserole ou dans un bol, un filet d'huile de sésame grillé ({{huile de sésame grillé}}) et la ciboulette ({{ciboulette}}) ciselée, pointes vertes seulement. [[ciseler; dresser x2]]"],
+ tip:"Le secret du gonflé : un feu minuscule et un couvercle. Plus le feu est fort, plus l'œuf se rétracte."}),
+
+RC({id:"n-bc-gyeran-mari", n:"Gyeran-mari : omelette roulée coréenne à la carotte", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Protéine",
+ ing:[["oeuf",2,"pièce"],["carotte",25,"g"],["huile de sésame grillé",0.5,"c. à café"],["sel",1,"pincée"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une petite poêle antiadhésive, une spatule fine, une râpe, un bol, une planche et un couteau. Une seule préparation d'œuf par plat.",
+  "La carotte — Éplucher la carotte ({{carotte}}) et la râper très finement. [[eplucher carotte; raper carotte]]",
+  "Les œufs — Battre les œufs ({{oeuf}}) avec le sel et la carotte dans le bol. [[sortir; ecaler x2; battre]]",
+  "L'omelette — Chauffer la poêle à feu très doux, sans matière grasse. Verser un tiers du mélange, laisser prendre sans colorer 1 minute, rouler sur elle-même avec la spatule, pousser sur le côté, puis recommencer deux fois en roulant autour du premier rouleau. [[casserole; cuisson 3]]",
+  "Dressage — Laisser tiédir 1 minute, trancher le rouleau en tranches de 2 cm, ajouter 1/2 c. à café d'huile de sésame grillé et dresser en rond. [[trancher; dresser x3]]"],
+ tip:"Une poêle très douce et peu de mélange à la fois donnent un rouleau jaune pâle, tendre, sans aucune coloration."}),
+
+/* ---------- de légumes ---------- */
+RC({id:"n-bc-sigeumchi-namul", n:"Sigeumchi-namul : épinards tendres à l'huile de sésame", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Légume",
+ ing:[["epinards",90,"g"],["huile de sésame grillé",0.5,"c. à café"],["sel",1,"pincée"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une casserole, une passoire, un bol, un couteau.",
+  "Les épinards — Laver les épinards ({{epinards}}) en plusieurs eaux, puis les cuire dans la casserole couverte avec une cuillère d'eau à feu doux 3 minutes, jusqu'à ce qu'ils soient bien tombés et tendres. [[sortir; laver epinards; casserole; cuisson 3]]",
+  "L'essorage — Les égoutter dans la passoire, presser doucement pour retirer l'eau, puis les couper en morceaux de 4 cm. [[egoutter; presser epinards; couper epinards]]",
+  "Dressage — Mélanger avec 1/2 c. à café d'huile de sésame grillé et une pincée de sel, servir tiède en petit tas bien rond. [[dresser x2]]"],
+ tip:"Bien presser les épinards est le geste clé : un banchan sec et dense, jamais baignant d'eau."}),
+
+RC({id:"n-bc-haricots-verts-namul", n:"Haricots verts : tendres, huile de sésame grillé", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Légume",
+ ing:[["haricots verts",70,"g"],["huile de sésame grillé",0.5,"c. à café"],["sauce soja",0.5,"c. à café"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une casserole avec son couvercle, une passoire, un bol, un couteau. Les haricots verts sont limités à 75 g cuits par repas (seuil FODMAP).",
+  "Les haricots — Équeuter et laver les haricots verts ({{haricots verts}}), les couper en deux, puis les cuire dans la casserole couverte avec 3 cuillères d'eau à feu doux 8 minutes, jusqu'à ce qu'ils soient très tendres. [[sortir; laver haricots verts; couper haricots verts; casserole; cuisson 8]]",
+  "Dressage — Les égoutter, les mélanger avec 1/2 c. à café d'huile de sésame grillé et 1/2 c. à café de sauce soja, servir tièdes. [[egoutter; dresser x2]]"],
+ tip:"Cuits très tendres, les haricots verts se digèrent mieux : ils doivent s'écraser sous la langue."}),
+
+RC({id:"n-bc-hobak-namul", n:"Hobak-namul : courgette épluchée étuvée", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Légume",
+ ing:[["courgette",60,"g"],["huile de sésame grillé",0.5,"c. à café"],["sel",1,"pincée"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une casserole avec son couvercle, un économe, une planche et un couteau. La courgette est limitée à 60 g épluchée par repas (seuil FODMAP).",
+  "La courgette — Éplucher la courgette ({{courgette}}), la couper en demi-lunes de 5 mm, puis l'étuver dans la casserole couverte avec 2 cuillères d'eau à feu doux 5 minutes, jusqu'à ce qu'elle devienne translucide et tendre. [[sortir; eplucher courgette; couper courgette; casserole; cuisson 5]]",
+  "Dressage — Égoutter, ajouter 1/2 c. à café d'huile de sésame grillé et une pincée de sel, servir tiède. [[egoutter; dresser x2]]"],
+ tip:"Épluchée et étuvée à l'eau, la courgette est très douce ; l'huile de sésame fait tout le parfum."}),
+
+RC({id:"n-bc-gaji-namul", n:"Gaji-namul : aubergine pelée vapeur à la sauce soja douce", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Légume",
+ ing:[["aubergine",90,"g"],["huile de sésame grillé",0.5,"c. à café"],["sauce soja",0.5,"c. à café"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une casserole avec son couvercle, un économe, une planche et un couteau, un bol.",
+  "L'aubergine — Éplucher entièrement l'aubergine ({{aubergine}}), la couper en bâtonnets de 1 cm, puis l'étuver dans la casserole couverte avec 3 cuillères d'eau à feu doux 8 minutes, jusqu'à ce qu'elle soit fondante, presque en purée. [[sortir; eplucher aubergine; couper aubergine; casserole; cuisson 8]]",
+  "Dressage — Égoutter, mélanger doucement avec 1/2 c. à café d'huile de sésame grillé et 1/2 c. à café de sauce soja, servir tiède. [[egoutter; dresser x2]]"],
+ tip:"Toujours bien pelée et très cuite : l'aubergine doit se défaire à la fourchette."}),
+
+RC({id:"n-bc-dangeun-namul", n:"Dangeun-namul : carottes en julienne fondantes", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Légume",
+ ing:[["carotte",90,"g"],["huile de sésame grillé",0.5,"c. à café"],["sel",1,"pincée"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une casserole avec son couvercle, un économe, une planche et un couteau.",
+  "Les carottes — Éplucher la carotte ({{carotte}}), la couper en fins bâtonnets de 3 mm, puis l'étuver dans la casserole couverte avec 3 cuillères d'eau à feu doux 7 minutes, jusqu'à ce qu'ils soient fondants. [[sortir; eplucher carotte; couper carotte; casserole; cuisson 7]]",
+  "Dressage — Égoutter, ajouter 1/2 c. à café d'huile de sésame grillé et une pincée de sel, servir tièdes en petit fagot. [[egoutter; dresser x2]]"],
+ tip:"Plus les bâtonnets sont fins, plus ils cuisent vite et plus ils sont tendres."}),
+
+RC({id:"n-bc-daikon-namul", n:"Mu-namul : daikon étuvé translucide", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Légume",
+ ing:[["daikon",90,"g"],["huile de sésame grillé",0.5,"c. à café"],["sel",1,"pincée"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une casserole avec son couvercle, un économe, une planche et un couteau. Le daikon est toujours étuvé : c'est la cuisson qui le rend doux.",
+  "Le daikon — Éplucher le daikon ({{daikon}}), le couper en fins bâtonnets de 3 mm, puis l'étuver dans la casserole couverte avec 3 cuillères d'eau à feu doux 8 minutes, jusqu'à ce qu'il devienne translucide et sucré. [[sortir; eplucher daikon; couper daikon; casserole; cuisson 8]]",
+  "Dressage — Égoutter, ajouter 1/2 c. à café d'huile de sésame grillé et une pincée de sel, servir tiède. [[egoutter; dresser x2]]"],
+ tip:"Étuvé, le daikon perd tout son piquant et devient doux comme un navet."}),
+
+RC({id:"n-bc-pak-choi-namul", n:"Pak choi : étuvé à l'huile de sésame", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Légume",
+ ing:[["pak choi",75,"g"],["huile de sésame grillé",0.5,"c. à café"],["sel",1,"pincée"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une casserole avec son couvercle, une planche et un couteau. Le pak choi est limité à 75 g cuits par repas (seuil FODMAP).",
+  "Le pak choi — Laver le pak choi ({{pak choi}}), le couper en lanières de 2 cm, puis l'étuver dans la casserole couverte avec 2 cuillères d'eau à feu doux 4 minutes, jusqu'à ce que les côtes soient tendres. [[sortir; laver pak choi; couper pak choi; casserole; cuisson 4]]",
+  "Dressage — Égoutter, ajouter 1/2 c. à café d'huile de sésame grillé et une pincée de sel, servir tiède. [[egoutter; dresser x2]]"],
+ tip:"Couper les côtes en lanières fines évite les parties dures au centre."}),
+
+RC({id:"n-bc-brocoli-muchim", n:"Brocoli-muchim : têtes de brocoli fondantes au sésame", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Légume",
+ ing:[["brocoli",90,"g"],["huile de sésame grillé",0.5,"c. à café"],["sel",1,"pincée"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une casserole avec son couvercle, une planche et un couteau. Seulement les têtes du brocoli, jamais les tiges.",
+  "Le brocoli — Détacher les têtes du brocoli ({{brocoli}}), les couper en petits bouquets de 2 cm, puis les étuver dans la casserole couverte avec 3 cuillères d'eau à feu doux 8 minutes, jusqu'à ce qu'ils soient très tendres. [[sortir; laver brocoli; couper brocoli; casserole; cuisson 8]]",
+  "Dressage — Égoutter, écraser légèrement quelques bouquets à la fourchette, ajouter 1/2 c. à café d'huile de sésame grillé et une pincée de sel, servir tiède. [[egoutter; ecraser brocoli; dresser x2]]"],
+ tip:"Un brocoli bien cuit, presque tendre à l'excès, est indispensable avec un intestin sensible."}),
+
+RC({id:"n-bc-potimarron-jorim", n:"Danhobak-jorim : potimarron braisé au sirop d'érable", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Légume",
+ ing:[["potimarron",90,"g"],["sirop d'érable",0.5,"c. à café"],["sauce soja",0.5,"c. à café"],["huile de sésame grillé",0.5,"c. à café"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une casserole avec son couvercle, un économe, une planche et un couteau.",
+  "Le potimarron — Éplucher le potimarron ({{potimarron}}), retirer les graines et le couper en cubes de 2 cm. [[sortir; eplucher potimarron; couper potimarron]]",
+  "La braise — Mettre les cubes dans la casserole avec 80 ml d'eau, 1/2 c. à café de sauce soja et 1/2 c. à café de sirop d'érable, couvrir et laisser frémir à feu doux 10 minutes, jusqu'à ce que le potimarron soit fondant et que la sauce ait presque disparu. [[casserole; cuisson 10]]",
+  "Dressage — Verser dans un petit bol et finir de 1/2 c. à café d'huile de sésame grillé. [[dresser x2]]"],
+ tip:"Le potimarron est naturellement sucré : le sirop n'est là que pour le brillant."}),
+
+RC({id:"n-bc-navet-jorim", n:"Navet-jorim : navet braisé tendre à la sauce douce", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Légume",
+ ing:[["navet",90,"g"],["sauce soja",0.5,"c. à café"],["huile de sésame grillé",0.5,"c. à café"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une casserole avec son couvercle, un économe, une planche et un couteau.",
+  "Le navet — Éplucher le navet ({{navet}}) et le couper en cubes de 1,5 cm. [[sortir; eplucher navet; couper navet]]",
+  "La braise — Mettre les cubes dans la casserole avec 80 ml d'eau et 1/2 c. à café de sauce soja, couvrir et laisser frémir à feu doux 10 minutes, jusqu'à ce qu'ils soient translucides et fondants. [[casserole; cuisson 10]]",
+  "Dressage — Verser dans un petit bol et finir de 1/2 c. à café d'huile de sésame grillé. [[dresser x2]]"],
+ tip:"Le navet cuit longtemps à l'eau perd toute son amertume et devient sucré."})
+];
+
+/* composer un repas coréen complet : riz + 1 banchan à protéine + 2 banchan de légumes (utilisé par l'application) */
+const KR_RICE = 140;
+function krShort(n){ return String(n).split(":")[0].trim(); }
+function composeKorean(p, vs){
+  const parts = [p].concat(vs), ing = [{ n: "riz cuit", q: KR_RICE, u: "g" }], steps = [], intros = [];
+  parts.forEach(r => {
+    r.ing.forEach(i => { const k = norm(i.n), e = ing.find(x => norm(x.n) === k);
+      if (e && !isNaN(parseFloat(e.q)) && !isNaN(parseFloat(i.q)) && e.u === i.u) e.q = Math.round((parseFloat(e.q) + parseFloat(i.q)) * 100) / 100; else if (!e) ing.push({ n: i.n, q: i.q, u: i.u }); });
+  });
+  const intro = parts.map(r => { const s = r.steps[0] || ""; return krShort(r.n) + " : " + s.replace(/^Avant de commencer — Ustensiles : /, ""); }).join(" ");
+  steps.push("Avant de commencer — Ustensiles : le riz est celui cuit la veille au Bamboo, réchauffé à la fin. Trois petites casseroles : les cuissons se chevauchent, on lance d'abord le banchan qui cuit le plus longtemps. " + intro);
+  parts.forEach(r => r.steps.slice(1).forEach(s => { const m = s.match(/^([^—]+) — (.*)$/); steps.push(m ? krShort(r.n) + " · " + m[1].trim() + " — " + m[2] : s); }));
+  steps.push("Le riz — Réchauffer le riz cuit ({{riz cuit}}) 3 minutes avec une cuillère d'eau dans une casserole couverte à feu doux : il est tiède et moelleux. [[casserole; cuisson 3]]");
+  steps.push("Le repas coréen — Servir le riz au centre d'une grande assiette creuse, et disposer les trois banchan autour en petits tas, comme sur un plateau coréen. Manger un peu de riz avec chaque banchan. [[dresser x4]]");
+  /* les cuissons se chevauchent (trois casseroles) : préparations additionnées, plus la cuisson la plus longue, plus riz et dressage */
+  const t = parts.reduce((s, r) => s + ((r.t || 0) - (r.tc || 0)), 0) + Math.max(...parts.map(r => r.tc || 0)) + 5;
+  return { id: uid(), name: "Repas coréen · " + parts.map(r => krShort(r.n)).join(", "),
+    recipeId: null, cat: p.ing.some(i => norm(i.n) === "oeuf") ? "Œufs" : "Tofu", st: "Fraîcheur tiède", base: "Riz", t, d: 1, ing: ing.map(i => ({ id: uid(), ...i })), steps,
+    tip: "Un repas coréen se mange par petites bouchées : un peu de riz, un peu de chaque banchan. Les banchan se préparent à l'avance et se servent tièdes.", kr: true };
+}
+
 /* ============ DURÉES : barème par geste ============
    Chaque étape se termine par la liste de ses gestes entre [[ ]], par exemple
      "Mise en place — Éplucher la carotte… [[eplucher carotte; couper carotte]]"
@@ -1442,7 +1708,7 @@ function timeRecipe(r){
     return x.txt; });
   r.t = t; r.tc = tc; r.timeErr = err; return r;
 }
-const NEW_RECIPES = BREAKFAST.concat(LUNCH);
+const NEW_RECIPES = BREAKFAST.concat(LUNCH, COLLATIONS, BANCHAN);
 NEW_RECIPES.forEach(timeRecipe);
 
 const DEFAULT_RECIPES = NEW_RECIPES.slice();
@@ -1966,6 +2232,7 @@ const DAY_NAMES = ["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Diman
 const SLOTS = [
   { k:"b", label:"Petit-déjeuner", create:"Créer un petit-déjeuner" },
   { k:"l", label:"Déjeuner", create:"Créer un déjeuner" },
+  { k:"c", label:"Collation", create:"Ajouter une collation" },
   { k:"d", label:"Dîner", create:"Créer un dîner" }
 ];
 const CATS = ["Poulet","Œufs","Tofu","Sardines","Protéines végétales","Okara & douceurs","Purées & vapeur"];
@@ -1974,7 +2241,7 @@ const BASES = ["Riz","Pommes de terre","Quinoa","Avoine","Sarrasin","Vermicelles
 const UNITS = ["g","ml","pièce","tranche","c. à café","c. à soupe","pincée","quelques brins","feuille","pot","tasse"];
 
 /* couleur par catégorie de plat (tokens CSS --c-*) */
-const CAT_KEY = { "Poulet":"poulet", "Œufs":"oeufs", "Tofu":"veg", "Protéines végétales":"jambon",
+const CAT_KEY = { "Collation":"crevettes", "Banchan":"veg", "Poulet":"poulet", "Œufs":"oeufs", "Tofu":"veg", "Protéines végétales":"jambon",
   "Okara & douceurs":"crevettes", "Purées & vapeur":"poisson", "Sardines":"poisson" };
 const catVar = c => CAT_KEY[c] ? `var(--c-${CAT_KEY[c]})` : "var(--celadon)";
 const catSt = c => CAT_KEY[c] ? `style="--cc:${catVar(c)}"` : "";
@@ -2000,7 +2267,7 @@ function mealFromGen(m){
 }
 function copyDayMeals(p){ const o = {}; SLOTS.forEach(s => o[s.k] = p[s.k] ? copyMeal(p[s.k]) : null); return o; }
 function copyMeal(m){ const c = clone(m); c.id = uid(); c.ing.forEach(i => i.id = uid()); return c; }
-function emptyDay(name){ return { id: uid(), name, meals: { b: null, l: null, d: null } }; }
+function emptyDay(name){ return { id: uid(), name, meals: { b: null, l: null, c: null, d: null } }; }
 function recipeById(id){ return S.recipes.find(r => r.id === id); }
 
 /* planning de départ : rotation des recettes, sans le même ingrédient principal sur deux repas qui se suivent, œufs limités (voir cat_v6.js) */
@@ -2010,17 +2277,24 @@ function buildDefaultPlan(recipes){
   const take = (qs, ok) => { for (const q of qs) { const i = q.findIndex(ok); if (i >= 0) { const r = q.splice(i, 1)[0]; q.push(r); return r; } }
     const q = qs.find(x => x.length); const r = q.shift(); q.push(r); return r; };
   const bf = recipes.filter(r => r.st === "Petit-déjeuner"), sw = rr(bf.filter(r => r.go === "Sucré")), sa = rr(bf.filter(r => r.go !== "Sucré"));
+  const sn = recipes.filter(r => r.cat === "Collation"), snw = rr(sn.filter(r => r.go === "Sucré")), sns = rr(sn.filter(r => r.go !== "Sucré"));
   const ld = recipes.filter(r => r.st !== "Petit-déjeuner" && r.cat !== "Sardines" && CATS.includes(r.cat));
   const veg = rr(ld.filter(r => isVegCat(r.cat))), meat = rr(ld.filter(r => !isVegCat(r.cat)));
   const weeks = []; let k = 0, prev = null;
   for (let w = 0; w < 4; w++){
-    const days = [], names = new Set(); let eggs = 0;
-    const ok = r => !names.has(r.n) && !clash(prev, r) && !(isEgg(r) && eggs >= EGG_MAX);
+    const days = [], names = new Set(); let eggs = 0, nextB = null;
+    const ok = r => !names.has(r.n) && !clash(prev, r) && !(isEgg(r) && eggs >= EGG_MAX) && !(nextB && clash(r, nextB));
     const put = r => { names.add(r.n); if (isEgg(r)) eggs++; prev = r; return mealFromRecipe(r); };
+    /* petits-déjeuners de la semaine choisis d'abord (70 % sucrés, 30 % salés) : le dîner de la veille évite ensuite celui du lendemain */
+    const bs = []; for (let d = 0; d < 7; d++){ const ix = w * 7 + d;
+      const r = take(pdSalty(ix) ? [sa, sw] : [sw, sa], x => !names.has(x.n) && !(isEgg(x) && eggs >= EGG_MAX) && (d > 0 || !clash(prev, x)));
+      names.add(r.n); if (isEgg(r)) eggs++; bs.push(r); }
     for (let d = 0; d < 7; d++){
       const day = emptyDay(DAY_NAMES[d]);
-      day.meals.b = put(take((w * 7 + d) % 2 ? [sa, sw] : [sw, sa], ok));
-      ["l", "d"].forEach(sl => { const isMeat = k++ % 5 === 4 && meat.length; day.meals[sl] = put(take(isMeat ? [meat, veg] : [veg, meat], ok)); });
+      const ix = w * 7 + d;   /* petits-déjeuners : 70 % sucrés, 30 % salés */
+      day.meals.b = mealFromRecipe(bs[d]); prev = bs[d];
+      if (sn.length) { const nm = r => !names.has(r.n); const r = take(ix % 3 === 2 ? [sns, snw] : [snw, sns], nm); names.add(r.n); day.meals.c = mealFromRecipe(r); }
+      ["l", "d"].forEach(sl => { nextB = sl === "d" ? bs[d + 1] : null; const isMeat = k++ % 5 === 4 && meat.length; day.meals[sl] = put(take(isMeat ? [meat, veg] : [veg, meat], ok)); }); nextB = null;
       days.push(day);
     }
     weeks.push({ id: uid(), name: "Semaine " + (w + 1), days });
@@ -2029,7 +2303,7 @@ function buildDefaultPlan(recipes){
 }
 function defaultState(){
   const recipes = DEFAULT_RECIPES.map(recipeToState);
-  return { v: 10, font: "editorial", recipes, weeks: buildDefaultPlan(recipes), weights: [], goal: 60, checked: {}, ui: { view: "plan", week: 0 },
+  return { v: 11, font: "editorial", recipes, weeks: buildDefaultPlan(recipes), weights: [], goal: 60, checked: {}, ui: { view: "plan", week: 0 },
     kcalT: { b: null, l: null, d: null }, vegRatio: 80, autoAdapt: true, autoVeg: true, sensible: false, pantry: [], shopExtra: [], cooked: {}, reint: { start: null, foods: {}, current: null } };
 }
 
@@ -2151,7 +2425,7 @@ function viewPlan(){
   <header class="weekhead">
     <div>
       <input class="title-input" data-bind="weekName" value="${esc(w.name)}" aria-label="Nom de la semaine">
-      <p class="muted">${w.days.length} jour${w.days.length > 1 ? "s" : ""}, trois repas par jour, environ ${fmtK(weekAvg(w))} kcal par jour (indicatif, sans objectif de régime)</p>
+      <p class="muted">${w.days.length} jour${w.days.length > 1 ? "s" : ""}, trois repas et une collation par jour, environ ${fmtK(weekAvg(w))} kcal par jour (indicatif, sans objectif de régime)</p>
     </div>
     ${weekActions(w)}
   </header>
@@ -2361,6 +2635,7 @@ A.createMeal = ds => {
     <h2 class="display-s">${sl.create}</h2>
     <div class="choice-list">
       <button class="choice" data-act="pickRecipe" data-w="${t.w}" data-d="${t.d}" data-s="${t.s}"><strong>Choisir dans le carnet</strong><span>Une des ${S.recipes.length} recettes déjà écrites.</span></button>
+      ${t.s === "l" || t.s === "d" ? `<button class="choice" data-act="krOpen" data-w="${t.w}" data-d="${t.d}" data-s="${t.s}"><strong>Composer un repas coréen</strong><span>Du riz, un banchan à protéine et deux banchan de légumes.</span></button>` : ""}
       <button class="choice" data-act="proposeMeal" data-w="${t.w}" data-d="${t.d}" data-s="${t.s}"><strong>Me proposer des idées</strong><span>Six suggestions, renouvelables à volonté.</span></button>
       <button class="choice" data-act="freeMeal" data-w="${t.w}" data-d="${t.d}" data-s="${t.s}"><strong>Créer un repas libre</strong><span>Nom, ingrédients, quantités et préparation à saisir.</span></button>
     </div>`);
@@ -2393,7 +2668,7 @@ A.delDay = ds => { const w = curWeek(); snapshot(); w.days.splice(+ds.d, 1); sav
 A.delWeek = () => { const w = curWeek(); ask(`Supprimer « ${w.name} » et ses ${w.days.length} jours ?`, "Supprimer", () => { snapshot(); S.weeks.splice(S.ui.week, 1); S.ui.week = Math.max(0, S.ui.week - 1); save(); render(); toast("Semaine supprimée", true); }); };
 A.newWeek = () => {
   MODAL = { kind: "newWeek" };
-  openModal(`<h2 class="display-s">Créer une nouvelle semaine</h2><p class="muted">7 jours, chacun avec un petit-déjeuner, un déjeuner et un dîner.</p>
+  openModal(`<h2 class="display-s">Créer une nouvelle semaine</h2><p class="muted">7 jours, chacun avec un petit-déjeuner, un déjeuner, une collation et un dîner.</p>
     <div class="choice-list">
       <button class="choice" data-act="mkWeek" data-mode="auto"><strong>Semaine proposée</strong><span>Menus variés composés automatiquement, modifiables ensuite.</span></button>
       <button class="choice" data-act="mkWeek" data-mode="blank"><strong>Semaine vierge</strong><span>7 jours vides, à remplir depuis le carnet ou les idées.</span></button>
@@ -2425,7 +2700,7 @@ function recipeMatches(r, q){ if (!q) return true; const n = norm(q); return nor
 function renderPickList(){
   const cats = ["", ...CATS];
   $("#pickChips").innerHTML = cats.map(c => `<button class="chip" ${catSt(c)} data-act="pickCat" data-v="${esc(c)}" aria-pressed="${PICK.cat === c}">${c ? '<span class="dot"></span>' : ""}${c || "Toutes"}</button>`).join("");
-  const list = S.recipes.filter(r => (!PICK.cat || r.cat === PICK.cat) && recipeMatches(r, PICK.q));
+  const list = S.recipes.filter(r => (PICK.t && PICK.t.s === "c" ? r.cat === "Collation" : r.cat !== "Collation" && r.cat !== "Banchan") && (!PICK.cat || r.cat === PICK.cat) && recipeMatches(r, PICK.q));
   $("#pickList").innerHTML = list.length ? list.map(r => `<li ${catSt(r.cat)}><button class="pick" data-act="choose" data-id="${r.id}">
     <span class="dish-name">${esc(r.n)}</span><span class="dish-meta">${catTag(r.cat)}<span>${esc(r.st)}, ≈ ${fmtK(kcalOf(r))} kcal</span></span></button></li>`).join("")
     : `<li class="muted">Aucune recette ne correspond. Essaie un autre mot ou une autre catégorie.</li>`;
@@ -2477,7 +2752,11 @@ function catalogFor(f){
 }
 function oneProposal(f, avoid){
   avoid = avoid || new Set();
+  if (f.slot === "c" || (f.t && f.t.s === "c") || (f.to && f.to.s === "c")) {   /* collation : une petite recette du carnet, jamais générée */
+    const list = S.recipes.filter(r => r.cat === "Collation" && okSens(r) && !avoid.has(r.n) && (!f.pd || r.go === f.pd)); return list.length ? mealFromRecipe(pick(list)) : null;
+  }
   const src = f.src || "mix", sl = slotOf(f), bk = sl === "b";
+  if (bk && !f.pd) f = { ...f, pd: Math.random() < .7 ? "Sucré" : "Salé" };   /* petits-déjeuners : 70 % sucrés, 30 % salés */
   for (let t = 0; t < 40; t++){
     const useBook = bk || src === "book" || (src === "mix" && Math.random() < 0.4);
     let m = null;
@@ -2611,7 +2890,7 @@ function placeTemp(m){
     <div class="fields">
       <label class="field"><span>Semaine</span><select id="placeW">${S.weeks.map((w, i) => `<option value="${i}" ${i === w0 ? "selected" : ""}>${esc(w.name)}</option>`).join("")}</select></label>
       <label class="field"><span>Jour</span><select id="placeD">${S.weeks[w0].days.map((d, i) => `<option value="${i}">${esc(d.name)}</option>`).join("")}</select></label>
-      <label class="field"><span>Repas</span><select id="placeS">${SLOTS.map(s => `<option value="${s.k}" ${s.k === (TEMP && TEMP.st === "Petit-déjeuner" ? "b" : "l") ? "selected" : ""}>${s.label}</option>`).join("")}</select></label>
+      <label class="field"><span>Repas</span><select id="placeS">${SLOTS.map(s => `<option value="${s.k}" ${s.k === (TEMP && TEMP.st === "Petit-déjeuner" ? "b" : TEMP && TEMP.cat === "Collation" ? "c" : "l") ? "selected" : ""}>${s.label}</option>`).join("")}</select></label>
     </div><p class="muted small">Le repas existant à cet endroit sera remplacé (annulable).</p>
     <div class="sheet-foot"><button class="btn ghost" data-act="close">Annuler</button><button class="btn primary push" data-act="placeGo">Ajouter</button></div>`);
 }
@@ -2621,7 +2900,7 @@ A.placeGo = () => { const t = { w: +$("#placeW").value, d: +$("#placeD").value, 
 
 /* ---------- CARNET ---------- */
 let BOOK = { q: "", cat: "", st: "", base: "" };
-function viewBook(){
+function viewBookRecipes(){
   const opt = (arr, cur, all) => `<option value="">${all}</option>` + arr.map(x => `<option ${x === cur ? "selected" : ""}>${esc(x)}</option>`).join("");
   return `<header class="pagehead"><div><h1 class="display">Carnet de recettes</h1><p class="muted" id="bookCount"></p></div>
       <button class="btn primary" data-act="newRecipe">＋ Nouvelle recette</button></header>
@@ -2634,8 +2913,8 @@ function viewBook(){
 }
 function renderBookList(){
   const el = $("#bookList"); if (!el) return;
-  const list = S.recipes.filter(r => (!BOOK.cat || r.cat === BOOK.cat) && (!BOOK.st || r.st === BOOK.st) && (!BOOK.base || r.base === BOOK.base) && recipeMatches(r, BOOK.q));
-  $("#bookCount").textContent = `${list.length} recette${list.length > 1 ? "s" : ""} sur ${S.recipes.length}`;
+  const list = S.recipes.filter(r => r.cat !== "Banchan" && (!BOOK.cat || r.cat === BOOK.cat) && (!BOOK.st || r.st === BOOK.st) && (!BOOK.base || r.base === BOOK.base) && recipeMatches(r, BOOK.q));
+  $("#bookCount").textContent = `${list.length} recette${list.length > 1 ? "s" : ""} sur ${S.recipes.filter(r => r.cat !== "Banchan").length}`;
   const groups = [...CATS, ...new Set(list.map(r => r.cat).filter(c => !CATS.includes(c)))];
   el.innerHTML = groups.map(g => { const rs = list.filter(r => r.cat === g); if (!rs.length) return "";
     return `<section class="book-group" ${catSt(g)}><h2 class="group-title">${esc(g)}</h2><ul class="book-list">${rs.map(r => `<li><button class="book-item" data-act="openRecipe" data-id="${r.id}">
@@ -2934,7 +3213,7 @@ function reportWeek(title, w, before){
 /* dès qu'un repas est choisi : légume de saison intégré, portions adaptées, et la recette s'ouvre avec le détail des changements */
 function afterSelect(t){
   const m = getMeal(t), a = ingSig(m), k0 = kcalOf(m);
-  if (S.autoVeg !== false && t.s !== "b") autoSide(m);
+  if (S.autoVeg !== false && t.s !== "b" && t.s !== "c") autoSide(m);
   if (S.autoAdapt !== false) protoAdaptMeal(m, t.s, kT(t.s));
   save(); const d = diffIng(a, ingSig(m)), lines = d.lines.slice(); if (kcalOf(m) !== k0) lines.push("≈ " + fmtK(k0) + " → " + fmtK(kcalOf(m)) + " kcal");
   closeModal(); CK = { swap: null, addVeg: false, addIng: false };
@@ -3187,7 +3466,7 @@ function defineWeekActions(){
   A.adaptWeek = () => { const w = curWeek(); snapshot(); const b = weekSnap(w); let n = 0; w.days.forEach(d => { if (adaptDay(d)) n++; }); save(); render();
     if (n) reportWeek("Portions mises au protocole (et à tes calories par repas)", w, b); else toast("Tous les repas respectent déjà les portions"); };
   A.seasonWeek = () => { const w = curWeek(); snapshot(); const b = weekSnap(w); let n = 0;
-    w.days.forEach(d => SLOTS.forEach(sl => { const m = d.meals[sl.k]; if (m && sl.k !== "b" && autoSide(m, 200)) n++; })); save(); render();
+    w.days.forEach(d => SLOTS.forEach(sl => { const m = d.meals[sl.k]; if (m && sl.k !== "b" && sl.k !== "c" && autoSide(m, 200)) n++; })); save(); render();
     if (n) reportWeek("Légumes de saison intégrés (" + monthName() + ")", w, b); else toast("Tous les repas ont déjà assez de légumes"); };
   A.proposeDay = ds => { const w = curWeek(), d = w.days[+ds.d]; snapshot(); const b = weekSnap(w), p = proposeDay({}, weekUsed(w, +ds.d), dayCtx(w, +ds.d)); SLOTS.forEach(sl => { if (p[sl.k]) d.meals[sl.k] = p[sl.k]; }); save(); render(); reportWeek("Nouveaux repas pour " + d.name, w, b); };
   A.proposeWeek = () => { const w = curWeek(); snapshot(); const b = weekSnap(w), ps = proposeWeek({}); w.days.forEach((d, i) => { const p = ps[i % 7]; SLOTS.forEach(sl => { if (p[sl.k]) d.meals[sl.k] = p[sl.k]; }); }); save(); render(); reportWeek("Nouveaux menus pour " + w.name, w, b); };
@@ -3421,7 +3700,7 @@ const lvlF = m => (m.lf || 0);   /* grammes de féculents ajoutés par le levier
 /* met un repas aux portions du protocole, puis le rapproche de sa cible de calories si elle existe.
    Les protéines ne descendent jamais sous le minimum du repas. */
 function protoAdaptMeal(m, k, target){
-  if (!m || !m.ing) return false; const R = PORTIONS[k] || PORTIONS.l; let changed = false;
+  if (!m || !m.ing || k === "c") return false; const R = PORTIONS[k] || PORTIONS.l;   /* collation : portions de la recette, jamais adaptées */ let changed = false;
   const sp = starchSplit(m), raw = sp.c === 0 && sp.r > 0, cur = raw ? sp.r : sp.c;
   if (cur > 0) {
     const lo = raw ? R.fr[0] : R.f[0], hi = (raw ? R.fr[1] : R.f[1]) + lvlF(m);
@@ -3440,9 +3719,9 @@ function slotTarget(t){ return kT(t.s); }
 const adaptHint = d => SLOTS.some(sl => { const m = d.meals[sl.k]; if (!m) return false; const c = clone(m); return protoAdaptMeal(c, sl.k, kT(sl.k)); });
 function kcalBar(d){
   const k = dayKcal(d); if (!k) return "";
-  const ts = SLOTS.map(sl => kT(sl.k)); const all = ts.every(x => x);
-  const tg = all ? ts.reduce((a, b) => a + b, 0) : 0;
-  const diff = k - tg, cls = !all ? "" : Math.abs(diff) <= tg * .08 ? "ok" : diff > 0 ? "hi" : "lo";
+  const ts = SLOTS.filter(sl => sl.k !== "c").map(sl => kT(sl.k)); const all = ts.every(x => x);
+  const tg = all ? ts.reduce((a, b) => a + b, 0) : 0, kMain = k - (d.meals.c ? kcalOf(d.meals.c) : 0);
+  const diff = kMain - tg, cls = !all ? "" : Math.abs(diff) <= tg * .08 ? "ok" : diff > 0 ? "hi" : "lo";
   return `<div class="kbar ${cls}"><div class="kb-top"><span class="kb-v">≈ ${fmtK(k)} kcal par jour</span>${all ? `<span class="kb-t">cible ${fmtK(tg)}</span>` : ""}</div>${all ? `<span class="kb-d">${Math.abs(diff) <= tg * .08 ? "dans la cible" : (diff > 0 ? "+" : "−") + Math.abs(diff) + " kcal"}</span>` : ""}</div>`;
 }
 const dayTarget = () => SLOTS.reduce((s, sl) => s + (kT(sl.k) || 0), 0);
@@ -3626,10 +3905,10 @@ function ensureDefaults(){
   if (!Array.isArray(S.shopExtra)) S.shopExtra = [];
   if (!S.cooked || typeof S.cooked !== "object") S.cooked = {};
   if (!S.reint || typeof S.reint !== "object") S.reint = { start: null, foods: {}, current: null };
-  S.weeks.forEach(w => w.days.forEach(d => { d.meals = d.meals || {}; if (!("b" in d.meals)) d.meals.b = null; }));
+  S.weeks.forEach(w => w.days.forEach(d => { d.meals = d.meals || {}; if (!("b" in d.meals)) d.meals.b = null; if (!("c" in d.meals)) d.meals.c = null; }));
   const ks = Object.keys(S.cooked); if (ks.length > 80) ks.slice(0, ks.length - 80).forEach(k => delete S.cooked[k]);
 }
-function migrateAll(){ if (!S.v || S.v < 2) migrateProto(); if (S.v < 3) migrate3(); if (S.v < 4) migrate4(); if (S.v < 5) migrate5(); if (S.v < 6) migrate6(); if (S.v < 7) migrate7(); if (S.v < 8) migrate8(); if (S.v < 9) migrate9(); if (S.v < 10) migrate10(); }
+function migrateAll(){ if (!S.v || S.v < 2) migrateProto(); if (S.v < 3) migrate3(); if (S.v < 4) migrate4(); if (S.v < 5) migrate5(); if (S.v < 6) migrate6(); if (S.v < 7) migrate7(); if (S.v < 8) migrate8(); if (S.v < 9) migrate9(); if (S.v < 10) migrate10(); if (S.v < 11) migrate11(); }
 /* v2 : nouveau protocole. Le carnet fourni est remplacé par la version mise à jour ; les recettes créées par Cat sont conservées.
    Les repas du planning qui venaient de l'ancien carnet sont renouvelés, et un petit-déjeuner est ajouté là où il manque. */
 function migrateProto(){
@@ -3709,14 +3988,19 @@ function eggsOK(m){
    ce qui interdit aussi le même ingrédient principal midi et soir. Œufs : EGG_MAX repas par semaine au plus, jamais à la suite. */
 const EGG_MAX = 3;
 const MAIN_RE = [["œufs", /\boeufs?\b/], ["poulet", /poulet/], ["tofu", /\btofu\b/], ["protéine de pois", /pois texturee/], ["protéine de soja", /soja texturee/], ["sardines", /sardine/], ["okara", /okara/]];
+const isSnack = m => !!m && m.cat === "Collation";
+const MAIN_SLOTS = () => SLOTS.filter(sl => sl.k !== "c");
+/* petits-déjeuners : 70 % sucrés, 30 % salés (3 salés tous les 10 jours) */
+const pdSalty = i => Math.floor((i + 1) * 3 / 10) > Math.floor(i * 3 / 10);
 function mainKeys(m){
-  if (!m) return []; const t = (m.ing || []).map(i => norm(i.n)).join(" | ");
+  if (!m || isSnack(m)) return []; const t = (m.ing || []).map(i => norm(i.n)).join(" | ");
   const k = MAIN_RE.filter(x => x[1].test(t)).map(x => x[0]); if (m.base) k.push("féculent : " + String(m.base).toLowerCase()); return k;
 }
 function isEgg(m){ return mainKeys(m).indexOf("œufs") >= 0; }
 function clash(a, b){ if (!a || !b) return null; const kb = mainKeys(b); return mainKeys(a).find(k => kb.indexOf(k) >= 0) || null; }
 /* repas dans l'ordre de la semaine (b, l, d, b, l, d…) : liste des règles non respectées */
 function planIssues(seq){
+  seq = seq.filter(m => !isSnack(m));   /* les collations ne comptent pas : elles ne contiennent ni œuf ni protéine principale */
   const out = []; let eggs = 0;
   seq.forEach((m, i) => { if (!m) return; if (isEgg(m)) eggs++; const c = clash(seq[i - 1], m); if (c) out.push("repas " + (i + 1) + " : " + c + " deux repas de suite"); });
   if (eggs > EGG_MAX * Math.max(1, Math.ceil(seq.length / 21))) out.push(eggs + " repas aux œufs (maximum " + EGG_MAX + " par semaine)");
@@ -3768,11 +4052,11 @@ function catalogFor(f){
     (!bk || !f.pd || r.go === f.pd) && (wv === null || isVegCat(r.cat) === wv) &&
     (!f.cats || !f.cats.length || f.cats.includes(r.cat)) && (!f.bases || !f.bases.length || f.bases.includes(r.base)) && (!f.styles || !f.styles.length || f.styles.includes(r.st)));
 }
-/* petits-déjeuners : une fois sur deux sucré, une fois sur deux salé */
+/* petits-déjeuners : 70 % sucrés, 30 % salés */
 function proposeMeals(n, f){
-  const out = [], seen = new Set(), bk = slotOf(f) === "b", off = Math.random() < .5 ? 0 : 1;
+  const out = [], seen = new Set(), bk = slotOf(f) === "b", off = Math.floor(Math.random() * 10);
   for (let i = 0; i < n * 3 && out.length < n; i++){
-    const ff = bk && !f.pd ? { ...f, pd: (out.length + off) % 2 === 0 ? "Sucré" : "Salé" } : f;
+    const ff = bk && !f.pd ? { ...f, pd: pdSalty(out.length + off) ? "Salé" : "Sucré" } : f;
     const m = oneProposal(ff, seen); if (m && !seen.has(m.name)) { seen.add(m.name); out.push(m); }
   }
   return out;
@@ -3782,9 +4066,10 @@ function proposeMeals(n, f){
 function proposeDay(f, avoid, ctx){
   avoid = new Set(avoid || []); ctx = ctx || {}; f = f || {};
   const out = {}, eggMax = ctx.eggMax != null ? ctx.eggMax : EGG_MAX; let prev = ctx.prev || null, eggs = ctx.eggs || 0;
-  SLOTS.forEach((sl, si) => {
-    const bk = sl.k === "b", last = si === SLOTS.length - 1; let best = null, bestBad = 1e9;
-    for (let t = 0; t < 60; t++){
+  const MAINS = MAIN_SLOTS();
+  MAINS.forEach((sl, si) => {
+    const bk = sl.k === "b", last = si === MAINS.length - 1; let best = null, bestBad = 1e9;
+    for (let t = 0; t < 150; t++){
       const m = oneProposal({ ...f, slot: sl.k }, avoid) || oneProposal({ src: bk ? "book" : "gen", slot: sl.k }, avoid); if (!m) continue;
       const bad = (clash(prev, m) ? 2 : 0) + (last && clash(m, ctx.next) ? 2 : 0) + (isEgg(m) && eggs >= eggMax ? 3 : 0) + (ctx.ok && !ctx.ok(m, sl.k) ? 1 : 0);
       if (bad < bestBad) { best = m; bestBad = bad; } if (!bad) break;
@@ -3792,18 +4077,19 @@ function proposeDay(f, avoid, ctx){
     if (!best) best = oneProposal({ src: "mix", slot: sl.k }, new Set());
     out[sl.k] = best; if (best) { avoid.add(best.name); if (isEgg(best)) eggs++; prev = best; }
   });
+  if (ctx.snack !== false) { const c = oneProposal({ slot: "c" }, avoid) || oneProposal({ slot: "c" }, new Set()); if (c) { out.c = c; avoid.add(c.name); } }
   return out;
 }
 /* une semaine : mêmes règles d'un jour à l'autre, œufs limités, poulet limité (80 % végétarien) */
 function proposeWeek(f){
-  f = f || {}; const off = Math.random() < .5 ? 0 : 1, limit = f.cats && f.cats.length ? 99 : 5;
+  f = f || {}; const off = Math.floor(Math.random() * 10), limit = f.cats && f.cats.length ? 99 : 5;
   let best = null, bestN = 1e9;
   for (let a = 0; a < 40; a++){
     const days = [], avoid = new Set(), count = {}; let prev = null, eggs = 0;
     for (let i = 0; i < 7; i++){
       const ok = (m, k) => k === "b" || (count[m.cat] || 0) < (limit > 50 ? limit : isVegCat(m.cat) ? 7 : 3);
-      const p = proposeDay({ ...f, pd: f.pd || ((i + off) % 2 === 0 ? "Sucré" : "Salé") }, avoid, { prev, eggs, ok });
-      SLOTS.forEach(sl => { const m = p[sl.k]; if (!m) return; avoid.add(m.name); if (isEgg(m)) eggs++; if (sl.k !== "b") count[m.cat] = (count[m.cat] || 0) + 1; prev = m; });
+      const p = proposeDay({ ...f, pd: f.pd || (pdSalty(i + off) ? "Salé" : "Sucré") }, avoid, { prev, eggs, ok });
+      SLOTS.forEach(sl => { const m = p[sl.k]; if (!m) return; avoid.add(m.name); if (sl.k === "c") return; if (isEgg(m)) eggs++; if (sl.k !== "b") count[m.cat] = (count[m.cat] || 0) + 1; prev = m; });
       days.push(p);
     }
     const n = planIssues(days.flatMap(p => SLOTS.map(sl => p[sl.k]))).length;
@@ -3821,7 +4107,7 @@ function bfFilter(ns){
   const st = ns === "prop" ? PROP : INSP;
   return `<div class="filters"><div class="frow"><span class="flabel">Petit-déjeuner</span><div class="chips">
     ${[["", "Sucré et salé"], ["Sucré", "Sucré"], ["Salé", "Salé"]].map(([v, l]) => `<button class="chip" data-act="pdKind" data-ns="${ns}" data-v="${v}" aria-pressed="${(st.pd || "") === v}">${l}</button>`).join("")}</div></div>
-    <p class="muted small">Légers : 10 minutes au plus, une moitié sucrée, une moitié salée.</p></div>`;
+    <p class="muted small">Légers : 10 minutes au plus, 70 % sucrés et 30 % salés.</p></div>`;
 }
 A.pdKind = ds => { const st = ds.ns === "prop" ? PROP : INSP; st.pd = ds.v;
   if (ds.ns === "prop") { PROP.items = proposeMeals(6, PROP); renderPropModal(); } else { INSP.result = null; render(); } };
@@ -4030,6 +4316,86 @@ function migrate10(){
   }));
   S.v = 10;
 }
+
+/* ---------- version 11 : collations, petits-déjeuners 70 % sucrés / 30 % salés, banchan ----------
+   Les recettes fournies sont renouvelées (nouvelles collations et nouveaux banchan). Chaque jour reçoit une collation s'il n'en a pas.
+   Dans chaque semaine, les petits-déjeuners salés issus du carnet au-delà de 30 % (2 sur 7) deviennent des sucrés, sans casser les règles de variété.
+   Les repas faits à la main, les recettes de Cat, ses pesées et ses réglages ne bougent pas. */
+function migrate11(){
+  const own = S.recipes.filter(r => r.own);
+  S.recipes = DEFAULT_RECIPES.map(recipeToState).concat(own);
+  const have = new Set(S.recipes.map(r => r.id));
+  const sweet = S.recipes.filter(r => r.st === "Petit-déjeuner" && r.go === "Sucré" && !r.own), snacks = S.recipes.filter(r => r.cat === "Collation" && !r.own);
+  const fresh = buildDefaultPlan(S.recipes);
+  S.weeks.forEach((w, wi) => {
+    const names = new Set(); w.days.forEach(d => SLOTS.forEach(sl => d.meals[sl.k] && names.add(d.meals[sl.k].name)));
+    let salty = w.days.filter(d => d.meals.b && d.meals.b.go === "Salé").length; const maxSalty = Math.round(w.days.length * .3);
+    w.days.forEach((d, di) => {
+      d.meals = d.meals || {};
+      const b = d.meals.b;
+      if (b && b.go === "Salé" && b.recipeId && have.has(b.recipeId) && salty > maxSalty) {
+        const prev = di > 0 ? w.days[di - 1].meals.d : null, next = d.meals.l;
+        const ok = sweet.filter(r => !names.has(r.n)).map(r => mealFromRecipe(r)).find(m => !clash(prev, m) && !clash(m, next));
+        if (ok) { ok.id = b.id; protoAdaptMeal(ok, "b", kT("b")); d.meals.b = ok; names.add(ok.name); salty--; }
+      }
+      if (!d.meals.c) {
+        const src = fresh[wi % fresh.length].days[di % 7].meals.c, pick1 = src && !names.has(src.name) ? src : mealFromRecipe(snacks.find(r => !names.has(r.n)) || snacks[0]);
+        d.meals.c = copyMeal(pick1); names.add(d.meals.c.name);
+      }
+    });
+  });
+  S.v = 11;
+}
+
+/* ---------- Carnet : onglet Banchan (traités à part) ---------- */
+const bcRecipes = () => S.recipes.filter(r => r.cat === "Banchan");
+const bcShort = n => String(n).split(":")[0].trim();
+const bcSub = n => String(n).indexOf(":") >= 0 ? String(n).split(":").slice(1).join(":").trim() : "";
+function viewBook(){
+  const tab = BOOK.tab === "banchan" ? "banchan" : "recettes";
+  const seg = `<div class="seg bk-tabs" role="tablist">${[["recettes", "Recettes"], ["banchan", "Banchan"]].map(([v, l]) => `<button class="seg-b" data-act="bookTab" data-v="${v}" aria-pressed="${tab === v}">${l}</button>`).join("")}</div>`;
+  return seg + (tab === "banchan" ? viewBanchan() : viewBookRecipes());
+}
+A.bookTab = ds => { BOOK.tab = ds.v; render(); window.scrollTo(0, 0); };
+function viewBanchan(){
+  const all = bcRecipes().filter(okSens), group = (title, note, list) => `<section class="book-group" style="--cc:var(--c-veg)"><h2 class="group-title">${esc(title)}</h2><p class="muted small">${esc(note)}</p>
+    <ul class="book-list">${list.map(r => `<li><button class="book-item" data-act="openRecipe" data-id="${r.id}"><span class="dish-name">${esc(bcShort(r.n))}</span>
+    <span class="dish-meta">${esc(bcSub(r.n))}${r.t ? " · " + r.t + " min" : ""} · ≈ ${fmtK(kcalOf(r))} kcal</span></button></li>`).join("")}</ul></section>`;
+  return `<header class="pagehead"><div><h1 class="display">Banchan</h1><p class="muted">Petits plats coréens servis avec du riz. Un repas coréen complet : un banchan à protéine et deux banchan de légumes.</p></div>
+      <button class="btn primary" data-act="krOpen">Composer un repas coréen</button></header>
+    ${group("À protéine", "Tofu ou œuf : le plat principal du repas (80 à 100 g de protéine).", all.filter(r => r.go === "Protéine"))}
+    ${group("De légumes", "Légumes cuits et tièdes, à l'huile de sésame grillé : deux par repas.", all.filter(r => r.go === "Légume"))}
+    ${S.sensible ? `<p class="muted small">Phase de sensibilité aiguë : les banchan à la sauce soja sont masqués.</p>` : ""}`;
+}
+
+/* ---------- repas coréen : riz + 1 banchan à protéine + 2 banchan de légumes ---------- */
+let KR = null;
+function krBody(){
+  const all = bcRecipes().filter(okSens), P = all.filter(r => r.go === "Protéine"), V = all.filter(r => r.go === "Légume");
+  const item = (r, on, act) => `<button class="choice kr-it" data-act="${act}" data-id="${r.id}" aria-pressed="${on}"><strong>${esc(bcShort(r.n))}</strong><span>${esc(bcSub(r.n))} · ${r.t} min · ≈ ${fmtK(kcalOf(r))} kcal</span></button>`;
+  const p = KR.p && P.find(r => r.id === KR.p), vs = KR.v.map(id => V.find(r => r.id === id)).filter(Boolean);
+  const veg = vs.reduce((s, r) => s + r.ing.reduce((t, i) => (lookup(i.n) || {}).a === "Légumes" ? t + num(i.q) : t, 0), 0);
+  const ready = p && vs.length === 2, meal = ready ? composeKorean(p, vs) : null;
+  return `<h3 class="kr-h">1 · Le plat principal</h3><div class="choice-list kr-list">${P.map(r => item(r, KR.p === r.id, "krP")).join("")}</div>
+    <h3 class="kr-h">2 · Deux banchan de légumes</h3><div class="choice-list kr-list">${V.map(r => item(r, KR.v.indexOf(r.id) >= 0, "krV")).join("")}</div>
+    <p class="muted small kr-sum">${ready ? `Riz ${KR_RICE} g + ${esc(bcShort(p.n))} + ${vs.map(r => esc(bcShort(r.n))).join(" + ")} · ≈ ${fmtK(kcalOf(meal))} kcal · légumes ${Math.round(veg)} g${veg < 150 ? " (un légume de saison sera ajouté pour atteindre 150 g)" : ""}`
+      : "Choisis un banchan à protéine et deux banchan de légumes."}</p>`;
+}
+A.krOpen = ds => {
+  const t = ds && ds.d != null ? T(ds) : null; KR = { t, p: null, v: [] }; MODAL = { kind: "kr", t };
+  openModal(`<p class="eyebrow">${t ? esc(S.weeks[t.w].name) + ", " + esc(S.weeks[t.w].days[t.d].name) + ", " + slotLabel(t.s).toLowerCase() : "Carnet de banchan"}</p><h2 class="display-s">Composer un repas coréen</h2>
+    <div id="krBody">${krBody()}</div>
+    <div class="sheet-foot"><button class="btn ghost" data-act="close">Annuler</button><button class="btn primary push" data-act="krGo">${t ? "Mettre au planning" : "Choisir où l'ajouter"}</button></div>`, { wide: true });
+};
+const krRefresh = () => { const e = $("#krBody"); if (e) e.innerHTML = krBody(); };
+A.krP = ds => { KR.p = KR.p === ds.id ? null : ds.id; krRefresh(); };
+A.krV = ds => { const i = KR.v.indexOf(ds.id); if (i >= 0) KR.v.splice(i, 1); else { KR.v.push(ds.id); if (KR.v.length > 2) KR.v.shift(); } krRefresh(); };
+A.krGo = () => {
+  const p = bcRecipes().find(r => r.id === KR.p), vs = KR.v.map(id => bcRecipes().find(r => r.id === id)).filter(Boolean);
+  if (!p || vs.length < 2) return toast("Choisis un banchan à protéine et deux banchan de légumes");
+  const meal = composeKorean(p, vs), t = KR.t; KR = null;
+  if (t) { snapshot(); setMeal(t, meal); afterSelect(t); } else { closeModal(); placeTemp(meal); }
+};
 
 function viewInsp(){
   const mode = (S.ui && S.ui.insp) || "compose";

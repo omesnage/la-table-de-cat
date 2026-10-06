@@ -21,3 +21,12 @@
 .pv-n{font:400 17px/1.3 var(--serif);color:var(--ink);min-width:0;overflow-wrap:anywhere}
 .pv-k{font-size:13px;color:var(--mute);white-space:nowrap;align-self:end}
 @media (max-width:720px){.peek-ing{grid-template-columns:1fr}.pv-meal{flex-direction:column}.pv-meal .mini{align-self:flex-start}}
+
+/* ---------- banchan et repas coréen ---------- */
+.bk-tabs{margin:0 0 24px}
+.kr-h{font-family:var(--serif,inherit);font-weight:500;font-size:15px;letter-spacing:.04em;margin:26px 0 10px;color:var(--mute)}
+.kr-list{margin-top:0;gap:8px}
+.kr-it{position:relative}
+.kr-it[aria-pressed="true"]{border-color:var(--celadon);background:color-mix(in srgb,var(--celadon) 10%,var(--paper))}
+.kr-it[aria-pressed="true"]::after{content:"✓";position:absolute;right:16px;top:14px;color:var(--celadon);font-size:15px}
+.kr-sum{margin-top:18px;line-height:1.5}

@@ -28,6 +28,12 @@ def rep_block(start,end,new,text=None,keep_end=True):
     return t
 
 # 1. meta + css
+rep('function viewBook(){','function viewBookRecipes(){')
+rep('      <button class="choice" data-act="proposeMeal"','      ${t.s === "l" || t.s === "d" ? `<button class="choice" data-act="krOpen" data-w="${t.w}" data-d="${t.d}" data-s="${t.s}"><strong>Composer un repas coréen</strong><span>Du riz, un banchan à protéine et deux banchan de légumes.</span></button>` : ""}\n      <button class="choice" data-act="proposeMeal"')
+rep('const el = $("#bookList"); if (!el) return;\n  const list = S.recipes.filter(r => (!BOOK.cat || r.cat === BOOK.cat)','const el = $("#bookList"); if (!el) return;\n  const list = S.recipes.filter(r => r.cat !== "Banchan" && (!BOOK.cat || r.cat === BOOK.cat)')
+rep('$("#bookCount").textContent = `${list.length} recette${list.length > 1 ? "s" : ""} sur ${S.recipes.length}`;','$("#bookCount").textContent = `${list.length} recette${list.length > 1 ? "s" : ""} sur ${S.recipes.filter(r => r.cat !== "Banchan").length}`;')
+rep('const list = S.recipes.filter(r => (!PICK.cat || r.cat === PICK.cat) && recipeMatches(r, PICK.q));','const list = S.recipes.filter(r => (PICK.t && PICK.t.s === "c" ? r.cat === "Collation" : r.cat !== "Collation" && r.cat !== "Banchan") && (!PICK.cat || r.cat === PICK.cat) && recipeMatches(r, PICK.q));')
+rep('const CAT_KEY = { "Poulet":"poulet",','const CAT_KEY = { "Collation":"crevettes", "Banchan":"veg", "Poulet":"poulet",')
 rep('<meta name="theme-color" content="#FAFAF7">','<meta name="theme-color" content="#FAFAF7" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#151513" media="(prefers-color-scheme: dark)"><meta name="color-scheme" content="light dark">')
 rep('\n</style>\n</head>', rd('part_css.css')+rd('cat_css.css')+rd('cat_css6.css')+'\n</style>\n</head>')
 
@@ -36,7 +42,7 @@ catalog=('/* ============ CATALOGUE DE RECETTES : PROTOCOLE DE CAT (v2) ========
  '   Niveau 1 : riz, pomme de terre, potimarron, sarrasin, quinoa, avoine sans gluten, soba pur sarrasin ; légumes cuits ; tofu (ferme, soyeux, fumé), blanc ou cuisse de poulet, œuf, protéine de pois ou de soja texturée, okara d\'amande ;\n'
  '   huile d\'olive ou de sésame grillé à cru. Exclus : légumineuses, ail, oignon, fibres crues, fritures, hautes températures.\n'
  '   Étapes linéaires : « Titre — consigne [durée] ». {{ingrédient}} est remplacé par la quantité réelle de la liste. */\n'
- 'const HERBS = "quelques brins";\n'+rd('cat_rec_lib.js')+'\n'+rd('cat_rec_b.js')+'\n'+rd('cat_rec_l1.js')+'\n'+rd('cat_rec_l2.js')+'\n'+rd('cat_rec_l3.js')+'\n'+rd('cat_time.js')+'\nconst DEFAULT_RECIPES = NEW_RECIPES.slice();\nconst SIGNATURE = [];\n\n')
+ 'const HERBS = "quelques brins";\n'+rd('cat_rec_lib.js')+'\n'+rd('cat_rec_b.js')+'\n'+rd('cat_rec_l1.js')+'\n'+rd('cat_rec_l2.js')+'\n'+rd('cat_rec_l3.js')+'\n'+rd('cat_rec_c.js')+'\n'+rd('cat_banchan.js')+'\n'+rd('cat_time.js')+'\nconst DEFAULT_RECIPES = NEW_RECIPES.slice();\nconst SIGNATURE = [];\n\n')
 rep_block('/* ============ CATALOGUE DE RECETTES','/* ============ BASE INGRÉDIENTS',catalog)
 # 3. base d'ingrédients
 rep_block('/* ============ BASE INGRÉDIENTS','function norm(s){',rd('cat_db.js')+'\n')
@@ -70,6 +76,7 @@ rep('if (key === "v") g.v = pick(combos(f.v, f.k).filter(c => c.join() !== g.v.j
 rep_block('const SLOTS = [','const CATS = [','''const SLOTS = [
   { k:"b", label:"Petit-déjeuner", create:"Créer un petit-déjeuner" },
   { k:"l", label:"Déjeuner", create:"Créer un déjeuner" },
+  { k:"c", label:"Collation", create:"Ajouter une collation" },
   { k:"d", label:"Dîner", create:"Créer un dîner" }
 ];
 ''')
@@ -77,7 +84,7 @@ rep('const CATS = ["Poulet","Œufs","Tofu","Protéines végétales","Okara & dou
 rep('const STYLES = ["Vapeur Bamboo","Slow cook Bamboo","Cocon & purées","Fraîcheur tiède","Au four","Douceurs"];','const STYLES = ["Petit-déjeuner","Vapeur Bamboo","Slow cook Bamboo","Cocon & purées","Fraîcheur tiède"];')
 rep('const BASES = ["Riz","Pommes de terre","Pâtes sans gluten","Okara"];','const BASES = ["Riz","Pommes de terre","Quinoa","Avoine","Sarrasin","Vermicelles"];')
 rep('"Okara & douceurs":"crevettes", "Purées & vapeur":"poisson" };','"Okara & douceurs":"crevettes", "Purées & vapeur":"poisson", "Sardines":"poisson" };')
-rep('function emptyDay(name){ return { id: uid(), name, meals: { l: null, d: null } }; }','function emptyDay(name){ return { id: uid(), name, meals: { b: null, l: null, d: null } }; }')
+rep('function emptyDay(name){ return { id: uid(), name, meals: { l: null, d: null } }; }','function emptyDay(name){ return { id: uid(), name, meals: { b: null, l: null, c: null, d: null } }; }')
 rep_block('function buildDefaultPlan(recipes){','function defaultState(){','''/* planning de départ : rotation des recettes, sans le même ingrédient principal sur deux repas qui se suivent, œufs limités (voir cat_v6.js) */
 function buildDefaultPlan(recipes){
   const rr = pool => { const cats = [...new Set(pool.map(r => r.cat))], bk = cats.map(c => pool.filter(r => r.cat === c)), out = [];
@@ -85,17 +92,24 @@ function buildDefaultPlan(recipes){
   const take = (qs, ok) => { for (const q of qs) { const i = q.findIndex(ok); if (i >= 0) { const r = q.splice(i, 1)[0]; q.push(r); return r; } }
     const q = qs.find(x => x.length); const r = q.shift(); q.push(r); return r; };
   const bf = recipes.filter(r => r.st === "Petit-déjeuner"), sw = rr(bf.filter(r => r.go === "Sucré")), sa = rr(bf.filter(r => r.go !== "Sucré"));
+  const sn = recipes.filter(r => r.cat === "Collation"), snw = rr(sn.filter(r => r.go === "Sucré")), sns = rr(sn.filter(r => r.go !== "Sucré"));
   const ld = recipes.filter(r => r.st !== "Petit-déjeuner" && r.cat !== "Sardines" && CATS.includes(r.cat));
   const veg = rr(ld.filter(r => isVegCat(r.cat))), meat = rr(ld.filter(r => !isVegCat(r.cat)));
   const weeks = []; let k = 0, prev = null;
   for (let w = 0; w < 4; w++){
-    const days = [], names = new Set(); let eggs = 0;
-    const ok = r => !names.has(r.n) && !clash(prev, r) && !(isEgg(r) && eggs >= EGG_MAX);
+    const days = [], names = new Set(); let eggs = 0, nextB = null;
+    const ok = r => !names.has(r.n) && !clash(prev, r) && !(isEgg(r) && eggs >= EGG_MAX) && !(nextB && clash(r, nextB));
     const put = r => { names.add(r.n); if (isEgg(r)) eggs++; prev = r; return mealFromRecipe(r); };
+    /* petits-déjeuners de la semaine choisis d'abord (70 % sucrés, 30 % salés) : le dîner de la veille évite ensuite celui du lendemain */
+    const bs = []; for (let d = 0; d < 7; d++){ const ix = w * 7 + d;
+      const r = take(pdSalty(ix) ? [sa, sw] : [sw, sa], x => !names.has(x.n) && !(isEgg(x) && eggs >= EGG_MAX) && (d > 0 || !clash(prev, x)));
+      names.add(r.n); if (isEgg(r)) eggs++; bs.push(r); }
     for (let d = 0; d < 7; d++){
       const day = emptyDay(DAY_NAMES[d]);
-      day.meals.b = put(take((w * 7 + d) % 2 ? [sa, sw] : [sw, sa], ok));
-      ["l", "d"].forEach(sl => { const isMeat = k++ % 5 === 4 && meat.length; day.meals[sl] = put(take(isMeat ? [meat, veg] : [veg, meat], ok)); });
+      const ix = w * 7 + d;   /* petits-déjeuners : 70 % sucrés, 30 % salés */
+      day.meals.b = mealFromRecipe(bs[d]); prev = bs[d];
+      if (sn.length) { const nm = r => !names.has(r.n); const r = take(ix % 3 === 2 ? [sns, snw] : [snw, sns], nm); names.add(r.n); day.meals.c = mealFromRecipe(r); }
+      ["l", "d"].forEach(sl => { nextB = sl === "d" ? bs[d + 1] : null; const isMeat = k++ % 5 === 4 && meat.length; day.meals[sl] = put(take(isMeat ? [meat, veg] : [veg, meat], ok)); }); nextB = null;
       days.push(day);
     }
     weeks.push({ id: uid(), name: "Semaine " + (w + 1), days });
@@ -104,7 +118,7 @@ function buildDefaultPlan(recipes){
 }
 ''')
 rep('return { v: 1, font: "editorial", recipes, weeks: buildDefaultPlan(recipes), weights: [], goal: 60, checked: {}, ui: { view: "plan", week: 0 } };',
-    'return { v: 10, font: "editorial", recipes, weeks: buildDefaultPlan(recipes), weights: [], goal: 60, checked: {}, ui: { view: "plan", week: 0 },\n    kcalT: { b: null, l: null, d: null }, vegRatio: 80, autoAdapt: true, autoVeg: true, sensible: false, pantry: [], shopExtra: [], cooked: {}, reint: { start: null, foods: {}, current: null } };')
+    'return { v: 11, font: "editorial", recipes, weeks: buildDefaultPlan(recipes), weights: [], goal: 60, checked: {}, ui: { view: "plan", week: 0 },\n    kcalT: { b: null, l: null, d: null }, vegRatio: 80, autoAdapt: true, autoVeg: true, sensible: false, pantry: [], shopExtra: [], cooked: {}, reint: { start: null, foods: {}, current: null } };')
 rep('''  S.ui = S.ui || { view: "plan", week: 0 }; S.checked = S.checked || {}; S.weights = S.weights || [];
   if (S.goal == null) S.goal = 73;
   S.v = S.v || 1;''','''  S.v = S.v || 1;
@@ -112,9 +126,9 @@ rep('''  S.ui = S.ui || { view: "plan", week: 0 }; S.checked = S.checked || {}; 
   migrateAll();''')
 rep('function weekAvg(week){ const ds = week.days.filter(d => d.meals.l || d.meals.d);','function weekAvg(week){ const ds = week.days.filter(d => d.meals.b || d.meals.l || d.meals.d);')
 rep('<p class="muted">${w.days.length} jour${w.days.length > 1 ? "s" : ""}, environ ${fmtK(weekAvg(w))} kcal par jour, déjeuner et dîner</p>',
-    '<p class="muted">${w.days.length} jour${w.days.length > 1 ? "s" : ""}, trois repas par jour, environ ${fmtK(weekAvg(w))} kcal par jour (indicatif, sans objectif de régime)</p>')
+    '<p class="muted">${w.days.length} jour${w.days.length > 1 ? "s" : ""}, trois repas et une collation par jour, environ ${fmtK(weekAvg(w))} kcal par jour (indicatif, sans objectif de régime)</p>')
 rep('<span class="muted small">${dayKcal(d) ? "≈ " + fmtK(dayKcal(d)) + " kcal par jour" : ""}</span>','${kcalBar(d)}')
-rep('7 jours, chacun avec un déjeuner et un dîner.','7 jours, chacun avec un petit-déjeuner, un déjeuner et un dîner.')
+rep('7 jours, chacun avec un déjeuner et un dîner.','7 jours, chacun avec un petit-déjeuner, un déjeuner, une collation et un dîner.')
 rep('quantités cumulées pour les déjeuners et dîners','quantités cumulées pour tous les repas')
 rep_block('/* ---------- PROTOCOLE DE CAT (rappel affiché dans le planning) ---------- */','/* ---------- PLANNING ---------- */',rd('cat_panel.js')+'\n')
 # navigation
@@ -132,7 +146,11 @@ function catalogFor(f){
 }
 function oneProposal(f, avoid){
   avoid = avoid || new Set();
+  if (f.slot === "c" || (f.t && f.t.s === "c") || (f.to && f.to.s === "c")) {   /* collation : une petite recette du carnet, jamais générée */
+    const list = S.recipes.filter(r => r.cat === "Collation" && okSens(r) && !avoid.has(r.n) && (!f.pd || r.go === f.pd)); return list.length ? mealFromRecipe(pick(list)) : null;
+  }
   const src = f.src || "mix", sl = slotOf(f), bk = sl === "b";
+  if (bk && !f.pd) f = { ...f, pd: Math.random() < .7 ? "Sucré" : "Salé" };   /* petits-déjeuners : 70 % sucrés, 30 % salés */
   for (let t = 0; t < 40; t++){
     const useBook = bk || src === "book" || (src === "mix" && Math.random() < 0.4);
     let m = null;
@@ -252,7 +270,7 @@ rep('read.innerHTML = stepsHTML(edObj().steps);','read.innerHTML = stepsHTML(edO
 rep('<p class="ed-kcal">${catTag(o.cat)}','<div id="edPc">${protoBanner(o)}</div><p class="ed-kcal">${catTag(o.cat)}')
 rep('$("#edKcal").textContent = fmtK(kcalOf(o));','$("#edKcal").textContent = fmtK(kcalOf(o)); { const pc = $("#edPc"); if (pc) pc.innerHTML = protoBanner(o); }',2)
 
-rep('<select id="placeS">${SLOTS.map(s => `<option value="${s.k}">${s.label}</option>`).join("")}</select>','<select id="placeS">${SLOTS.map(s => `<option value="${s.k}" ${s.k === (TEMP && TEMP.st === "Petit-déjeuner" ? "b" : "l") ? "selected" : ""}>${s.label}</option>`).join("")}</select>')
+rep('<select id="placeS">${SLOTS.map(s => `<option value="${s.k}">${s.label}</option>`).join("")}</select>','<select id="placeS">${SLOTS.map(s => `<option value="${s.k}" ${s.k === (TEMP && TEMP.st === "Petit-déjeuner" ? "b" : TEMP && TEMP.cat === "Collation" ? "c" : "l") ? "selected" : ""}>${s.label}</option>`).join("")}</select>')
 # --- v3 : petits-déjeuners légers, 80 % végétarien, recette visible, aperçu
 rep('function buildGen(g){','function buildGen0(g){')
 rep('    ${filterBar("insp")}\n    <div class="insp-go">','    ${slotOf(INSP) === "b" && INSP.scope === "meal" ? bfFilter("insp") : filterBar("insp")}\n    <div class="insp-go">')
@@ -280,7 +298,7 @@ i=app.find('/* ---------- RÉGLAGES : objectif calorique ---------- */'); j=app.
 if i<0 or j<0: FAIL.append("APP settings block")
 else: app=app[:i]+rd('cat_proto.js')+'\n'+app[j:]
 arep('''  if (S.autoVeg !== false) autoSide(m);
-  if (S.autoAdapt !== false) adaptMeal(m, slotTarget(t));''','''  if (S.autoVeg !== false && t.s !== "b") autoSide(m);
+  if (S.autoAdapt !== false) adaptMeal(m, slotTarget(t));''','''  if (S.autoVeg !== false && t.s !== "b" && t.s !== "c") autoSide(m);
   if (S.autoAdapt !== false) protoAdaptMeal(m, t.s, kT(t.s));''')
 arep('''  A.adaptDay = ds => { const w = curWeek(), d = w.days[+ds.d]; snapshot(); const b = weekSnap(w), ok = adaptDay(d, dayTarget()); save(); render();
     if (ok) reportWeek(d.name + " : portions adaptées à ta cible", w, b); else toast("Ce jour est déjà dans ta cible"); };
@@ -289,7 +307,7 @@ arep('''  A.adaptDay = ds => { const w = curWeek(), d = w.days[+ds.d]; snapshot(
     if (ok) reportWeek(d.name + " : portions mises au protocole", w, b); else toast("Ce jour respecte déjà les portions"); };
   A.adaptWeek = () => { const w = curWeek(); snapshot(); const b = weekSnap(w); let n = 0; w.days.forEach(d => { if (adaptDay(d)) n++; }); save(); render();
     if (n) reportWeek("Portions mises au protocole (et à tes calories par repas)", w, b); else toast("Tous les repas respectent déjà les portions"); };''')
-arep('w.days.forEach(d => SLOTS.forEach(sl => { const m = d.meals[sl.k]; if (m && autoSide(m, 200)) n++; })); save(); render();','w.days.forEach(d => SLOTS.forEach(sl => { const m = d.meals[sl.k]; if (m && sl.k !== "b" && autoSide(m, 200)) n++; })); save(); render();')
+arep('w.days.forEach(d => SLOTS.forEach(sl => { const m = d.meals[sl.k]; if (m && autoSide(m, 200)) n++; })); save(); render();','w.days.forEach(d => SLOTS.forEach(sl => { const m = d.meals[sl.k]; if (m && sl.k !== "b" && sl.k !== "c" && autoSide(m, 200)) n++; })); save(); render();')
 arep('d.meals.l = p.l; d.meals.d = p.d; save(); render(); reportWeek("Nouveaux repas pour " + d.name, w, b); };','SLOTS.forEach(sl => { if (p[sl.k]) d.meals[sl.k] = p[sl.k]; }); save(); render(); reportWeek("Nouveaux repas pour " + d.name, w, b); };')
 arep('w.days.forEach((d, i) => { const p = ps[i % 7]; d.meals.l = p.l; d.meals.d = p.d; }); save(); render(); reportWeek("Nouveaux menus pour " + w.name, w, b); };','w.days.forEach((d, i) => { const p = ps[i % 7]; SLOTS.forEach(sl => { if (p[sl.k]) d.meals[sl.k] = p[sl.k]; }); }); save(); render(); reportWeek("Nouveaux menus pour " + w.name, w, b); };')
 arep('${card("adaptWeek", "gauge", "Adapter à ma cible", "ajuste les portions pour viser " + fmtK(dayTarget()) + " kcal par jour")}','${card("adaptWeek", "gauge", "Mettre aux portions", "féculents et protéines dans les fourchettes du protocole")}')
