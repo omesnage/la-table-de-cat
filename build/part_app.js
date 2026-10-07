@@ -484,8 +484,8 @@ function dayTools(d, di){
     <button class="dt danger" data-act="delDay" data-d="${di}">${ic("x")} Supprimer le jour</button></div>`;
 }
 function mealTools(at){
-  return `<div class="meal-tools"><button class="mt" data-act="openMeal" ${at}>${ic("book")} Recette</button><button class="mt" data-act="proposeMeal" ${at}>${ic("swap")} Remplacer</button>
-    <button class="mt" data-act="pickRecipe" ${at}>${ic("list")} Carnet</button><button class="mt danger" data-act="quickClear" ${at}>${ic("x")} Retirer</button></div>`;
+  return `<div class="meal-tools"><button class="mt" data-act="openMeal" ${at}>${ic("book")} Recette</button><button class="mt mt-main" data-act="swapMeal" ${at} title="Remplacer ce repas en un geste">${ic("swap")} Remplacer</button>
+    <button class="mt" data-act="proposeMeal" ${at}>${ic("sparkle")} Idées</button><button class="mt" data-act="pickRecipe" ${at}>${ic("list")} Carnet</button><button class="mt danger" data-act="quickClear" ${at}>${ic("x")} Retirer</button></div>`;
 }
 function mealBadges(m){
   const b = []; if (m.adj && Math.abs(m.adj - 1) > .02) b.push("portions " + (m.adj > 1 ? "+" : "−") + Math.round(Math.abs(m.adj - 1) * 100) + " %");

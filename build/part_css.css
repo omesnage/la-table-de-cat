@@ -224,3 +224,4 @@ button,.btn,.chip,.mt,.dt,.wa,.mini,.mini-add,.qb,.qx,.chk,.dur{touch-action:man
   .btn{min-height:44px}.chip{min-height:40px}
   .cstep{padding:14px 12px}.cs-more summary{min-height:40px;display:flex;align-items:center}
 }
+.mt.mt-main{color:var(--ink);border-color:var(--ink)}

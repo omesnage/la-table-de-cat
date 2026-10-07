@@ -12,6 +12,13 @@ with sync_playwright() as p:
     logs = []; pg.on("pageerror", lambda e: logs.append(str(e)))
     pg.goto(URL); pg.wait_for_selector(".dish")
     sheet = lambda: pg.evaluate("!document.querySelector('#modal').hidden")
+    # 0. remplacer un repas en un tap, puis annuler
+    first = pg.locator(".meal.slot-l").first; before = first.locator(".dish-name").inner_text()
+    first.locator("[data-act=swapMeal]").click(); pg.wait_for_timeout(300)
+    after = pg.locator(".meal.slot-l").first.locator(".dish-name").inner_text()
+    check(after != before and pg.is_visible("#toast.show"), "repas remplacé en un tap (" + before[:25] + " → " + after[:25] + ")")
+    pg.click("#toast [data-act=undo]"); pg.wait_for_timeout(300)
+    check(pg.locator(".meal.slot-l").first.locator(".dish-name").inner_text() == before, "annulation : le repas d'origine revient")
     # 1. repas du planning : ouvrir, recharger → la fiche réapparaît
     pg.click(".dish[data-act=openMeal]"); pg.wait_for_selector("#modal:not([hidden])")
     name = pg.inner_text("#modal h2")

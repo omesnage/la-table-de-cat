@@ -109,7 +109,7 @@ function loadApp(){
   let store = null;
   Object.assign(global, { window: global, document: noop, location: { hash: "" }, addEventListener(){}, requestAnimationFrame(){}, setTimeout(){},
     matchMedia: () => ({ matches: false, addEventListener(){} }), localStorage: { getItem: () => store, setItem(k, v){ store = v; }, removeItem(){} } });
-  (0, eval)(code + '\n;global.__A = { subChoices, subApply, subOf, subQty, lotPlan, lotKeep, mealFromRecipe, KR_RICE, randomGen, proposeWeek, proposeDay, planIssues, buildDefaultPlan, dayCtx, SLOTS, composeKorean, protoCheck, pdSalty, isSnack, EGG_MAX, migrateAll, defaultState, buildGen, mealFromGen, getS: () => S, setS: x => { S = x; } };');
+  (0, eval)(code + '\n;global.__A = { subChoices, subApply, subOf, subQty, lotPlan, lotKeep, mealFromRecipe, KR_RICE, randomGen, proposeWeek, proposeDay, planIssues, buildDefaultPlan, dayCtx, SLOTS, composeKorean, protoCheck, pdSalty, isSnack, EGG_MAX, migrateAll, defaultState, swapCandidate, setMeal, getMeal, kcalOf, buildGen, mealFromGen, getS: () => S, setS: x => { S = x; } };');
   return global.__A;
 }
 let A = null;
@@ -226,6 +226,17 @@ if (A) {
   /* cuissons vapeur : toujours un palier de 5 minutes, 60 minutes au plus (docs/bamboo.md) */
   { const bad = []; let cnt = 0; A.defaultState().recipes.forEach(r => (r.steps || []).forEach(st => { const re = /(?:régler|STEAM) (\d+) minutes/g; let x; while ((x = re.exec(st))) { cnt++; const n = +x[2 - 1]; if (n % 5 || n > 60) bad.push(r.id + ' : ' + n + ' min'); } }));
     if (!cnt) fail('vapeur', 'aucun cycle vapeur trouvé'); else if (bad.length) fail('vapeur', 'durées hors palier de 5 min : ' + bad.join(' ; ')); else out.push('✓ cuissons vapeur : ' + cnt + ' réglages, tous au palier de 5 minutes, 60 minutes au plus'); }
+  /* remplacer un repas en un tap : le remplaçant respecte le protocole et les règles de variété */
+  { const St = A.defaultState(); A.setS(St); let n = 0, bad = [];
+    for (let rep = 0; rep < 3; rep++) St.weeks.forEach((wk, wi) => wk.days.forEach((d, di) => A.SLOTS.forEach(sl => {
+      const t = { w: wi, d: di, s: sl.k }, old = A.getMeal(t); if (!old) return;
+      const before = A.planIssues(wk.days.flatMap(x => A.SLOTS.map(y => x.meals[y.k]))).length;
+      const m = A.swapCandidate(t, 60); if (!m) return; n++; m.id = old.id; A.setMeal(t, m);
+      const after = A.planIssues(wk.days.flatMap(x => A.SLOTS.map(y => x.meals[y.k])));
+      if (A.protoCheck(m).bad.length) bad.push(m.name + ' : protocole');
+      if (after.length > before) bad.push(m.name + ' : ' + after.slice(0, 1).join(''));
+    })));
+    if (!n || bad.length) fail('remplacer un repas', n + ' remplacements, problèmes : ' + bad.slice(0, 3).join(' ; ')); else out.push('✓ remplacer un repas en un tap : ' + n + ' remplacements, protocole et règles de variété respectés'); }
 }
 
 /* ---------- 4 : cohérence entre la liste d'ingrédients et le texte des étapes ----------
