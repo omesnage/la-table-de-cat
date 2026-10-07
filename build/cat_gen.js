@@ -101,7 +101,7 @@ const STARCHES = {
   vermicelles:{n:"vermicelles de patate douce",h:"Les vermicelles",base:"Vermicelles",ing:[["vermicelles de patate douce cuits",140,"g"]],t:12,
     mat:"une casserole, une passoire, des ciseaux", out:"",
     feu:"eau frémissante sur la plaque",
-    cook:"Cuire les vermicelles 8 min dans l'eau frémissante, égoutter, couper aux ciseaux en tronçons de 10 cm et mêler à quelques gouttes d'huile de sésame grillé.",
+    cook:"Cuire les vermicelles 8 min dans l'eau frémissante, égoutter, couper aux ciseaux en tronçons de 10 cm.",
     rep:"ils deviennent translucides et élastiques",
     ctl:"ils s'écrasent sans effort entre deux doigts",
     err:"les cuire trop peu : ils restent caoutchouteux",
@@ -285,11 +285,11 @@ const FORMATS = [
    orga:"Le bouillon se prépare la veille sans miso ; le miso se délaye à la minute.",
    tip:"Le miso ne bout jamais : on le délaye hors du feu pour garder tout son parfum."},
   {id:"japchae",n:"Japchae doux",st:"Fraîcheur tiède",s:["vermicelles"],p:["tofu","blanc"],v:["carotte","epinards","pakchoi","blettes","courgette","daikon"],k:2,d:2,
-   sa:["sojasesame"],x:[["graines de sésame",1,"c. à café"],["huile de sésame grillé",1,"c. à café"]],herbs:["ciboulette","coriandre"],
+   sa:["sojasesame"],x:[["graines de sésame",1,"c. à café"]],herbs:["ciboulette","coriandre"],
    mat:"un grand saladier, des ciseaux",
    core:"Le mélange tiède. Dans un grand saladier, mélanger délicatement les vermicelles tièdes, les légumes cuits à la vapeur et la protéine avec la sauce, en soulevant à deux mains. Repères : les vermicelles brillent. Point de contrôle : tout est tiède et bien enrobé. À éviter : trop mélanger, les légumes se délitent.",
    a:"Assiette creuse tiède. Dresser en nid, légumes colorés sur le dessus.",
-   fin:"Parsemer de graines de sésame et d'un dernier filet d'huile de sésame grillé.",
+   fin:"Parsemer de graines de sésame.",
    orga:"Se prépare la veille et se réchauffe 5 min à la vapeur.",
    tip:"Les vermicelles de patate douce restent souples même tièdes, sans coller."}
 

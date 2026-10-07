@@ -124,7 +124,7 @@ function buildDefaultPlan(recipes){
 }
 ''')
 rep('return { v: 1, font: "editorial", recipes, weeks: buildDefaultPlan(recipes), weights: [], goal: 60, checked: {}, ui: { view: "plan", week: 0 } };',
-    'return { v: 13, font: "editorial", recipes, weeks: buildDefaultPlan(recipes), weights: [], goal: 60, checked: {}, ui: { view: "plan", week: 0 },\n    kcalT: { b: null, l: null, d: null }, vegRatio: 80, autoAdapt: true, autoVeg: true, sensible: false, pantry: [], shopExtra: [], cooked: {}, reint: { start: null, foods: {}, current: null } };')
+    'return { v: 14, font: "editorial", recipes, weeks: buildDefaultPlan(recipes), weights: [], goal: 60, checked: {}, ui: { view: "plan", week: 0 },\n    kcalT: { b: null, l: null, d: null }, vegRatio: 80, autoAdapt: true, autoVeg: true, sensible: false, pantry: [], shopExtra: [], cooked: {}, reint: { start: null, foods: {}, current: null } };')
 rep('''  S.ui = S.ui || { view: "plan", week: 0 }; S.checked = S.checked || {}; S.weights = S.weights || [];
   if (S.goal == null) S.goal = 73;
   S.v = S.v || 1;''','''  S.v = S.v || 1;
@@ -257,7 +257,8 @@ rep("""      <div class="day-tools">
         <button class="link danger" data-act="delDay" data-d="${di}">Supprimer</button>
       </div>""","      ${dayTools(d, di)}")
 rep("""<div class="meal-tools"><button class="link" data-act="proposeMeal" ${at}>Autres idées</button><button class="link" data-act="pickRecipe" ${at}>Carnet</button></div></div>`;""","${mealTools(at)}</div>`;")
-rep('<span class="dish-meta">${catTag(m.cat)}<span>${esc(meta)}</span></span></button>','<span class="dish-meta">${catTag(m.cat)}${seasonChip(m)}<span>${esc(meta)}</span></span>${mealBadges(m)}${protoDot(m)}</button>')
+rep('<span class="dish-meta">${catTag(m.cat)}<span>${esc(meta)}</span></span></button>','<span class="dish-meta">${catTag(m.cat)}${seasonChip(m)}<span>${esc(meta)}</span></span>${mealBadges(m)}${protoDot(m)}${timesLine(m)}</button>')
+rep('${r.own ? ", ma recette" : ""}</span></button></li>','${r.own ? ", ma recette" : ""}</span>${timesLine(r)}</button></li>')
 rep('snapshot(); setMeal(t, mealFromRecipe(r)); save(); closeModal(); toast(`${slotLabel(t.s)} : ${r.n}`, true); };','snapshot(); setMeal(t, mealFromRecipe(r)); afterSelect(t); };')
 rep('snapshot(); setMeal(t, copyMeal(m)); save(); closeModal(); toast(`${slotLabel(t.s)} : ${m.name}`, true); };','snapshot(); setMeal(t, copyMeal(m)); afterSelect(t); };')
 rep('snapshot(); setMeal(t, copyMeal(TEMP)); save(); closeModal(); toast(`Ajouté : ${S.weeks[t.w].name}, ${S.weeks[t.w].days[t.d].name}, ${slotLabel(t.s).toLowerCase()}`, true); };','snapshot(); setMeal(t, copyMeal(TEMP)); afterSelect(t); };')
@@ -301,6 +302,8 @@ def arep(old,new,count=1):
     n=app.count(old)
     if n!=count: FAIL.append(f"APP ANCHOR x{n}: {old[:100]!r}"); return
     app=app.replace(old,new)
+arep('''    <div class="sheet-foot">${cookFooter(kind, ref, o)}</div>''','''    ${askSection(o)}
+    <div class="sheet-foot">${cookFooter(kind, ref, o)}</div>''')
 arep('aria-label="Retirer ${esc(r.i.n)}">${ic("x")}</button></li>`;','aria-label="Retirer ${esc(r.i.n)}">${ic("x")}</button>${subCookBtn(o, r.idx)}${subCookPanel(o, r.idx)}</li>`;')
 arep('vegChips(o, "vegSwapTo", r.idx, k)}</div>` : ""}</li>`; };','vegChips(o, "vegSwapTo", r.idx, k)}</div>` : ""}${subCookBtn(o, r.idx)}${subCookPanel(o, r.idx)}</li>`; };')
 # retirer l'objectif calorique d'Olivier
@@ -341,7 +344,9 @@ kg_old=app[app.index('const KEY_GROUPS = ['):app.index('const canonKey')]
 app=app.replace(kg_old,'''const KEY_GROUPS = [["riz cuit","riz cru","riz basmati","riz"],["oeuf","oeufs"],["quinoa cuit","quinoa"],["soba cuites","soba"],["tofu ferme","tofu"],
   ["proteine de pois texturee","proteine de pois texturee (seche)"],["proteine de soja texturee","proteine de soja texturee (seche)"],["blanc de poulet","poulet"],["huile d'olive","huile"],["flocons d'avoine","avoine"]];
 ''')
-extra=app+rd('cat_v6.js')+'\n'+rd('cat_subs.js')+'\n'+rd('cat_lot.js')+'''
+import json as _json
+bamboo_doc='const BAMBOO_DOC = '+_json.dumps(open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','docs','bamboo.md'),encoding='utf-8').read(),ensure_ascii=False).replace('</','<\\/')+';\n'
+extra=bamboo_doc+app+rd('cat_v6.js')+'\n'+rd('cat_subs.js')+'\n'+rd('cat_lot.js')+'\n'+rd('cat_resume.js')+'\n'+rd('cat_swap.js')+'\n'+rd('cat_sync.js')+'\n'+rd('cat_ask.js')+'''
 function viewInsp(){
   const mode = (S.ui && S.ui.insp) || "compose";
   const seg = `<div class="seg ins-mode" role="tablist">${[["compose","Composer"],["fridge","Avec mon frigo"]].map(([v, l]) => `<button class="seg-b" data-act="inspMode" data-v="${v}" aria-pressed="${mode === v}">${l}</button>`).join("")}</div>`;
@@ -350,7 +355,7 @@ function viewInsp(){
 }
 A.inspSlot = ds => { INSP.to.s = ds.v; INSP.result = null; render(); };
 '''
-rep('/* ---------- démarrage ---------- */',extra+'\n/* ---------- démarrage ---------- */')
+rep('/* ---------- démarrage ---------- */\nload(); render();',extra+'\n/* ---------- démarrage ---------- */\nload(); render(); resumeOpen();')
 
 # thème sombre
 m=re.search(r'@media \(prefers-color-scheme: dark\)\{(.*?)\n\}\n@media print',s,re.S)

@@ -462,3 +462,30 @@ function migrate13(){
   })));
   S.v = 13;
 }
+
+/* ---------- mise à jour automatique des recettes fournies (depuis la version 14) ----------
+   refreshRecipes(ids) : remet à jour les recettes fournies (le carnet) et les repas déjà planifiés qui en sont issus.
+   - recette de Cat faite main (own) : jamais touchée ;
+   - repas dont la liste d'ingrédients correspond à la nouvelle recette : textes, durées mises à jour sur place (quantités, pesées, réglages conservés) ;
+   - repas dont les ingrédients diffèrent : reconstruit depuis la recette puis adapté au protocole ;
+   - plats générés : reconstruits avec le générateur à jour (regen) ;
+   - repas faits main (sans recette ni générateur) : jamais touchés. */
+const ingNames = list => (list || []).map(i => String(i.n).toLowerCase().trim()).sort().join("|");
+function refreshRecipes(ids, regen){
+  const own = S.recipes.filter(r => r.own);
+  S.recipes = DEFAULT_RECIPES.map(recipeToState).concat(own);
+  const byId = id => S.recipes.find(r => r.id === id && !r.own);
+  S.weeks.forEach(w => w.days.forEach(d => SLOTS.forEach(sl => {
+    const k = sl.k, m = d.meals[k]; if (!m) return; let nm = null;
+    const r = m.recipeId && ids.indexOf(m.recipeId) >= 0 ? byId(m.recipeId) : null;
+    if (r) {
+      if (ingNames(m.ing) === ingNames(r.ing)) { m.name = r.n; m.cat = r.cat; m.st = r.st; m.base = r.base; m.t = r.t; m.tc = r.tc; m.d = r.d; m.steps = [...r.steps]; m.tip = r.tip || ""; }
+      else nm = mealFromRecipe(r);
+    } else if (regen && m.gen && !m.recipeId) { try { nm = mealFromGen(buildGen({ ...m.gen })); } catch (e) { nm = null; } }
+    if (nm) { nm.id = m.id; protoAdaptMeal(nm, k, kT(k)); d.meals[k] = nm; }
+  })));
+}
+
+/* ---------- migration 14 : durées vapeur au palier de 5 min, Japchae à une seule cuillère d'huile ---------- */
+const V14_CHANGED = ["n-c-tsukune-soba", "n-e-brouillade-pdt", "n-e-flan-carotte-riz", "n-e-tortilla-vapeur", "n-e-chawanmushi-riz", "n-e-veloute-carotte-miso", "n-t-croquettes-okara-aneth"];
+function migrate14(){ refreshRecipes(V14_CHANGED, true); S.v = 14; }
