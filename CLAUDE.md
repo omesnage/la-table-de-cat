@@ -52,7 +52,7 @@ et on commite `build/` **et** `index.html` ensemble. Le script échoue si une an
 - `cat_resume.js` : reprise de la recette ouverte (`S.ui.open`, effacée à la fermeture), semaine et onglet du carnet conservés, ligne « Préparation / Cuisson » sur les cartes.
 - `cat_swap.js` : bouton « Remplacer » en un tap sur la carte d'un repas (annulable), qui respecte le protocole et les règles de variété.
 - `cat_sync.js` : sauvegarde automatique sur le compte (capacité `db`), seulement dans l'artefact Claude ; jamais de donnée locale écrasée par une version plus ancienne ; message d'import au premier lancement.
-- `cat_ask.js` : champ « Une question ? » sur chaque fiche (capacité `sample`), avec le protocole de Cat et `docs/bamboo.md` (intégré au build) ; champ masqué si Claude est injoignable.
+- `cat_ask.js` : bouton « Question » sous chaque étape de la fiche (4 questions rapides + champ libre, réponse sur place, « Ajouter à l'astuce du chef » annulable), capacité `sample` ; texte envoyé avec le protocole de Cat et, pour le rice cooker, les règles et `docs/bamboo.md` (intégré au build) ; boutons masqués si Claude est injoignable. Contient aussi l'écriture des quantités en français (`renderQ`, `qPhrase`, `qtyChip` : « 3 œufs »).
 - Publication : artefact Claude de Cat, voir `docs/artefact.md` (toujours republier sur le même lien).
 
 ## Git et sessions cloud

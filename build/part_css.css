@@ -237,3 +237,11 @@ button,.btn,.chip,.mt,.dt,.wa,.mini,.mini-add,.qb,.qx,.chk,.dur{touch-action:man
 .ask-in:focus{outline:none;border-color:var(--ink)}
 .ask-out{margin-top:12px;font-size:15px;line-height:1.65;color:var(--ink-2,var(--ink));white-space:normal}
 .ask-out:empty{display:none}
+.cs-body .ask-btn{display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:4px 0;border:0;background:none;color:var(--celadon);font-size:13px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.cs-body .ask-btn[hidden]{display:none}
+.ask-btn .ico-s{width:1em;height:1em}
+.ask{margin-top:10px}
+.ask-save{margin-top:10px}
+.cstep>.cs-body,.cs-body .ask{min-width:0}
+.cs-body .ask-row{flex-wrap:wrap}.cs-body .ask-in{flex:1 1 180px;width:100%}
+.cs-body .ask-out{overflow-wrap:anywhere}

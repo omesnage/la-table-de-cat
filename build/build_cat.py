@@ -302,8 +302,10 @@ def arep(old,new,count=1):
     n=app.count(old)
     if n!=count: FAIL.append(f"APP ANCHOR x{n}: {old[:100]!r}"); return
     app=app.replace(old,new)
-arep('''    <div class="sheet-foot">${cookFooter(kind, ref, o)}</div>''','''    ${askSection(o)}
-    <div class="sheet-foot">${cookFooter(kind, ref, o)}</div>''')
+arep('''        ${rc.length ? `<div class="recall">${rc.map(i => `<span class="rc"><b>${esc(qtyStr(i))}</b> ${esc(i.n)}</span>`).join("")}</div>` : ""}
+      </div></li>`;''','''        ${rc.length ? `<div class="recall">${rc.map(i => `<span class="rc">${qtyChip(i)}</span>`).join("")}</div>` : ""}
+        ${askStepBtn()}
+      </div></li>`;''')
 arep('aria-label="Retirer ${esc(r.i.n)}">${ic("x")}</button></li>`;','aria-label="Retirer ${esc(r.i.n)}">${ic("x")}</button>${subCookBtn(o, r.idx)}${subCookPanel(o, r.idx)}</li>`;')
 arep('vegChips(o, "vegSwapTo", r.idx, k)}</div>` : ""}</li>`; };','vegChips(o, "vegSwapTo", r.idx, k)}</div>` : ""}${subCookBtn(o, r.idx)}${subCookPanel(o, r.idx)}</li>`; };')
 # retirer l'objectif calorique d'Olivier
