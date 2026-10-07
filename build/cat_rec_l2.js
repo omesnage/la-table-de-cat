@@ -165,7 +165,7 @@ RC({id:"n-t-croquettes-okara-aneth", n:"Croquettes tendres d'okara & de pommes d
   "Mise en place — Éplucher les pommes de terre ({{pommes de terre}}) et les couper en cubes de 3 cm. Éplucher la carotte ({{carotte}}) et la couper en bâtonnets. Laver les épinards ({{épinards}}). Éponger le tofu ({{tofu ferme}}). [[sortir; eplucher pommes de terre; couper pommes de terre; eplucher carotte; couper carotte; laver epinards; presser tofu]]",
   c1(25, "les pommes de terre et les carottes", "Les cubes s'écrasent sans résistance."),
   "La pâte — Écraser les pommes de terre cuites avec le tofu émietté, l'okara ({{okara d'amande}}) et une pincée de sel. Façonner 6 petites croquettes de 40 g et les rouler dans la farine de sarrasin ({{farine de sarrasin}}) étalée sur une assiette. [[ecraser; former x6]]",
-  c2(12, "les croquettes sur papier sulfurisé percé et les épinards", "La surface devient mate et veloutée, la croquette se tient : ni huile chaude ni panure."),
+  c2(15, "les croquettes sur papier sulfurisé percé et les épinards", "La surface devient mate et veloutée, la croquette se tient : ni huile chaude ni panure."),
   "La crème d'aneth — Mélanger la crème de soja ({{crème de soja}}), l'aneth ({{aneth}}) ciselé et l'huile d'olive crue ({{huile d'olive}}) dans un petit bol. [[delayer; ciseler]]",
   "Dressage — Croquettes en ligne dans l'assiette creuse tiède, carottes et épinards pressés à côté, crème d'aneth en filet. [[presser epinards; dresser x4]]"],
  tip:"La farine de sarrasin donne à la croquette une surface fine et veloutée : on garde le contraste extérieur-intérieur sans une goutte d'huile chaude."}),
