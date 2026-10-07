@@ -225,3 +225,6 @@ button,.btn,.chip,.mt,.dt,.wa,.mini,.mini-add,.qb,.qx,.chk,.dur{touch-action:man
   .cstep{padding:14px 12px}.cs-more summary{min-height:40px;display:flex;align-items:center}
 }
 .mt.mt-main{color:var(--ink);border-color:var(--ink)}
+.sync-mark{margin-left:auto;align-self:center;font-size:12px;color:var(--ink-3,#7a7a72);letter-spacing:.01em}
+.sync-mark[data-bad="1"]{color:var(--danger,#a33)}
+.welcome-steps{margin:14px 0;padding-left:20px;line-height:1.6}

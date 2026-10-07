@@ -341,7 +341,7 @@ kg_old=app[app.index('const KEY_GROUPS = ['):app.index('const canonKey')]
 app=app.replace(kg_old,'''const KEY_GROUPS = [["riz cuit","riz cru","riz basmati","riz"],["oeuf","oeufs"],["quinoa cuit","quinoa"],["soba cuites","soba"],["tofu ferme","tofu"],
   ["proteine de pois texturee","proteine de pois texturee (seche)"],["proteine de soja texturee","proteine de soja texturee (seche)"],["blanc de poulet","poulet"],["huile d'olive","huile"],["flocons d'avoine","avoine"]];
 ''')
-extra=app+rd('cat_v6.js')+'\n'+rd('cat_subs.js')+'\n'+rd('cat_lot.js')+'\n'+rd('cat_resume.js')+'\n'+rd('cat_swap.js')+'''
+extra=app+rd('cat_v6.js')+'\n'+rd('cat_subs.js')+'\n'+rd('cat_lot.js')+'\n'+rd('cat_resume.js')+'\n'+rd('cat_swap.js')+'\n'+rd('cat_sync.js')+'''
 function viewInsp(){
   const mode = (S.ui && S.ui.insp) || "compose";
   const seg = `<div class="seg ins-mode" role="tablist">${[["compose","Composer"],["fridge","Avec mon frigo"]].map(([v, l]) => `<button class="seg-b" data-act="inspMode" data-v="${v}" aria-pressed="${mode === v}">${l}</button>`).join("")}</div>`;
