@@ -455,7 +455,7 @@ html[data-font="classic"]{--serif:"Playfair Display",Georgia,serif;--sans:"Karla
 .cr-sec .check{display:flex;align-items:center;gap:10px;font-size:14.5px}
 
 @media (max-width:720px){
-  .cpills{grid-template-columns:1fr 1fr}
+  .cpills{grid-template-columns:repeat(3,1fr);gap:6px}.cpill{padding:10px 11px}.cpill strong{font-size:19px}.cpill:nth-child(4){grid-column:1/-1;flex-direction:row;align-items:center;gap:10px}.cpill:nth-child(4) .ico-s{margin:0}
   .cook-title{font-size:30px}
   .cook-ings{grid-template-columns:1fr}
   .cstep{grid-template-columns:44px 1fr;padding:14px 12px}
@@ -595,6 +595,8 @@ button,.btn,.chip,.mt,.dt,.wa,.mini,.mini-add,.qb,.qx,.chk,.dur{touch-action:man
 .sync-mark{margin-left:auto;align-self:center;font-size:12px;color:var(--ink-3,#7a7a72);letter-spacing:.01em}
 .sync-mark[data-bad="1"]{color:var(--danger,#a33)}
 .welcome-steps{margin:14px 0;padding-left:20px;line-height:1.6}
+.dish-times{display:flex;align-items:center;gap:10px;margin-top:3px;font-size:12.5px;color:var(--ink-3,#7a7a72);letter-spacing:.01em}
+.dish-times .sep{width:1px;height:10px;background:var(--line-2,#d8d4cb)}
 
 /* ===== protocole de Cat : contrôle des aliments, réintroduction, leviers ===== */
 .pc{margin:12px 0;padding:12px 14px;border-radius:14px;border:1px solid var(--line);background:var(--card);font-size:14px}
@@ -2559,7 +2561,7 @@ function mealCell(m, sl, di){
   const meta = [m.st || "", kcalOf(m) ? "≈ " + fmtK(kcalOf(m)) + " kcal" : ""].filter(Boolean).join(", ");
   return `<div class="meal slot-${sl.k}${cls}" ${catSt(m.cat)}><div class="slot">${sl.label}</div>
     <button class="dish" data-act="openMeal" ${at}><span class="dish-name">${esc(m.name || "Repas sans nom")}</span>
-    ${m.sub ? `<span class="dish-sub">${esc(m.sub)}</span>` : ""}<span class="dish-meta">${catTag(m.cat)}${seasonChip(m)}<span>${esc(meta)}</span></span>${mealBadges(m)}${protoDot(m)}</button>
+    ${m.sub ? `<span class="dish-sub">${esc(m.sub)}</span>` : ""}<span class="dish-meta">${catTag(m.cat)}${seasonChip(m)}<span>${esc(meta)}</span></span>${mealBadges(m)}${protoDot(m)}${timesLine(m)}</button>
     ${mealTools(at)}</div>`;
 }
 
@@ -3027,7 +3029,7 @@ function renderBookList(){
   const groups = [...CATS, ...new Set(list.map(r => r.cat).filter(c => !CATS.includes(c)))];
   el.innerHTML = groups.map(g => { const rs = list.filter(r => r.cat === g); if (!rs.length) return "";
     return `<section class="book-group" ${catSt(g)}><h2 class="group-title">${esc(g)}</h2><ul class="book-list">${rs.map(r => `<li><button class="book-item" data-act="openRecipe" data-id="${r.id}">
-      <span class="dish-name">${esc(r.n)}</span><span class="dish-meta">${esc(r.st)}${r.base && r.base !== "Aucun" ? ", " + esc(r.base.toLowerCase()) : ""}${r.t ? ", " + esc(r.t) + " min" : ""}, ≈ ${fmtK(kcalOf(r))} kcal${r.own ? ", ma recette" : ""}</span></button></li>`).join("")}</ul></section>`; }).join("")
+      <span class="dish-name">${esc(r.n)}</span><span class="dish-meta">${esc(r.st)}${r.base && r.base !== "Aucun" ? ", " + esc(r.base.toLowerCase()) : ""}${r.t ? ", " + esc(r.t) + " min" : ""}, ≈ ${fmtK(kcalOf(r))} kcal${r.own ? ", ma recette" : ""}</span>${timesLine(r)}</button></li>`).join("")}</ul></section>`; }).join("")
     || `<p class="muted center">Aucune recette ne correspond à ces filtres.</p>`;
 }
 A.openRecipe = ds => openEditor("recipe", ds.id);
@@ -4560,7 +4562,7 @@ function refreshRecipes(ids, regen){
     const k = sl.k, m = d.meals[k]; if (!m) return; let nm = null;
     const r = m.recipeId && ids.indexOf(m.recipeId) >= 0 ? byId(m.recipeId) : null;
     if (r) {
-      if (ingNames(m.ing) === ingNames(r.ing)) { m.name = r.n; m.cat = r.cat; m.st = r.st; m.base = r.base; m.t = r.t; m.d = r.d; m.steps = [...r.steps]; m.tip = r.tip || ""; }
+      if (ingNames(m.ing) === ingNames(r.ing)) { m.name = r.n; m.cat = r.cat; m.st = r.st; m.base = r.base; m.t = r.t; m.tc = r.tc; m.d = r.d; m.steps = [...r.steps]; m.tip = r.tip || ""; }
       else nm = mealFromRecipe(r);
     } else if (regen && m.gen && !m.recipeId) { try { nm = mealFromGen(buildGen({ ...m.gen })); } catch (e) { nm = null; } }
     if (nm) { nm.id = m.id; protoAdaptMeal(nm, k, kT(k)); d.meals[k] = nm; }
@@ -4857,6 +4859,15 @@ A.lotShop = () => {
     } catch (e) { if (S.ui) delete S.ui.open; }
   };
 })();
+
+/* ---------- préparation / cuisson côte à côte sur les cartes (version 14) ---------- */
+function timesLine(o){
+  try {
+    if (!o || !(+o.t > 0) || !(o.steps && o.steps.length)) return "";
+    const T = timeSummary(o, o.steps.map(s => parseStep(String(s))));
+    return T.total && T.cook ? `<span class="dish-times"><span>Préparation ${T.prep} min</span><span class="sep"></span><span>Cuisson ${T.cook} min</span></span>` : "";
+  } catch (e) { return ""; }
+}
 
 
 /* ---------- remplacer un repas en un geste (version 14) ----------

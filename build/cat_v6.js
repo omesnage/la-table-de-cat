@@ -479,7 +479,7 @@ function refreshRecipes(ids, regen){
     const k = sl.k, m = d.meals[k]; if (!m) return; let nm = null;
     const r = m.recipeId && ids.indexOf(m.recipeId) >= 0 ? byId(m.recipeId) : null;
     if (r) {
-      if (ingNames(m.ing) === ingNames(r.ing)) { m.name = r.n; m.cat = r.cat; m.st = r.st; m.base = r.base; m.t = r.t; m.d = r.d; m.steps = [...r.steps]; m.tip = r.tip || ""; }
+      if (ingNames(m.ing) === ingNames(r.ing)) { m.name = r.n; m.cat = r.cat; m.st = r.st; m.base = r.base; m.t = r.t; m.tc = r.tc; m.d = r.d; m.steps = [...r.steps]; m.tip = r.tip || ""; }
       else nm = mealFromRecipe(r);
     } else if (regen && m.gen && !m.recipeId) { try { nm = mealFromGen(buildGen({ ...m.gen })); } catch (e) { nm = null; } }
     if (nm) { nm.id = m.id; protoAdaptMeal(nm, k, kT(k)); d.meals[k] = nm; }

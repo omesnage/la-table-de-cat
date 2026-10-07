@@ -257,7 +257,8 @@ rep("""      <div class="day-tools">
         <button class="link danger" data-act="delDay" data-d="${di}">Supprimer</button>
       </div>""","      ${dayTools(d, di)}")
 rep("""<div class="meal-tools"><button class="link" data-act="proposeMeal" ${at}>Autres idées</button><button class="link" data-act="pickRecipe" ${at}>Carnet</button></div></div>`;""","${mealTools(at)}</div>`;")
-rep('<span class="dish-meta">${catTag(m.cat)}<span>${esc(meta)}</span></span></button>','<span class="dish-meta">${catTag(m.cat)}${seasonChip(m)}<span>${esc(meta)}</span></span>${mealBadges(m)}${protoDot(m)}</button>')
+rep('<span class="dish-meta">${catTag(m.cat)}<span>${esc(meta)}</span></span></button>','<span class="dish-meta">${catTag(m.cat)}${seasonChip(m)}<span>${esc(meta)}</span></span>${mealBadges(m)}${protoDot(m)}${timesLine(m)}</button>')
+rep('${r.own ? ", ma recette" : ""}</span></button></li>','${r.own ? ", ma recette" : ""}</span>${timesLine(r)}</button></li>')
 rep('snapshot(); setMeal(t, mealFromRecipe(r)); save(); closeModal(); toast(`${slotLabel(t.s)} : ${r.n}`, true); };','snapshot(); setMeal(t, mealFromRecipe(r)); afterSelect(t); };')
 rep('snapshot(); setMeal(t, copyMeal(m)); save(); closeModal(); toast(`${slotLabel(t.s)} : ${m.name}`, true); };','snapshot(); setMeal(t, copyMeal(m)); afterSelect(t); };')
 rep('snapshot(); setMeal(t, copyMeal(TEMP)); save(); closeModal(); toast(`Ajouté : ${S.weeks[t.w].name}, ${S.weeks[t.w].days[t.d].name}, ${slotLabel(t.s).toLowerCase()}`, true); };','snapshot(); setMeal(t, copyMeal(TEMP)); afterSelect(t); };')

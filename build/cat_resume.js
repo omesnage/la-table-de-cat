@@ -25,3 +25,12 @@
     } catch (e) { if (S.ui) delete S.ui.open; }
   };
 })();
+
+/* ---------- préparation / cuisson côte à côte sur les cartes (version 14) ---------- */
+function timesLine(o){
+  try {
+    if (!o || !(+o.t > 0) || !(o.steps && o.steps.length)) return "";
+    const T = timeSummary(o, o.steps.map(s => parseStep(String(s))));
+    return T.total && T.cook ? `<span class="dish-times"><span>Préparation ${T.prep} min</span><span class="sep"></span><span>Cuisson ${T.cook} min</span></span>` : "";
+  } catch (e) { return ""; }
+}
