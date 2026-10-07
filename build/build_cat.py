@@ -302,6 +302,8 @@ def arep(old,new,count=1):
     n=app.count(old)
     if n!=count: FAIL.append(f"APP ANCHOR x{n}: {old[:100]!r}"); return
     app=app.replace(old,new)
+arep('''    <div class="sheet-foot">${cookFooter(kind, ref, o)}</div>''','''    ${askSection(o)}
+    <div class="sheet-foot">${cookFooter(kind, ref, o)}</div>''')
 arep('aria-label="Retirer ${esc(r.i.n)}">${ic("x")}</button></li>`;','aria-label="Retirer ${esc(r.i.n)}">${ic("x")}</button>${subCookBtn(o, r.idx)}${subCookPanel(o, r.idx)}</li>`;')
 arep('vegChips(o, "vegSwapTo", r.idx, k)}</div>` : ""}</li>`; };','vegChips(o, "vegSwapTo", r.idx, k)}</div>` : ""}${subCookBtn(o, r.idx)}${subCookPanel(o, r.idx)}</li>`; };')
 # retirer l'objectif calorique d'Olivier
@@ -342,7 +344,9 @@ kg_old=app[app.index('const KEY_GROUPS = ['):app.index('const canonKey')]
 app=app.replace(kg_old,'''const KEY_GROUPS = [["riz cuit","riz cru","riz basmati","riz"],["oeuf","oeufs"],["quinoa cuit","quinoa"],["soba cuites","soba"],["tofu ferme","tofu"],
   ["proteine de pois texturee","proteine de pois texturee (seche)"],["proteine de soja texturee","proteine de soja texturee (seche)"],["blanc de poulet","poulet"],["huile d'olive","huile"],["flocons d'avoine","avoine"]];
 ''')
-extra=app+rd('cat_v6.js')+'\n'+rd('cat_subs.js')+'\n'+rd('cat_lot.js')+'\n'+rd('cat_resume.js')+'\n'+rd('cat_swap.js')+'\n'+rd('cat_sync.js')+'''
+import json as _json
+bamboo_doc='const BAMBOO_DOC = '+_json.dumps(open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','docs','bamboo.md'),encoding='utf-8').read(),ensure_ascii=False).replace('</','<\\/')+';\n'
+extra=bamboo_doc+app+rd('cat_v6.js')+'\n'+rd('cat_subs.js')+'\n'+rd('cat_lot.js')+'\n'+rd('cat_resume.js')+'\n'+rd('cat_swap.js')+'\n'+rd('cat_sync.js')+'\n'+rd('cat_ask.js')+'''
 function viewInsp(){
   const mode = (S.ui && S.ui.insp) || "compose";
   const seg = `<div class="seg ins-mode" role="tablist">${[["compose","Composer"],["fridge","Avec mon frigo"]].map(([v, l]) => `<button class="seg-b" data-act="inspMode" data-v="${v}" aria-pressed="${mode === v}">${l}</button>`).join("")}</div>`;
