@@ -224,8 +224,8 @@ if (A) {
       && W.recipes.find(r => r.id === 'perso-4').steps[0] === 'étape perso' && W.weeks[0].days[2].meals.d.steps[0] === 'étape perso' && W.weights.length === 1;
     if (!ok) fail('migration 14', 'recette non mise à jour ou données perdues (huile ' + oil + ')'); else out.push('✓ migration 13 → 14 : recette mise à jour sur place (quantités conservées), Japchae à 1 c. à café d\'huile, recette de Cat, repas fait main et pesées intacts'); }
   /* cuissons vapeur : toujours un palier de 5 minutes, 60 minutes au plus (docs/bamboo.md) */
-  { const bad = []; A.defaultState().recipes.forEach(r => (r.steps || []).forEach(st => { const re = /régler (\d+) minutes/g; let x; while ((x = re.exec(st))) { const n = +x[1]; if (n % 5 || n > 60) bad.push(r.id + ' : ' + n + ' min'); } }));
-    if (bad.length) fail('vapeur', 'durées hors palier de 5 min : ' + bad.join(' ; ')); else out.push('✓ cuissons vapeur : toutes au palier de 5 minutes, 60 minutes au plus'); }
+  { const bad = []; let cnt = 0; A.defaultState().recipes.forEach(r => (r.steps || []).forEach(st => { const re = /(?:régler|STEAM) (\d+) minutes/g; let x; while ((x = re.exec(st))) { cnt++; const n = +x[2 - 1]; if (n % 5 || n > 60) bad.push(r.id + ' : ' + n + ' min'); } }));
+    if (!cnt) fail('vapeur', 'aucun cycle vapeur trouvé'); else if (bad.length) fail('vapeur', 'durées hors palier de 5 min : ' + bad.join(' ; ')); else out.push('✓ cuissons vapeur : ' + cnt + ' réglages, tous au palier de 5 minutes, 60 minutes au plus'); }
 }
 
 /* ---------- 4 : cohérence entre la liste d'ingrédients et le texte des étapes ----------
