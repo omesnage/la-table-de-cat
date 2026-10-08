@@ -6,7 +6,7 @@ const LOT_KEEP_NOTE = "Refroidir en moins de 2 heures, ranger dans des boîtes e
 /* jours de conservation au frais, prudents (digestion sensible) */
 function lotKeep(r){
   const id = r.id || "";
-  if (/gyeran|sundubu/.test(id)) return 2;          /* œufs, tofu soyeux : fragiles */
+  if (/gyeran|sundubu|dak-|godeungeo|wakame/.test(id)) return 2;   /* œufs, tofu soyeux, poulet, sardines, algue : fragiles */
   if (/jorim|dubu-jjim/.test(id)) return 4;          /* braisés dans leur sauce */
   return 3;                                          /* namul, muchim, tofu assaisonné */
 }
