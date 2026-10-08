@@ -351,7 +351,7 @@ function cookHTML(o, kind, ref){
       <div class="cs-body"><div class="cs-head"><h4>${esc(s.h || "Étape " + (n + 1))}</h4>${dur}</div>
         ${s.sans.length ? `<div class="sans">${s.sans.map(x => `<span>Sans ${esc(x)}</span>`).join("")}</div>` : ""}
         <p class="cs-short">${fmtStep(sp.short)}</p>
-        ${sp.more ? `<details class="cs-more"><summary>Détails et repères</summary><p>${fmtStep(sp.more)}</p></details>` : ""}
+        ${sp.more ? `<p class="cs-rest">${fmtStep(sp.more)}</p>` : ""}
         ${rc.length ? `<div class="recall">${rc.map(i => `<span class="rc"><b>${esc(qtyStr(i))}</b> ${esc(i.n)}</span>`).join("")}</div>` : ""}
       </div></li>`;
   }).join("") || `<li class="muted">Aucune étape pour l'instant. Touche « Modifier » pour écrire la préparation.</li>`;

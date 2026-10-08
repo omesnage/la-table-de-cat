@@ -52,6 +52,7 @@
 .dur{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:var(--r);background:color-mix(in srgb,var(--cc) 12%,transparent);color:color-mix(in srgb,var(--cc) 70%,var(--ink));font-size:13px;font-variant-numeric:tabular-nums;min-height:32px}
 .dur.run{background:var(--cc);color:#fff}
 .cs-short{margin:6px 0 0;font-size:16px;line-height:1.55;color:var(--ink)}
+.cs-rest{margin:8px 0 0;font-size:15px;line-height:1.7;color:var(--ink-2)}
 .cs-more{margin-top:8px;font-size:13.5px;color:var(--ink-2)}
 .cs-more summary{cursor:pointer;color:var(--celadon);font-size:13px;list-style:none}
 .cs-more summary::-webkit-details-marker{display:none}
