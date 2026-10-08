@@ -78,6 +78,16 @@ NEW_RECIPES.forEach(r => {
   if (P.length) fail(r.id, P.join(' | '));
   else out.push('✓ ' + r.id + '  ' + r.t + ' min (cuisson ' + r.tc + '), ' + Math.round(kc) + ' kcal' + (b ? '' : ', protéine ' + solT + ' g, légumes ' + veg + ' g'));
 });
+/* mots techniques ou produits peu courants : expliqués dans la recette où ils apparaissent (demande d'Olivier, 8 octobre 2026) */
+const JARGON = [/cro[ûu]te/i, /poch(er|é|age)/i, /mollet/i, /brais(er|é|e\b)/i, /[ée]tuv/i, /mijot/i, /fr[ée]mi/i, /blanchi/i, /effiloch/i, /[ée]minc/i, /napper/i, /laqu/i, /r[ée]hydrat/i, /sulfuris/i, /papillote/i,
+  /soyeux/i, /okara/i, /kombu/i, /dashi/i, /\bmiso\b/i, /\bnori\b/i, /wakam/i, /daikon/i, /pak choi/i, /p[âa]tisson/i, /butternut/i, /courge spaghetti/i, /c[ée]leri-rave/i, /\bsoba\b/i, /vermicelles/i,
+  /tsukune/i, /donburi/i, /chawanmushi/i, /agedashi/i, /brouillade/i, /blanquette/i, /ha[ïi]nanais/i, /minestrone/i, /hachis/i, /soboro/i, /tiédir/i];
+const JARGON_CUE = /(c'est-à-dire|veut dire|signifie|désigne|\(|est un |est une |est le |est la |sorte|appel|autrement dit|c'est |: un|: une|comme |ce qui |qui |dont )/i;
+NEW_RECIPES.forEach(r => {
+  const txt = r.steps.map(s => s.replace(/\[\[.*?\]\]/g, '').replace(/\{\{([^}]+)\}\}/g, '$1')).join(' ¶ '), miss = [];
+  JARGON.forEach(t => { const m = txt.match(t); if (!m) return; const near = txt.slice(Math.max(0, m.index - 160), m.index + 220).replace(m[0], ''); if (!JARGON_CUE.test(near)) miss.push(m[0]); });
+  if (miss.length) fail(r.id, 'mot technique sans explication : ' + [...new Set(miss)].join(', '));
+});
 if (NEW_RECIPES.length !== 110) fail('catalogue', NEW_RECIPES.length + ' recettes au lieu de 110 (60 repas, 10 collations, 40 banchan)');
 if (nChicken !== 4) fail('catalogue', nChicken + ' recettes de poulet au lieu de 4');
 if (nPST > 8) fail('catalogue', nPST + ' recettes à la protéine texturée : quelques plats seulement (8 au plus)');

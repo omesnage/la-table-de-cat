@@ -101,7 +101,7 @@ RC({id:"n-bc-gyeran-guk", n:"Gyeran-guk : soupe d'œuf en rubans, bouillon de ko
 RC({id:"n-bc-gyeran-jangjorim", n:"Gyeran-jangjorim : œufs mollets laqués au soja et à l'érable", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Protéine",
  ing:[["oeuf",2,"pièce"],["sauce soja",0.5,"c. à café"],["sirop d'érable",0.5,"c. à café"],["huile de sésame grillé",0.5,"c. à café"],["ciboulette","",HERBS],["eau",60,"ml"]],
  steps:[
-  "Avant de commencer — Ustensiles : une petite casserole avec son couvercle, une cuillère, un bol, un bol d'eau froide. Le plat en deux mots : « jangjorim » est un plat mijoté dans une sauce soja légèrement sucrée ; en Corée on le prépare avec des œufs durs ou de la viande effilochée. Ici l'œuf est mollet : le blanc est pris et le jaune est encore crémeux. On le trempe dans la sauce : il se colore de brun clair. Un seul œuf préparé de cette façon par plat.",
+  "Avant de commencer — Ustensiles : une petite casserole avec son couvercle, une cuillère, un bol, un bol d'eau froide. Le plat en deux mots : « jangjorim » est un plat mijoté dans une sauce soja légèrement sucrée ; en Corée on le prépare avec des œufs durs ou de la viande effilochée. Ici l'œuf est mollet : le blanc est pris et le jaune est encore crémeux. On le trempe dans la sauce : il se colore de brun clair. « Laqués » veut dire enrobés d'une sauce brillante, comme vernie. Un seul œuf préparé de cette façon par plat.",
   "Les œufs mollets — Faire frémir de l'eau dans la casserole, y glisser délicatement les œufs ({{oeuf}}) sortis du frigo 10 minutes avant. Les cuire 6 minutes 30 : le blanc est pris, le jaune coule encore. Les passer ensuite 2 minutes dans un bol d'eau froide pour stopper la cuisson, puis les écaler sous un filet d'eau en les roulant doucement sur le plan de travail. [[sortir; casserole; cuisson 7; ecaler x2]]",
   "La laque — Vider la casserole, y verser 60 ml d'eau, 1/2 c. à café de sauce soja et 1/2 c. à café de sirop d'érable. Faire frémir 1 minute à feu doux en mélangeant, jusqu'à ce que la sauce soit légèrement sirupeuse. Éteindre. [[casserole; cuisson 1]]",
   "L'enrobage — Remettre les œufs dans la sauce tiède et les rouler doucement avec la cuillère 1 minute pour qu'ils prennent une jolie couleur. Les ouvrir en deux au dernier moment, d'un coup de couteau mouillé : le jaune reste en place. [[attente 1; trancher]]",
@@ -133,7 +133,7 @@ RC({id:"n-bc-dak-jorim", n:"Dak-jorim : poulet braisé soja-érable, patate douc
  steps:[
   "Avant de commencer — Ustensiles : une casserole avec son couvercle, une planche réservée à la volaille crue et un couteau, un économe, une cuillère. Le plat en deux mots : « dak » veut dire poulet et « jorim » braisé, c'est-à-dire cuit doucement, à couvert, dans un peu de liquide parfumé qui réduit en sirop brillant. Les morceaux de poulet sont petits : ils cuisent vite et restent juteux. Aucune coloration à la poêle : la sauce donne la couleur.",
   "Le poulet — Couper le blanc de poulet ({{blanc de poulet}}) en cubes de 2 cm, en retirant toute trace de gras ou de nerf. Éplucher la patate douce ({{patate douce}}) et la couper en petits dés de 1 cm : une petite portion, la patate douce étant limitée dans le protocole. [[sortir; couper blanc de poulet; eplucher patate douce; couper patate douce]]",
-  "La braise — Mettre le poulet et la patate douce dans la casserole avec 80 ml d'eau, 1/2 c. à café de sauce soja et 1/2 c. à café de sirop d'érable. Couvrir et laisser frémir à feu doux 10 minutes en remuant deux fois. Contrôle : ouvrir un cube de poulet en deux avec la cuillère, il doit être blanc partout, sans aucune trace rosée, et la patate douce s'écrase sous la cuillère. Si le liquide s'évapore, ajouter une cuillère d'eau. [[casserole; cuisson 10]]",
+  "La braise — Mettre le poulet et la patate douce dans la casserole avec 80 ml d'eau, 1/2 c. à café de sauce soja et 1/2 c. à café de sirop d'érable. Couvrir et laisser frémir (l'eau bouge à peine, quelques petites bulles montent, sans bouillir) à feu doux 10 minutes en remuant deux fois. Contrôle : ouvrir un cube de poulet en deux avec la cuillère, il doit être blanc partout, sans aucune trace rosée, et la patate douce s'écrase sous la cuillère. Si le liquide s'évapore, ajouter une cuillère d'eau. [[casserole; cuisson 10]]",
   "Dressage — Hors du feu, ajouter 1/2 c. à café d'huile de sésame grillé et mélanger. Verser dans un petit bol avec le jus de cuisson et parsemer de la ciboulette ({{ciboulette}}) ciselée, pointes vertes seulement. Servir tiède. [[ciseler; dresser x2]]"],
  tip:"Des cubes de 2 cm cuisent à cœur en 10 minutes sans sécher. Le jus de cuisson, légèrement sucré, parfume le riz."}),
 
@@ -154,7 +154,7 @@ RC({id:"n-bc-dak-jjim", n:"Dak-jjim : poulet tendre à la vapeur, carotte & sauc
   "La préparation — Éplucher la carotte ({{carotte}}) et la couper en fins bâtonnets de 3 mm : ils serviront de lit au poulet. Couper le blanc de poulet ({{blanc de poulet}}) en lanières de 1 cm d'épaisseur, en retirant le gras et les nerfs. [[sortir; eplucher carotte; couper carotte; couper blanc de poulet]]",
   "La vapeur — Mettre les bâtonnets de carotte dans la casserole avec 100 ml d'eau, poser le poulet par-dessus sur une seule couche, couvrir et chauffer à feu doux 10 minutes sans soulever le couvercle. Contrôle : une lanière coupée en deux est blanche à cœur, sans trace rosée. [[casserole; cuisson 10]]",
   "La sauce — Pendant ce temps, mélanger dans le petit bol 1/2 c. à café de sauce soja, 1/2 c. à café de sirop d'érable et 1 cuillère d'eau. [[// delayer]]",
-  "Dressage — Égoutter la carotte et le poulet, les ranger dans un petit bol, napper de la sauce et ajouter 1/2 c. à café d'huile de sésame grillé. Servir tiède. [[egoutter; dresser x3]]"],
+  "Dressage — Égoutter la carotte et le poulet, les ranger dans un petit bol, napper de la sauce (la verser par-dessus pour recouvrir le poulet) et ajouter 1/2 c. à café d'huile de sésame grillé. Servir tiède. [[egoutter; dresser x3]]"],
  tip:"Le poulet ne touche jamais l'eau : la vapeur le cuit en douceur et la carotte dessous prend son jus."}),
 
 RC({id:"n-bc-dak-guk", n:"Dak-guk : petite soupe de poulet haché, bouillon de kombu & épinards", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Protéine",
@@ -173,7 +173,7 @@ RC({id:"n-bc-godeungeo-jorim", n:"Godeungeo-jorim : sardines mijotées au daikon
  steps:[
   "Avant de commencer — Ustensiles : une casserole avec son couvercle, une planche et un couteau, un économe, du papier absorbant, une cuillère. Le plat en deux mots : « godeungeo-jorim » est en Corée du maquereau braisé avec du radis ; ici on utilise des sardines au naturel en boîte, déjà cuites, qui n'ont qu'à se réchauffer dans une sauce douce. Le daikon est un gros radis blanc, très doux une fois cuit. Plat du midi, occasionnel, hors phase sensible.",
   "Les sardines et le daikon — Égoutter les sardines au naturel ({{sardines au naturel}}) sur du papier absorbant et retirer l'arête centrale si elle est présente. Éplucher le daikon ({{daikon}}) et le couper en fines demi-rondelles de 3 mm : elles cuisent vite et deviennent translucides. [[sortir; egoutter; eplucher daikon; couper daikon]]",
-  "Le daikon — Mettre le daikon dans la casserole avec 60 ml d'eau, 1/2 c. à café de sauce soja et 1/2 c. à café de sirop d'érable. Couvrir et laisser frémir à feu doux 5 minutes : il devient translucide et tendre. [[casserole; cuisson 5]]",
+  "Le daikon — Mettre le daikon dans la casserole avec 60 ml d'eau, 1/2 c. à café de sauce soja et 1/2 c. à café de sirop d'érable. Couvrir et laisser frémir (l'eau bouge à peine, quelques petites bulles montent, sans bouillir) à feu doux 5 minutes : il devient translucide et tendre. [[casserole; cuisson 5]]",
   "Les sardines — Poser les sardines sur le daikon, couvrir et chauffer 3 minutes à feu très doux, sans remuer pour ne pas les émietter : elles se réchauffent dans la vapeur et se laissent napper de sauce. [[cuisson 3]]",
   "Dressage — Glisser le tout dans un petit bol avec la sauce, ajouter 1/2 c. à café d'huile de sésame grillé et la ciboulette ({{ciboulette}}) ciselée, pointes vertes seulement. Servir tiède. [[ciseler; dresser x3]]"],
  tip:"Des sardines déjà cuites n'ont besoin que de quelques minutes de chaleur : plus longtemps, elles s'émiettent et sentent fort."}),
@@ -266,7 +266,7 @@ RC({id:"n-bc-potimarron-jorim", n:"Danhobak-jorim : potimarron braisé, laqué a
  steps:[
   "Avant de commencer — Ustensiles : une casserole avec son couvercle, un économe, une planche et un couteau solide, une cuillère. Le plat en deux mots : « danhobak » est la courge sucrée, « jorim » signifie braisé, c'est-à-dire cuit doucement à couvert dans un peu de liquide parfumé. Le potimarron est déjà naturellement sucré : le sirop ne sert que de laque brillante.",
   "Le potimarron — Éplucher le potimarron ({{potimarron}}) avec l'économe (sa peau est dure : bien appuyer, ou le couper d'abord en quartiers), retirer les graines avec une cuillère, puis le couper en cubes de 2 cm. [[sortir; eplucher potimarron; couper potimarron]]",
-  "La braise — Mettre les cubes dans la casserole avec 80 ml d'eau, 1/2 c. à café de sauce soja et 1/2 c. à café de sirop d'érable. Couvrir et laisser frémir à feu doux 10 minutes, en remuant une fois à mi-cuisson. Repère : les cubes sont fondants, la sauce a presque disparu et les enrobe d'un voile brillant. [[casserole; cuisson 10]]",
+  "La braise — Mettre les cubes dans la casserole avec 80 ml d'eau, 1/2 c. à café de sauce soja et 1/2 c. à café de sirop d'érable. Couvrir et laisser frémir (l'eau bouge à peine, quelques petites bulles montent, sans bouillir) à feu doux 10 minutes, en remuant une fois à mi-cuisson. Repère : les cubes sont fondants, la sauce a presque disparu et les enrobe d'un voile brillant. [[casserole; cuisson 10]]",
   "Dressage — Verser dans un petit bol et finir de 1/2 c. à café d'huile de sésame grillé. [[dresser x2]]"],
  tip:"Le potimarron est naturellement sucré : s'il reste de la sauce au fond, laisser réduire 1 minute à découvert."}),
 
@@ -275,7 +275,7 @@ RC({id:"n-bc-navet-jorim", n:"Naengi-jorim : navet braisé, translucide et sucr�
  steps:[
   "Avant de commencer — Ustensiles : une casserole avec son couvercle, un économe, une planche et un couteau. Le plat en deux mots : « jorim » signifie braisé, c'est-à-dire cuit doucement et à couvert dans un peu de liquide. Longuement cuit, le navet perd son amertume et devient presque sucré.",
   "Le navet — Éplucher le navet ({{navet}}) assez profondément pour retirer la peau et la couche dure dessous, puis le couper en cubes de 1,5 cm. [[sortir; eplucher navet; couper navet]]",
-  "La braise — Mettre les cubes dans la casserole avec 80 ml d'eau et 1/2 c. à café de sauce soja. Couvrir et laisser frémir à feu doux 10 minutes. Repère : les cubes sont translucides, bruns clair sur les bords, et s'écrasent à la fourchette. [[casserole; cuisson 10]]",
+  "La braise — Mettre les cubes dans la casserole avec 80 ml d'eau et 1/2 c. à café de sauce soja. Couvrir et laisser frémir (l'eau bouge à peine, quelques petites bulles montent, sans bouillir) à feu doux 10 minutes. Repère : les cubes sont translucides, bruns clair sur les bords, et s'écrasent à la fourchette. [[casserole; cuisson 10]]",
   "Dressage — Verser dans un petit bol et finir de 1/2 c. à café d'huile de sésame grillé. [[dresser x2]]"],
  tip:"Le navet cuit longtemps à l'eau perd toute son amertume et devient sucré."}),
 
@@ -293,7 +293,7 @@ RC({id:"n-bc-panais-jorim", n:"Panais-jorim : panais braisé, parfum de noisette
  steps:[
   "Avant de commencer — Ustensiles : une casserole avec son couvercle, un économe, une planche et un couteau. Le plat en deux mots : le panais est une racine blanche, à la chair crème, au goût sucré et légèrement noisette. « Jorim » signifie braisé : cuit doucement à couvert dans un peu de liquide.  Ici seul le sirop d'érable sucre le plat.",
   "Le panais — Éplucher le panais ({{panais}}), retirer le cœur dur s'il est gros, puis le couper en bâtonnets de 1 cm sur 4 cm. [[sortir; eplucher panais; couper panais]]",
-  "La braise — Mettre les bâtonnets dans la casserole avec 70 ml d'eau, 1/2 c. à café de sirop d'érable et une pincée de sel. Couvrir et laisser frémir à feu doux 10 minutes. Repère : le panais est translucide et la sauce a épaissi en un voile brillant. [[casserole; cuisson 10]]",
+  "La braise — Mettre les bâtonnets dans la casserole avec 70 ml d'eau, 1/2 c. à café de sirop d'érable et une pincée de sel. Couvrir et laisser frémir (l'eau bouge à peine, quelques petites bulles montent, sans bouillir) à feu doux 10 minutes. Repère : le panais est translucide et la sauce a épaissi en un voile brillant. [[casserole; cuisson 10]]",
   "Dressage — Verser dans un petit bol, finir de 1/2 c. à café d'huile de sésame grillé et servir tiède. [[dresser x2]]"],
  tip:"Le panais est sucré : on peut même se passer du sirop si les bâtonnets sont bien mûrs."}),
 
@@ -302,7 +302,7 @@ RC({id:"n-bc-fenouil-jorim", n:"Fenouil-jorim : fenouil braisé, doux et anisé"
  steps:[
   "Avant de commencer — Ustensiles : une casserole avec son couvercle, une planche et un couteau. Le plat en deux mots : le fenouil est un légume à bulbe blanc au parfum d'anis. Cuit, l'anis s'adoucit et le bulbe devient fondant. Portion limitée à 60 g (seuil FODMAP). « Jorim » signifie braisé : cuit à couvert dans un peu de liquide.",
   "Le fenouil — Retirer les feuilles abîmées et la base dure du fenouil ({{fenouil}}), puis le couper en fines lamelles de 5 mm : la finesse garantit la tendreté. [[sortir; couper fenouil]]",
-  "La braise — Mettre les lamelles dans la casserole avec 60 ml d'eau et 1/2 c. à café de sauce soja. Couvrir et laisser frémir à feu doux 10 minutes. Repère : les lamelles sont translucides et fondent sous la fourchette. [[casserole; cuisson 10]]",
+  "La braise — Mettre les lamelles dans la casserole avec 60 ml d'eau et 1/2 c. à café de sauce soja. Couvrir et laisser frémir (l'eau bouge à peine, quelques petites bulles montent, sans bouillir) à feu doux 10 minutes. Repère : les lamelles sont translucides et fondent sous la fourchette. [[casserole; cuisson 10]]",
   "Dressage — Verser dans un petit bol et finir de 1/2 c. à café d'huile de sésame grillé. [[dresser x2]]"],
  tip:"Le fenouil cuit longtemps perd son parfum d'anis trop fort : il reste une douceur sucrée."}),
 
@@ -329,7 +329,7 @@ RC({id:"n-bc-patisson-jorim", n:"Patisson-jorim : pâtisson braisé à la sauce 
  steps:[
   "Avant de commencer — Ustensiles : une casserole avec son couvercle, un économe, une planche et un couteau solide, une cuillère. Le plat en deux mots : le pâtisson est une petite courge blanche en forme de soucoupe, au goût d'artichaut doux. « Jorim » signifie braisé : cuit à couvert dans un peu de liquide parfumé.",
   "Le pâtisson — Éplucher le pâtisson ({{patisson}}) (sa peau est épaisse : le couper d'abord en quartiers, puis retirer la peau), enlever les graines, puis le couper en cubes de 2 cm. [[sortir; eplucher patisson; couper patisson]]",
-  "La braise — Mettre les cubes dans la casserole avec 60 ml d'eau, 1/2 c. à café de sauce soja et 1/2 c. à café de sirop d'érable. Couvrir et laisser frémir à feu doux 8 minutes. Repère : les cubes sont translucides et ont bruni légèrement par la sauce. [[casserole; cuisson 8]]",
+  "La braise — Mettre les cubes dans la casserole avec 60 ml d'eau, 1/2 c. à café de sauce soja et 1/2 c. à café de sirop d'érable. Couvrir et laisser frémir (l'eau bouge à peine, quelques petites bulles montent, sans bouillir) à feu doux 8 minutes. Repère : les cubes sont translucides et ont bruni légèrement par la sauce. [[casserole; cuisson 8]]",
   "Dressage — Verser dans un petit bol et finir de 1/2 c. à café d'huile de sésame grillé. [[dresser x2]]"],
  tip:"Le pâtisson a une chair plus fine que le potimarron : il cuit un peu plus vite."}),
 
