@@ -37,7 +37,7 @@ with sync_playwright() as p:
     pg3 = page(b, {}); pg3.goto(URL); pg3.wait_for_selector(".dish"); pg3.wait_for_timeout(600)
     pg3.click("#modal [data-act=importPaste]"); pg3.fill("#pasteBk", json.dumps(old)); pg3.click("[data-act=pasteGo]"); pg3.wait_for_timeout(500)
     st = json.loads(pg3.evaluate("localStorage.getItem('la-table-cat-v1')"))
-    check(st["v"] == 14 and len(st["weights"]) == 1 and any(r["id"] == "perso-x" for r in st["recipes"]) and not pg3.is_visible("#modal:not([hidden]) .welcome-steps"), "import de l'ancienne sauvegarde : migrée en version 14, pesée et recette de Cat conservées")
+    check(st["v"] == 15 and len(st["weights"]) == 1 and any(r["id"] == "perso-x" for r in st["recipes"]) and not pg3.is_visible("#modal:not([hidden]) .welcome-steps"), "import de l'ancienne sauvegarde : migrée en version 15, pesée et recette de Cat conservées")
     # 2. nouvel appareil (navigateur vide) : restauration du compte
     pg2 = page(b, db1); pg2.goto(URL); pg2.wait_for_selector(".dish"); pg2.wait_for_timeout(900)
     check(pg2.locator(".meal.slot-l").first.locator(".dish-name").inner_text() == name1 and not pg2.is_visible("#modal .welcome-steps"), "navigateur vide : planning restauré depuis le compte")

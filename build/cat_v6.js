@@ -489,3 +489,9 @@ function refreshRecipes(ids, regen){
 /* ---------- migration 14 : durées vapeur au palier de 5 min, Japchae à une seule cuillère d'huile ---------- */
 const V14_CHANGED = ["n-c-tsukune-soba", "n-e-brouillade-pdt", "n-e-flan-carotte-riz", "n-e-tortilla-vapeur", "n-e-chawanmushi-riz", "n-e-veloute-carotte-miso", "n-t-croquettes-okara-aneth"];
 function migrate14(){ refreshRecipes(V14_CHANGED, true); S.v = 14; }
+
+/* ---------- migration 15 : recettes réécrites en détail, 40 banchan variés ----------
+   Toutes les recettes fournies sont remplacées par leur version détaillée (mots expliqués, repères, contrôles).
+   Les repas déjà planifiés sont mis à jour sur place si leurs ingrédients correspondent, sinon reconstruits ;
+   recettes de Cat, repas faits main, pesées et réglages ne bougent pas. */
+function migrate15(){ refreshRecipes(DEFAULT_RECIPES.map(r => r.id), true); S.v = 15; }
