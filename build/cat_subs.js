@@ -26,6 +26,7 @@ const SUBT = [
   { grp: "lait", k: "lait de soja", ing: "lait de soja", t: "lait de soja", g: "m", forms: ["lait de soja"] },
   { grp: "lait", k: "lait d'avoine", ing: "lait d'avoine", t: "lait d'avoine", g: "m", forms: ["lait d'avoine"] },
   { grp: "lait", k: "lait de riz", ing: "lait de riz", t: "lait de riz", g: "m", forms: ["lait de riz"] },
+  { grp: "lait", k: "lait d'amande", ing: "lait d'amande", t: "lait d'amande", g: "m", forms: ["lait d'amande"] },
   { grp: "yaourt", k: "yaourt de soja", ing: "yaourt de soja nature", t: "yaourt de soja", g: "m", forms: ["yaourt de soja"] },
   { grp: "yaourt", k: "skyr de soja", ing: "skyr de soja", t: "skyr de soja", g: "m", forms: ["skyr de soja"] },
   { grp: "huile", k: "huile d'olive", ing: "huile d'olive", t: "huile d'olive", g: "f", forms: ["huile d'olive"] },

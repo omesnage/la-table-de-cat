@@ -94,3 +94,39 @@ RC({id:"n-col-soupe-miso-wakame", n:"Petite soupe miso, tofu soyeux & algue waka
   "Dressage — Verser la soupe dans le bol à soupe, en vérifiant qu'elle soit tiède. [[dresser x1]]"],
  tip:"Le miso se délaye hors du feu : bouilli, il perd son parfum. À éviter pendant une phase de sensibilité aiguë."})
 ];
+
+/* Version 16 : laits d'amande, crème de soja, jambon végétal La Vie (petite garniture, 20 g). */
+COLLATIONS.push(
+RC({id:"n-col-banane-lait-amande", n:"Banane tiède écrasée au lait d'amande vanillé", cat:"Collation", st:"Collation", base:"Aucun", d:1, go:"Sucré",
+ ing:[["banane",60,"g"],["lait d'amande",100,"ml"],["vanille naturelle",1,"pincée"],["sirop d'érable",0.5,"c. à café"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une petite casserole, une fourchette, une cuillère à café, un petit bol. Le plat en deux mots : une banane écrasée dans un lait d'amande chaud, comme un petit chocolat chaud sans chocolat. Le lait d'amande est une boisson végétale légère, au goût de noisette.",
+  "La banane tiède — Sortir les ingrédients. Retirer la peau de la banane ({{banane}}) et l'écraser à la fourchette dans la casserole. Verser le lait d'amande ({{lait d'amande}}) et la vanille ({{vanille naturelle}}), puis chauffer 2 minutes à feu très doux en remuant. Repère de réussite : un liquide épais, lisse et tiède, jamais bouillant. [[sortir; ecraser banane; casserole; cuisson 2]]",
+  "Dressage — Verser dans le petit bol et ajouter un fil de sirop d'érable ({{sirop d'érable}}), le sirop sucré tiré de la sève de l'érable. [[dresser x2]]"],
+ tip:"Plus la banane est mûre (peau tachetée de brun), moins il faut de sirop."}),
+
+RC({id:"n-col-compote-myrtilles-creme-soja", n:"Compote tiède de myrtilles & crème de soja vanillée", cat:"Collation", st:"Collation", base:"Aucun", d:1, go:"Sucré",
+ ing:[["myrtilles",60,"g"],["eau",1,"c. à soupe"],["crème de soja",1,"c. à soupe"],["vanille naturelle",1,"pincée"],["sirop d'érable",0.5,"c. à café"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une petite casserole, une fourchette, une cuillère à café, un petit bol. Le plat en deux mots : une compote est un fruit cuit doucement jusqu'à devenir fondant. Ici, des myrtilles chaudes sous une crème de soja, une crème végétale épaisse, parfumée à la vanille.",
+  "Les myrtilles — Sortir les ingrédients. Mettre les myrtilles ({{myrtilles}}), fraîches ou surgelées, dans la casserole avec l'eau ({{eau}}) et le sirop d'érable ({{sirop d'érable}}). Chauffer 2 minutes à feu doux, jusqu'à ce que les fruits éclatent et rendent un jus brillant, puis en écraser quelques-uns à la fourchette. Avec des myrtilles surgelées, compter 1 minute de plus. [[sortir; casserole; ecraser myrtilles; cuisson 2]]",
+  "Dressage — Verser la compote tiède dans le petit bol. Mélanger la crème de soja ({{crème de soja}}) et la vanille ({{vanille naturelle}}) à la cuillère, puis la déposer par-dessus. [[delayer; dresser x2]]"],
+ tip:"La crème de soja ajoute une douceur onctueuse : à verser au dernier moment pour garder le contraste chaud et frais."}),
+
+RC({id:"n-col-riz-jambon-nori", n:"Petit bol de riz tiède, jambon végétal & nori", cat:"Collation", st:"Collation", base:"Riz", d:1, go:"Salé",
+ ing:[["riz cuit",60,"g"],["eau",1,"c. à soupe"],["jambon végétal La Vie",20,"g"],["nori",1,"pièce"],["huile de sésame grillé",0.5,"c. à café"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une petite casserole avec son couvercle, une planche et un couteau, des ciseaux de cuisine, une cuillère, un petit bol. Le plat en deux mots : un petit bol de riz japonais. Le nori est une algue séchée en feuille fine, comme celle des sushis. Le jambon végétal La Vie, fait de protéines de pois et de soja, est déjà salé : on n'ajoute rien de salé.",
+  "Le riz — Sortir les ingrédients. Mettre le riz cuit ({{riz cuit}}) dans la casserole avec l'eau ({{eau}}), l'émietter du bout de la cuillère, couvrir et chauffer 3 minutes à feu doux. Repère de réussite : le riz est tiède et souple. [[sortir; casserole; cuisson 3]]",
+  "Dressage — Verser le riz dans le petit bol. Couper le jambon végétal ({{jambon végétal La Vie}}) en lanières de 5 mm et les poser dessus, émietter le nori ({{nori}}) au-dessus du bout des doigts, puis ajouter un filet d'huile de sésame grillé ({{huile de sésame grillé}}), versée à la fin et jamais chauffée. [[couper jambon végétal La Vie; dresser x3]]"],
+ tip:"Le nori émietté au dernier moment parfume le bol : ni sel ni sauce n'est nécessaire."}),
+
+RC({id:"n-col-pain-sarrasin-soyeux-jambon", n:"Pain de sarrasin tiède, tofu soyeux écrasé & jambon végétal", cat:"Collation", st:"Collation", base:"Sarrasin", d:1, go:"Salé",
+ ing:[["pain de sarrasin",40,"g"],["tofu soyeux",40,"g"],["jambon végétal La Vie",20,"g"],["huile d'olive",0.5,"c. à café"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une poêle antiadhésive sèche, une planche et un couteau, une fourchette, un petit bol, une assiette. Le plat en deux mots : une petite tartine tiède. Le tofu soyeux, très tendre et lisse, écrasé à la fourchette, fait une crème à tartiner sans lait. Le jambon végétal La Vie, fait de protéines de pois et de soja, est déjà salé.",
+  "Le pain — Sortir les ingrédients. Tiédir le pain de sarrasin ({{pain de sarrasin}}) 1 minute de chaque côté dans la poêle sèche à feu doux, sans le laisser prendre de couleur. [[sortir; casserole; cuisson 2]]",
+  "La crème et le jambon — Pendant ce temps, vider le tofu soyeux ({{tofu soyeux}}) de son eau et l'écraser à la fourchette dans le petit bol avec l'huile d'olive ({{huile d'olive}}). Couper le jambon végétal ({{jambon végétal La Vie}}) en lanières de 5 mm. [[// egoutter; ecraser; couper jambon végétal La Vie]]",
+  "Dressage — Tartiner la crème de tofu sur le pain tiède sur l'assiette et poser les lanières de jambon par-dessus. [[dresser x3]]"],
+ tip:"Le jambon végétal assaisonne la tartine à lui seul."})
+);

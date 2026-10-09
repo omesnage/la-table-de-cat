@@ -153,3 +153,80 @@ RC({id:"n-pdj-oeuf-mollet-riz-sesame", n:"Riz tiède au sésame, œuf mollet cou
   "Dressage — Sortir l'œuf à la cuillère et le plonger 1 minute dans le bol d'eau froide pour arrêter la cuisson. L'écaler : le rouler doucement sur le plan de travail pour fendiller la coquille, puis retirer coquille et fine peau sous un filet d'eau. Verser le riz dans le bol de service, poser l'œuf au centre et l'ouvrir en deux avec la cuillère pour que le jaune coule sur le riz. Ajouter la sauce soja ({{sauce soja}}), l'huile de sésame grillé ({{huile de sésame grillé}}), une huile parfumée au sésame torréfié, versée à la fin et jamais chauffée, puis les graines de sésame ({{graines de sésame}}) et le nori ({{nori}}) émietté du bout des doigts. [[ecaler; dresser x3]]"],
  tip:"Le jaune coulant sur le riz chaud fait office de sauce : un classique japonais, ici avec un œuf cuit dans sa coquille, blanc bien pris."})
 ];
+
+/* Version 16 : laits végétaux variés (amande, riz, soja, avoine), crème de soja, jambon végétal La Vie (petite garniture, 20 g). */
+BREAKFAST.push(
+RC({id:"n-pdj-porridge-amande-banane", n:"Porridge d'avoine au lait d'amande, banane tiède & crème de soja vanillée", cat:"Protéines végétales", st:"Petit-déjeuner", base:"Avoine", d:1, go:"Sucré",
+ ing:[["flocons d'avoine",30,"g"],["eau",100,"ml"],["lait d'amande",100,"ml"],["banane",50,"g"],["crème de soja",1,"c. à soupe"],["sirop d'érable",0.5,"c. à café"],["vanille naturelle",1,"pincée"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une petite casserole d'environ 16 cm, une cuillère en bois, une fourchette, une cuillère à café, un bol de service. Le plat en deux mots : un porridge est une bouillie de flocons d'avoine (grains d'avoine aplatis en fines pétales) cuite jusqu'à devenir crémeuse. Ici, le lait d'amande, une boisson végétale légère au goût de noisette, remplace le lait de vache, et la crème de soja, une crème végétale épaisse, apporte l'onctuosité.",
+  "L'avoine cuite à l'eau — Sortir les ingrédients. Verser les flocons d'avoine ({{flocons d'avoine}}) et l'eau ({{eau}}) dans la casserole. L'avoine se cuit toujours à l'eau d'abord : dans du lait, elle ferait monter une mousse qui déborde. Cuire à feu doux pendant 3 minutes en remuant pour que rien n'accroche. Repère de réussite : l'eau a presque disparu et les flocons forment une pâte épaisse. [[sortir; casserole; cuisson 3]]",
+  "La banane et le lait d'amande — Retirer la peau de la banane ({{banane}}) et l'écraser à la fourchette dans la casserole. Verser le lait d'amande ({{lait d'amande}}) et la vanille ({{vanille naturelle}}), puis réchauffer 2 minutes à feu doux en remuant : le porridge nappe la cuillère (la recouvre d'une couche lisse). S'il est trop épais, ajouter une cuillère de lait. [[ecraser banane; cuisson 2]]",
+  "Dressage — Verser le porridge tiède dans le bol, jamais bouillant. Déposer la crème de soja ({{crème de soja}}) au centre, puis un fil de sirop d'érable ({{sirop d'érable}}), sirop sucré tiré de la sève de l'érable. [[dresser x3]]"],
+ tip:"Le lait d'amande donne un porridge plus léger et parfumé que le lait d'avoine ; la crème de soja ajoutée à la fin remplace la crème fraîche."}),
+
+RC({id:"n-pdj-quinoa-amande-myrtilles", n:"Quinoa tiède au lait d'amande, myrtilles éclatées & vanille", cat:"Protéines végétales", st:"Petit-déjeuner", base:"Quinoa", d:1, go:"Sucré",
+ ing:[["quinoa cuit",90,"g"],["lait d'amande",100,"ml"],["myrtilles",50,"g"],["eau",1,"c. à soupe"],["sirop d'érable",1,"c. à café"],["vanille naturelle",1,"pincée"]],
+ steps:[
+  "Avant de commencer — Ustensiles : deux petites casseroles, une cuillère en bois, une fourchette, une cuillère à café, un bol de service. Le quinoa est cuit la veille au Bamboo (QUICK COOK, 1 volume de quinoa pour 1 volume d'eau) et conservé au frais. Le plat en deux mots : du quinoa, petite graine ronde au goût de noisette, réchauffé dans du lait d'amande, une boisson végétale légère, comme un dessert au lait, avec des myrtilles chaudes.",
+  "Le quinoa au lait d'amande — Sortir les ingrédients. Mettre le quinoa cuit ({{quinoa cuit}}) dans la première casserole avec le lait d'amande ({{lait d'amande}}) et la vanille ({{vanille naturelle}}). Chauffer 4 minutes à feu doux en remuant de temps en temps. Repère de réussite : les grains ont bu le lait et l'ensemble est crémeux. [[sortir; casserole; cuisson 4]]",
+  "Les myrtilles — Pendant ce temps, mettre les myrtilles ({{myrtilles}}), fraîches ou surgelées, dans la seconde casserole avec l'eau ({{eau}}) et le sirop d'érable ({{sirop d'érable}}). Chauffer 3 minutes à feu doux jusqu'à ce que les fruits éclatent et rendent un jus brillant. Avec des myrtilles surgelées, compter 1 minute de plus. [[// casserole; cuisson 3]]",
+  "Dressage — Verser le quinoa dans le bol, puis les myrtilles tièdes et leur jus en spirale par-dessus. Servir tiède. [[dresser x2]]"],
+ tip:"Le quinoa de la veille gonfle dans le lait en quelques minutes ; le lait d'amande le parfume sans l'alourdir."}),
+
+RC({id:"n-pdj-sarrasin-lait-riz-myrtilles", n:"Flocons de sarrasin gonflés au lait de riz chaud, myrtilles & crème de soja", cat:"Protéines végétales", st:"Petit-déjeuner", base:"Sarrasin", d:1, go:"Sucré",
+ ing:[["flocons de sarrasin",30,"g"],["lait de riz",120,"ml"],["myrtilles",40,"g"],["crème de soja",1,"c. à soupe"],["sirop d'érable",0.5,"c. à café"],["vanille naturelle",1,"pincée"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une petite casserole, une cuillère à café, un bol de service avec son assiette pour le couvrir. Le plat en deux mots : les flocons de sarrasin, une céréale sans blé au goût de noisette, ramollissent en quelques minutes dans du lait de riz chaud, sans cuisson. Le lait de riz est une boisson végétale douce et légèrement sucrée.",
+  "Le lait chaud — Sortir les ingrédients. Chauffer le lait de riz ({{lait de riz}}) avec la vanille ({{vanille naturelle}}) dans la casserole, 2 minutes à feu doux, sans le laisser bouillir. Verser les flocons de sarrasin ({{flocons de sarrasin}}) dans le bol, puis le lait chaud, couvrir de l'assiette et laisser gonfler 3 minutes. Repère de réussite : les flocons sont tendres et ont bu presque tout le lait. [[sortir; casserole; cuisson 2; verser; attente 3]]",
+  "Les myrtilles — Pendant que les flocons gonflent, réchauffer les myrtilles ({{myrtilles}}) avec le sirop d'érable ({{sirop d'érable}}) dans la casserole rincée, 2 minutes à feu doux, jusqu'à ce qu'elles éclatent. [[// cuisson 2]]",
+  "Dressage — Poser les myrtilles tièdes sur les flocons et déposer la crème de soja ({{crème de soja}}) au centre. Servir tiède. [[dresser x3]]"],
+ tip:"Le lait de riz est naturellement sucré : le sirop d'érable n'est qu'une touche. Couvrir le bol garde les flocons chauds et les attendrit."}),
+
+RC({id:"n-pdj-riz-soja-banane-creme", n:"Riz tiède au lait de soja, banane fondante & crème de soja vanillée", cat:"Protéines végétales", st:"Petit-déjeuner", base:"Riz", d:1, go:"Sucré",
+ ing:[["riz cuit",80,"g"],["lait de soja",100,"ml"],["banane",40,"g"],["crème de soja",1,"c. à soupe"],["vanille naturelle",1,"pincée"],["sirop d'érable",0.5,"c. à café"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une petite casserole, une cuillère en bois, une fourchette, une cuillère à café, un bol de service. Le riz est cuit la veille au Bamboo (programme WHITE, 35 minutes) et conservé au frais. Le plat en deux mots : un riz au lait express, fait de riz de la veille réchauffé dans du lait de soja, avec une banane écrasée pour la douceur.",
+  "Le riz au lait de soja — Sortir les ingrédients. Mettre le riz cuit ({{riz cuit}}) dans la casserole en l'émiettant du bout de la cuillère (froid, il forme un bloc). Ajouter le lait de soja ({{lait de soja}}) et la vanille ({{vanille naturelle}}), puis chauffer 4 minutes à feu doux en remuant. Repère de réussite : les grains ont gonflé et le riz est crémeux. [[sortir; casserole; cuisson 4]]",
+  "La banane — Retirer la peau de la banane ({{banane}}) et l'écraser à la fourchette directement dans la casserole, hors du feu, puis mélanger : la chaleur du riz la réchauffe. [[ecraser banane]]",
+  "Dressage — Verser dans le bol, déposer la crème de soja ({{crème de soja}}) au centre, puis un fil de sirop d'érable ({{sirop d'érable}}). Servir tiède. [[dresser x3]]"],
+ tip:"Le lait de soja apporte des protéines en plus ; la crème de soja donne le côté gourmand sans produit laitier."}),
+
+RC({id:"n-pdj-okayu-jambon-epinards", n:"Soupe de riz japonaise (okayu) au jambon végétal & épinards fondus", cat:"Protéines végétales", st:"Petit-déjeuner", base:"Riz", d:1, go:"Salé",
+ ing:[["riz cuit",80,"g"],["bouillon",250,"ml"],["jambon végétal La Vie",20,"g"],["épinards",40,"g"],["huile de sésame grillé",1,"c. à café"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une petite casserole, une cuillère en bois, une planche et un couteau, une cuillère à café, un bol de service. Le riz est cuit la veille au Bamboo (programme WHITE, 35 minutes) et conservé au frais. Le plat en deux mots : l'okayu est la soupe de riz japonaise des petits-déjeuners doux, du riz très tendre dans un bouillon. Le jambon végétal La Vie, fait de protéines de pois et de soja, est déjà salé : on n'ajoute donc rien de salé.",
+  "Mise en place — Sortir les ingrédients. Laver les épinards ({{épinards}}) à grande eau et retirer les grosses tiges. Couper le jambon végétal ({{jambon végétal La Vie}}) en fines lanières de 5 mm. Relire sur l'étiquette que sa liste d'ingrédients ne contient aucun assaisonnement exclu du protocole. [[sortir; laver epinards; couper jambon végétal La Vie]]",
+  "Le riz dans le bouillon — Verser le bouillon ({{bouillon}}), un bouillon doux de légumes sans épice forte, dans la casserole et y mettre le riz cuit ({{riz cuit}}) en l'émiettant. Chauffer 4 minutes à feu doux en remuant. Ajouter les épinards et le jambon pour la dernière minute : les épinards s'affaissent, le jambon se réchauffe. [[casserole; cuisson 5]]",
+  "Dressage — Verser la soupe dans le bol, puis un filet d'huile de sésame grillé ({{huile de sésame grillé}}), une huile brune parfumée, versée à la fin et jamais chauffée. Servir tiède. [[dresser x2]]"],
+ tip:"Le jambon végétal assaisonne la soupe à lui seul : goûtez avant d'ajouter quoi que ce soit."}),
+
+RC({id:"n-pdj-tartine-sarrasin-jambon-soyeux", n:"Pain de sarrasin tiède, tofu soyeux écrasé à la ciboulette & jambon végétal", cat:"Tofu", st:"Petit-déjeuner", base:"Sarrasin", d:1, go:"Salé",
+ ing:[["pain de sarrasin",60,"g"],["tofu soyeux",50,"g"],["jambon végétal La Vie",20,"g"],["ciboulette","",HERBS],["huile d'olive",1,"c. à café"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une poêle antiadhésive sèche, une planche et un couteau à pain, une fourchette, des ciseaux de cuisine, un bol, une assiette. Le plat en deux mots : une tartine tiède et salée. Le tofu soyeux, très tendre et lisse, écrasé à la fourchette avec de l'huile d'olive, fait une crème à tartiner qui rappelle un fromage frais, sans lait. Le jambon végétal La Vie est fait de protéines de pois et de soja, et déjà salé.",
+  "Le pain — Sortir les ingrédients. Trancher le pain de sarrasin ({{pain de sarrasin}}) en deux tranches et les tiédir 1 minute de chaque côté dans la poêle sèche à feu doux, sans les laisser prendre de couleur. [[sortir; trancher; casserole; cuisson 2]]",
+  "La crème de tofu — Pendant ce temps, vider le tofu soyeux ({{tofu soyeux}}) de son eau et l'écraser à la fourchette dans le bol avec l'huile d'olive ({{huile d'olive}}) et la ciboulette ({{ciboulette}}), une herbe fine au goût doux, ciselée aux ciseaux (pointes vertes seulement). Couper le jambon végétal ({{jambon végétal La Vie}}) en lanières de 5 mm. [[// egoutter; ecraser; ciseler; couper jambon végétal La Vie]]",
+  "Dressage — Tartiner la crème de tofu sur les tranches tièdes, puis poser les lanières de jambon par-dessus. Servir tout de suite. [[dresser x3]]"],
+ tip:"Le tofu soyeux, bien écrasé, donne une crème légère ; le jambon végétal apporte le côté salé, sans sel en plus."}),
+
+RC({id:"n-pdj-quinoa-courgette-jambon", n:"Quinoa tiède, courgette fondue, jambon végétal & huile d'olive", cat:"Protéines végétales", st:"Petit-déjeuner", base:"Quinoa", d:1, go:"Salé",
+ ing:[["quinoa cuit",90,"g"],["courgette",40,"g"],["jambon végétal La Vie",20,"g"],["eau",2,"c. à soupe"],["ciboulette","",HERBS],["huile d'olive",1,"c. à café"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une petite casserole avec son couvercle, une râpe fine, un économe, une planche et un couteau, des ciseaux de cuisine, une cuillère, un bol de service. Le quinoa est cuit la veille au Bamboo (QUICK COOK, 1 volume de quinoa pour 1 volume d'eau) et conservé au frais. Le jambon végétal La Vie, fait de protéines de pois et de soja, est déjà salé.",
+  "La courgette — Sortir les ingrédients. Éplucher la courgette ({{courgette}}), retirer les pépins s'il y en a, puis la râper finement. La mettre dans la casserole avec l'eau ({{eau}}), couvrir et cuire 3 minutes à feu doux, jusqu'à ce qu'elle soit translucide et fondante. [[sortir; eplucher courgette; raper courgette; casserole; cuisson 3]]",
+  "Le quinoa — Ajouter le quinoa cuit ({{quinoa cuit}}) et chauffer 2 minutes en remuant, pour le tiédir sans le dessécher. [[cuisson 2]]",
+  "Le jambon et la ciboulette — Pendant ce temps, détailler le jambon végétal ({{jambon végétal La Vie}}) en lanières de 5 mm et ciseler la ciboulette ({{ciboulette}}), une herbe fine au goût doux, aux ciseaux. [[// couper jambon végétal La Vie; ciseler]]",
+  "Dressage — Verser le quinoa et la courgette dans le bol, poser le jambon et la ciboulette dessus, puis l'huile d'olive ({{huile d'olive}}) en filet, sans la chauffer. Servir tiède. [[dresser x4]]"],
+ tip:"La courgette est limitée à 60 g par repas pour la digestion : ici 40 g suffisent à rendre le quinoa moelleux."}),
+
+RC({id:"n-pdj-galette-sarrasin-jambon-creme", n:"Galette fine de sarrasin, jambon végétal, épinards & crème de soja", cat:"Protéines végétales", st:"Petit-déjeuner", base:"Sarrasin", d:1, go:"Salé",
+ ing:[["farine de sarrasin",30,"g"],["eau",60,"ml"],["jambon végétal La Vie",20,"g"],["épinards",40,"g"],["crème de soja",1,"c. à soupe"],["huile d'olive",1,"c. à café"]],
+ steps:[
+  "Avant de commencer — Ustensiles : un bol, un fouet, une poêle antiadhésive bien sèche d'environ 24 cm, une spatule fine, une planche et un couteau, une cuillère, une assiette. Le plat en deux mots : une galette de sarrasin est une crêpe salée très fine, faite de farine de sarrasin (sans blé, au goût de noisette). Elle est garnie de jambon végétal La Vie, fait de protéines de pois et de soja, d'épinards fondus et d'une crème de soja, une crème végétale épaisse.",
+  "La pâte — Sortir les ingrédients. Dans le bol, fouetter la farine de sarrasin ({{farine de sarrasin}}) et l'eau ({{eau}}) jusqu'à une pâte fluide, sans grumeaux, qui coule du fouet en filet. [[sortir; delayer]]",
+  "La galette — Chauffer la poêle sèche à feu doux, verser toute la pâte et l'étaler en un cercle très fin en inclinant la poêle. Cuire 2 minutes : la surface devient mate et le bord se décolle. Retourner, cuire 30 secondes, puis glisser sur l'assiette. Elle reste pâle et souple. [[casserole; cuisson 3]]",
+  "La garniture — Dans la même poêle encore chaude, faire fondre les épinards ({{épinards}}) lavés, sans les grosses tiges, 1 minute à feu doux avec le jambon végétal ({{jambon végétal La Vie}}) coupé en lanières de 5 mm. [[laver epinards; couper jambon végétal La Vie; cuisson 1]]",
+  "Dressage — Étaler la crème de soja ({{crème de soja}}) sur la galette, répartir les épinards et le jambon sur une moitié, puis replier en deux, puis en quatre. Verser un filet d'huile d'olive ({{huile d'olive}}) à la fin. Servir tiède. [[dresser x3]]"],
+ tip:"Une pâte très fluide donne une galette fine et souple qui se plie sans casser."})
+);

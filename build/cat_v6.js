@@ -495,3 +495,9 @@ function migrate14(){ refreshRecipes(V14_CHANGED, true); S.v = 14; }
    Les repas déjà planifiés sont mis à jour sur place si leurs ingrédients correspondent, sinon reconstruits ;
    recettes de Cat, repas faits main, pesées et réglages ne bougent pas. */
 function migrate15(){ refreshRecipes(DEFAULT_RECIPES.map(r => r.id), true); S.v = 15; }
+
+/* ---------- migration 16 : tofu soyeux et ferme équilibrés, 10 recettes aux œufs de plus (dont une tarte sans gluten),
+   laits d'amande, de riz, de soja et d'avoine, crème de soja, jambon végétal La Vie en petite garniture ----------
+   Les recettes fournies sont renouvelées (les nouvelles s'ajoutent, celles passées du tofu ferme au tofu soyeux sont mises à jour
+   dans le planning) ; recettes de Cat, repas faits main, pesées et réglages ne bougent pas. */
+function migrate16(){ refreshRecipes(DEFAULT_RECIPES.map(r => r.id), true); S.v = 16; }
