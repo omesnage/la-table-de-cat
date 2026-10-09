@@ -361,10 +361,10 @@ function cookHTML(o, kind, ref){
     <p class="eyebrow">${whereOf(kind, ref, o)}</p>
     <h2 class="cook-title">${esc(title || "Repas sans nom")}</h2>${o.sub ? `<p class="ed-sub">${esc(o.sub)}</p>` : ""}
     <p class="cook-tags">${catTag(o.cat)}${st && st.all ? `<span class="sea-chip">${ic("leaf")}de saison</span>` : ""}${st && !st.all ? `<span class="sea-chip off">hors saison : ${esc(st.out.join(", "))}</span>` : ""}<span class="muted small">Saison : ${esc(seasonLabel(o))}</span></p>
-    <div class="cpills">${pill("clock", "Total", T.total ? T.total + " min" : "—")}${pill("knife", "Préparation", T.prep ? approx + T.prep + " min" : "—")}${pill("flame", "Cuisson", T.cook ? approx + T.cook + " min" : "—")}${pill("gauge", "Calories", "≈ " + fmtK(kc) + " kcal")}${protGrams(o) ? pill("leaf", "Protéines", protGrams(o) + " g") : ""}</div>
+    <div class="cpills">${pill("clock", "Total", T.total ? T.total + " min" : "—")}${pill("knife", "Préparation", T.prep ? approx + T.prep + " min" : "—")}${pill("flame", "Cuisson", T.cook ? approx + T.cook + " min" : "—")}${pill("gauge", "Calories", "≈ " + fmtK(kc) + " kcal")}${protNutri(o) > 0 ? pill("leaf", "Protéines", "≈ " + protNutri(o) + " g") : ""}</div>
     ${tg ? `<div class="slot-target ${tcls}"><span>Ce repas ≈ ${fmtK(kc)} kcal · cible pour ce repas ${fmtK(tg)}</span><button class="mini" data-act="adaptThis">${ic("gauge")} Adapter à ma cible</button></div>` : ""}
     ${o.adj && Math.abs(o.adj - 1) > .02 ? `<p class="cook-note">Portions ajustées (× ${fmtN(o.adj)}) : la liste d'ingrédients fait foi, certains chiffres du texte des étapes peuvent être ceux de la recette d'origine.</p>` : ""}
-    ${protGrams(o) ? protSection(o, ref) : ""}
+    ${protNutri(o) > 0 ? protSection(o, ref) : ""}
     <section class="ed-sec vg-sec"><h3>${ic("sprout")} Légumes de saison <span class="muted small">${monthName()}</span></h3>
       <p class="muted small">Intégrés à la recette, avec leurs étapes. Change un légume ou retire-le : le texte, les calories et les courses s'adaptent.</p>
       ${vegs.length ? `<ul class="ci-list">${vegs.map(vegRow).join("")}</ul>` : `<p class="muted small">Aucun légume dans cette recette.</p>`}
@@ -407,11 +407,11 @@ function cookOp(fn){
 }
 const remInfo = r => { const x = []; if (r.removed.length) x.push("Étape" + (r.removed.length > 1 ? "s" : "") + " retirée" + (r.removed.length > 1 ? "s" : "") + " : " + r.removed.join(", ")); if (r.noted.length) x.push("Marqué « sans » dans : " + r.noted.join(", ")); return x; };
 function protSection(o, ref){
-  const g = protGrams(o), ed = protEdit(o, protSlot(o, kindOfRef(ref))), names = (o.ing || []).filter(i => { const e = lookup(i.n); return e && (SOLID_PROT.indexOf(e.k) >= 0 || e.a === "Œufs" || TEXT_PROT.indexOf(e.k) >= 0); }).map(i => esc(i.n)).join(", ");
+  const g = protNutri(o), fw = protFoodG(o), ed = protEdit(o, protSlot(o, kindOfRef(ref))), names = (o.ing || []).filter(i => { const e = lookup(i.n); return e && (SOLID_PROT.indexOf(e.k) >= 0 || e.a === "Œufs" || TEXT_PROT.indexOf(e.k) >= 0); }).map(i => esc(i.n)).join(", ");
   const ctl = ed ? `<div class="qs"><button class="qb" data-act="protQ" data-d="-1" aria-label="Moins de protéines">${ic("minus")}</button><span class="qv">${ed.unit === "g" ? esc(qtyStr(ed.item)) : esc(qtyStr(ed.item))}</span><button class="qb" data-act="protQ" data-d="1" aria-label="Plus de protéines">${ic("plus")}</button></div>` : "";
   return `<section class="ed-sec"><h3>${ic("leaf")} Protéines du repas</h3>
-    <p class="prot-tot"><strong>${g} g</strong> de protéines${names ? ` <span class="muted small">(${names})</span>` : ""}</p>
-    ${ed ? `<p class="muted small">Règle la quantité de ${esc(ed.item.n)}${ed.unit === "g" ? " (" + ed.lo + " à " + ed.hi + " g avec les autres protéines du repas, selon le protocole)" : " (1 ou 2 œufs)"} : les calories, les étapes et les courses suivent.</p>${ctl}` : `<p class="muted small">Ce repas a plusieurs sources de protéines : règle chacune dans la liste des ingrédients ci-dessous.</p>`}</section>`;
+    <p class="prot-tot"><strong>≈ ${g} g</strong> de protéines${fw ? ` pour ${fw} g d'aliments protéinés` : ""}${names ? ` <span class="muted small">(${names})</span>` : ""}</p>
+    ${ed ? `<p class="muted small">Règle la quantité de ${esc(ed.item.n)}${ed.unit === "g" ? " (" + ed.lo + " à " + ed.hi + " g d'aliment, avec les autres protéines du repas, selon le protocole)" : " (1 ou 2 œufs)"}  : les protéines, les calories, les étapes et les courses suivent. Valeurs indicatives, calculées d'après la composition de chaque aliment.</p>${ctl}` : `<p class="muted small">Ce repas a plusieurs sources de protéines : règle chacune dans la liste des ingrédients ci-dessous.</p>`}</section>`;
 }
 const kindOfRef = ref => (ref && ref.s) ? ref : null;
 function defineCookEdit(){
@@ -431,7 +431,7 @@ function defineCookEdit(){
   };
   A.protQ = ds => cookOp(o => { const ed = protEdit(o, protSlot(o, MODAL.t)); if (!ed) return null; const q = num(ed.item.q), nq = Math.max(ed.lo, Math.min(ed.hi, q + ed.step * +ds.d));
     if (nq === q) { toast(ed.unit === "g" ? "Limite du protocole : " + ed.lo + " à " + ed.hi + " g de cet aliment pour ce repas." : "Limite du protocole : " + ed.lo + " à " + ed.hi + " œuf(s) par repas."); return null; }
-    ed.item.q = nq; return { title: "Protéines : " + protGrams(o) + " g" }; });
+    ed.item.q = nq; return { title: "Protéines : ≈ " + protNutri(o) + " g" }; });
   A.adaptThis = () => cookOp(o => { const t = MODAL.t, tg = slotTarget(t), k0 = kcalOf(o); if (!adaptMeal(o, tg)) { toast("Ce repas est déjà dans ta cible"); return null; } return { title: "Portions adaptées à ta cible (" + fmtK(tg) + " kcal)", extra: [] }; });
   A.cookUndo = () => { const k = MODAL.kind, r = modalRef(); undo(); COOKMSG = null; FLASH = new Set(); openCook(k, r); };
   A.bannerClose = () => { COOKMSG = null; const b = document.querySelector(".chg-banner"); if (b) b.remove(); };

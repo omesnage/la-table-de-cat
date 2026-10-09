@@ -3,6 +3,34 @@
    n = niveau : 1 base sûre · 2 sous conditions · 3 exclu · "t" toléré en petite quantité · "r" non listé (à réintroduire) · "p2"/"p3" paliers de réintroduction
    s = mois de pleine saison · w = avertissement (seuil) */
 const FOD = "FODMAP : petite portion, bien cuit";
+/* ============ PROTÉINES RÉELLES (g de protéines pour 100 g ou 100 ml, MÊME ÉTAT que la colonne g : cuit, sauf produits secs)
+   Sources : table Ciqual (Anses) via informationsnutritionnelles.fr (tofu 11,5 g), Open Food Facts / fiches fabricants
+   (soja texturé sec 51 g, jambon végétal La Vie 19 g : étiquette britannique, 110 kcal), USDA FoodData Central et Ciqual pour le reste.
+   Valeurs arrondies, à 0,5 g près ; "est." = estimation d'après un aliment voisin.
+   pr = g / 100 g · pp = g de protéines par pièce (œuf 50 g, tranche de pain de sarrasin 30 g, feuille de nori 3 g, banane 100 g)
+   pc = g de protéines par cuillère à café (sinon pr x 5 / 100) ============ */
+const PROT_DB = {
+  "blanc de poulet":{pr:27},"poulet":{pr:25},"cuisse de poulet":{pr:24},"oeuf":{pr:12.5,pp:6.3},
+  "tofu fermente":{pr:10},"tofu ferme":{pr:12},"tofu":{pr:11.5},"tofu fume":{pr:16},"tofu soyeux":{pr:5},
+  "proteine de pois texturee":{pr:55},"proteine de soja texturee":{pr:51},"pst":{pr:50},"proteines vegetales":{pr:50},
+  "cabillaud":{pr:19},"blanc de dinde":{pr:25},"jambon vegetal":{pr:19},"okara d'amande":{pr:6},"okara":{pr:4.5},"sardine":{pr:24},"avocat":{pr:2},
+  "riz cru":{pr:7},"riz":{pr:2.7},"quinoa":{pr:4.4},"millet":{pr:3.5},"pommes de terre":{pr:2},"pomme de terre":{pr:2},
+  "farine de sarrasin":{pr:12},"pain de sarrasin":{pr:7,pp:2.1},"flocons de sarrasin":{pr:12},"farine de riz":{pr:6},"fecule de mais":{pr:0.3},
+  "flocons d'avoine":{pr:13},"avoine":{pr:13},"pates":{pr:5.5},"lasagne":{pr:12},
+  "carotte":{pr:0.8},"courgette":{pr:1.1},"potimarron":{pr:1.1},"butternut":{pr:1},"patisson":{pr:1},"epinards":{pr:3},"haricots verts":{pr:1.9},
+  "aubergine":{pr:0.8},"pak choi":{pr:1.5},"blettes":{pr:1.9},"daikon":{pr:0.7},"courge spaghetti":{pr:0.6},"brocoli":{pr:2.4},"panais":{pr:1.3},
+  "navet":{pr:0.7},"celeri-rave":{pr:1.5},"celeri":{pr:0.8},"patate douce":{pr:1.6},"betterave":{pr:1.7},"fenouil":{pr:1},"chou-fleur":{pr:1.8},
+  "poireau":{pr:0.8},"poivron":{pr:1},"petits pois":{pr:5},
+  "banane":{pr:1.1,pp:1.1},"myrtilles":{pr:0.7},"peche":{pr:0.9},"nectarine":{pr:1.1},"graines de chia":{pr:17},
+  "basilic":{pr:0},"menthe":{pr:0},"aneth":{pr:0},"cerfeuil":{pr:0},"estragon":{pr:0},"coriandre":{pr:0},"sauge":{pr:0},
+  "persil":{pr:0},"ciboulette":{pr:0},"thym":{pr:0},"romarin":{pr:0},
+  "miso blanc":{pr:10,pc:1},"sauce soja":{pr:7,pc:0.4},"nori":{pr:40,pp:1.2},"kombu":{pr:1.7},"wakame":{pr:3},"graines de sesame":{pr:18,pc:0.5},
+  "soba":{pr:5},"vermicelles de patate douce":{pr:0.2},
+  "skyr":{pr:11},"lait de riz":{pr:0.3},"lait d'avoine":{pr:1},"creme de soja":{pr:2.8,pc:0.15},"yaourt de soja":{pr:4},"skyr de soja":{pr:6},
+  "lait de soja":{pr:3.3},"lait d'amande":{pr:0.5},
+  "huile de sesame":{pr:0,pc:0},"huile d'olive":{pr:0,pc:0},"huile":{pr:0,pc:0},"sirop d'erable":{pr:0,pc:0},"bouillon":{pr:0.3},
+  "puree d'amande":{pr:21,pc:1},"graines de courge":{pr:30},"vanille":{pr:0,pc:0},"sel":{pr:0,pc:0},"eau":{pr:0}
+};
 const ING_DB = [
   /* protéines */
   ["blanc de poulet","Volaille",{g:110,n:1}],["poulet","Volaille",{g:115,n:1}],["cuisse de poulet","Volaille",{g:150,n:"t",w:"haut de cuisse désossé, sans peau ni gras"}],
@@ -63,6 +91,6 @@ const ING_DB = [
   ["sirop d'erable","Épicerie",{c:17,n:"t"}],["bouillon","Divers",{g:5,n:1}],
   ["puree d'amande","Épicerie",{c:28,n:"r"}],["graines de courge","Épicerie",{g:560,n:"r"}],
   ["vanille","Épicerie",{c:0,n:"t"}],["sel","Épicerie",{c:0,n:"t"}],["eau","Divers",{g:0,n:1}]
-].map(([k,a,v]) => ({ k: norm(k), a, ...v })).sort((x,y) => y.k.length - x.k.length);
+].map(([k,a,v]) => ({ k: norm(k), a, ...v, ...(PROT_DB[k] || {}) })).sort((x,y) => y.k.length - x.k.length);
 
 const AISLE_ORDER = ["Légumes","Herbes & aromates","Fruits","Volaille","Poisson","Œufs","Tofu & protéines végétales","Produits laitiers & végétaux","Féculents","Épicerie","Divers"];

@@ -17,21 +17,35 @@ const isQty = i => num(i.q) > 0 && unitKind(i.u) === "g";
 function starchItems(m){ return (m.ing || []).filter(i => { const e = lookup(i.n); return e && e.a === "Féculents" && isQty(i); }); }
 function starchSplit(m){ let c = 0, r = 0; starchItems(m).forEach(i => { const e = lookup(i.n); if (RAW_STARCH.indexOf(e.k) >= 0) r += num(i.q); else c += num(i.q); }); return { c, r }; }
 function protItems(m){ return (m.ing || []).filter(i => { const e = lookup(i.n); return e && SOLID_PROT.indexOf(e.k) >= 0 && isQty(i); }); }
-/* ---------- protéines du repas : total en grammes, et réglage ----------
-   Total = protéines solides pesées + œufs (50 g pièce) + protéine texturée (3 fois son poids sec).
+/* ---------- protéines du repas : poids des aliments protéinés (bornes du protocole) et réglage ----------
+   protFoodG = protéines solides pesées + œufs (50 g pièce) + protéine texturée (3 fois son poids sec).
    Réglable (par pas de 5 g, ou 1 œuf) quand le repas n'a qu'une seule source de protéine, dans les bornes du protocole. */
 const TEXT_PROT = ["proteine de pois texturee", "proteine de soja texturee"];
-function protGrams(m){ let g = 0;
+function protFoodG(m){ let g = 0;
   (m.ing || []).forEach(i => { const e = lookup(i.n); if (!e) return; const q = num(i.q); if (!(q > 0)) return;
     if (SOLID_PROT.indexOf(e.k) >= 0 && isQty(i)) g += q;
     else if (e.a === "Œufs" && unitKind(i.u) !== "g") g += q * 50;
     else if (TEXT_PROT.indexOf(e.k) >= 0 && isQty(i)) g += q * 3; });
   return Math.round(g); }
+/* protéines RÉELLES du repas (g de protéines, pas le poids des aliments) : quantité x protéines pour 100 g de la base (PROT_DB) */
+function ingProt(i){
+  const q = num(i.q); if (!(q > 0)) return 0;
+  const e = lookup(i.n); if (!e || e.pr == null) return 0;
+  switch (unitKind(i.u)) {
+    case "g": return e.pr * q / 100;
+    case "kg": return e.pr * q * 10;
+    case "cl": return e.pr * q / 10;
+    case "l": return e.pr * q * 10;
+    case "c": return e.pc != null ? e.pc * q : e.pr * q * 5 / 100;
+    case "s": return e.pc != null ? e.pc * 3 * q : e.pr * q * 15 / 100;
+    case "p": return e.pp != null ? e.pp * q : 0;
+    default: return 0; } }
+const protNutri = m => Math.round((m.ing || []).reduce((s, i) => s + ingProt(i), 0));
 function protSlot(o, t){ if (t && t.s) return t.s; return /Petit/.test(o.st || "") ? "b" : (o.cat === "Collation" || o.st === "Collation") ? "c" : "l"; }
 function protRange(slot){ return slot === "c" || slot === "b" ? [20, 100] : (PORTIONS[slot] || PORTIONS.l).p; }
 function protEdit(o, slot){
   /* les bornes du protocole valent pour le TOTAL du repas : l'élément réglé garde ce qui reste une fois les autres protéines comptées */
-  const r = protRange(slot), items = protItems(o), tot = protGrams(o);
+  const r = protRange(slot), items = protItems(o), tot = protFoodG(o);
   if (items.length === 1) { const q = num(items[0].q), other = tot - q, lo = Math.max(5, r[0] - other), hi = r[1] - other;
     return hi > lo ? { item: items[0], step: 5, lo, hi, unit: "g" } : null; }
   const eggs = (o.ing || []).filter(i => { const e = lookup(i.n); return e && e.a === "Œufs" && unitKind(i.u) !== "g" && num(i.q) > 0; });
@@ -58,7 +72,7 @@ function protoAdaptMeal(m, k, target){
     let want = Math.max(lo, Math.min(hi, cur * x)); if (!target) want = Math.max(lo, Math.min(hi, cur));
     const f = want / cur; if (Math.abs(f - 1) > .02) { scaleStarch(m, f); changed = true; }
   }
-  protItems(m).forEach(i => { const q = num(i.q), tot = protGrams(m), other = tot - q, lo = Math.max(5, R.p[0] - other), hi = R.p[1] - other;
+  protItems(m).forEach(i => { const q = num(i.q), tot = protFoodG(m), other = tot - q, lo = Math.max(5, R.p[0] - other), hi = R.p[1] - other;
     if (protItems(m).length === 1 && (q < lo || q > hi) && hi >= lo) { i.q = Math.max(lo, Math.min(hi, q)); changed = true; } });
   return changed;
 }
