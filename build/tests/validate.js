@@ -22,7 +22,7 @@ function unitKind(u){ const x = norm(u); if (!x) return "p"; if (x === "g" || x 
 function ingKcal(i){ const q = parseFloat(String(i.q).replace(',', '.')); if (!q) return 0; const e = lookup(i.n); if (!e) return 0;
   switch (unitKind(i.u)){ case 'g': return e.g != null ? e.g * q / 100 : 0; case 'c': return e.c != null ? e.c * q : 0; case 's': return e.c != null ? e.c * 3 * q : (e.g != null ? e.g * q * 15 / 100 : 0); case 'p': return e.p != null ? e.p * q : 0; } return 0; }
 const L3 = /\b(ail|oignons?|echalotes?|poivre|piment|vinaigre|citron|moutarde|pois chiches?|lentilles?|haricots? (blancs?|rouges?|secs?)|falafels?|fritur\w*|concombre|salade|radis|crudit\w*|tomate|isolat)\b/;
-const SOLID = ['tofu ferme', 'tofu', 'tofu soyeux', 'tofu fume', 'blanc de poulet', 'cuisse de poulet', 'poulet'];
+const SOLID = ['tofu ferme', 'tofu', 'tofu soyeux', 'tofu fume', 'blanc de poulet', 'cuisse de poulet', 'poulet', 'cabillaud', 'blanc de dinde'];
 const TEXT = ['proteine de pois texturee', 'proteine de soja texturee'];
 const BRACKET = /\s*\[(en parall[eè]le\s+)?(?:(\d+)\s*min\s*\+\s*)?(cuisson\s+)?(\d+)\s*min\]\s*$/i;
 let nPST = 0, nChicken = 0;
@@ -88,9 +88,35 @@ NEW_RECIPES.forEach(r => {
   JARGON.forEach(t => { const m = txt.match(t); if (!m) return; const near = txt.slice(Math.max(0, m.index - 160), m.index + 220).replace(m[0], ''); if (!JARGON_CUE.test(near)) miss.push(m[0]); });
   if (miss.length) fail(r.id, 'mot technique sans explication : ' + [...new Set(miss)].join(', '));
 });
-if (NEW_RECIPES.length !== 110) fail('catalogue', NEW_RECIPES.length + ' recettes au lieu de 110 (60 repas, 10 collations, 40 banchan)');
+if (NEW_RECIPES.length !== 148) fail('catalogue', NEW_RECIPES.length + ' recettes au lieu de 148 (81 repas, 16 collations, 51 banchan)');
 if (nChicken !== 4) fail('catalogue', nChicken + ' recettes de poulet au lieu de 4');
 if (nPST > 8) fail('catalogue', nPST + ' recettes à la protéine texturée : quelques plats seulement (8 au plus)');
+let OUT_V16 = '';
+/* ---------- version 16 : équilibre du carnet (tofu, laits végétaux, œufs, tarte, crème de soja, jambon végétal) ---------- */
+{
+  const has = (r, re) => r.ing.some(i => re.test(i.n));
+  const LD = NEW_RECIPES.filter(r => r.st !== 'Petit-déjeuner' && r.st !== 'Collation' && r.cat !== 'Banchan');
+  const tofuLD = LD.filter(r => has(r, /^tofu/)), ferme = LD.filter(r => has(r, /^tofu ferme/)), soy = LD.filter(r => has(r, /^tofu soyeux/));
+  const share = Math.round(100 * tofuLD.length / LD.length);
+  if (share > 60) fail('tofu', share + ' % des déjeuners et dîners contiennent du tofu (60 % au plus)');
+  if (Math.abs(ferme.length - soy.length) > Math.max(4, Math.round(tofuLD.length * 0.3))) fail('tofu', 'tofu ferme ' + ferme.length + ' et soyeux ' + soy.length + ' : pas équilibrés');
+  const milk = k => NEW_RECIPES.filter(r => has(r, new RegExp("^lait d'" + k + "|^lait de " + k))).length;
+  const mA = milk('amande'), mR = milk('riz'), mS = milk('soja'), mV = milk('avoine');
+  if (mA < 4 || mR < 3 || mS < 3 || mV < 3) fail('laits végétaux', 'amande ' + mA + ', riz ' + mR + ', soja ' + mS + ', avoine ' + mV + ' (au moins 4, 3, 3, 3)');
+  NEW_RECIPES.forEach(r => { if (/brouill/i.test(r.n + ' ' + r.steps.join(' '))) fail(r.id, 'œufs brouillés : retirés du carnet (difficiles à digérer)'); });
+  const eggLD = LD.filter(r => has(r, /^œufs?$/)).length;
+  if (eggLD < 16) fail('œufs', eggLD + ' déjeuners et dîners aux œufs (au moins 16)');
+  if (!NEW_RECIPES.some(r => /tarte/i.test(r.n) && has(r, /farine de riz/) && !has(r, /farine de (blé|froment)/))) fail('tarte', 'aucune tarte sans gluten');
+  const cs = NEW_RECIPES.filter(r => has(r, /^crème de soja/)).length;
+  if (cs < 8) fail('crème de soja', cs + ' recettes à la crème de soja (au moins 8)');
+  const ham = NEW_RECIPES.filter(r => has(r, /jambon végétal/));
+  const hamPct = 100 * ham.length / NEW_RECIPES.length;
+  if (hamPct < 5) fail('jambon végétal', ham.length + ' recettes (' + hamPct.toFixed(1) + ' %) : au moins 5 %');
+  if (ham.filter(r => r.st === 'Petit-déjeuner' || r.st === 'Collation').length < Math.ceil(ham.length / 2)) fail('jambon végétal', 'surtout pour les petits-déjeuners et collations');
+  ham.forEach(r => { const q = r.ing.filter(i => /jambon végétal/.test(i.n)).reduce((a, i) => a + i.q, 0); if (q > 25) fail(r.id, 'jambon végétal ' + q + ' g (25 g au plus)'); });
+  OUT_V16 = '✓ carnet v16 : tofu ' + share + ' % des déjeuners/dîners (ferme ' + ferme.length + ', soyeux ' + soy.length + '), laits amande ' + mA + ' / riz ' + mR + ' / soja ' + mS + ' / avoine ' + mV + ', ' + eggLD + ' repas aux œufs, crème de soja ' + cs + ', jambon végétal ' + ham.length + ' (' + hamPct.toFixed(1) + ' %)';
+}
+if (OUT_V16 && !errors) out.push(OUT_V16);
 const ids = NEW_RECIPES.map(r => r.id); ids.forEach((id, i) => { if (ids.indexOf(id) !== i) fail(id, 'identifiant en double'); });
 
 /* ---------- cohérence : outils (voir la section 4) ---------- */
@@ -130,6 +156,12 @@ if (A) {
   for (let i = 0; i < N; i++){ const is = A.planIssues(seqOf(A.proposeWeek({}))); if (is.length) { bad++; first = first || is.join(' ; '); } }
   if (bad) fail('planning', bad + ' semaines sur ' + N + ' (« une semaine ») ne respectent pas les règles, ex. : ' + first);
   else out.push('✓ planning « une semaine » : ' + N + ' semaines générées, aucune règle enfreinte');
+  { let ld = 0, tf = 0, fe = 0, so = 0;
+    for (let i = 0; i < N; i++) A.proposeWeek({}).forEach(p => ['l', 'd'].forEach(k => { const m = (p.meals || p)[k]; if (!m || !m.ing) return; ld++; const names = m.ing.map(x => x.n); if (names.some(n => /^tofu/.test(n))) tf++; if (names.some(n => /^tofu ferme/.test(n))) fe++; if (names.some(n => /^tofu soyeux/.test(n))) so++; }));
+    const pc = Math.round(100 * tf / ld);
+    if (so / ld < 0.1) fail('planning', 'tofu soyeux trop rare : ' + Math.round(100 * so / ld) + ' % des repas proposés (10 % au moins)');
+    if (pc > 60) fail('planning', pc + ' % des déjeuners et dîners proposés contiennent du tofu (60 % au plus)');
+    else out.push('✓ planning : ' + pc + ' % de repas au tofu (ferme ' + Math.round(100 * fe / ld) + ' %, soyeux ' + Math.round(100 * so / ld) + ' %)'); }
   bad = 0; first = '';
   for (let i = 0; i < N; i++){ const is = A.planIssues(seqOf([A.proposeDay({})])); if (is.length) { bad++; first = first || is.join(' ; '); } }
   if (bad) fail('planning', bad + ' journées sur ' + N + ' (« une journée ») ne respectent pas les règles, ex. : ' + first);
@@ -151,11 +183,11 @@ if (A) {
   gone.forEach(id => S0.recipes.push({ id, n: "ancienne recette " + id, ing: [], steps: [] }));
   A.setS(S0); A.migrateAll(); const S1 = A.getS();
   const left = S1.weeks.flatMap(w => w.days.flatMap(d => A.SLOTS.map(s => d.meals[s.k]))).filter(m => m && gone.indexOf(m.recipeId) >= 0);
-  if (S1.v !== 15) fail('migration', 'version ' + S1.v + ' au lieu de 15');
+  if (S1.v !== 16) fail('migration', 'version ' + S1.v + ' au lieu de 16');
   if (left.length || S1.recipes.some(r => gone.indexOf(r.id) >= 0)) fail('migration', 'des recettes supprimées restent dans les données');
   const wk = S1.weeks.slice(0, 4).flatMap(w => w.days.flatMap(d => A.SLOTS.map(s => d.meals[s.k]))), is = A.planIssues(wk);
   if (is.length) fail('migration', 'planning refait non conforme : ' + is.slice(0, 2).join(' ; '));
-  if (!left.length && S1.v === 15 && !is.length) out.push('✓ migration depuis une ancienne version : anciennes recettes remplacées, planning conforme, version 15');
+  if (!left.length && S1.v === 16 && !is.length) out.push('✓ migration depuis une ancienne version : anciennes recettes remplacées, planning conforme, version 16');
   /* migration 9 → 10 : seuls les repas issus d'une recette disparue sont refaits, le reste de Cat est conservé */
   const S9 = A.defaultState(); S9.v = 9; const gone9 = ['b-porridge-avoine-myrtilles', 't-salade-riz-basilic'];
   const keepId = S9.weeks[0].days[3].meals.l.recipeId, keepName = S9.weeks[0].days[3].meals.l.name;
@@ -163,7 +195,7 @@ if (A) {
   gone9.forEach(id => S9.recipes.push({ id, n: 'ancienne recette ' + id, ing: [], steps: [] }));
   S9.recipes.push({ id: 'perso-1', n: 'Recette de Cat', own: true, ing: [], steps: [] }); S9.weights.push({ date: '2026-10-01', kg: 59.3 });
   A.setS(S9); A.migrateAll(); const T1 = A.getS(), mm = T1.weeks.flatMap(w => w.days.flatMap(d => A.SLOTS.map(s => d.meals[s.k])));
-  const ok10 = T1.v === 15 && !mm.some(m => m && gone9.indexOf(m.recipeId) >= 0) && T1.recipes.some(r => r.id === 'perso-1') && T1.weights.length === 1
+  const ok10 = T1.v === 16 && !mm.some(m => m && gone9.indexOf(m.recipeId) >= 0) && T1.recipes.some(r => r.id === 'perso-1') && T1.weights.length === 1
     && T1.weeks[0].days[3].meals.l.name === keepName && !T1.recipes.some(r => gone9.indexOf(r.id) >= 0);
   if (!ok10) fail('migration 10', 'repas refaits, recette perso, pesées ou repas conservés incorrects');
   else out.push('✓ migration 9 → 10 : repas des recettes disparues refaits, recettes de Cat, pesées et autres repas conservés');
@@ -181,7 +213,7 @@ if (A) {
     for (let i = 0; i < 100; i++) A.proposeDay({}).c || fail('collations', 'journée proposée sans collation'); }
   /* repas coréens : riz + 1 banchan à protéine + 2 banchan de légumes */
   { const R = A.getS().recipes, P = R.filter(r => r.cat === 'Banchan' && r.go === 'Protéine'), V = R.filter(r => r.cat === 'Banchan' && r.go === 'Légume'); let n = 0, bad = 0;
-    if (P.length !== 17 || V.length !== 23) fail('banchan', P.length + ' à protéine et ' + V.length + ' de légumes (17 et 23 attendus)');
+    if (P.length !== 21 || V.length !== 30) fail('banchan', P.length + ' à protéine et ' + V.length + ' de légumes (21 et 30 attendus)');
     P.forEach(p => { for (let i = 0; i < V.length; i++) for (let j = i + 1; j < V.length; j++) {
       const m = A.composeKorean(p, [V[i], V[j]]); n++; const why = [];
       const chk = A.protoCheck(m); if (chk.bad.length) why.push('protocole : ' + chk.bad.map(x => x.n).join(','));
@@ -201,8 +233,8 @@ if (A) {
     const seq10 = S => S.weeks.flatMap(w => w.days.flatMap(d => A.SLOTS.map(s => d.meals[s.k]))), before10 = A.planIssues(seq10(S10)).length;
     A.setS(S10); A.migrateAll(); const T = A.getS(), w0 = T.weeks[0];
     const salN = w0.days.filter(d => d.meals.b && d.meals.b.go === 'Salé').length, allC = T.weeks.every(w => w.days.every(d => d.meals.c && A.isSnack(d.meals.c)));
-    const ok = T.v === 15 && allC && salN <= 2 && T.weights.length === 1 && T.recipes.some(r => r.id === 'perso-2') && w0.days[4].meals.l.name === 'Plat fait main'
-      && T.recipes.filter(r => r.cat === 'Banchan').length === 40 && A.planIssues(seq10(T)).length <= before10;
+    const ok = T.v === 16 && allC && salN <= 2 && T.weights.length === 1 && T.recipes.some(r => r.id === 'perso-2') && w0.days[4].meals.l.name === 'Plat fait main'
+      && T.recipes.filter(r => r.cat === 'Banchan').length === 51 && A.planIssues(seq10(T)).length <= before10;
     if (!ok) fail('migration 11', 'version ' + T.v + ', collations partout : ' + allC + ', salés semaine 1 : ' + salN + ', pesées ' + T.weights.length + ', perso ' + T.recipes.some(r => r.id === 'perso-2') + ', fait main ' + (w0.days[4].meals.l && w0.days[4].meals.l.name) + ', banchan ' + T.recipes.filter(r => r.cat === 'Banchan').length + ', règles : ' + A.planIssues(T.weeks.flatMap(w => w.days.flatMap(d => A.SLOTS.map(s => d.meals[s.k])))).slice(0, 2).join(' ; '));
     else out.push('✓ migration 10 → 11 : collations ajoutées, salés ramenés à ' + salN + ' sur 7, repas faits main, recettes de Cat et pesées conservés'); }
   /* migration 11 → 12 : les repas des recettes réécrites reprennent la version simple, le reste est conservé */
@@ -210,14 +242,14 @@ if (A) {
     const m = S11.weeks[0].days[1].meals.l; m.recipeId = old; m.steps = ['ancienne étape trop longue']; S11.weights.push({ date: '2026-10-03', kg: 59 });
     const keep = S11.weeks[0].days[2].meals.d.name;
     A.setS(S11); A.migrateAll(); const U = A.getS(), mm = U.weeks[0].days[1].meals.l;
-    const ok = U.v === 15 && mm.steps.length > 3 && !mm.steps.some(x => /ancienne étape/.test(x)) && U.weights.length === 1 && U.weeks[0].days[2].meals.d.name === keep;
+    const ok = U.v === 16 && mm.steps.length > 3 && !mm.steps.some(x => /ancienne étape/.test(x)) && U.weights.length === 1 && U.weeks[0].days[2].meals.d.name === keep;
     if (!ok) fail('migration 12', 'repas réécrit non remplacé ou données non conservées'); else out.push('✓ migration 11 → 12 : repas des recettes réécrites remplacés par la version simple, le reste conservé'); }
   /* migration 12 → 13 : les plats générés et les repas des recettes corrigées sont reconstruits, le reste est conservé */
   { const S12 = A.defaultState(); S12.v = 12; const g = A.randomGen({}), gm = Object.assign({}, g, { id: 'm-gen', steps: ['ancienne étape'], ing: [] });
     S12.weeks[0].days[1].meals.l = gm; S12.weights.push({ date: '2026-10-04', kg: 59 }); S12.recipes.push({ id: 'perso-3', n: 'Recette de Cat', own: true, ing: [], steps: [] });
     S12.weeks[0].days[2].meals.d = { id: 'm-main2', name: 'Plat fait main', recipeId: null, cat: '', st: '', base: '', ing: [], steps: [], tip: '' };
     A.setS(S12); A.migrateAll(); const V = A.getS(), mg = V.weeks[0].days[1].meals.l, errs = coherence(mg);
-    const ok = V.v === 15 && mg.steps.length > 3 && !errs.length && V.weights.length === 1 && V.recipes.some(r => r.id === 'perso-3') && V.weeks[0].days[2].meals.d.name === 'Plat fait main';
+    const ok = V.v === 16 && mg.steps.length > 3 && !errs.length && V.weights.length === 1 && V.recipes.some(r => r.id === 'perso-3') && V.weeks[0].days[2].meals.d.name === 'Plat fait main';
     if (!ok) fail('migration 13', 'plat généré non reconstruit ou données non conservées : ' + errs.join(' ; ')); else out.push('✓ migration 12 → 13 : plat généré reconstruit et cohérent, repas faits main, recettes de Cat et pesées conservés'); }
   /* migration 13 → 14 : mise à jour automatique des recettes fournies (sur place si les ingrédients correspondent), Japchae à une seule cuillère d'huile */
   { const S13 = A.defaultState(); S13.v = 13;
@@ -230,7 +262,7 @@ if (A) {
     S13.weights.push({ date: '2026-10-05', kg: 59 });
     A.setS(S13); A.migrateAll(); const W = A.getS(), a = W.weeks[0].days[1].meals.l, b = W.weeks[0].days[3].meals.d;
     const oil = b.ing.filter(i => /huile/.test(i.n)).reduce((t, i) => t + (i.u === 'c. à café' ? Number(i.q) : 0), 0);
-    const ok = W.v === 15 && a.steps.length > 3 && !a.steps.some(x => /ancienne/.test(x)) && a.ing[0].q === kept + 7 && b.steps.length > 3 && oil === 1
+    const ok = W.v === 16 && a.steps.length > 3 && !a.steps.some(x => /ancienne/.test(x)) && a.ing[0].q === kept + 7 && b.steps.length > 3 && oil === 1
       && W.recipes.find(r => r.id === 'perso-4').steps[0] === 'étape perso' && W.weeks[0].days[2].meals.d.steps[0] === 'étape perso' && W.weights.length === 1;
     if (!ok) fail('migration 14', 'recette non mise à jour ou données perdues (huile ' + oil + ')'); else out.push('✓ migration 13 → 14 : recette mise à jour sur place (quantités conservées), Japchae à 1 c. à café d\'huile, recette de Cat, repas fait main et pesées intacts'); }
   /* cuissons vapeur : toujours un palier de 5 minutes, 60 minutes au plus (docs/bamboo.md) */

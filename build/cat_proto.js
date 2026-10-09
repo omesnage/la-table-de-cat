@@ -12,7 +12,7 @@ const fmtDate = iso => iso ? new Date(iso + "T12:00:00").toLocaleDateString("fr-
 /* ---------- portions par repas (poids cuits) ---------- */
 const PORTIONS = { b: { f: [60, 100], fr: [25, 35], p: [40, 60] }, l: { f: [120, 150], fr: [20, 40], p: [80, 100] }, d: { f: [120, 150], fr: [20, 40], p: [80, 100] } };
 const RAW_STARCH = ["riz cru", "flocons d'avoine", "avoine", "farine de sarrasin", "flocons de sarrasin"];
-const SOLID_PROT = ["tofu ferme", "tofu", "tofu soyeux", "tofu fume", "blanc de poulet", "cuisse de poulet", "poulet", "sardine"];
+const SOLID_PROT = ["tofu ferme", "tofu", "tofu soyeux", "tofu fume", "blanc de poulet", "cuisse de poulet", "poulet", "sardine", "cabillaud", "blanc de dinde"];
 const isQty = i => num(i.q) > 0 && unitKind(i.u) === "g";
 function starchItems(m){ return (m.ing || []).filter(i => { const e = lookup(i.n); return e && e.a === "Féculents" && isQty(i); }); }
 function starchSplit(m){ let c = 0, r = 0; starchItems(m).forEach(i => { const e = lookup(i.n); if (RAW_STARCH.indexOf(e.k) >= 0) r += num(i.q); else c += num(i.q); }); return { c, r }; }
@@ -238,7 +238,7 @@ function ensureDefaults(){
   S.weeks.forEach(w => w.days.forEach(d => { d.meals = d.meals || {}; if (!("b" in d.meals)) d.meals.b = null; if (!("c" in d.meals)) d.meals.c = null; }));
   const ks = Object.keys(S.cooked); if (ks.length > 80) ks.slice(0, ks.length - 80).forEach(k => delete S.cooked[k]);
 }
-function migrateAll(){ if (!S.v || S.v < 2) migrateProto(); if (S.v < 3) migrate3(); if (S.v < 4) migrate4(); if (S.v < 5) migrate5(); if (S.v < 6) migrate6(); if (S.v < 7) migrate7(); if (S.v < 8) migrate8(); if (S.v < 9) migrate9(); if (S.v < 10) migrate10(); if (S.v < 11) migrate11(); if (S.v < 12) migrate12(); if (S.v < 13) migrate13(); if (S.v < 14) migrate14(); if (S.v < 15) migrate15(); }
+function migrateAll(){ if (!S.v || S.v < 2) migrateProto(); if (S.v < 3) migrate3(); if (S.v < 4) migrate4(); if (S.v < 5) migrate5(); if (S.v < 6) migrate6(); if (S.v < 7) migrate7(); if (S.v < 8) migrate8(); if (S.v < 9) migrate9(); if (S.v < 10) migrate10(); if (S.v < 11) migrate11(); if (S.v < 12) migrate12(); if (S.v < 13) migrate13(); if (S.v < 14) migrate14(); if (S.v < 15) migrate15(); if (S.v < 16) migrate16(); }
 /* v2 : nouveau protocole. Le carnet fourni est remplacé par la version mise à jour ; les recettes créées par Cat sont conservées.
    Les repas du planning qui venaient de l'ancien carnet sont renouvelés, et un petit-déjeuner est ajouté là où il manque. */
 function migrateProto(){

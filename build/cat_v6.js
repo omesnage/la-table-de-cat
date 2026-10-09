@@ -3,7 +3,7 @@
    v3 : 80 % végétarien, légumes variés, herbes, plats japonais et coréens doux,
    petits-déjeuners légers (sucré / salé), recette visible tout de suite, aperçu des menus
    ===================================================================== */
-const NONVEG = ["Poulet", "Sardines"];
+const NONVEG = ["Poulet", "Sardines", "Dinde", "Poisson"];
 const isVegCat = c => NONVEG.indexOf(c) < 0;
 const vegRatio = () => S.vegRatio > 0 ? S.vegRatio : 80;
 const EGG_PREPS = [/oeufs? (?:durs?|mollets?|poches?|au plat|brouilles?|cocotte)/, /omelette/, /chawan/];
@@ -16,7 +16,7 @@ function eggsOK(m){
    Deux repas qui se suivent (petit-déjeuner, déjeuner, dîner, puis petit-déjeuner du lendemain) n'en partagent aucun,
    ce qui interdit aussi le même ingrédient principal midi et soir. Œufs : EGG_MAX repas par semaine au plus, jamais à la suite. */
 const EGG_MAX = 3;
-const MAIN_RE = [["œufs", /\boeufs?\b/], ["poulet", /poulet/], ["tofu", /\btofu\b/], ["protéine de pois", /pois texturee/], ["protéine de soja", /soja texturee/], ["sardines", /sardine/], ["okara", /okara/]];
+const MAIN_RE = [["œufs", /\boeufs?\b/], ["poulet", /poulet/], ["tofu", /\btofu\b/], ["protéine de pois", /pois texturee/], ["protéine de soja", /soja texturee/], ["sardines", /sardine/], ["dinde", /dinde/], ["cabillaud", /cabillaud/], ["okara", /okara/]];
 const isSnack = m => !!m && m.cat === "Collation";
 const MAIN_SLOTS = () => SLOTS.filter(sl => sl.k !== "c");
 /* petits-déjeuners : 70 % sucrés, 30 % salés (3 salés tous les 10 jours) */
@@ -495,3 +495,9 @@ function migrate14(){ refreshRecipes(V14_CHANGED, true); S.v = 14; }
    Les repas déjà planifiés sont mis à jour sur place si leurs ingrédients correspondent, sinon reconstruits ;
    recettes de Cat, repas faits main, pesées et réglages ne bougent pas. */
 function migrate15(){ refreshRecipes(DEFAULT_RECIPES.map(r => r.id), true); S.v = 15; }
+
+/* ---------- migration 16 : tofu soyeux et ferme équilibrés, 10 recettes aux œufs de plus (dont une tarte sans gluten),
+   laits d'amande, de riz, de soja et d'avoine, crème de soja, jambon végétal La Vie en petite garniture ----------
+   Les recettes fournies sont renouvelées (les nouvelles s'ajoutent, celles passées du tofu ferme au tofu soyeux sont mises à jour
+   dans le planning) ; recettes de Cat, repas faits main, pesées et réglages ne bougent pas. */
+function migrate16(){ refreshRecipes(DEFAULT_RECIPES.map(r => r.id), true); S.v = 16; }

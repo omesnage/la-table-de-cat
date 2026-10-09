@@ -377,13 +377,123 @@ RC({id:"n-bc-poivron-namul", n:"Poivron-muchim : poivron pelé, doux comme une c
   "Dressage — Mélanger la chair avec 1/2 c. à café d'huile de sésame grillé et 1/2 c. à café de sauce soja. Servir tiède. [[dresser x2]]"],
  tip:"Le plus important est de bien retirer la peau : c'est elle qui rend le poivron indigeste."})
 
+,
+/* ---------- version 16 : légumes cuits autrement (soupes, velouté, rouleaux, purée) ---------- */
+RC({id:"n-bc-mu-guk", n:"Mu-guk : soupe claire de daikon, bouillon de kombu", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Légume",
+ ing:[["daikon",90,"g"],["kombu",2,"g"],["eau",250,"ml"],["sauce soja",0.5,"c. à café"],["huile de sésame grillé",0.5,"c. à café"],["ciboulette","",HERBS]],
+ steps:[
+  "Avant de commencer — Ustensiles : une casserole avec son couvercle, un économe, une planche et un couteau, une cuillère, des ciseaux, un bol creux. Le plat en deux mots : « mu » veut dire radis blanc et « guk » soupe claire. Le daikon est un gros radis blanc, très doux une fois cuit. Le kombu est une algue brune séchée qui donne au bouillon un goût de mer rond (l'umami), puis qu'on retire.",
+  "Le daikon — Éplucher le daikon ({{daikon}}) et le couper en demi-rondelles très fines de 2 mm : elles cuisent vite et deviennent translucides. [[sortir; eplucher daikon; couper daikon]]",
+  "Le bouillon — Verser l'eau ({{eau}}) dans la casserole avec le kombu ({{kombu}}) et le daikon. Couvrir et chauffer à feu doux : au frémissement (l'eau bouge à peine, de toutes petites bulles montent), compter 5 minutes puis retirer le kombu à la cuillère, car bouilli il rend le bouillon amer et visqueux. Laisser le daikon cuire encore 4 minutes, couvert. Repère : les rondelles sont translucides et fondent sous la cuillère. [[casserole; cuisson 9]]",
+  "Dressage — Verser dans le bol creux, ajouter 1/2 c. à café de sauce soja et 1/2 c. à café d'huile de sésame grillé, une huile brune au parfum de noisette versée à la fin et jamais chauffée, puis la ciboulette ({{ciboulette}}), une herbe fine au goût doux, ciselée aux ciseaux (pointes vertes seulement). Servir tiède. [[ciseler; dresser x2]]"],
+ tip:"Un bouillon qui ne bout jamais reste limpide ; le daikon cuit dans le kombu devient sucré sans rien d'autre."}),
+
+RC({id:"n-bc-miyeok-guk", n:"Miyeok-guk : soupe de wakame & carotte, bouillon doux", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Légume",
+ ing:[["wakame",6,"g"],["carotte",60,"g"],["eau",500,"ml"],["huile de sésame grillé",0.5,"c. à café"]],
+ steps:[
+  "Avant de commencer — Ustensiles : un bol, une casserole, une passoire, une planche et un couteau, un économe, des ciseaux de cuisine, un bol creux. Le plat en deux mots : « miyeok-guk » est la soupe d'algue que l'on mange en Corée pour les anniversaires. Le wakame est une algue verte vendue séchée, qui gonfle dans l'eau et devient souple, au goût de mer très léger. Il est déjà salé : on n'ajoute rien d'autre.",
+  "Le wakame — Mettre le wakame ({{wakame}}) sec dans le bol, le couvrir de 300 ml d'eau chaude du robinet et attendre 5 minutes : il gonfle et devient souple et vert foncé. Le verser dans la passoire, le rincer à l'eau claire et le couper aux ciseaux en lanières de 3 cm. [[sortir; peser; attente 5; rincer; couper wakame]]",
+  "La carotte — Pendant ce temps, éplucher la carotte ({{carotte}}) et la couper en fins bâtonnets de 3 mm. [[// eplucher carotte; couper carotte]]",
+  "La soupe — Verser 200 ml d'eau dans la casserole, y mettre la carotte, couvrir et chauffer à feu doux 4 minutes, jusqu'à ce qu'elle soit tendre. Ajouter le wakame et chauffer encore 1 minute, sans bouillir. [[casserole; cuisson 5]]",
+  "Dressage — Verser la soupe dans le bol creux et ajouter 1/2 c. à café d'huile de sésame grillé, versée à la fin. Servir tiède. [[dresser x2]]"],
+ tip:"La soupe de wakame se sert tiède : une algue chauffée trop fort devient filante."}),
+
+RC({id:"n-bc-danhobak-sup", n:"Danhobak-sup : velouté de potimarron au sésame", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Légume",
+ ing:[["potimarron",80,"g"],["bouillon",150,"ml"],["graines de sésame",0.5,"c. à café"],["huile d'olive",0.5,"c. à café"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une casserole avec son couvercle, un économe, une planche et un couteau solide, une cuillère, un mixeur plongeant ou un presse-purée, un bol creux. Le plat en deux mots : un velouté est une soupe mixée, lisse et épaisse. Le potimarron est une petite courge orange à la chair sucrée, au goût de châtaigne. Servi en petit bol, c'est un banchan doux et chaud, sans trace de piment.",
+  "Le potimarron — Ouvrir le potimarron ({{potimarron}}) en deux en le tenant bien à plat, retirer les graines et les filaments à la cuillère, éplucher chaque morceau à l'économe, puis le couper en cubes de 1 cm : plus petits, ils cuisent plus vite. [[sortir; eplucher potimarron; couper potimarron]]",
+  "La cuisson — Mettre les cubes dans la casserole avec le bouillon ({{bouillon}}), couvrir et chauffer à feu doux 7 minutes. Repère : un cube s'écrase sans effort contre la paroi. [[casserole; cuisson 7]]",
+  "Le velouté — Mixer directement dans la casserole, hors du feu, jusqu'à une crème lisse sans grain. Si elle est trop épaisse, ajouter une cuillère de bouillon chaud. [[mixer]]",
+  "Dressage — Verser dans le bol creux, ajouter 1/2 c. à café d'huile d'olive, versée à la fin sans la chauffer, et parsemer de 1/2 c. à café de graines de sésame. Servir tiède : attendre une minute avant de manger. [[dresser x3]]"],
+ tip:"Le potimarron fait lui-même la liaison : aucune crème n'est nécessaire."}),
+
+RC({id:"n-bc-gim-ssam", n:"Gim-ssam : petits rouleaux de nori, carotte & courgette tendres", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Légume",
+ ing:[["nori",1,"pièce"],["carotte",50,"g"],["courgette",30,"g"],["huile de sésame grillé",0.5,"c. à café"],["graines de sésame",0.5,"c. à café"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une casserole avec son couvercle, un économe, une planche et un couteau, une assiette, un petit bol d'eau. Le plat en deux mots : « ssam » veut dire enveloppé. Le nori est une algue séchée en feuille fine, comme celle des sushis : elle sert d'emballage à des bâtonnets de légumes tendres, et se mange en petites bouchées.",
+  "Les légumes — Éplucher la carotte ({{carotte}}) et la courgette ({{courgette}}), retirer les pépins de la courgette, puis les couper en bâtonnets de 5 cm de long sur 3 mm d'épaisseur. [[sortir; eplucher carotte; eplucher courgette; couper carotte; couper courgette]]",
+  "La cuisson — Mettre les bâtonnets de carotte dans la casserole avec 3 cuillères d'eau, couvrir et étuver (cuire à couvert dans très peu d'eau) à feu doux 3 minutes, puis ajouter la courgette et poursuivre 2 minutes. Les égoutter et les laisser tiédir sur l'assiette. [[casserole; cuisson 5; egoutter]]",
+  "Les rouleaux — Couper la feuille de nori ({{nori}}) en deux. Poser la moitié sur la planche, répartir la moitié des légumes en une ligne le long d'un bord, arroser de 1/4 c. à café d'huile de sésame grillé, puis rouler serré. Mouiller le bord libre d'une goutte d'eau pour souder le rouleau. Faire de même avec l'autre moitié, puis couper chaque rouleau en 3 tronçons avec un couteau mouillé. Le nori ramollit au contact des légumes tièdes. [[couper nori; former x2; trancher]]",
+  "Dressage — Ranger les 6 tronçons debout sur l'assiette et parsemer d'un peu de graines de sésame. Servir tiède. [[dresser x2]]"],
+ tip:"Les légumes doivent être tièdes et bien égouttés : trop humides, ils font fondre le nori."}),
+
+RC({id:"n-bc-blettes-ssam", n:"Blettes-ssam : feuilles de blettes roulées sur une purée de patate douce au miso", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Légume",
+ ing:[["blettes",50,"g"],["patate douce",40,"g"],["miso blanc",0.5,"c. à café"],["huile de sésame grillé",0.5,"c. à café"],["eau",60,"ml"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une casserole avec son couvercle, un économe, une planche et un couteau, une fourchette, un petit bol, une assiette. Le plat en deux mots : « ssam » veut dire enveloppé. En Corée on enveloppe une garniture dans des feuilles ; ici ce sont des feuilles de blettes (grandes feuilles vertes à la côte blanche), cuites jusqu'à devenir souples, garnies d'une purée de patate douce. Le miso blanc est une pâte de soja fermenté, de couleur crème, au goût rond et salé.",
+  "Les légumes — Éplucher la patate douce ({{patate douce}}) et la couper en cubes de 1 cm. Laver les blettes ({{blettes}}), retirer la côte blanche de chaque feuille en la découpant à la base : elle est fibreuse, mais les feuilles restent entières. [[sortir; eplucher patate douce; couper patate douce; laver blettes; couper blettes]]",
+  "La cuisson — Mettre la patate douce dans la casserole avec l'eau ({{eau}}), couvrir et chauffer à feu doux 5 minutes. Poser les feuilles de blettes par-dessus, couvrir et poursuivre 2 minutes : elles s'affaissent et deviennent souples. Repère : un cube de patate douce s'écrase sans effort. [[casserole; cuisson 7]]",
+  "La purée — Écraser la patate douce égouttée à la fourchette dans le petit bol avec 1/2 c. à café de miso et 1/2 c. à café d'huile de sésame grillé, jusqu'à une purée lisse. Le miso ne se chauffe jamais : bouilli, il perd son parfum. [[egoutter; ecraser]]",
+  "Les rouleaux — Étaler chaque feuille sur la planche, déposer une cuillerée de purée au centre, replier les côtés et rouler en petit paquet. Préparer 2 ou 3 paquets, les poser sur l'assiette, plis dessous. Servir tiède. [[former x3; dresser x2]]"],
+ tip:"Des feuilles de blettes bien égouttées se roulent sans se déchirer ; la purée de patate douce fait office de sauce."}),
+
+RC({id:"n-bc-mu-mari", n:"Mu-mari : rouleaux de daikon tendre autour de carotte, sauce sésame", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Légume",
+ ing:[["daikon",70,"g"],["carotte",30,"g"],["graines de sésame",0.5,"c. à café"],["huile de sésame grillé",0.5,"c. à café"],["sauce soja",0.5,"c. à café"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une casserole avec son couvercle, un économe, une planche et un couteau, une assiette, un petit bol, une cuillère. Le plat en deux mots : « mu » veut dire radis blanc et « mari » rouleau. Le daikon est un gros radis blanc, très doux une fois cuit : on le taille en longs rubans fins, cuits jusqu'à devenir souples, que l'on enroule autour de bâtonnets de carotte.",
+  "Les légumes — Éplucher le daikon ({{daikon}}) et la carotte ({{carotte}}). Avec l'économe, lever sur le daikon de longs rubans de 2 mm d'épaisseur ; couper la carotte en bâtonnets de 5 cm de long sur 3 mm d'épaisseur. [[sortir; eplucher daikon; eplucher carotte; rubans daikon; couper carotte]]",
+  "La cuisson — Mettre les bâtonnets de carotte dans la casserole avec 3 cuillères d'eau, couvrir et étuver (cuire à couvert dans très peu d'eau) à feu doux 3 minutes. Ajouter les rubans de daikon et poursuivre 2 minutes : ils deviennent translucides et souples. Égoutter. [[casserole; cuisson 5; egoutter]]",
+  "La sauce — Dans le petit bol, mélanger 1/2 c. à café de sauce soja, 1/2 c. à café d'huile de sésame grillé et 1 cuillère d'eau. [[// delayer]]",
+  "Les rouleaux — Poser 2 ou 3 bâtonnets de carotte au bout d'un ruban de daikon tiède et enrouler. Faire de même avec les autres rubans. Ranger les rouleaux debout sur l'assiette, verser la sauce en filet et parsemer de graines de sésame. Servir tiède. [[former x4; dresser x2]]"],
+ tip:"Les rubans doivent être fins pour se plier sans casser : lever les derniers au couteau si l'économe n'y arrive plus."}),
+
+RC({id:"n-bc-goguma-puree", n:"Goguma-jjim : patate douce à la vapeur de casserole, écrasée au sésame", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Légume",
+ ing:[["patate douce",70,"g"],["graines de sésame",1,"c. à café"],["huile de sésame grillé",0.5,"c. à café"],["bouillon",2,"c. à soupe"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une casserole avec son couvercle, un économe, une planche et un couteau, une fourchette, un mortier ou un bol avec le dos d'une cuillère, un petit bol. Le plat en deux mots : « goguma » veut dire patate douce et « jjim » cuit à la vapeur. La patate douce cuite devient une purée sucrée, qu'on parfume de sésame écrasé : c'est un banchan doux et rond, parfumé au seul sésame.",
+  "La patate douce — Éplucher la patate douce ({{patate douce}}) et la couper en cubes de 1,5 cm. Les mettre dans la casserole avec 3 cuillères d'eau, couvrir et chauffer à feu doux 8 minutes. Repère : un cube s'écrase sans effort contre la paroi. [[sortir; eplucher patate douce; couper patate douce; casserole; cuisson 8]]",
+  "Le sésame — Pendant la cuisson, écraser les graines de sésame ({{graines de sésame}}) au mortier jusqu'à une poudre grossière qui sent la noisette. [[// ecraser]]",
+  "La purée — Égoutter la patate douce, la remettre dans le petit bol et l'écraser à la fourchette avec 2 cuillères à soupe de bouillon tiède ({{bouillon}}) jusqu'à une purée souple. Ajouter le sésame écrasé et 1/2 c. à café d'huile de sésame grillé, mélanger doucement. Servir tiède. [[egoutter; ecraser; dresser x2]]"],
+ tip:"La patate douce est sucrée : le bouillon l'allonge sans la fadir, et le sésame écrasé lui donne son parfum."}),
+
+/* ---------- version 16 : protéines autres que tofu, œuf, poulet et sardine (cabillaud, dinde, tofu fumé) ---------- */
+RC({id:"n-bc-daegu-jjim", n:"Daegu-jjim : cabillaud à la vapeur sur un lit de daikon, sauce sésame", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Protéine",
+ ing:[["cabillaud",90,"g"],["daikon",30,"g"],["eau",100,"ml"],["sauce soja",0.5,"c. à café"],["huile de sésame grillé",0.5,"c. à café"],["ciboulette","",HERBS]],
+ steps:[
+  "Avant de commencer — Ustensiles : une casserole avec son couvercle, une planche et un couteau, un économe, un petit bol, une cuillère, des ciseaux. Le plat en deux mots : « daegu » veut dire morue (ici du cabillaud) et « jjim » cuit à la vapeur. Le cabillaud est un poisson blanc très maigre, à la chair tendre qui se défait en gros flocons. Il cuit dans la vapeur de la casserole fermée, sur un lit de daikon (un gros radis blanc, très doux une fois cuit), sans jamais toucher l'eau. Frais ou surgelé, il doit être sans peau ni arête.",
+  "La préparation — Éplucher le daikon ({{daikon}}) et le couper en bâtonnets de 3 mm. Contrôler le cabillaud ({{cabillaud}}) du bout des doigts pour retirer les arêtes qui resteraient, puis le couper en morceaux de 3 cm. Si le poisson est surgelé, le décongeler d'abord une nuit au réfrigérateur. [[sortir; eplucher daikon; couper daikon; couper cabillaud]]",
+  "La vapeur — Mettre le daikon dans la casserole avec l'eau ({{eau}}), poser le cabillaud par-dessus sur une seule couche, couvrir et chauffer à feu doux 6 minutes sans soulever le couvercle. Repère : la chair est devenue blanche et opaque, et se détache en flocons à la fourchette. [[casserole; cuisson 6]]",
+  "La sauce — Pendant ce temps, mélanger dans le petit bol 1/2 c. à café de sauce soja, 1/2 c. à café d'huile de sésame grillé et 1 cuillère d'eau. [[// delayer]]",
+  "Dressage — Égoutter le daikon et le cabillaud, les ranger dans un petit bol, napper de la sauce et parsemer la ciboulette ({{ciboulette}}), une herbe fine au goût doux, ciselée aux ciseaux (pointes vertes seulement). Servir tiède. [[egoutter; ciseler; dresser x3]]"],
+ tip:"Un cabillaud cuit à la vapeur douce reste nacré et tendre ; plus de 8 minutes, il devient sec."}),
+
+RC({id:"n-bc-daegu-guk", n:"Daegu-guk : petite soupe de cabillaud & daikon, bouillon de kombu", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Protéine",
+ ing:[["cabillaud",90,"g"],["daikon",30,"g"],["kombu",2,"g"],["eau",200,"ml"],["sauce soja",0.5,"c. à café"],["ciboulette","",HERBS]],
+ steps:[
+  "Avant de commencer — Ustensiles : une casserole avec son couvercle, une planche et un couteau, un économe, une cuillère, des ciseaux, un bol creux. Le plat en deux mots : « guk » est une soupe claire coréenne. Le cabillaud est un poisson blanc très maigre, à la chair tendre. Le kombu est une algue brune séchée qui donne au bouillon un goût de mer rond (l'umami), puis qu'on retire. Le poisson doit être sans peau ni arête.",
+  "La préparation — Éplucher le daikon ({{daikon}}), un gros radis blanc, et le couper en demi-rondelles de 2 mm. Contrôler le cabillaud ({{cabillaud}}) du bout des doigts pour retirer les arêtes qui resteraient, puis le couper en morceaux de 3 cm. [[sortir; eplucher daikon; couper daikon; couper cabillaud]]",
+  "Le bouillon — Verser l'eau ({{eau}}) dans la casserole avec le kombu ({{kombu}}) et le daikon. Couvrir et chauffer à feu doux : au frémissement (de toutes petites bulles), compter 4 minutes puis retirer le kombu, qui rendrait le bouillon amer. Poursuivre 2 minutes, couvert, pour attendrir le daikon. [[casserole; cuisson 6]]",
+  "Le poisson — Ajouter le cabillaud et la sauce soja (1/2 c. à café), couvrir et laisser frémir 3 minutes sans remuer : le poisson devient blanc et opaque, et se défait en gros flocons. [[cuisson 3]]",
+  "Dressage — Verser délicatement dans le bol creux avec le bouillon et parsemer la ciboulette ({{ciboulette}}) ciselée aux ciseaux, pointes vertes seulement. Servir tiède. [[ciseler; dresser x2]]"],
+ tip:"Le poisson cuit dans le bouillon sans bouillir : à gros bouillons il se défait et le bouillon se trouble."}),
+
+RC({id:"n-bc-chilmyeonjo-wanja", n:"Chilmyeonjo-wanja : petites boulettes de dinde à la vapeur, sauce douce", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Protéine",
+ ing:[["blanc de dinde",80,"g"],["tofu soyeux",20,"g"],["daikon",30,"g"],["eau",100,"ml"],["sauce soja",0.5,"c. à café"],["sirop d'érable",0.5,"c. à café"],["huile de sésame grillé",0.5,"c. à café"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une casserole avec son couvercle, une planche réservée à la volaille et un couteau, un économe, un petit bol, une fourchette, une cuillère. Le plat en deux mots : « chilmyeonjo » veut dire dinde et « wanja » boulettes. Le blanc de dinde est une viande blanche très maigre, qui se dessèche vite : on le hache fin et on le lie avec un peu de tofu soyeux (un tofu très tendre, vendu dans son eau) pour qu'il reste moelleux. Les boulettes cuisent dans la vapeur de la casserole fermée, sur un lit de daikon (un gros radis blanc, très doux une fois cuit).",
+  "Les boulettes — Retirer gras et nerfs du blanc de dinde ({{blanc de dinde}}), l'émincer en lamelles très fines, puis le hacher au couteau en petits morceaux, comme de la viande hachée. Dans le petit bol, le malaxer du bout des doigts avec le tofu soyeux ({{tofu soyeux}}) égoutté, jusqu'à une pâte souple. Mouiller les mains et former 4 petites boulettes de la taille d'une noix. [[sortir; emincer blanc de dinde; egoutter; former x4]]",
+  "Le daikon — Éplucher le daikon ({{daikon}}) et le couper en bâtonnets de 3 mm. [[eplucher daikon; couper daikon]]",
+  "La vapeur — Mettre le daikon dans la casserole avec l'eau ({{eau}}), poser les boulettes par-dessus sans qu'elles se touchent, couvrir et chauffer à feu doux 7 minutes sans soulever le couvercle. Contrôle : une boulette coupée en deux est blanche à cœur, sans trace rosée. [[casserole; cuisson 7]]",
+  "Dressage — Réunir dans le petit bol 1/2 c. à café de sauce soja, 1/2 c. à café de sirop d'érable et 1 cuillère d'eau. Égoutter le daikon et les boulettes, les ranger dans un petit bol, verser la sauce par-dessus et ajouter 1/2 c. à café d'huile de sésame grillé. Servir tiède. [[egoutter; dresser x3]]"],
+ tip:"Le tofu soyeux garde la dinde moelleuse ; la vapeur douce évite qu'elle se dessèche."}),
+
+RC({id:"n-bc-hunje-dubu-jorim", n:"Hunje-dubu-jorim : tofu fumé braisé, carotte tendre", cat:"Banchan", st:"Banchan", base:"Aucun", d:1, go:"Protéine",
+ ing:[["tofu fumé",90,"g"],["carotte",30,"g"],["sauce soja",0.5,"c. à café"],["sirop d'érable",0.5,"c. à café"],["huile de sésame grillé",0.5,"c. à café"],["eau",60,"ml"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une casserole avec son couvercle, une planche et un couteau, un économe, du papier absorbant, un petit bol, une cuillère. Le plat en deux mots : « hunje » veut dire fumé, « dubu » tofu et « jorim » braisé, c'est-à-dire cuit doucement, à couvert, dans un peu de liquide. Le tofu fumé est un bloc de tofu déjà parfumé à la fumée : il est toléré en petite quantité, à ne pas servir plus d'une fois par semaine.",
+  "La préparation — Éplucher la carotte ({{carotte}}) et la couper en fines demi-rondelles de 3 mm. Éponger le tofu fumé ({{tofu fumé}}) dans du papier absorbant et le couper en tranches de 1 cm d'épaisseur. [[sortir; eplucher carotte; couper carotte; presser tofu; couper tofu]]",
+  "La braise — Dans le petit bol, mélanger 60 ml d'eau, 1/2 c. à café de sauce soja et 1/2 c. à café de sirop d'érable. Verser dans la casserole, y mettre la carotte, couvrir et laisser frémir (l'eau bouge à peine) 4 minutes à feu doux. Ajouter les tranches de tofu, couvrir et poursuivre 4 minutes en les retournant une fois. Repère : la sauce a réduit et nappe le dos de la cuillère. [[delayer; casserole; cuisson 8]]",
+  "Dressage — Ranger dans un petit bol, verser le reste de sauce et finir de 1/2 c. à café d'huile de sésame grillé, une huile brune versée à la fin et jamais chauffée. Servir tiède. [[dresser x3]]"],
+ tip:"Le tofu fumé a déjà beaucoup de goût : une sauce très légère suffit, et la carotte en adoucit la fumée."})
+
 ];
 
 /* composer un repas coréen complet : riz + 1 banchan à protéine + 2 banchan de légumes (utilisé par l'application) */
 const KR_RICE = 140;
 /* rayon d'un repas coréen d'après la protéine du banchan */
 function krCat(p){ const has = k => p.ing.some(i => norm(i.n) === k);
-  return has("oeuf") ? "Œufs" : has("poulet") || has("blanc de poulet") ? "Poulet" : has("sardine") ? "Sardines" : "Tofu"; }
+  return has("oeuf") ? "Œufs" : has("poulet") || has("blanc de poulet") ? "Poulet" : has("blanc de dinde") ? "Dinde" : has("cabillaud") ? "Poisson" : has("sardine") ? "Sardines" : "Tofu"; }
 function krShort(n){ return String(n).split(":")[0].trim(); }
 function composeKorean(p, vs){
   const parts = [p].concat(vs), ing = [{ n: "riz cuit", q: KR_RICE, u: "g" }], steps = [], intros = [];
