@@ -145,7 +145,7 @@ function loadApp(){
   let store = null;
   Object.assign(global, { window: global, document: noop, location: { hash: "" }, addEventListener(){}, requestAnimationFrame(){}, setTimeout(){},
     matchMedia: () => ({ matches: false, addEventListener(){} }), localStorage: { getItem: () => store, setItem(k, v){ store = v; }, removeItem(){} } });
-  (0, eval)(code + '\n;global.__A = { protGrams, protEdit, protSlot, subChoices, subApply, subOf, subQty, lotPlan, lotKeep, mealFromRecipe, KR_RICE, randomGen, proposeWeek, proposeDay, planIssues, buildDefaultPlan, dayCtx, SLOTS, composeKorean, protoCheck, pdSalty, isSnack, EGG_MAX, migrateAll, defaultState, swapCandidate, setMeal, getMeal, kcalOf, buildGen, mealFromGen, getS: () => S, setS: x => { S = x; } };');
+  (0, eval)(code + '\n;global.__A = { protNutri, ingProt, protFoodG, protEdit, protSlot, subChoices, subApply, subOf, subQty, lotPlan, lotKeep, mealFromRecipe, KR_RICE, randomGen, proposeWeek, proposeDay, planIssues, buildDefaultPlan, dayCtx, SLOTS, composeKorean, protoCheck, pdSalty, isSnack, EGG_MAX, migrateAll, defaultState, swapCandidate, setMeal, getMeal, kcalOf, buildGen, mealFromGen, getS: () => S, setS: x => { S = x; } };');
   return global.__A;
 }
 let A = null;
@@ -190,11 +190,20 @@ if (A) {
   if (!left.length && S1.v === 16 && !is.length) out.push('✓ migration depuis une ancienne version : anciennes recettes remplacées, planning conforme, version 16');
   /* protéines du repas : total en grammes et réglage dans les bornes du protocole */
   { const R = A.getS().recipes.filter(r => r.cat !== 'Banchan'); let bad = 0, edit = 0, first = '';
-    R.forEach(r => { const slot = A.protSlot(r, null), g = A.protGrams(r), ed = A.protEdit(r, slot);
+    R.forEach(r => { const slot = A.protSlot(r, null), g = A.protFoodG(r), ed = A.protEdit(r, slot);
       if (!(g > 0) && r.st !== 'Collation' && r.st !== 'Petit-déjeuner') { bad++; first = first || r.id + ' sans protéine comptée'; }
       if (ed) { edit++; if (ed.unit === 'g' && (ed.lo < 1 || ed.hi > 100 || ed.lo > ed.hi)) { bad++; first = first || r.id + ' bornes ' + ed.lo + '-' + ed.hi; } } });
+    /* protéines RÉELLES : chaque aliment a sa valeur, et un repas a un total plausible (jamais le poids des aliments) */
+    const nut = A.protNutri({ ing: [{ n: 'tofu ferme', q: 90, u: 'g' }] });
+    if (nut < 9 || nut > 14) { bad++; first = first || 'tofu ferme 90 g donne ' + nut + ' g de protéines'; }
+    if (A.protNutri({ ing: [{ n: 'oeuf', q: 2, u: '' }] }) !== 13) { bad++; first = first || '2 oeufs ne donnent pas 13 g'; }
+    const noPr = []; R.concat(A.getS().recipes.filter(r => r.cat === 'Banchan')).forEach(r => (r.ing || []).forEach(i => { const e = lookup(i.n);
+      if (e && ingKcal(i) > 3 && A.ingProt(i) === 0 && e.pr !== 0) noPr.push(r.id + ' / ' + i.n); }));
+    if (noPr.length) { bad++; first = first || 'protéines non comptées : ' + noPr[0]; }
+    const LD = R.filter(r => r.st !== 'Petit-déjeuner' && r.st !== 'Collation'); let lo = 999, hi = 0;
+    LD.forEach(r => { const g = A.protNutri(r); lo = Math.min(lo, g); hi = Math.max(hi, g); if (g < 8 || g > 60) { bad++; first = first || r.id + ' : ' + g + ' g de protéines'; } });
     if (bad) fail('protéines du repas', bad + ' anomalies, ex. : ' + first);
-    else out.push('✓ protéines du repas : total affiché pour ' + R.length + ' recettes, ' + edit + ' réglables dans les bornes du protocole'); }
+    else out.push('✓ protéines du repas : vraies protéines (g) calculées pour ' + R.length + ' recettes (déjeuners/dîners : ' + lo + ' à ' + hi + ' g), ' + edit + ' réglables dans les bornes du protocole'); }
   /* migration 9 → 10 : seuls les repas issus d'une recette disparue sont refaits, le reste de Cat est conservé */
   const S9 = A.defaultState(); S9.v = 9; const gone9 = ['b-porridge-avoine-myrtilles', 't-salade-riz-basilic'];
   const keepId = S9.weeks[0].days[3].meals.l.recipeId, keepName = S9.weeks[0].days[3].meals.l.name;
