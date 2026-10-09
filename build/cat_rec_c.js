@@ -128,5 +128,21 @@ RC({id:"n-col-pain-sarrasin-soyeux-jambon", n:"Pain de sarrasin tiède, tofu soy
   "Le pain — Sortir les ingrédients. Tiédir le pain de sarrasin ({{pain de sarrasin}}) 1 minute de chaque côté dans la poêle sèche à feu doux, sans le laisser prendre de couleur. [[sortir; casserole; cuisson 2]]",
   "La crème et le jambon — Pendant ce temps, vider le tofu soyeux ({{tofu soyeux}}) de son eau et l'écraser à la fourchette dans le petit bol avec l'huile d'olive ({{huile d'olive}}). Couper le jambon végétal ({{jambon végétal La Vie}}) en lanières de 5 mm. [[// egoutter; ecraser; couper jambon végétal La Vie]]",
   "Dressage — Tartiner la crème de tofu sur le pain tiède sur l'assiette et poser les lanières de jambon par-dessus. [[dresser x3]]"],
- tip:"Le jambon végétal assaisonne la tartine à lui seul."})
+ tip:"Le jambon végétal assaisonne la tartine à lui seul."}),
+
+RC({id:"n-col-soupe-epinards-riz-jambon", n:"Petite soupe tiède d'épinards, riz & jambon végétal", cat:"Collation", st:"Collation", base:"Riz", d:1, go:"Salé",
+ ing:[["riz cuit",40,"g"],["bouillon",150,"ml"],["épinards",40,"g"],["jambon végétal La Vie",20,"g"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une petite casserole, une planche et un couteau, une cuillère, un petit bol creux. Le plat en deux mots : une petite soupe de riz, légère, comme un okayu (soupe de riz japonaise) en miniature. Le jambon végétal La Vie, fait de protéines de pois et de soja, est déjà salé : on n'ajoute rien de salé.",
+  "La soupe — Sortir les ingrédients. Laver les épinards ({{épinards}}) à grande eau et retirer les grosses tiges. Verser le bouillon ({{bouillon}}) dans la casserole avec le riz cuit ({{riz cuit}}), chauffer 1 minute à feu doux, puis ajouter les épinards pour 1 minute : ils s'affaissent. [[sortir; laver epinards; casserole; cuisson 2]]",
+  "Dressage — Couper le jambon végétal ({{jambon végétal La Vie}}) en lanières de 5 mm. Verser la soupe tiède dans le petit bol et poser le jambon dessus. [[couper jambon végétal La Vie; dresser x2]]"],
+ tip:"Le jambon végétal assaisonne la soupe à lui seul : goûter avant d'ajouter quoi que ce soit."}),
+
+RC({id:"n-col-quinoa-courgette-jambon", n:"Petit bol de quinoa tiède, courgette fondue & jambon végétal", cat:"Collation", st:"Collation", base:"Quinoa", d:1, go:"Salé",
+ ing:[["quinoa cuit",50,"g"],["courgette",30,"g"],["eau",2,"c. à soupe"],["jambon végétal La Vie",20,"g"],["huile d'olive",0.5,"c. à café"]],
+ steps:[
+  "Avant de commencer — Ustensiles : une petite casserole avec son couvercle, une râpe fine, un économe, une planche et un couteau, une cuillère, un petit bol. Le plat en deux mots : du quinoa, petite graine ronde au goût de noisette cuite la veille, réchauffé avec de la courgette fondante. Le jambon végétal La Vie est déjà salé.",
+  "La courgette et le quinoa — Sortir les ingrédients. Éplucher la courgette ({{courgette}}), retirer les pépins s'il y en a, la râper finement et la mettre dans la casserole avec l'eau ({{eau}}). Couvrir et cuire 1 minute à feu doux, puis ajouter le quinoa cuit ({{quinoa cuit}}) et chauffer 1 minute en remuant. [[sortir; eplucher courgette; raper courgette; casserole; cuisson 2]]",
+  "Dressage — Couper le jambon végétal ({{jambon végétal La Vie}}) en lanières de 5 mm. Verser le quinoa dans le petit bol, poser le jambon dessus et ajouter l'huile d'olive ({{huile d'olive}}) en filet, sans la chauffer. [[couper jambon végétal La Vie; dresser x3]]"],
+ tip:"La courgette râpée fond en deux minutes et rend le quinoa moelleux."})
 );

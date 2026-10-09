@@ -13,6 +13,7 @@ const ING_DB = [
   ["proteine de pois texturee","Tofu & protéines végétales",{g:348,n:1,w:"30 g secs par repas, réhydratés 10 minutes"}],
   ["proteine de soja texturee","Tofu & protéines végétales",{g:340,n:"t",w:"30 g secs par repas, en petite quantité"}],
   ["pst","Tofu & protéines végétales",{g:330,n:"r"}],["proteines vegetales","Tofu & protéines végétales",{g:330,n:"r"}],
+  ["cabillaud","Poisson",{g:85,n:1,w:"poisson blanc maigre, sans peau ni arête, cuit à la vapeur douce"}],["blanc de dinde","Volaille",{g:110,n:1,w:"blanc sans peau, cuit à cœur, sans trace rosée"}],
   ["jambon vegetal","Tofu & protéines végétales",{g:110,n:"t",w:"jambon végétal La Vie (protéines de pois et de soja réhydratées) : 2 fines tranches au plus par repas (25 g), déjà salé, sans sel en plus ; relire l'étiquette (aucun ail ni oignon)"}],
   ["okara d'amande","Tofu & protéines végétales",{g:110,n:1}],["okara","Tofu & protéines végétales",{g:90,n:1}],
   ["sardine","Poisson",{g:190,n:2,w:"occasionnelle, de préférence le midi, hors phase sensible (histamine)"}],

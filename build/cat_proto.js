@@ -12,7 +12,7 @@ const fmtDate = iso => iso ? new Date(iso + "T12:00:00").toLocaleDateString("fr-
 /* ---------- portions par repas (poids cuits) ---------- */
 const PORTIONS = { b: { f: [60, 100], fr: [25, 35], p: [40, 60] }, l: { f: [120, 150], fr: [20, 40], p: [80, 100] }, d: { f: [120, 150], fr: [20, 40], p: [80, 100] } };
 const RAW_STARCH = ["riz cru", "flocons d'avoine", "avoine", "farine de sarrasin", "flocons de sarrasin"];
-const SOLID_PROT = ["tofu ferme", "tofu", "tofu soyeux", "tofu fume", "blanc de poulet", "cuisse de poulet", "poulet", "sardine"];
+const SOLID_PROT = ["tofu ferme", "tofu", "tofu soyeux", "tofu fume", "blanc de poulet", "cuisse de poulet", "poulet", "sardine", "cabillaud", "blanc de dinde"];
 const isQty = i => num(i.q) > 0 && unitKind(i.u) === "g";
 function starchItems(m){ return (m.ing || []).filter(i => { const e = lookup(i.n); return e && e.a === "Féculents" && isQty(i); }); }
 function starchSplit(m){ let c = 0, r = 0; starchItems(m).forEach(i => { const e = lookup(i.n); if (RAW_STARCH.indexOf(e.k) >= 0) r += num(i.q); else c += num(i.q); }); return { c, r }; }

@@ -3,7 +3,7 @@
    v3 : 80 % végétarien, légumes variés, herbes, plats japonais et coréens doux,
    petits-déjeuners légers (sucré / salé), recette visible tout de suite, aperçu des menus
    ===================================================================== */
-const NONVEG = ["Poulet", "Sardines"];
+const NONVEG = ["Poulet", "Sardines", "Dinde", "Poisson"];
 const isVegCat = c => NONVEG.indexOf(c) < 0;
 const vegRatio = () => S.vegRatio > 0 ? S.vegRatio : 80;
 const EGG_PREPS = [/oeufs? (?:durs?|mollets?|poches?|au plat|brouilles?|cocotte)/, /omelette/, /chawan/];
@@ -16,7 +16,7 @@ function eggsOK(m){
    Deux repas qui se suivent (petit-déjeuner, déjeuner, dîner, puis petit-déjeuner du lendemain) n'en partagent aucun,
    ce qui interdit aussi le même ingrédient principal midi et soir. Œufs : EGG_MAX repas par semaine au plus, jamais à la suite. */
 const EGG_MAX = 3;
-const MAIN_RE = [["œufs", /\boeufs?\b/], ["poulet", /poulet/], ["tofu", /\btofu\b/], ["protéine de pois", /pois texturee/], ["protéine de soja", /soja texturee/], ["sardines", /sardine/], ["okara", /okara/]];
+const MAIN_RE = [["œufs", /\boeufs?\b/], ["poulet", /poulet/], ["tofu", /\btofu\b/], ["protéine de pois", /pois texturee/], ["protéine de soja", /soja texturee/], ["sardines", /sardine/], ["dinde", /dinde/], ["cabillaud", /cabillaud/], ["okara", /okara/]];
 const isSnack = m => !!m && m.cat === "Collation";
 const MAIN_SLOTS = () => SLOTS.filter(sl => sl.k !== "c");
 /* petits-déjeuners : 70 % sucrés, 30 % salés (3 salés tous les 10 jours) */

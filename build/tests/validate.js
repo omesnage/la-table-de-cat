@@ -22,7 +22,7 @@ function unitKind(u){ const x = norm(u); if (!x) return "p"; if (x === "g" || x 
 function ingKcal(i){ const q = parseFloat(String(i.q).replace(',', '.')); if (!q) return 0; const e = lookup(i.n); if (!e) return 0;
   switch (unitKind(i.u)){ case 'g': return e.g != null ? e.g * q / 100 : 0; case 'c': return e.c != null ? e.c * q : 0; case 's': return e.c != null ? e.c * 3 * q : (e.g != null ? e.g * q * 15 / 100 : 0); case 'p': return e.p != null ? e.p * q : 0; } return 0; }
 const L3 = /\b(ail|oignons?|echalotes?|poivre|piment|vinaigre|citron|moutarde|pois chiches?|lentilles?|haricots? (blancs?|rouges?|secs?)|falafels?|fritur\w*|concombre|salade|radis|crudit\w*|tomate|isolat)\b/;
-const SOLID = ['tofu ferme', 'tofu', 'tofu soyeux', 'tofu fume', 'blanc de poulet', 'cuisse de poulet', 'poulet'];
+const SOLID = ['tofu ferme', 'tofu', 'tofu soyeux', 'tofu fume', 'blanc de poulet', 'cuisse de poulet', 'poulet', 'cabillaud', 'blanc de dinde'];
 const TEXT = ['proteine de pois texturee', 'proteine de soja texturee'];
 const BRACKET = /\s*\[(en parall[eè]le\s+)?(?:(\d+)\s*min\s*\+\s*)?(cuisson\s+)?(\d+)\s*min\]\s*$/i;
 let nPST = 0, nChicken = 0;
@@ -88,7 +88,7 @@ NEW_RECIPES.forEach(r => {
   JARGON.forEach(t => { const m = txt.match(t); if (!m) return; const near = txt.slice(Math.max(0, m.index - 160), m.index + 220).replace(m[0], ''); if (!JARGON_CUE.test(near)) miss.push(m[0]); });
   if (miss.length) fail(r.id, 'mot technique sans explication : ' + [...new Set(miss)].join(', '));
 });
-if (NEW_RECIPES.length !== 135) fail('catalogue', NEW_RECIPES.length + ' recettes au lieu de 135 (81 repas, 14 collations, 40 banchan)');
+if (NEW_RECIPES.length !== 148) fail('catalogue', NEW_RECIPES.length + ' recettes au lieu de 148 (81 repas, 16 collations, 51 banchan)');
 if (nChicken !== 4) fail('catalogue', nChicken + ' recettes de poulet au lieu de 4');
 if (nPST > 8) fail('catalogue', nPST + ' recettes à la protéine texturée : quelques plats seulement (8 au plus)');
 let OUT_V16 = '';
@@ -103,6 +103,7 @@ let OUT_V16 = '';
   const milk = k => NEW_RECIPES.filter(r => has(r, new RegExp("^lait d'" + k + "|^lait de " + k))).length;
   const mA = milk('amande'), mR = milk('riz'), mS = milk('soja'), mV = milk('avoine');
   if (mA < 4 || mR < 3 || mS < 3 || mV < 3) fail('laits végétaux', 'amande ' + mA + ', riz ' + mR + ', soja ' + mS + ', avoine ' + mV + ' (au moins 4, 3, 3, 3)');
+  NEW_RECIPES.forEach(r => { if (/brouill/i.test(r.n + ' ' + r.steps.join(' '))) fail(r.id, 'œufs brouillés : retirés du carnet (difficiles à digérer)'); });
   const eggLD = LD.filter(r => has(r, /^œufs?$/)).length;
   if (eggLD < 16) fail('œufs', eggLD + ' déjeuners et dîners aux œufs (au moins 16)');
   if (!NEW_RECIPES.some(r => /tarte/i.test(r.n) && has(r, /farine de riz/) && !has(r, /farine de (blé|froment)/))) fail('tarte', 'aucune tarte sans gluten');
@@ -212,7 +213,7 @@ if (A) {
     for (let i = 0; i < 100; i++) A.proposeDay({}).c || fail('collations', 'journée proposée sans collation'); }
   /* repas coréens : riz + 1 banchan à protéine + 2 banchan de légumes */
   { const R = A.getS().recipes, P = R.filter(r => r.cat === 'Banchan' && r.go === 'Protéine'), V = R.filter(r => r.cat === 'Banchan' && r.go === 'Légume'); let n = 0, bad = 0;
-    if (P.length !== 17 || V.length !== 23) fail('banchan', P.length + ' à protéine et ' + V.length + ' de légumes (17 et 23 attendus)');
+    if (P.length !== 21 || V.length !== 30) fail('banchan', P.length + ' à protéine et ' + V.length + ' de légumes (21 et 30 attendus)');
     P.forEach(p => { for (let i = 0; i < V.length; i++) for (let j = i + 1; j < V.length; j++) {
       const m = A.composeKorean(p, [V[i], V[j]]); n++; const why = [];
       const chk = A.protoCheck(m); if (chk.bad.length) why.push('protocole : ' + chk.bad.map(x => x.n).join(','));
@@ -233,7 +234,7 @@ if (A) {
     A.setS(S10); A.migrateAll(); const T = A.getS(), w0 = T.weeks[0];
     const salN = w0.days.filter(d => d.meals.b && d.meals.b.go === 'Salé').length, allC = T.weeks.every(w => w.days.every(d => d.meals.c && A.isSnack(d.meals.c)));
     const ok = T.v === 16 && allC && salN <= 2 && T.weights.length === 1 && T.recipes.some(r => r.id === 'perso-2') && w0.days[4].meals.l.name === 'Plat fait main'
-      && T.recipes.filter(r => r.cat === 'Banchan').length === 40 && A.planIssues(seq10(T)).length <= before10;
+      && T.recipes.filter(r => r.cat === 'Banchan').length === 51 && A.planIssues(seq10(T)).length <= before10;
     if (!ok) fail('migration 11', 'version ' + T.v + ', collations partout : ' + allC + ', salés semaine 1 : ' + salN + ', pesées ' + T.weights.length + ', perso ' + T.recipes.some(r => r.id === 'perso-2') + ', fait main ' + (w0.days[4].meals.l && w0.days[4].meals.l.name) + ', banchan ' + T.recipes.filter(r => r.cat === 'Banchan').length + ', règles : ' + A.planIssues(T.weeks.flatMap(w => w.days.flatMap(d => A.SLOTS.map(s => d.meals[s.k])))).slice(0, 2).join(' ; '));
     else out.push('✓ migration 10 → 11 : collations ajoutées, salés ramenés à ' + salN + ' sur 7, repas faits main, recettes de Cat et pesées conservés'); }
   /* migration 11 → 12 : les repas des recettes réécrites reprennent la version simple, le reste est conservé */
