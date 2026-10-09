@@ -58,6 +58,8 @@ et on commite `build/` **et** `index.html` ensemble. Le script échoue si une an
 - `//` en tête de liste : étape faite pendant une cuisson, affichée « en parallèle » et non ajoutée au total.
 - Le total `t` est la somme exacte des étapes, `tc` la somme des cuissons ; `validate.js` vérifie aussi qu'un verbe de la consigne (éplucher, couper, râper, laver, écraser…) a son geste dans la liste.
 
+- **Protéines par repas** (`protGrams`, `protEdit` dans `cat_proto.js`, section « Protéines du repas » et boutons – / + de la fiche, `protSection` dans `part_app.js`) : total en grammes (protéines solides + œufs à 50 g + protéine texturée à 3 fois son poids sec), réglable par pas de 5 g (ou 1 œuf) quand une seule source existe ; les bornes du protocole valent pour le total du repas. Test : `python3 build/tests/proteines.py`.
+
 ## Ajouts de la version 14
 - `cat_resume.js` : reprise de la recette ouverte (`S.ui.open`, effacée à la fermeture), semaine et onglet du carnet conservés, ligne « Préparation / Cuisson » sur les cartes.
 - `cat_swap.js` : bouton « Remplacer » en un tap sur la carte d'un repas (annulable), qui respecte le protocole et les règles de variété.

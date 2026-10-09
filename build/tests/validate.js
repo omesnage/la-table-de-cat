@@ -145,7 +145,7 @@ function loadApp(){
   let store = null;
   Object.assign(global, { window: global, document: noop, location: { hash: "" }, addEventListener(){}, requestAnimationFrame(){}, setTimeout(){},
     matchMedia: () => ({ matches: false, addEventListener(){} }), localStorage: { getItem: () => store, setItem(k, v){ store = v; }, removeItem(){} } });
-  (0, eval)(code + '\n;global.__A = { subChoices, subApply, subOf, subQty, lotPlan, lotKeep, mealFromRecipe, KR_RICE, randomGen, proposeWeek, proposeDay, planIssues, buildDefaultPlan, dayCtx, SLOTS, composeKorean, protoCheck, pdSalty, isSnack, EGG_MAX, migrateAll, defaultState, swapCandidate, setMeal, getMeal, kcalOf, buildGen, mealFromGen, getS: () => S, setS: x => { S = x; } };');
+  (0, eval)(code + '\n;global.__A = { protGrams, protEdit, protSlot, subChoices, subApply, subOf, subQty, lotPlan, lotKeep, mealFromRecipe, KR_RICE, randomGen, proposeWeek, proposeDay, planIssues, buildDefaultPlan, dayCtx, SLOTS, composeKorean, protoCheck, pdSalty, isSnack, EGG_MAX, migrateAll, defaultState, swapCandidate, setMeal, getMeal, kcalOf, buildGen, mealFromGen, getS: () => S, setS: x => { S = x; } };');
   return global.__A;
 }
 let A = null;
@@ -188,6 +188,13 @@ if (A) {
   const wk = S1.weeks.slice(0, 4).flatMap(w => w.days.flatMap(d => A.SLOTS.map(s => d.meals[s.k]))), is = A.planIssues(wk);
   if (is.length) fail('migration', 'planning refait non conforme : ' + is.slice(0, 2).join(' ; '));
   if (!left.length && S1.v === 16 && !is.length) out.push('✓ migration depuis une ancienne version : anciennes recettes remplacées, planning conforme, version 16');
+  /* protéines du repas : total en grammes et réglage dans les bornes du protocole */
+  { const R = A.getS().recipes.filter(r => r.cat !== 'Banchan'); let bad = 0, edit = 0, first = '';
+    R.forEach(r => { const slot = A.protSlot(r, null), g = A.protGrams(r), ed = A.protEdit(r, slot);
+      if (!(g > 0) && r.st !== 'Collation' && r.st !== 'Petit-déjeuner') { bad++; first = first || r.id + ' sans protéine comptée'; }
+      if (ed) { edit++; if (ed.unit === 'g' && (ed.lo < 1 || ed.hi > 100 || ed.lo > ed.hi)) { bad++; first = first || r.id + ' bornes ' + ed.lo + '-' + ed.hi; } } });
+    if (bad) fail('protéines du repas', bad + ' anomalies, ex. : ' + first);
+    else out.push('✓ protéines du repas : total affiché pour ' + R.length + ' recettes, ' + edit + ' réglables dans les bornes du protocole'); }
   /* migration 9 → 10 : seuls les repas issus d'une recette disparue sont refaits, le reste de Cat est conservé */
   const S9 = A.defaultState(); S9.v = 9; const gone9 = ['b-porridge-avoine-myrtilles', 't-salade-riz-basilic'];
   const keepId = S9.weeks[0].days[3].meals.l.recipeId, keepName = S9.weeks[0].days[3].meals.l.name;

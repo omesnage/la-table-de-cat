@@ -4136,9 +4136,10 @@ function cookHTML(o, kind, ref){
     <p class="eyebrow">${whereOf(kind, ref, o)}</p>
     <h2 class="cook-title">${esc(title || "Repas sans nom")}</h2>${o.sub ? `<p class="ed-sub">${esc(o.sub)}</p>` : ""}
     <p class="cook-tags">${catTag(o.cat)}${st && st.all ? `<span class="sea-chip">${ic("leaf")}de saison</span>` : ""}${st && !st.all ? `<span class="sea-chip off">hors saison : ${esc(st.out.join(", "))}</span>` : ""}<span class="muted small">Saison : ${esc(seasonLabel(o))}</span></p>${protoBanner(o)}
-    <div class="cpills">${pill("clock", "Total", T.total ? T.total + " min" : "—")}${pill("knife", "Préparation", T.prep ? approx + T.prep + " min" : "—")}${pill("flame", "Cuisson", T.cook ? approx + T.cook + " min" : "—")}${pill("gauge", "Calories", "≈ " + fmtK(kc) + " kcal")}</div>
+    <div class="cpills">${pill("clock", "Total", T.total ? T.total + " min" : "—")}${pill("knife", "Préparation", T.prep ? approx + T.prep + " min" : "—")}${pill("flame", "Cuisson", T.cook ? approx + T.cook + " min" : "—")}${pill("gauge", "Calories", "≈ " + fmtK(kc) + " kcal")}${protGrams(o) ? pill("leaf", "Protéines", protGrams(o) + " g") : ""}</div>
     ${tg ? `<div class="slot-target ${tcls}"><span>Ce repas ≈ ${fmtK(kc)} kcal · cible pour ce repas ${fmtK(tg)}</span><button class="mini" data-act="adaptThis">${ic("gauge")} Adapter à ma cible</button></div>` : ""}
     ${o.adj && Math.abs(o.adj - 1) > .02 ? `<p class="cook-note">Portions ajustées (× ${fmtN(o.adj)}) : la liste d'ingrédients fait foi, certains chiffres du texte des étapes peuvent être ceux de la recette d'origine.</p>` : ""}
+    ${protGrams(o) ? protSection(o, ref) : ""}
     <section class="ed-sec vg-sec"><h3>${ic("sprout")} Légumes de saison <span class="muted small">${monthName()}</span></h3>
       <p class="muted small">Intégrés à la recette, avec leurs étapes. Change un légume ou retire-le : le texte, les calories et les courses s'adaptent.</p>
       ${vegs.length ? `<ul class="ci-list">${vegs.map(vegRow).join("")}</ul>` : `<p class="muted small">Aucun légume dans cette recette.</p>`}
@@ -4180,6 +4181,14 @@ function cookOp(fn){
   refreshCook({ title: res.title, lines: lines.length ? lines : ["Aucun autre changement"], undo: persist }, d.names);
 }
 const remInfo = r => { const x = []; if (r.removed.length) x.push("Étape" + (r.removed.length > 1 ? "s" : "") + " retirée" + (r.removed.length > 1 ? "s" : "") + " : " + r.removed.join(", ")); if (r.noted.length) x.push("Marqué « sans » dans : " + r.noted.join(", ")); return x; };
+function protSection(o, ref){
+  const g = protGrams(o), ed = protEdit(o, protSlot(o, kindOfRef(ref))), names = (o.ing || []).filter(i => { const e = lookup(i.n); return e && (SOLID_PROT.indexOf(e.k) >= 0 || e.a === "Œufs" || TEXT_PROT.indexOf(e.k) >= 0); }).map(i => esc(i.n)).join(", ");
+  const ctl = ed ? `<div class="qs"><button class="qb" data-act="protQ" data-d="-1" aria-label="Moins de protéines">${ic("minus")}</button><span class="qv">${ed.unit === "g" ? esc(qtyStr(ed.item)) : esc(qtyStr(ed.item))}</span><button class="qb" data-act="protQ" data-d="1" aria-label="Plus de protéines">${ic("plus")}</button></div>` : "";
+  return `<section class="ed-sec"><h3>${ic("leaf")} Protéines du repas</h3>
+    <p class="prot-tot"><strong>${g} g</strong> de protéines${names ? ` <span class="muted small">(${names})</span>` : ""}</p>
+    ${ed ? `<p class="muted small">Règle la quantité de ${esc(ed.item.n)}${ed.unit === "g" ? " (" + ed.lo + " à " + ed.hi + " g avec les autres protéines du repas, selon le protocole)" : " (1 ou 2 œufs)"} : les calories, les étapes et les courses suivent.</p>${ctl}` : `<p class="muted small">Ce repas a plusieurs sources de protéines : règle chacune dans la liste des ingrédients ci-dessous.</p>`}</section>`;
+}
+const kindOfRef = ref => (ref && ref.s) ? ref : null;
 function defineCookEdit(){
   A.ingQ = ds => cookOp(o => { const i = o.ing[+ds.i], q = parseFloat(String(i.q).replace(",", ".")) || 0, st = qStep(i.u, q);
     i.q = Math.max(st, Math.round((q + st * +ds.d) * 100) / 100); return { title: i.n + " : " + qtyStr(i) }; });
@@ -4195,6 +4204,9 @@ function defineCookEdit(){
     cookOp(o => { st = addIngredient(o, name, q, u); return st === "exists" ? null : st ? { title: "Ajouté : " + String(name).trim() } : null; });
     if (st === "exists") { refreshCook(COOKMSG, []); toast("Cet ingrédient est déjà dans la recette."); }
   };
+  A.protQ = ds => cookOp(o => { const ed = protEdit(o, protSlot(o, MODAL.t)); if (!ed) return null; const q = num(ed.item.q), nq = Math.max(ed.lo, Math.min(ed.hi, q + ed.step * +ds.d));
+    if (nq === q) { toast(ed.unit === "g" ? "Limite du protocole : " + ed.lo + " à " + ed.hi + " g de cet aliment pour ce repas." : "Limite du protocole : " + ed.lo + " à " + ed.hi + " œuf(s) par repas."); return null; }
+    ed.item.q = nq; return { title: "Protéines : " + protGrams(o) + " g" }; });
   A.adaptThis = () => cookOp(o => { const t = MODAL.t, tg = slotTarget(t), k0 = kcalOf(o); if (!protoAdaptMeal(o, t.s, tg)) { toast("Ce repas est déjà dans ta cible"); return null; } return { title: "Portions adaptées à ta cible (" + fmtK(tg) + " kcal)", extra: [] }; });
   A.cookUndo = () => { const k = MODAL.kind, r = modalRef(); undo(); COOKMSG = null; FLASH = new Set(); openCook(k, r); };
   A.bannerClose = () => { COOKMSG = null; const b = document.querySelector(".chg-banner"); if (b) b.remove(); };
@@ -4460,6 +4472,26 @@ const isQty = i => num(i.q) > 0 && unitKind(i.u) === "g";
 function starchItems(m){ return (m.ing || []).filter(i => { const e = lookup(i.n); return e && e.a === "Féculents" && isQty(i); }); }
 function starchSplit(m){ let c = 0, r = 0; starchItems(m).forEach(i => { const e = lookup(i.n); if (RAW_STARCH.indexOf(e.k) >= 0) r += num(i.q); else c += num(i.q); }); return { c, r }; }
 function protItems(m){ return (m.ing || []).filter(i => { const e = lookup(i.n); return e && SOLID_PROT.indexOf(e.k) >= 0 && isQty(i); }); }
+/* ---------- protéines du repas : total en grammes, et réglage ----------
+   Total = protéines solides pesées + œufs (50 g pièce) + protéine texturée (3 fois son poids sec).
+   Réglable (par pas de 5 g, ou 1 œuf) quand le repas n'a qu'une seule source de protéine, dans les bornes du protocole. */
+const TEXT_PROT = ["proteine de pois texturee", "proteine de soja texturee"];
+function protGrams(m){ let g = 0;
+  (m.ing || []).forEach(i => { const e = lookup(i.n); if (!e) return; const q = num(i.q); if (!(q > 0)) return;
+    if (SOLID_PROT.indexOf(e.k) >= 0 && isQty(i)) g += q;
+    else if (e.a === "Œufs" && unitKind(i.u) !== "g") g += q * 50;
+    else if (TEXT_PROT.indexOf(e.k) >= 0 && isQty(i)) g += q * 3; });
+  return Math.round(g); }
+function protSlot(o, t){ if (t && t.s) return t.s; return /Petit/.test(o.st || "") ? "b" : (o.cat === "Collation" || o.st === "Collation") ? "c" : "l"; }
+function protRange(slot){ return slot === "c" || slot === "b" ? [20, 100] : (PORTIONS[slot] || PORTIONS.l).p; }
+function protEdit(o, slot){
+  /* les bornes du protocole valent pour le TOTAL du repas : l'élément réglé garde ce qui reste une fois les autres protéines comptées */
+  const r = protRange(slot), items = protItems(o), tot = protGrams(o);
+  if (items.length === 1) { const q = num(items[0].q), other = tot - q, lo = Math.max(5, r[0] - other), hi = r[1] - other;
+    return hi > lo ? { item: items[0], step: 5, lo, hi, unit: "g" } : null; }
+  const eggs = (o.ing || []).filter(i => { const e = lookup(i.n); return e && e.a === "Œufs" && unitKind(i.u) !== "g" && num(i.q) > 0; });
+  if (!items.length && eggs.length === 1) { const lo = Math.max(1, Math.ceil(r[0] / 50)), hi = Math.floor(r[1] / 50); return hi > lo ? { item: eggs[0], step: 1, lo, hi, unit: "œuf" } : null; }
+  return null; }
 const starchKcal = m => starchItems(m).reduce((s, i) => s + ingKcal(i), 0);
 const ingTotal = m => (m.ing || []).reduce((s, i) => s + ingKcal(i), 0);
 function scaleStarch(m, f){
@@ -4481,7 +4513,8 @@ function protoAdaptMeal(m, k, target){
     let want = Math.max(lo, Math.min(hi, cur * x)); if (!target) want = Math.max(lo, Math.min(hi, cur));
     const f = want / cur; if (Math.abs(f - 1) > .02) { scaleStarch(m, f); changed = true; }
   }
-  protItems(m).forEach(i => { const q = num(i.q), lo = R.p[0], hi = R.p[1]; if (protItems(m).length === 1 && (q < lo || q > hi)) { i.q = Math.max(lo, Math.min(hi, q)); changed = true; } });
+  protItems(m).forEach(i => { const q = num(i.q), tot = protGrams(m), other = tot - q, lo = Math.max(5, R.p[0] - other), hi = R.p[1] - other;
+    if (protItems(m).length === 1 && (q < lo || q > hi) && hi >= lo) { i.q = Math.max(lo, Math.min(hi, q)); changed = true; } });
   return changed;
 }
 function adaptDay(day, force){
