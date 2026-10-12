@@ -8,4 +8,4 @@ Lien unique de Cat (compte d'Olivier) : https://claude.ai/artifact/67PMkYfwoVVrV
 - Fichier à publier : `build/artifact.html`, produit par `python3 build/build_cat.py` (non versionné). Titre « La Table de Cat ».
 - Le lien est privé : Olivier doit le partager avec Cat depuis le menu « Partager » de la page.
 - Premier lancement : si le navigateur est vide et que le compte n'a rien, un message explique comment importer l'ancienne sauvegarde (clé `la-table-cat-v1` de GitHub Pages : Réglages, Exporter, puis Importer ici).
-- Tests navigateur (Playwright) : `python3 build/tests/browser.py`, `sync.py`, `ask.py` (après le build).
+- Tests navigateur (Playwright) : `python3 build/tests/browser.py`, `sync.py`, `ask.py`, `rework.py` (après le build).

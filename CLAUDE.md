@@ -67,6 +67,13 @@ et on commite `build/` **et** `index.html` ensemble. Le script échoue si une an
 - `cat_ask.js` : bouton « Question » sous chaque étape de la fiche (4 questions rapides + champ libre, réponse sur place, « Ajouter à l'astuce du chef » annulable), capacité `sample` ; texte envoyé avec le protocole de Cat et, pour le rice cooker, les règles et `docs/bamboo.md` (intégré au build) ; boutons masqués si Claude est injoignable. Contient aussi l'écriture des quantités en français (`renderQ`, `qPhrase`, `qtyChip` : « 3 œufs »).
 - Publication : artefact Claude de Cat, voir `docs/artefact.md` (toujours republier sur le même lien).
 
+## Version 17 : réécriture de la recette par Claude (demande d'Olivier du 12 octobre 2026)
+- `cat_rework.js`, `cat_rework.css` : sur la fiche de cuisine, changer (⇄), retirer (✕) ou ajouter un ingrédient met le changement **en attente** (`CK.pend`, `stageChange` dans `part_app.js`) ; la recette ne bouge qu'après « Réécrire la recette ». Éditeur et création : barre « Valider » sous la liste. Un grand bouton « Faire revoir la recette par Claude » existe aussi sans changement.
+- Claude (capacité `sample`) vérifie la logique, réécrit étapes et liste, puis propose d'ajouter au carnet. **Tout est contrôlé en code** (`rewCheck`) : aliments exclus (`REW_BAN`, `protoCheck`), aliments inconnus ou non autorisés par le protocole, étapes qui citent un ingrédient absent, `{{ }}` sans ingrédient, une seule préparation d'œuf, petit-déjeuner 10 minutes et collation 6 minutes au plus. Les portions de féculents et de protéines sont remises dans les fourchettes par `protoAdaptMeal` (`rewFix`). Deux essais, sinon la recette reste intacte.
+- Le texte envoyé contient le protocole, la liste des aliments autorisés, `docs/bamboo.md` et `docs/style-recettes.md` (intégrés au build : `BAMBOO_DOC`, `STYLE_DOC`). Les étapes réécrites portent leur durée à la main (`[N min]`, `[N min + cuisson M min]`, `[en parallèle N min]`), pas de gestes `[[ ]]` : `tc` est remis à 0.
+- Comme `cat_ask.js`, rien n'apparaît si Claude est injoignable (GitHub Pages, fichier local) : la fiche garde alors ses réglages immédiats (retrait ✕, légume, ajout) et les boutons « Équivalent » (`cat_subs.js`, calories constantes) restent disponibles.
+- Aucune migration : la structure des recettes ne change pas. Test navigateur : `python3 build/tests/rework.py`.
+
 ## Git et sessions cloud
 - Le dépôt GitHub, branche `main`, est la référence. Les sessions cloud ne modifient jamais `main` directement : branche `claude/…` puis pull request.
 - **Fusion automatique en fin de session** : la pull request est fusionnée dès que les changements sont terminés et corrects. Avant de fusionner :
