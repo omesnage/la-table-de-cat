@@ -41,7 +41,7 @@ rep('$("#bookCount").textContent = `${list.length} recette${list.length > 1 ? "s
 rep('const list = S.recipes.filter(r => (!PICK.cat || r.cat === PICK.cat) && recipeMatches(r, PICK.q));','const list = S.recipes.filter(r => (PICK.t && PICK.t.s === "c" ? r.cat === "Collation" : r.cat !== "Collation" && r.cat !== "Banchan") && (!PICK.cat || r.cat === PICK.cat) && recipeMatches(r, PICK.q));')
 rep('const CAT_KEY = { "Poulet":"poulet",','const CAT_KEY = { "Collation":"crevettes", "Banchan":"veg", "Poulet":"poulet",')
 rep('<meta name="theme-color" content="#FAFAF7">','<meta name="theme-color" content="#FAFAF7" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#151513" media="(prefers-color-scheme: dark)"><meta name="color-scheme" content="light dark">')
-rep('\n</style>\n</head>', rd('part_css.css')+rd('cat_css.css')+rd('cat_css6.css')+'\n</style>\n</head>')
+rep('\n</style>\n</head>', rd('part_css.css')+rd('cat_css.css')+rd('cat_css6.css')+rd('cat_rework.css')+'\n</style>\n</head>')
 
 # 2. catalogue de recettes : remplacé par la version du protocole à jour
 catalog=('/* ============ CATALOGUE DE RECETTES : PROTOCOLE DE CAT (v2) ============\n'
@@ -306,8 +306,6 @@ arep('''        ${rc.length ? `<div class="recall">${rc.map(i => `<span class="r
       </div></li>`;''','''        ${rc.length ? `<div class="recall">${rc.map(i => `<span class="rc">${qtyChip(i)}</span>`).join("")}</div>` : ""}
         ${askStepBtn()}
       </div></li>`;''')
-arep('aria-label="Retirer ${esc(r.i.n)}">${ic("x")}</button></li>`;','aria-label="Retirer ${esc(r.i.n)}">${ic("x")}</button>${subCookBtn(o, r.idx)}${subCookPanel(o, r.idx)}</li>`;')
-arep('vegChips(o, "vegSwapTo", r.idx, k)}</div>` : ""}</li>`; };','vegChips(o, "vegSwapTo", r.idx, k)}</div>` : ""}${subCookBtn(o, r.idx)}${subCookPanel(o, r.idx)}</li>`; };')
 # retirer l'objectif calorique d'Olivier
 i=app.find('/* ---------- objectif calorique ---------- */'); j=app.find("/* ce qui change entre deux listes d'ingrédients */")
 if i<0 or j<0: FAIL.append("APP calorie block")
@@ -348,7 +346,8 @@ app=app.replace(kg_old,'''const KEY_GROUPS = [["riz cuit","riz cru","riz basmati
 ''')
 import json as _json
 bamboo_doc='const BAMBOO_DOC = '+_json.dumps(open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','docs','bamboo.md'),encoding='utf-8').read(),ensure_ascii=False).replace('</','<\\/')+';\n'
-extra=bamboo_doc+app+rd('cat_v6.js')+'\n'+rd('cat_subs.js')+'\n'+rd('cat_lot.js')+'\n'+rd('cat_resume.js')+'\n'+rd('cat_swap.js')+'\n'+rd('cat_sync.js')+'\n'+rd('cat_ask.js')+'''
+style_doc='const STYLE_DOC = '+_json.dumps(open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','docs','style-recettes.md'),encoding='utf-8').read(),ensure_ascii=False).replace('</','<\\/')+';\n'
+extra=bamboo_doc+style_doc+app+rd('cat_v6.js')+'\n'+rd('cat_subs.js')+'\n'+rd('cat_lot.js')+'\n'+rd('cat_resume.js')+'\n'+rd('cat_swap.js')+'\n'+rd('cat_sync.js')+'\n'+rd('cat_ask.js')+'\n'+rd('cat_rework.js')+'''
 function viewInsp(){
   const mode = (S.ui && S.ui.insp) || "compose";
   const seg = `<div class="seg ins-mode" role="tablist">${[["compose","Composer"],["fridge","Avec mon frigo"]].map(([v, l]) => `<button class="seg-b" data-act="inspMode" data-v="${v}" aria-pressed="${mode === v}">${l}</button>`).join("")}</div>`;
